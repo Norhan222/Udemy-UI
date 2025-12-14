@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../../Services/category-service';
+import { Category } from '../../Models/category';
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit{
+  categories!:Category[];
+ constructor(private catService:CategoryService) {}
+  ngOnInit(): void {
+    this.catService.getCategories().subscribe((data)=>{
+      console.log(data);
+    });
+  }
 
 }
