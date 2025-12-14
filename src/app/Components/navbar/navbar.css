@@ -362,3 +362,82 @@
                 font-size: 0.9rem;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                .mega-menu {
+                  padding: 0;
+                }
+        
+                .menu-container {
+                  display: flex;
+                  width: 520px;
+                }
+        
+                .main-list {
+                  width: 50%;
+                  border-right: 1px solid #ffffff;
+                }
+        
+                .sub-list {
+                  width: 50%;
+                }
+        
+                .arrow {
+                  margin-left: auto;
+                  opacity: 0.6;
+                }
+        
+                mat-list-item:hover {
+                  background: #fdfdfd;
+                }
