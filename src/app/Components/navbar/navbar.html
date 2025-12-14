@@ -1,1 +1,483 @@
-<p>navbar works!</p>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udemy Navbar</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome Kit (for Light icons - replace YOUR_KIT_ID with your actual kit ID) -->
+    <!-- <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #fff;
+        }
+
+        .navbar-udemy {
+            background-color: #fff;
+            border-bottom: 1px solid #d1d7dc;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            height: 72px;
+            gap: 24px;
+            padding: 0 24px;
+            flex-wrap: nowrap;
+        }
+
+        /* Logo */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 40px;
+        }
+
+        .navbar-brand img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .navbar-brand:hover {
+            opacity: 0.8;
+        }
+
+        /* Explore Link */
+        .nav-link-explore {
+            color: #6e6f73;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-link-explore:hover {
+            color: #5624d0;
+        }
+
+        /* Search Bar */
+        .search-container {
+            flex: 1;
+            max-width: none;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            border: 1px solid #6e6f73;
+            border-radius: 50px;
+            background-color: #f7f9fa;
+            overflow: hidden;
+            height: 48px;
+        }
+
+        .search-form:focus-within {
+            border-color: #5624d0;
+            background-color: #fff;
+        }
+
+        .search-icon {
+            padding: 0 16px;
+            color: #6e6f73;
+            font-size: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-size: 0.9rem;
+            color: #1c1d1f;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #6e6f73;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link-text {
+            color: #6e6f73;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            white-space: nowrap;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-link-text:hover {
+            color: #5624d0;
+        }
+
+        /* Cart Icon */
+        .cart-icon {
+            color: #1c1d1f;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+            font-weight: 300;
+        }
+
+        .cart-icon:hover {
+            color: #5624d0;
+        }
+
+        /* Buttons */
+        .btn-login {
+            background-color: #fff;
+            border: 1px solid #5624d0;
+            color: #5624d0;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-right: -16px;
+        }
+
+        .btn-login:hover {
+            background-color: #f7f9fa;
+            color: #5624d0;
+        }
+
+        .btn-signup {
+            background-color: #5624d0;
+            border: 1px solid #5624d0;
+            color: #fff;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-right: -16px;
+        }
+
+        .btn-signup:hover {
+            background-color: #401b9c;
+            border-color: #401b9c;
+            color: #fff;
+        }
+
+        /* Language Icon */
+        .lang-icon {
+            background-color: #fff;
+            border: 1px solid #5624d0;
+            color: #1c1d1f;
+            padding: 10px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            transition: all 0.2s;
+            margin-right: 0;
+        }
+
+        .lang-icon:hover {
+            background-color: #f7f9fa;
+            color: #1c1d1f;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: #1c1d1f;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border-top: 1px solid #d1d7dc;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            padding: 16px 24px;
+            z-index: 999;
+        }
+
+        .mobile-menu.show {
+            display: block;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 12px 0;
+            color: #1c1d1f;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f7f9fa;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item:hover {
+            color: #5624d0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .nav-link-text {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-link-explore {
+                display: none;
+            }
+
+            .search-container {
+                max-width: 100%;
+            }
+
+            .btn-login,
+            .btn-signup {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+
+            .lang-icon {
+                width: 36px;
+                height: 36px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                height: 64px;
+                padding: 0 16px;
+                gap: 12px;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .navbar-brand img {
+                height: 28px;
+            }
+
+            .search-container {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .search-form {
+                height: 40px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+            }
+
+            .cart-icon {
+                font-size: 1rem;
+                padding: 6px;
+            }
+
+            .btn-login,
+            .btn-signup {
+                font-size: 0.8rem;
+                padding: 8px 10px;
+                margin-right: -8px;
+            }
+
+            .lang-icon {
+                width: 32px;
+                height: 32px;
+                padding: 6px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-content {
+                padding: 0 12px;
+                gap: 8px;
+            }
+
+            .btn-login {
+                display: none;
+            }
+
+            .btn-signup {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+            }
+
+            .lang-icon {
+                display: none;
+            }
+
+            .search-form {
+                height: 36px;
+            }
+
+            .search-icon {
+                padding: 0 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-udemy">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <!-- Hamburger Menu -->
+                <button class="hamburger-menu" id="hamburgerBtn" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <!-- Logo -->
+                <a class="navbar-brand" href="#">
+                    <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="Udemy" />
+                </a>
+
+                <!-- Explore Link -->
+                <a href="#" class="nav-link-explore">Explore</a>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <form class="search-form" action="#" method="get">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search for anything" name="q">
+                    </form>
+                </div>
+
+
+
+                <!-- Navigation Links -->
+                <div class="nav-links">
+                    <a href="#" class="nav-link-text">Plans & Pricing</a>
+                    <a href="#" class="nav-link-text">Udemy Business</a>
+                    <a href="#" class="nav-link-text">Teach on Udemy</a>
+                </div>
+
+                <!-- Cart Icon -->
+                <a href="#" class="cart-icon">
+                    <i class="bi bi-cart3"></i>
+                </a>
+
+                <!-- Login Button -->
+                <a href="#" class="btn-login">Log in</a>
+
+                <!-- Sign up Button -->
+                <a href="#" class="btn-signup">Sign up</a>
+
+                <!-- Language Icon -->
+                <a href="#" class="lang-icon">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#" class="mobile-menu-item">Explore</a>
+                <a href="#" class="mobile-menu-item">Plans & Pricing</a>
+                <a href="#" class="mobile-menu-item">Udemy Business</a>
+                <a href="#" class="mobile-menu-item">Teach on Udemy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Search form submission
+        const searchForm = document.querySelector('.search-form');
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchQuery = this.querySelector('.search-input').value;
+            if (searchQuery.trim()) {
+                console.log('Searching for: ' + searchQuery);
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburgerBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('show');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('show');
+            }
+        });
+
+        // Close mobile menu when clicking on a menu item
+        const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                mobileMenu.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
