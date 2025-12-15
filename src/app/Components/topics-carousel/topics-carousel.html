@@ -1,89 +1,22 @@
-<div id="topicsCarousel" class="carousel slide" data-bs-ride="carousel">
-
-  <!-- Indicators -->
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#topicsCarousel" data-bs-slide-to="0" class="active"></button>
-    <button type="button" data-bs-target="#topicsCarousel" data-bs-slide-to="1"></button>
-    <button type="button" data-bs-target="#topicsCarousel" data-bs-slide-to="2"></button>
-  </div>
-
-  <!-- Slides -->
-  <div class="carousel-inner">
-
-    <div class="carousel-item active">
-      <img src="https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=" class="d-block w-100">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Topic 1</h5>
-        <p>Description for topic 1</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/900x300?text=Topic+2" class="d-block w-100">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Topic 2</h5>
-        <p>Description for topic 2</p>
-      </div>
-    </div>
-
-    <div class="carousel-item">
-      <img src="https://via.placeholder.com/900x300?text=Topic+3" class="d-block w-100">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Topic 3</h5>
-        <p>Description for topic 3</p>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Controls -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#topicsCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-
-  <button class="carousel-control-next" type="button" data-bs-target="#topicsCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-
-</div>
-
-<button class="btn btn-danger">jjjj</button>
-
-<div id="carouselExampleCaptions" class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fphoto-image-art&psig=AOvVaw1jOumC15s4uHtiSvElnnoO&ust=1765831146580000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCIiXoen3vZEDFQAAAAAdAAAAABAE" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="..." class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+<!-- <p-carousel [value]="topics" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions"> -->
+<p-carousel [value]="topics"  [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product #item>
+        <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+            <div class="mb-4">
+                <div class="relative mx-auto">
+                    <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" [alt]="product.name" class="w-full rounded-border" />
+                    <!-- <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)" class="absolute dark:!bg-surface-900"  /> -->
+                    <p-tag [value]="product.inventoryStatus"  class="absolute dark:!bg-surface-900"  />
+                  </div>
+            </div>
+            <div class="mb-4 font-medium">{{ product.name }}</div>
+            <div class="flex justify-between items-center">
+                <div class="mt-0 font-semibold text-xl">{{ '$' + product.price }}</div>
+                <span>
+                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>

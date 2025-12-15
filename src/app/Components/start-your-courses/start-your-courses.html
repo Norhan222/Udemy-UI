@@ -1,0 +1,36 @@
+<div style="display: flex; justify-content:space-between">
+  <div ><h1 style="margin: 30px 0 30px 0;">Let's start learning</h1></div>
+  <div style=" text-align: center;align-content: center;"><a href="#" style="color: blue;">learn more</a></div>
+</div>
+<p-carousel [value]="lectures"  [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product #item>
+        <div class="card mb-3 mx-2" style="max-width: 540px; ">
+            <div class="row g-0">
+                 <div class="col-md-4">
+                    <div class="container-fluid"  style="height: 100%;;background-color:black ; opacity:.5 ; text-align: center;align-content: center;">
+                      <i class="bi bi-play-circle-fill" style="font-size:50px; color:white"></i>
+                    </div>
+                 </div>
+                <div class="col-md-8">
+                   <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </ng-template>
+</p-carousel>
+
+<section style="padding: 30px 5px 30px 5px;display: flex;margin: 30px 0 30px 0;; justify-content:space-between ; background-color: black;">
+<div>
+  <p style="color: white; font-size: 18px;">
+    Training 2 or more people?Get your team access to Udemy's top 30,000+ courses
+  </p>
+</div>
+<div>
+  <button type="button" class="btn btn-light">Get Udemy Business</button>
+  <button type="button" class="btn btn-dark" style="border-color: white; margin-left: 10px;">Dismiss</button>
+</div>
+</section>

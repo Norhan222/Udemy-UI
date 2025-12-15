@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { ILecture } from '../../Models/ilecture';
 import { Carousel } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
-import { Topic } from '../../Models/topic';
 
 @Component({
-  selector: 'app-topics-carousel',
+  selector: 'app-start-your-courses',
   imports: [Carousel, ButtonModule, Tag],
-  templateUrl: './topics-carousel.html',
-  styleUrl: './topics-carousel.css',
+  templateUrl: './start-your-courses.html',
+  styleUrl: './start-your-courses.css',
 })
-export class TopicsCarousel {
+export class StartYourCourses {
+
+
    responsiveOptions: any[] | undefined;
-  
-  topics!:Topic [] ;
+   lectures!: ILecture[] ;
 
-   
-
-    constructor() {}//private topicService: TopicService) {}
+    constructor(){}   ///private productService: ProductService) {}
 
     ngOnInit() {
-        // this.topicService.getProductsSmall().then((topics) => {
-        //     this.topics = topics;
+        // this.productService.getProductsSmall().then((products) => {
+        //     this.products = products;
         // });
-         this.topics = [
+
+        this.lectures = [
             {
                  id: '1000',
                     code: 'f230fh0g3',
@@ -36,42 +36,6 @@ export class TopicsCarousel {
                     inventoryStatus: 'INSTOCK',
                     rating: 5
             },
-             {
-                   id: '1000',
-                      code: 'f230fh0g3',
-                      name: 'Bamboo Watch',
-                      description: 'Product Description',
-                      image: 'bamboo-watch.jpg',
-                      price: 65,
-                      category: 'Accessories',
-                      quantity: 24,
-                      inventoryStatus: 'INSTOCK',
-                      rating: 5
-              },
-               {
-                   id: '1000',
-                      code: 'f230fh0g3',
-                      name: 'Bamboo Watch',
-                      description: 'Product Description',
-                      image: 'bamboo-watch.jpg',
-                      price: 65,
-                      category: 'Accessories',
-                      quantity: 24,
-                      inventoryStatus: 'INSTOCK',
-                      rating: 5
-              },
-               {
-                   id: '1000',
-                      code: 'f230fh0g3',
-                      name: 'Bamboo Watch',
-                      description: 'Product Description',
-                      image: 'bamboo-watch.jpg',
-                      price: 65,
-                      category: 'Accessories',
-                      quantity: 24,
-                      inventoryStatus: 'INSTOCK',
-                      rating: 5
-              },
             {
                  id: '1000',
                     code: 'f230fh0g3',
@@ -133,17 +97,32 @@ export class TopicsCarousel {
                 numScroll: 1,
             }
         ];
+
+
+        this.responsiveOptions = [
+            {
+                breakpoint: '1400px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '1199px',
+                numVisible: 3,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '767px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '575px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+        ];
     }
 
-    // getSeverity(status: string) {
-    //     switch (status) {
-    //         case 'INSTOCK':
-    //             return 'success';
-    //         case 'LOWSTOCK':
-    //             return 'warn';
-    //         case 'OUTOFSTOCK':
-    //             return 'danger';
-    //     }
-    // }
+
 
 }
