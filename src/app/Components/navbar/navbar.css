@@ -1,0 +1,443 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #fff;
+        }
+
+        .navbar-udemy {
+            background-color: #fff;
+            border-bottom: 1px solid #d1d7dc;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            height: 72px;
+            gap: 24px;
+            padding: 0 24px;
+            flex-wrap: nowrap;
+        }
+
+        /* Logo */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 40px;
+        }
+
+        .navbar-brand img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .navbar-brand:hover {
+            opacity: 0.8;
+        }
+
+        /* Explore Link */
+        .nav-link-explore {
+            color: #6e6f73;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-link-explore:hover {
+            color: #5624d0;
+        }
+
+        /* Search Bar */
+        .search-container {
+            flex: 1;
+            max-width: none;
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            border: 1px solid #6e6f73;
+            border-radius: 50px;
+            background-color: #f7f9fa;
+            overflow: hidden;
+            height: 48px;
+        }
+
+        .search-form:focus-within {
+            border-color: #5624d0;
+            background-color: #fff;
+        }
+
+        .search-icon {
+            padding: 0 16px;
+            color: #6e6f73;
+            font-size: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-size: 0.9rem;
+            color: #1c1d1f;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #6e6f73;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link-text {
+            color: #6e6f73;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            white-space: nowrap;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .nav-link-text:hover {
+            color: #5624d0;
+        }
+
+        /* Cart Icon */
+        .cart-icon {
+            color: #1c1d1f;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+            font-weight: 300;
+        }
+
+        .cart-icon:hover {
+            color: #5624d0;
+        }
+
+        /* Buttons */
+        .btn-login {
+            background-color: #fff;
+            border: 1px solid #5624d0;
+            color: #5624d0;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-right: -16px;
+        }
+
+        .btn-login:hover {
+            background-color: #f7f9fa;
+            color: #5624d0;
+        }
+
+        .btn-signup {
+            background-color: #5624d0;
+            border: 1px solid #5624d0;
+            color: #fff;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-right: -16px;
+        }
+
+        .btn-signup:hover {
+            background-color: #401b9c;
+            border-color: #401b9c;
+            color: #fff;
+        }
+
+        /* Language Icon */
+        .lang-icon {
+            background-color: #fff;
+            border: 1px solid #5624d0;
+            color: #1c1d1f;
+            padding: 10px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            transition: all 0.2s;
+            margin-right: 0;
+        }
+
+        .lang-icon:hover {
+            background-color: #f7f9fa;
+            color: #1c1d1f;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: #1c1d1f;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border-top: 1px solid #d1d7dc;
+            box-shadow: 0 4px 12px rgba(0,0,0,.15);
+            padding: 16px 24px;
+            z-index: 999;
+        }
+
+        .mobile-menu.show {
+            display: block;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 12px 0;
+            color: #1c1d1f;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f7f9fa;
+        }
+
+        .mobile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-item:hover {
+            color: #5624d0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .nav-link-text {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-link-explore {
+                display: none;
+            }
+
+            .search-container {
+                max-width: 100%;
+            }
+
+            .btn-login,
+            .btn-signup {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+
+            .lang-icon {
+                width: 36px;
+                height: 36px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                height: 64px;
+                padding: 0 16px;
+                gap: 12px;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .navbar-brand img {
+                height: 28px;
+            }
+
+            .search-container {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .search-form {
+                height: 40px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+            }
+
+            .cart-icon {
+                font-size: 1rem;
+                padding: 6px;
+            }
+
+            .btn-login,
+            .btn-signup {
+                font-size: 0.8rem;
+                padding: 8px 10px;
+                margin-right: -8px;
+            }
+
+            .lang-icon {
+                width: 32px;
+                height: 32px;
+                padding: 6px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-content {
+                padding: 0 12px;
+                gap: 8px;
+            }
+
+            .btn-login {
+                display: none;
+            }
+
+            .btn-signup {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+            }
+
+            .lang-icon {
+                display: none;
+            }
+
+            .search-form {
+                height: 36px;
+            }
+
+            .search-icon {
+                padding: 0 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                .mega-menu {
+                  padding: 0;
+                }
+        
+                .menu-container {
+                  display: flex;
+                  width: 520px;
+                }
+        
+                .main-list {
+                  width: 50%;
+                  border-right: 1px solid #ffffff;
+                }
+        
+                .sub-list {
+                  width: 50%;
+                }
+        
+                .arrow {
+                  margin-left: auto;
+                  opacity: 0.6;
+                }
+        
+                mat-list-item:hover {
+                  background: #fdfdfd;
+                }
