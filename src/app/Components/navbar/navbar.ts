@@ -8,10 +8,7 @@ import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatListModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
