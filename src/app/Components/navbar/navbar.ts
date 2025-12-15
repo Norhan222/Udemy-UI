@@ -1,18 +1,13 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../Services/category-service';
 import { Category } from '../../Models/category';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatListModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
