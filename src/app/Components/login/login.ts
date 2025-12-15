@@ -1,54 +1,53 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../Services/auth-service';
+import { Observable, Subscription } from 'rxjs';
+import { routes } from '../../app.routes';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class Login implements OnInit,OnDestroy{
+ private authService = inject(AuthService);
+  isLoading: boolean=false;
 
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-
-  isLoading = false;
-  errorMsg = '';
-
-loginForm = this.fb.nonNullable.group({
-  email: ['', [Validators.required, Validators.email]],
-  password: ['', [Validators.required, Validators.minLength(6)]],
-});
-
-  get f() {
-    return this.loginForm.controls;
+ LoginForm:FormGroup=new FormGroup(
+  {
+    email:new FormControl('', [Validators.required, Validators.email] ),
+    password:new FormControl('', [Validators.required, Validators.minLength(6) ,Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+$')])
   }
+ );
+  ngOnInit(): void {
+    // throw new Error('Method not implemented.');
+  }
+private Loginauth!:Subscription;
 
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
+ 
+ 
+ onSubmit(){
+  // console.log(this.LoginForm.value);
+ this.Loginauth = this.authService.Login(this.LoginForm.value).subscribe({
+    next:(res)=>{
+      console.log("Login response:",res);
+      this.isLoading=true;
+       // حفظ التوكنات في LocalStorage
+      // localStorage.setItem('jwtToken', res.jwtToken);
+      // localStorage.setItem('refreshToken', res.refreshToken);
+    },
+    error:(err)=>{
+      console.log("Login error:",err);
+      this.isLoading=false;
     }
+  });
+ }
 
-    this.isLoading = true;
-    this.errorMsg = '';
-
-    this.authService.login(this.loginForm.getRawValue()).subscribe({
-      next: (res) => {
-        console.log('Login Success', res);
-
-        // حفظ التوكن
-        // localStorage.setItem('token', res.token);
-
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.errorMsg = err.error?.message || 'Invalid email or password';
-        this.isLoading = false;
-      }
-    });
+   ngOnDestroy(): void {
+   this.Loginauth?.unsubscribe();
   }
 }
