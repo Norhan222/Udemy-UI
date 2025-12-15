@@ -23,30 +23,54 @@ export class Navbar implements OnInit{
   }
 
  isOpen = false;
-  activeMenu: string | null = null;
+activeMenu: string | null = null;
+activeSubMenu: string | null = null;
 
-  subMenus: any = {
-    ai: ['AI Fundamentals', 'ChatGPT', 'Machine Learning'],
-    career: ['Web Developer', 'Data Analyst', 'UX Designer'],
-    cert: ['AWS', 'Azure', 'Google Cloud'],
-    dev: ['Web Development', 'Mobile Apps', 'Game Development'],
-    business: ['Entrepreneurship', 'Management'],
-    finance: ['Accounting', 'Investing'],
-    it: ['Networking', 'Cyber Security']
-  };
+subMenus: any = {
+  development: [
+    { key: 'web', label: 'Web Development' },
+    { key: 'mobile', label: 'Mobile Development' },
+    { key: 'game', label: 'Game Development' }
+  ],
+  business: [
+    { key: 'management', label: 'Management' },
+    { key: 'sales', label: 'Sales' }
+  ],
+  it: [
+    { key: 'security', label: 'Cyber Security' },
+    { key: 'network', label: 'Networking' }
+  ]
+};
 
-  openMenu() {
-    this.isOpen = true;
-  }
+topics: any = {
+  web: ['HTML', 'CSS', 'JavaScript', 'Angular', 'React'],
+  mobile: ['Flutter', 'Android', 'iOS'],
+  game: ['Unity', 'Unreal Engine'],
+  management: ['Leadership', 'Agile'],
+  sales: ['B2B Sales', 'Negotiation'],
+  security: ['Ethical Hacking', 'Pen Testing'],
+  network: ['CCNA', 'Routing & Switching']
+};
 
-  closeMenu() {
-    this.isOpen = false;
-    this.activeMenu = null;
-  }
+openMenu() {
+  this.isOpen = true;
+}
 
-  setActive(menu: string) {
-    this.activeMenu = menu;
-  }
+closeMenu() {
+  this.isOpen = false;
+  this.activeMenu = null;
+  this.activeSubMenu = null;
+}
+
+setActive(menu: string) {
+  this.activeMenu = menu;
+  this.activeSubMenu = null; // reset topics
+}
+
+setActiveSubMenu(sub: string) {
+  this.activeSubMenu = sub;
+}
+
 }
 
 
