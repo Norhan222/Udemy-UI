@@ -6,7 +6,7 @@ import { TopicsCarousel } from './Components/topics-carousel/topics-carousel';
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, Footer],
+  imports: [Navbar, Footer, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
