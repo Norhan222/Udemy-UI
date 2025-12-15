@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../Models/login-request';
+import { IRegisterRequest } from '../Models/iregister-request';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,10 @@ import { LoginRequest } from '../Models/login-request';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  login(data: LoginRequest): Observable<any> {
-    //  return this.http.post(`${environment.apiUrl}/login`, data);
-     return this.http.post(`https://localhost:7009/api/Account/login`, data);
+  Login(data: LoginRequest): Observable<any> {
+     return this.http.post(`${environment.apiUrl}/Account/login`, data);
+  }
+  Register(data: IRegisterRequest): Observable<any> {
+     return this.http.post(`${environment.apiUrl}/Account/register`, data);
   }
 }

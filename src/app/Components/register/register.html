@@ -7,14 +7,56 @@
     
     <div class="col-12 col-lg-6">
     <div class="p-5">
-        <h1>Log in to continue your learning journey</h1>
+        <h1>Sign up with email</h1>
 
        <form
   id="loginForm"
   [formGroup]="LoginForm"
   (ngSubmit)="onSubmit()"
 >
+  <!-- firstName -->
+  <div class="form-group">
+    <label for="firstName">firstName</label>
+    <input
+      type="firstName"
+      id="firstName"
+      placeholder="your first name"
+      autocomplete="email"
+      formControlName="firstName"
+      [class.is-invalid]="LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.invalid"
+    />
 
+   @if(LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.errors) {
+      <div class="invalid-feedback p-1">
+        @if(LoginForm.get('firstName')?.errors?.['required']) {
+          firstName is required.
+        } @else if(LoginForm.get('firstName')?.errors?.['minlength']) {
+          firstName must be at least 3 characters long.
+        }
+      </div>
+    }
+  </div>
+    <!-- lastName -->
+    <div class="form-group">
+    <label for="lastName">lastName</label>
+    <input
+      type="lastName"
+      id="lastName"
+      placeholder="your last name"
+      formControlName="lastName"
+      [class.is-invalid]="LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.invalid"
+    />
+
+   @if(LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.errors) {
+      <div class="invalid-feedback p-1">
+        @if(LoginForm.get('lastName')?.errors?.['required']) {
+          lastName is required.
+        } @else if(LoginForm.get('lastName')?.errors?.['minlength']) {
+          lastName must be at least 3 characters long.
+        }
+      </div>
+    }
+  </div>
   <!-- Email -->
   <div class="form-group">
     <label for="email">Email</label>
@@ -62,6 +104,15 @@
     }
      
   </div>
+    <div class="checkbox-wrapper">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" checked>
+                            <div class="custom-checkbox-box"></div>
+                        </label>
+                        <label class="checkbox-label">
+                            Send me special offers, personalized recommendations, and learning tips.
+                        </label>
+                    </div>
   <button
     type="submit"
     class="continue-btn"
@@ -78,7 +129,7 @@
 
         <div class="divider">
             <div class="divider-line"></div>
-            <span class="divider-text">Other log in options</span>
+            <span class="divider-text">Other sign up options</span>
             <div class="divider-line"></div>
         </div>
 
@@ -107,14 +158,11 @@
 
         <div class="signup-section">
             <span class="signup-text">
-                Don't have an account?
-                <a  class="signup-link" routerLink="/Register">Sign up</a>
+                Already have an account? 
+                <a  class="signup-link" routerLink="/Login">Log in</a>
             </span>
         </div>
-
-        <a href="#" class="org-login-btn" onclick="handleOrgLogin(event)">
-            Log in with your organization
-        </a>
-    </div>
-    </div>
+  <!-- <div class="footer-text">
+            By signing up, you agree to our <a href="#terms">Terms of Use</a> and <a href="#privacy">Privacy Policy</a>.
+    </div> -->
 </div>
