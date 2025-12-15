@@ -26,8 +26,11 @@
               }
             ],
             "styles": [
+                "node_modules/primeflex/primeflex.min.css",
+                "node_modules/primeicons/primeicons.css",
               "src/custom-theme.scss",
               "src/styles.css"
+
             ]
           },
           "configurations": {
