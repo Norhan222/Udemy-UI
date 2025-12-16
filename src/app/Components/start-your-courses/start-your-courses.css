@@ -1,0 +1,27 @@
+.UdBus{
+  padding: 30px ;
+  display: flex;
+  margin: 30px 0 30px 0;; 
+  justify-content:space-between ; 
+  background-color: black;
+  border-radius: 20px;
+}
+
+.buscont{
+   margin-left: 10px;
+   margin-bottom: 10px;
+
+}
+
+
+@media (max-width: 768px) {
+  .UdBus{
+    display:block;
+  }
+.buscont{
+   margin-top:10px;
+   display:block;
+   width:100%;
+   margin-left: 0px;
+}
+}

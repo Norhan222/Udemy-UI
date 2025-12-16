@@ -1,0 +1,38 @@
+
+<!-- <p-carousel [value]="topics" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions"> -->
+<section style="margin: 10px 0 50px 0;">
+  <p-carousel [value]="topics"  [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product #item>
+ <div class="card" style="width: 18rem;">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9UjIP6UgYdbeL6pffnO_ZwYRKOVwY09SPkw&s">
+  <div class="card-body">
+    <h5>Creating a Social Media App with C#, JS, ASP.NET and Azure</h5>
+    <span>name</span>
+    <div style="display: flex;">
+      <span>4.7</span>
+      <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
+        <p-rating [(ngModel)]="value" [disabled]="true" />
+      </div>
+    <span>(222)</span>
+    </div>
+    <h5>$99</h5>
+    <button type="button" class="" style="background-color:rgb(107, 5, 202); color:white"><i class="bi bi-patch-check"></i> Premium</button>
+   </div>
+ </div> 
+  </ng-template>
+</p-carousel>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+

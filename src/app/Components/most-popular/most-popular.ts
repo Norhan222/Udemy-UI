@@ -8,13 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 
 @Component({
-  selector: 'app-recommened-courses',
+  selector: 'app-most-popular',
   imports: [Carousel, ButtonModule, Tag,CardModule,FormsModule, Rating],
-  templateUrl: './recommened-courses.html',
-  styleUrl: './recommened-courses.css',
+  templateUrl: './most-popular.html',
+  styleUrl: './most-popular.css',
 })
-export class RecommenedCourses {
-  responsiveOptions: any[] | undefined;
+export class MostPopular {
+   responsiveOptions: any[] | undefined;
 
     topics!:Topic [] ;
 
@@ -150,6 +150,6 @@ export class RecommenedCourses {
       //             return 'danger';
       //     }
       // }
-
+  
 
 }
