@@ -35,7 +35,7 @@
                                 Practice with Role Play 
                             </a>
                             <hr>
-                            <a href="#" class="explore-item" data-category="development" data-submenu="development-submenu">
+                            <a href="#" class="explore-item" (mouseenter)="setActive('development')">
                                 Development <i class="bi bi-chevron-right"></i>
                             </a>
                             <a href="#" class="explore-item" data-category="business">
@@ -55,16 +55,27 @@
                             </a>
                         </div>
 
+                          <div class="explore-submenu" *ngIf="activeMenu">
+                            <a class="explore-item" 
+                            (mouseenter)="setActiveSubMenu(item.key)"
+                            [class.active]="activeSubMenu === item.key"
+                            *ngFor="let item of subMenus[activeMenu]">
+                              {{ item.label }} <i class="bi bi-chevron-right"></i>
+                            </a>
+                          </div>
 
+
+                          <div class="explore-topics" *ngIf="activeSubMenu">
+                           <div class="explore-column-header">Popular Topics</div>
+
+                            <a class="explore-item" *ngFor="let topic of topics[activeSubMenu]">
+                              {{ topic }}
+                            </a>
+                          </div>
                   </div>
+                
                  </div>
-                <!-- <div class="explore-column" *ngIf="activeMenu">
-                  <ul>
-                    <li class="explore-item" *ngFor="let item of subMenus[activeMenu]">
-                      {{ item }}
-                    </li>
-                  </ul>
-                </div> -->
+           
 
                 <!-- Search Bar -->
                 <div class="search-container">
