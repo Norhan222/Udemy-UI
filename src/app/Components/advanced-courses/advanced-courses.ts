@@ -6,15 +6,14 @@ import { Tag } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
-
 @Component({
-  selector: 'app-recommened-courses',
+  selector: 'app-advanced-courses',
   imports: [Carousel, ButtonModule, Tag,CardModule,FormsModule, Rating],
-  templateUrl: './recommened-courses.html',
-  styleUrl: './recommened-courses.css',
+  templateUrl: './advanced-courses.html',
+  styleUrl: './advanced-courses.css',
 })
-export class RecommenedCourses {
-  responsiveOptions: any[] | undefined;
+export class AdvancedCourses {
+   responsiveOptions: any[] | undefined;
 
     topics!:Topic [] ;
 
@@ -150,6 +149,5 @@ export class RecommenedCourses {
       //             return 'danger';
       //     }
       // }
-
 
 }
