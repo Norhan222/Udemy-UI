@@ -1,0 +1,46 @@
+<div class="explore-wrapper" style="position: relative;" (mouseenter)="openMenu()" (mouseleave)="closeMenu()">
+  <a href="#" class="nav-link-explore" id="exploreLink">Explore</a>
+  <div class="explore-dropdown" id="exploreDropdown" *ngIf="isOpen">
+    <!-- Column 1: Explore by Goal -->
+    <div class="explore-column">
+      <div class="explore-column-header">Explore by Goal</div>
+      <a href="#" class="explore-item">
+        Learn AI <i class="bi bi-chevron-right"></i>
+      </a>
+      <a href="#" class="explore-item" data-category="career">
+        Launch a new career <i class="bi bi-chevron-right"></i>
+      </a>
+      <a href="#" class="explore-item" data-category="certification">
+        Prepare for a certification <i class="bi bi-chevron-right"></i>
+      </a>
+      <a href="#" class="explore-item" data-category="roleplay">
+        Practice with Role Play
+      </a>
+      <hr>
+      @for(item of categories; track item.id){
+      <a href="#" class="explore-item" (mouseenter)="onCategoryHover(item.id)">
+        {{ item.name }} <i class="bi bi-chevron-right"></i>
+      </a>
+
+      }
+    </div>
+
+    <div class="explore-submenu" *ngIf="subCategories!.length">
+      @for(item of subCategories;track item.id){
+      <a class="explore-item" (mouseenter)="onSubCategoryHover(item.id)">
+        {{ item.name }} <i class="bi bi-chevron-right"></i>
+      </a>
+      }
+    </div>
+
+
+    <div class="explore-topics" *ngIf="topics!.length">
+      <div class="explore-column-header">Popular Topics</div>
+
+      <a class="explore-item" *ngFor="let topic of topics">
+        {{ topic }}
+      </a>
+    </div>
+  </div>
+
+</div>
