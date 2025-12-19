@@ -28,13 +28,33 @@
                 <div class="nav-links">
                     <a href="#" class="nav-link-text">Plans & Pricing</a>
                     <a href="#" class="nav-link-text">Udemy Business</a>
+                    @if(!(isLoggdIn$ |async)){
                     <a href="#" class="nav-link-text">Teach on Udemy</a>
+                    }
+                    @if((isLoggdIn$ |async)){
+                <a routerLink="/instructor" class="nav-link-text">Instructor</a>
+                <a routerLink="/my-learning" class="nav-link-text">My learning</a>
+                    }
+                </div>
+
+                <div class="nav-icons">
+                  @if((isLoggdIn$ |async)){
+                <a href="#" class="cart-icon">
+                <i class="bi bi-heart"></i>
+                </a>
+              }
+                <a href="#" class="cart-icon">
+                  <i class="bi bi-cart3"></i>
+                </a>
+                @if((isLoggdIn$ |async)){
+                <a href="#" class="cart-icon">
+                <i class="bi bi-bell"></i>
+                </a>
+              }
                 </div>
 
                 <!-- Cart Icon -->
-                <a href="#" class="cart-icon">
-                    <i class="bi bi-cart3"></i>
-                </a>
+
                 @if(!(isLoggdIn$ |async)){
                 <!-- Login Button -->
                 <a  class="btn-login" routerLink="Login">Log in</a>
@@ -46,26 +66,18 @@
                 <a href="#" class="lang-icon">
                     <i class="fas fa-globe"></i>
                 </a>
-               } 
-            </div>
-            <div class="auth-nav">
-            
-              <a routerLink="/instructor">Instructor</a>
-              <a routerLink="/my-learning">My learning</a>
-            
-              <i class="fa fa-heart"></i>
-              <i class="fa fa-shopping-cart"></i>
-              <i class="fa fa-bell"></i>
-            
-              <!-- Avatar -->
-              <div class="profile">
+               }
+               @if((isLoggdIn$ |async)){
+              <!-- <div class="profile">
                 <span class="avatar">NA</span>
-                <div class="dropdown">
-                  <a routerLink="/profile">Profile</a>
-                  <a >Logout</a>
-                </div>
+
+              </div> -->
+              <app-user-menu></app-user-menu>
+            }
+              <!-- Avatar -->
+
+
               </div>
-            </div>
 
 
             <!-- Mobile Menu -->

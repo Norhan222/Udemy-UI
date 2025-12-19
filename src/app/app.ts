@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './Components/navbar/navbar';
+import { Navbar } from './Components/NavbarComponents/navbar/navbar';
 import { Footer } from './Components/footer/footer';
 import { Header } from './Components/header/header';
 import { StartYourCourses } from './Components/start-your-courses/start-your-courses';

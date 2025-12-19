@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../Services/category-service';
-import { Category } from '../../Models/category';
-import { SubCategory } from '../../Models/sub-category';
-import { Topic } from '../../Models/topic';
 import { CommonModule } from '@angular/common';
+import { CategoryService } from '../../../Services/category-service';
+import { Category } from '../../../Models/category';
+import { SubCategory } from '../../../Models/sub-category';
+import { Topic } from '../../../Models/topic';
 
 @Component({
   selector: 'app-explore-menu',

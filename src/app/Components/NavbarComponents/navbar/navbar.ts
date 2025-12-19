@@ -1,18 +1,19 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../Services/category-service';
-import { Category } from '../../Models/category';
+import { CategoryService } from '../../../Services/category-service';
+import { Category } from '../../../Models/category';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
-import { SubCategory } from '../../Models/sub-category';
-import { Topic } from '../../Models/topic';
+import { SubCategory } from '../../../Models/sub-category';
+import { Topic } from '../../../Models/topic';
 import { ExploreMenu } from '../explore-menu/explore-menu';
-import { AuthService } from '../../Services/auth-service';
+import { AuthService } from '../../../Services/auth-service';
+import { UserMenu } from '../user-menu/user-menu';
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink,ExploreMenu],
+  imports: [CommonModule, RouterLink,ExploreMenu,UserMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -25,7 +26,7 @@ export class Navbar implements OnInit{
     if(this.auth.getRefreshToken()){
       this.auth.setLoginState(true)
     }
-   
+
   }
 
 

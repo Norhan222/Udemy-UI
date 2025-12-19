@@ -1,0 +1,82 @@
+.profile-wrapper {
+  position: relative;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.avatar.big {
+  width: 65px;
+  height: 65px;
+  font-size:1.5rem;
+}
+
+.dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.user-info {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+}
+
+.user-info small {
+  color: #666;
+  font-size: 12px;
+}
+.us{
+padding: 0;
+margin: 0;
+cursor: pointer;
+}
+
+.dropdown a {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropdown a:hover {
+ background-color: #f8f1fa;
+}
+
+hr {
+  margin: 6px 0;
+  border: none;
+  border-top: 1px solid #251212;
+}
+
+.badge {
+  background: #a435f0;
+  color: #fff;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 50%;
+}
+
+.logout {
+  color: #b00020;
+  font-weight: 500;
+}

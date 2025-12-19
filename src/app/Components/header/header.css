@@ -30,5 +30,54 @@
  .active{
   height: 600px;
  }
-  
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip ul{
+  display: flex;
+  /* top: 100%;
+  left: 0;
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 10px; */
+  /* z-index: 10; */
+}
+
+.black-box {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  padding: 20px;
+  font-size: 16px;
 }

@@ -1,18 +1,18 @@
 .nav-link-explore {
   color: #6e6f73;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
-  padding: 8px 16px;
-  border-radius: 50px;
+   padding: 8px 16px;
+  border-radius: 8px;
   transition: all 0.2s;
   position: relative;
 }
 
 .nav-link-explore:hover {
   color: #5624d0;
-  background-color: #f3f4f6;
-}
+  background-color: #f8f1fa;
+  }
 
 .nav-link-explore.active {
   color: #5624d0;
