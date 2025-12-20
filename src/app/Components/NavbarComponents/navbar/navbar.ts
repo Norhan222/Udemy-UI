@@ -23,7 +23,7 @@ export class Navbar implements OnInit{
   this.isLoggdIn$=auth.isLoggedIn$
  }
   ngOnInit(): void {
-    if(this.auth.getRefreshToken()!=='Undefined'){
+    if(this.auth.getToken()){
       this.auth.setLoginState(true)
     }
 

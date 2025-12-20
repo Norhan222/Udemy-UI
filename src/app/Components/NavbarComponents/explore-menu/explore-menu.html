@@ -35,7 +35,9 @@
        @if(activeMenuStatic && subMenusStatic[activeMenuStatic]){
        <div class="explore-submenu">
          @for(item of subMenusStatic[activeMenuStatic] ;track item.key){
-        <a class="explore-item" (mouseenter)="setSubActiveStatic(item.key)">
+        <a class="explore-item"
+        (mouseenter)="setSubActiveStatic(item.key)"
+        [class.active]=" activeSubMenuStatic===item.key">
           {{ item.label }} <i class="bi bi-chevron-right"></i>
         </a>
         }
