@@ -11,8 +11,8 @@
 
 .nav-link-explore:hover {
   color: #5624d0;
-  background-color: #f8f1fa;
-  }
+          background-color: oklch(95.1% 0.02567 293.074);
+          }
 
 .nav-link-explore.active {
   color: #5624d0;
@@ -23,7 +23,7 @@
 .explore-dropdown {
   /* display: none; */
   position: absolute;
-  top: 100%;
+  top: 50px;
   left: 0;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
@@ -32,7 +32,7 @@
   /* padding: 32px 10px; */
   /* min-width: 300px; */
   z-index: 1001;
-  margin-top: 8px;
+  /* margin-top: 20px; */
   display: flex;
 }
 
@@ -70,8 +70,7 @@
 
 .explore-item:hover {
   color: #7544f0;
-  background-color: #e7daf7;
-}
+          background-color: oklch(95.1% 0.02567 293.074);}
 
 .explore-item.active {
   color: #5624d0;

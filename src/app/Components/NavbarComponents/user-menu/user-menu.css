@@ -13,6 +13,7 @@
   justify-content: center;
   cursor: pointer;
   font-weight: 600;
+    transition: all 0.2s;
 }
 
 .avatar.big {
@@ -59,7 +60,7 @@ cursor: pointer;
 }
 
 .dropdown a:hover {
- background-color: #f8f1fa;
+            background-color: oklch(95.1% 0.02567 293.074);
 }
 
 hr {
@@ -79,4 +80,24 @@ hr {
 .logout {
   color: #b00020;
   font-weight: 500;
+}
+
+
+
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: -1px;
+  background-color: #a435f0;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }

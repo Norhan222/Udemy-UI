@@ -127,8 +127,8 @@
 
         .nav-link-text:hover {
             color: #5624d0;
-            background-color: #f8f1fa;
-        }
+          background-color: oklch(95.1% 0.02567 293.074);
+                }
 
           /* Cart Icon */
         .nav-icons {
@@ -150,7 +150,9 @@
         }
 
         .cart-icon:hover {
-            background-color: #f8f1fa;
+
+           color:oklch(48.41% 0.2342 293.93deg);
+           background-color: oklch(95.1% 0.02567 293.074);
         }
 
         /* Buttons */
@@ -373,17 +375,18 @@
         }
 
 
-/* .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #111;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-} */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

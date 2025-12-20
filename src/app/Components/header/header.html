@@ -1,22 +1,26 @@
- <div class="tooltip-container" >
-   <!-- <button  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom">اختر نوع البيانات</button> -->
 
-   <div class="tooltip" >
-    <ul>
-      @for(item of categories; track item.id){
-      <li>
-        {{ item.name }}
-      </li>
-    }
-    </ul>
+@if((isLoggedIn$ | async)){
+<nav class="navbar" (mouseleave)="clearActive()">
+  @for(cat of categories; track cat.id){
+  <span class="nav-item"(mouseenter)="setActive(cat, $event)">
+    {{ cat.name }}
+  </span>
+}
+
+<div class="mega-menu" *ngIf="activeCategory">
+    <div class="tooltip-arrow"  [style.left]="arrowLeft"></div>
+
+  <div class="mega-content">
+    @for(sub of activeCategory; track sub.id)
+    {
+    <span>
+      {{ sub.name }}
+    </span>
+  }
   </div>
 </div>
 
-<!-- المكان الأسود اللي بيتغير -->
-<!-- <div class="black-box" *ngIf="tooltipVisible" >
-  {{ selectedData }}
-</div> -->
-
+</nav>
 
 
 <section style="margin:30px 0 30px 0 ">
@@ -25,12 +29,12 @@
       <img src="u.png" alt="Udemy Logo" style="height:80px; margin-top:10px; margin-left:20px; border-radius: 50%;">
     </div>
     <div>
-      <h2 style="margin:20px 0 0 10px; ">Welcome back, Nedaa</h2>
+      <h2 style="margin:20px 0 0 10px; ">Welcome back, {{ firstName |capitalize }}</h2>
       <a href="#" style="color: blue; margin-left:10px;">Add occupAtion and interested</a>
     </div>
   </div>
 </section>
-
+}
 
 
 <div id="carouselExampleFade" class="carousel slide carousel-fade" >

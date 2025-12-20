@@ -1,19 +1,22 @@
-<div class="profile-wrapper"  (mouseenter)="openMenu()" >
+<div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
 
   <!-- Avatar -->
   <div class="avatar" >
-    NA
+    {{ (user.firstName + ' ' + user.lastName)  | intiials }}
   </div>
+    <span class="notification-badge"></span>
+
 
   <!-- Dropdown -->
-  <div class="dropdown" *ngIf="isOpen">
+   @if(isOpen){
+  <div class="dropdown">
 
     <!-- User Info -->
     <div class="user-info">
       <div class="avatar big">NA</div>
        <div class="us">
-       <h5>Norhan Allam</h5>
-        <p>norhanallam01@gmail.com</p>
+       <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
+        <p>{{ user.email }}</p>
         </div>
     </div>
     <hr />
@@ -43,5 +46,5 @@
 
     <a class="logout" (click)="logout()">Log out</a>
   </div>
-
+   }
 </div>
