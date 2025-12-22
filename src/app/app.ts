@@ -8,10 +8,11 @@ import { RecommenedCourses } from './Components/recommened-courses/recommened-co
 import { TopicsRecommended } from './Components/topics-recommended/topics-recommended';
 import { TrendingCourses } from './Components/trending-courses/trending-courses';
 import { FeaturedCourses } from './Components/featured-courses/featured-courses';
+import { HomeBeforSignIn } from './Components/home-befor-sign-in/home-befor-sign-in';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Navbar,Header,StartYourCourses,RecommenedCourses,TopicsRecommended,TrendingCourses,FeaturedCourses,Footer],
+  imports: [RouterOutlet,Navbar,Header,HomeBeforSignIn ,StartYourCourses,RecommenedCourses,TopicsRecommended,TrendingCourses,FeaturedCourses,Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
