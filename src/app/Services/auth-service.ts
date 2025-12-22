@@ -27,9 +27,13 @@ private jwtHelper = new JwtHelperService();
   Login(data: LoginRequest): Observable<any> {
      return this.http.post(`${this.baseUrl}/Account/login`, data);
   }
-  Register(data: IRegisterRequest): Observable<any> {
+  Registerstudent(data: IRegisterRequest): Observable<any> {
      return this.http.post(`${this.baseUrl}/Account/register-student`, data);
   }
+      Registerinstructor(data: IRegisterRequest): Observable<any> {
+     return this.http.post(`${this.baseUrl}/Account/register-instructor`, data);
+  }
+
   Signout(){
       localStorage.removeItem('token');
       localStorage.removeItem('refreshtoken');
