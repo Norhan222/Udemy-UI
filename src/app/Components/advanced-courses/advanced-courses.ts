@@ -2,13 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Topic } from '../../Models/topic';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { Tag } from 'primeng/tag';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule, Tag,CardModule,FormsModule, Rating],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })

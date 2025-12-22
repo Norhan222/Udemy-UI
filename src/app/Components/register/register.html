@@ -104,25 +104,26 @@
     }
      
   </div>
-    <div class="checkbox-wrapper">
-                        <label class="custom-checkbox">
-                            <input type="checkbox" checked>
-                            <div class="custom-checkbox-box"></div>
-                        </label>
-                        <label class="checkbox-label">
-                            Send me special offers, personalized recommendations, and learning tips.
-                        </label>
-                    </div>
+   <!-- <div class="row align-items-center">
+  <div class="col-auto">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="specialOffers" checked>
+    </div>
+  </div>
+  <div class="col">
+    <label class="form-check-label" for="specialOffers">
+      Send me special offers, personalized recommendations, and learning tips.
+    </label>
+  </div>
+</div> -->
+
   <button
     type="submit"
     class="continue-btn"
+    [disabled]="LoginForm.invalid"
   >
-    @if (isLoading) {
-      Logging in...
-    } @else {
-      Continue
-      }
-  </button>
+  Continue</button>
+
 
 </form>
 

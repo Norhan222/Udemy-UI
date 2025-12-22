@@ -3,7 +3,7 @@ import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angul
 import { AuthService } from '../../Services/auth-service';
 import { Observable, Subscription } from 'rxjs';
 import { routes } from '../../app.routes';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Login implements OnInit{
  private authService = inject(AuthService);
+ private router = inject(Router);
   isLoading: boolean=false;
 
  LoginForm:FormGroup=new FormGroup(
@@ -39,9 +40,8 @@ private Loginauth!:Subscription;
       this.authService.storeToken(res.jwtToken)
       this.authService.storeRefreshToken(res.refreshToken)
       this.authService.setLoginState(true)
-       // حفظ التوكنات في LocalStorage
-      // localStorage.setItem('jwtToken', res.jwtToken);
-      // localStorage.setItem('refreshToken', res.refreshToken);
+      this.router.navigate(['/Home']);
+      
     },
     error:(err)=>{
       console.log("Login error:",err);

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../Services/auth-service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 export class Register {
 
 private authService = inject(AuthService);
+private router = inject(Router);
   isLoading: boolean=false;
 
  LoginForm:FormGroup=new FormGroup(
@@ -37,6 +38,7 @@ private Registerauth!:Subscription;
     next:(res)=>{
       console.log("Register response:",res);
       this.isLoading=true;
+       this.router.navigate(['/Login']);
     },
     error:(err)=>{
       console.log("Register error:",err);
