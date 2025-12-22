@@ -30,6 +30,12 @@ private jwtHelper = new JwtHelperService();
   Register(data: IRegisterRequest): Observable<any> {
      return this.http.post(`${this.baseUrl}/Account/register-student`, data);
   }
+  Signout(){
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshtoken');
+      this.isLoggedInSubject.next(false); 
+  }
+  
 
 
 
