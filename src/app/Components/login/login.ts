@@ -30,25 +30,35 @@ export class Login implements OnInit{
 private Loginauth!:Subscription;
 
 
+errorMessage: string = '';
 
- onSubmit(){
-  // console.log(this.LoginForm.value);
- this.authService.Login(this.LoginForm.value).subscribe({
-    next:(res)=>{
-      console.log("Login response:",res);
-      this.isLoading=true;
-      this.authService.storeToken(res.jwtToken)
-      this.authService.storeRefreshToken(res.refreshToken)
-      this.authService.setLoginState(true)
+ onSubmit() {
+  if (this.LoginForm.invalid) return;
+
+  this.isLoading = true;
+  this.errorMessage! ;
+
+  this.authService.Login(this.LoginForm.value).subscribe({
+    next: (res) => {
+      console.log("Login response:", res);
+      this.isLoading = false;
+      this.authService.storeToken(res.jwtToken);
+      this.authService.storeRefreshToken(res.refreshToken);
+      this.authService.setLoginState(true);
       this.router.navigate(['/Home']);
-      
     },
-    error:(err)=>{
-      console.log("Login error:",err);
-      this.isLoading=false;
+    error: (err) => {
+      console.log("Login error:", err);
+      this.isLoading = false;
+
+      // هنا نعطي رسالة للمستخدم حسب خطأ الـ API
+     this.errorMessage = err.error?.message || 'An error occurred during login. Please try again.';
+     console.log(this.errorMessage);
+     
     }
   });
- }
+}
+
 
   
 }
