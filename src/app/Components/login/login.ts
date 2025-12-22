@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login implements OnInit,OnDestroy{
+export class Login implements OnInit{
  private authService = inject(AuthService);
   isLoading: boolean=false;
 
@@ -28,14 +28,17 @@ export class Login implements OnInit,OnDestroy{
   }
 private Loginauth!:Subscription;
 
- 
- 
+
+
  onSubmit(){
   // console.log(this.LoginForm.value);
- this.Loginauth = this.authService.Login(this.LoginForm.value).subscribe({
+ this.authService.Login(this.LoginForm.value).subscribe({
     next:(res)=>{
       console.log("Login response:",res);
       this.isLoading=true;
+      this.authService.storeToken(res.jwtToken)
+      this.authService.storeRefreshToken(res.refreshToken)
+      this.authService.setLoginState(true)
        // حفظ التوكنات في LocalStorage
       // localStorage.setItem('jwtToken', res.jwtToken);
       // localStorage.setItem('refreshToken', res.refreshToken);
@@ -47,7 +50,5 @@ private Loginauth!:Subscription;
   });
  }
 
-   ngOnDestroy(): void {
-   this.Loginauth?.unsubscribe();
-  }
+  
 }

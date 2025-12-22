@@ -8,74 +8,14 @@
                 </button>
 
                 <!-- Logo -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" routerLink="/Home">
                     <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="Udemy" />
                 </a>
 
                 <!-- Explore Link -->
                 <!-- <a href="#" class="nav-link-explore">Explore</a> -->
-                  <div class="explore-wrapper" style="position: relative;" 
-                   (mouseenter)="openMenu()"
-                  (mouseleave)="closeMenu()">
-                    <a href="#" class="nav-link-explore" id="exploreLink">Explore</a>
-                    <div class="explore-dropdown" id="exploreDropdown" *ngIf="isOpen">
-                        <!-- Column 1: Explore by Goal -->
-                        <div class="explore-column">
-                            <div class="explore-column-header">Explore by Goal</div>
-                            <a href="#" class="explore-item" (mouseenter)="setActive('ai')">
-                                Learn AI <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="career" (mouseenter)="setActive('career')">
-                                Launch a new career <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="certification">
-                                Prepare for a certification <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="roleplay">
-                                Practice with Role Play 
-                            </a>
-                            <hr>
-                            <a href="#" class="explore-item" (mouseenter)="setActive('development')">
-                                Development <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="business">
-                                Business <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="finance">
-                                Finance & Accounting <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="it">
-                                IT & Software <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="productivity">
-                                Office Productivity <i class="bi bi-chevron-right"></i>
-                            </a>
-                            <a href="#" class="explore-item" data-category="personal">
-                                Personal Development <i class="bi bi-chevron-right"></i>
-                            </a>
-                        </div>
+              <app-explore-menu></app-explore-menu>
 
-                          <div class="explore-submenu" *ngIf="activeMenu">
-                            <a class="explore-item" 
-                            (mouseenter)="setActiveSubMenu(item.key)"
-                            [class.active]="activeSubMenu === item.key"
-                            *ngFor="let item of subMenus[activeMenu]">
-                              {{ item.label }} <i class="bi bi-chevron-right"></i>
-                            </a>
-                          </div>
-
-
-                          <div class="explore-topics" *ngIf="activeSubMenu">
-                           <div class="explore-column-header">Popular Topics</div>
-
-                            <a class="explore-item" *ngFor="let topic of topics[activeSubMenu]">
-                              {{ topic }}
-                            </a>
-                          </div>
-                  </div>
-                
-                 </div>
-           
 
                 <!-- Search Bar -->
                 <div class="search-container">
@@ -88,14 +28,35 @@
                 <div class="nav-links">
                     <a href="#" class="nav-link-text">Plans & Pricing</a>
                     <a href="#" class="nav-link-text">Udemy Business</a>
+                    @if(!(isLoggdIn$ |async)){
                     <a href="#" class="nav-link-text">Teach on Udemy</a>
+                    }
+                    @if((isLoggdIn$ |async)){
+                <a routerLink="/instructor" class="nav-link-text">Instructor</a>
+                <a routerLink="/my-learning" class="nav-link-text">My learning</a>
+                    }
+                </div>
+
+                <div class="nav-icons">
+                  @if((isLoggdIn$ |async)){
+                <a href="#" class="cart-icon">
+                <i class="bi bi-heart"></i>
+                </a>
+              }
+                <a href="#" class="cart-icon">
+                  <i class="bi bi-cart3"></i>
+                </a>
+
+                @if((isLoggdIn$ |async)){
+                <a href="#" class="cart-icon">
+                <i class="bi bi-bell"></i>
+                </a>
+              }
                 </div>
 
                 <!-- Cart Icon -->
-                <a href="#" class="cart-icon">
-                    <i class="bi bi-cart3"></i>
-                </a>
 
+                @if(!(isLoggdIn$ |async)){
                 <!-- Login Button -->
                 <a  class="btn-login" routerLink="Login">Log in</a>
 
@@ -106,7 +67,19 @@
                 <a href="#" class="lang-icon">
                     <i class="fas fa-globe"></i>
                 </a>
-            </div>
+               }
+               @if((isLoggdIn$ |async)){
+              <!-- <div class="profile">
+                <span class="avatar">NA</span>
+
+              </div> -->
+              <app-user-menu></app-user-menu>
+            }
+              <!-- Avatar -->
+
+
+              </div>
+
 
             <!-- Mobile Menu -->
             <div class="mobile-menu" id="mobileMenu">
@@ -120,7 +93,7 @@
 
     <!-- Bootstrap JS -->
 
-<!-- 
+<!--
     <script>
         // Search form submission
         const searchForm = document.querySelector('.search-form');
@@ -232,6 +205,6 @@
               });
             });
           }
-          
+
     </script> -->
 

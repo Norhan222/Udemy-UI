@@ -1,18 +1,41 @@
 
+@if((isLoggedIn$ | async)){
+<nav class="navbar" (mouseleave)="clearActive()">
+  @for(cat of categories; track cat.id){
+  <span class="nav-item"(mouseenter)="setActive(cat, $event)">
+    {{ cat.name }}
+  </span>
+}
+
+<div class="mega-menu" *ngIf="activeCategory">
+    <div class="tooltip-arrow"  [style.left]="arrowLeft"></div>
+
+  <div class="mega-content">
+    @for(sub of activeCategory; track sub.id)
+    {
+    <span>
+      {{ sub.name }}
+    </span>
+  }
+  </div>
+</div>
+
+</nav>
+
+
 <section style="margin:30px 0 30px 0 ">
   <div style="display:flex">
     <div>
       <img src="u.png" alt="Udemy Logo" style="height:80px; margin-top:10px; margin-left:20px; border-radius: 50%;">
     </div>
     <div>
-      <h2 style="margin:20px 0 0 10px; ">Welcome back, Nedaa</h2>
+      <h2 style="margin:20px 0 0 10px; ">Welcome back, {{ firstName |capitalize }}</h2>
       <a href="#" style="color: blue; margin-left:10px;">Add occupAtion and interested</a>
     </div>
   </div>
 </section>
+}
 
-<section style="margin:40px;">
-  
 
 <div id="carouselExampleFade" class="carousel slide carousel-fade" >
   <div class="carousel-inner"  style=" display: flex; height:500px ;"  >
@@ -34,7 +57,7 @@
         <button type="button" class="" style="padding :5px;background-color:rgb(107, 5, 202); color:white">Get Started</button>
         </div>
       </div>
-       
+
     </div>
      <div class="carousel-item">
       <div class="car-cont" style="background-image: url('h3.jpg'); background-size:100% 100%; background-repeat: no-repeat;" >
@@ -55,4 +78,3 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-</section>

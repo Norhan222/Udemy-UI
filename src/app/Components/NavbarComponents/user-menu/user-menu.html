@@ -1,0 +1,50 @@
+<div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
+
+  <!-- Avatar -->
+  <div class="avatar" >
+    {{ (user.firstName + ' ' + user.lastName)  | intiials }}
+  </div>
+    <span class="notification-badge"></span>
+
+
+  <!-- Dropdown -->
+   @if(isOpen){
+  <div class="dropdown">
+
+    <!-- User Info -->
+    <div class="user-info">
+      <div class="avatar big">NA</div>
+       <div class="us">
+       <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
+        <p>{{ user.email }}</p>
+        </div>
+    </div>
+    <hr />
+
+    <!-- Links -->
+    <a>My learning</a>
+    <a>My cart</a>
+    <a>Wishlist</a>
+    <a>Instructor dashboard</a>
+
+    <hr />
+
+    <a>Notifications</a>
+    <a>
+      Messages
+      <span class="badge">2</span>
+    </a>
+
+    <hr />
+
+    <a>Account settings</a>
+    <a>Payment methods</a>
+    <a>Subscriptions</a>
+    <a>Purchase history</a>
+
+    <hr />
+
+    <a class="logout" (click)="logout()">Log out</a>
+  </div>
+   }
+</div>
