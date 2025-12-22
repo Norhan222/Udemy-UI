@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './ourp-plans.css',
 })
 export class OurpPlans {
-
+ 
 }
