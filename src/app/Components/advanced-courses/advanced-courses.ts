@@ -8,9 +8,10 @@ import { Rating } from 'primeng/rating';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })

@@ -8,10 +8,11 @@ import { Rating } from 'primeng/rating';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-most-popular',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
 })

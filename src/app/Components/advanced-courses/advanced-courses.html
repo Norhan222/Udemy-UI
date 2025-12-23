@@ -3,22 +3,22 @@
 <section style="margin: 10px 0 50px 0;">
  <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product #item style="">
- <div class="card" style="width: 18rem; margin:5px; height:320px; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-  <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
-  <div class="card-body">
-    <h6 style="font-weight:bold;">{{product.title}}</h6>
-    <p style ="margin-top:-5px">{{product.instructorName}}</p>
-    <div style="display: flex;">
-      <span>4.7</span>
-      <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
-        <p-rating [(ngModel)]="value" [disabled]="true" />
-      </div>
-    <span>(222)</span>
-    </div>
-    <h6 style="font-weight:bold;">E&pound;{{product.price}}</h6>
-    <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 5px;"><i class="bi bi-patch-check"></i> Premium</button>
-   </div>
- </div>
+        <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+          <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
+          <div class="card-body">
+            <h6 style="font-weight:bold;">{{product.title}}</h6>
+            <p style ="margin-top:-5px">{{product.instructorName}}</p>
+            <div style="display: flex;">
+              <span>4.7</span>
+              <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
+                <p-rating [(ngModel)]="value" [disabled]="true" />
+              </div>
+            <span>(222)</span>
+            </div>
+            <h6 style="font-weight:bold;">E&pound;{{product.price}}</h6>
+            <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 5px;"><i class="bi bi-patch-check"></i> Premium</button>
+          </div>
+        </div>
   </ng-template>
 </p-carousel>
 </section>
