@@ -30,6 +30,21 @@ export class Login implements OnInit{
 private Loginauth!:Subscription;
 
 
+errorMessage: string = '';
+
+ onSubmit() {
+  if (this.LoginForm.invalid) return;
+
+  this.isLoading = true;
+  this.errorMessage! ;
+
+  this.authService.Login(this.LoginForm.value).subscribe({
+    next: (res) => {
+      console.log("Login response:", res);
+      this.isLoading = false;
+      this.authService.storeToken(res.jwtToken);
+      this.authService.storeRefreshToken(res.refreshToken);
+      this.authService.setLoginState(true);
 
  onSubmit(){
   // console.log(this.LoginForm.value);
@@ -49,7 +64,8 @@ private Loginauth!:Subscription;
       this.isLoading=false;
     }
   });
- }
+}
+
 
 
 }

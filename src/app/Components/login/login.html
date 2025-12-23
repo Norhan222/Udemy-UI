@@ -60,7 +60,11 @@
         }
       </div>
     }
-     
+    @if(errorMessage ) {
+     <div  class="alert alert-danger mt-2">
+  {{ errorMessage }}
+</div>
+    }
   </div>
   <button
     type="submit"
