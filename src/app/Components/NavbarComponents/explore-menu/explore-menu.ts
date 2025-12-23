@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../Services/category-service';
 import { Category } from '../../../Models/category';
@@ -11,7 +11,7 @@ import { Topic } from '../../../Models/topic';
   templateUrl: './explore-menu.html',
   styleUrl: './explore-menu.css',
 })
-export class ExploreMenu implements OnInit {
+export class ExploreMenu implements OnInit , OnChanges{
   isOpen = false;
   categories!: Category[];
   subCategories!: SubCategory[]|null;
@@ -25,7 +25,10 @@ export class ExploreMenu implements OnInit {
 
 
   constructor(private catService:CategoryService  ,private cdr: ChangeDetectorRef){
-   this.catService.getCategories().subscribe((data)=>{
+
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+     this.catService.getCategories().subscribe((data)=>{
       this.categories=data
     });
   }

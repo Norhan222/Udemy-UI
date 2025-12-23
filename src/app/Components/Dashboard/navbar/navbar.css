@@ -1,0 +1,32 @@
+.top-navbar {
+  height: 65px;
+  background: #fff;
+  border-bottom: 0px solid #e6e6e6;
+  padding:40px;
+}
+
+.role {
+  font-size: 16px;
+  color: #1c1d1f;
+  font-weight: 400;
+}
+
+.notification {
+  font-size: 18px;
+  cursor: pointer;
+  color: #1c1d1f;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  background: #1c1d1f;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
