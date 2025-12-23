@@ -1,12 +1,7 @@
 export interface Topic {
-    id: string,
-    code: string,
-    name: string,
-    description: string,
-    image: string,
-    price: number,
-    category: string,
-    quantity: number,
-    inventoryStatus: string,
-    rating: number
+    id:              number,
+    name:            string,
+    description:     string ,
+    subCategoryId:   number,
+    subCategoryName: string
 }

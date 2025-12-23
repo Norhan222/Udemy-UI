@@ -1,0 +1,53 @@
+html,body{
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Root */
+.app-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar + Main */
+.app-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Sidebar */
+app-sidebar {
+  flex-shrink: 0;
+  height: 100%;
+}
+
+/* Main */
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Navbar */
+app-navbar {
+  height: 60px;
+  flex-shrink: 0;
+}
+
+/* Scroll content only */
+.content {
+  flex: 1;
+  /* overflow-y: auto; */
+  background: #ffffff;
+}
+
+/* Footer */
+app-footer {
+  height: 50px;
+  flex-shrink: 0;
+}
