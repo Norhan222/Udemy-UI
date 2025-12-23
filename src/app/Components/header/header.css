@@ -1,7 +1,7 @@
 .car-cont{
    color: aliceblue;
-   padding-top: 100px;
-   padding-left: 100px;
+   padding-top: 150px;
+   padding-left: 150px;
    height: 700px;
    width: 100%;
    position:absolute;
@@ -14,6 +14,13 @@
   position:relative;
   /* transform: translate(10%,-150%); */
 }
+ .carousel-control-next
+{
+  
+}
+.carousel-control-prev{
+}
+
 
 @media (max-width: 768px) {
   .car-cont{

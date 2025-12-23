@@ -36,8 +36,7 @@ export class UserMenu implements OnInit {
   }
 
   logout() {
-    // authService.logout();
-    this.closeMenu();
+    this.auth.Signout();
   }
 
   // يقفل لما أضغط في أي مكان بره

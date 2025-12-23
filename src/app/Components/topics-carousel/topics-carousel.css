@@ -1,0 +1,29 @@
+.icon{
+  border-radius: 50%;
+  width:30px;
+  height:30px;
+  text-align: center; 
+  align-content: center;
+  margin-right: 5px;
+  color: black;
+}
+
+.col-icon{
+  display: flex;
+}
+
+.car-cont{
+   color: aliceblue;
+   padding-top: 70px;
+   padding-left: 70px;
+   height: 400px;
+   width: 100%;
+}
+.ca_p{
+  background-color: white;
+  color:rgb(39, 35, 35) ;
+  width: 32%;
+  padding:30px 20px 30px 20px;
+  position:relative;
+  /* transform: translate(10%,-150%); */
+}

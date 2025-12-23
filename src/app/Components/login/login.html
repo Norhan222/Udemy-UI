@@ -65,13 +65,8 @@
   <button
     type="submit"
     class="continue-btn"
-  >
-    @if (isLoading) {
-      Logging in...
-    } @else {
-      Continue
-      }
-  </button>
+     [disabled]="LoginForm.invalid"
+  >Continue</button>
 
 </form>
 

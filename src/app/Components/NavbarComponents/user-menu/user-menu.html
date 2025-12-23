@@ -17,6 +17,10 @@
        <div class="us">
        <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
         <p>{{ user.email }}</p>
+       <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
+  Logout
+</a>
+
         </div>
     </div>
     <hr />
