@@ -25,6 +25,7 @@ export class Navbar implements OnInit{
   ngOnInit(): void {
     if(this.auth.getToken()){
       this.auth.setLoginState(true)
+      this.auth.firstName.next(this.auth.getUserClaims()?.name.split(' ')[0])
     }
 
   }

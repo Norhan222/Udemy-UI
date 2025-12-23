@@ -16,6 +16,8 @@ export class AuthService {
   baseUrl:string=environment.apiUrl
   private  isLoggedInSubject=new BehaviorSubject<boolean>(false)
   isLoggedIn$=this.isLoggedInSubject.asObservable();
+    firstName=new BehaviorSubject<string>('')
+    firstName$=this.firstName.asObservable();
   private userPayload:any;
 private jwtHelper = new JwtHelperService();
   constructor(private http: HttpClient) {
@@ -37,11 +39,8 @@ private jwtHelper = new JwtHelperService();
   Signout(){
       localStorage.removeItem('token');
       localStorage.removeItem('refreshtoken');
-      this.isLoggedInSubject.next(false); 
+      this.isLoggedInSubject.next(false);
   }
-  
-
-
 
   storeToken(tokenValue:string){
       localStorage.setItem('token',tokenValue)

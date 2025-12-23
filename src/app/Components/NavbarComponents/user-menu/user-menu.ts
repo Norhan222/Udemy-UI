@@ -28,7 +28,7 @@ export class UserMenu implements OnInit {
   isOpen = false;
 
   openMenu() {
-    this.isOpen = !this.isOpen;
+    this.isOpen = true;
   }
 
   closeMenu() {

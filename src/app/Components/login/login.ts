@@ -40,8 +40,9 @@ private Loginauth!:Subscription;
       this.authService.storeToken(res.jwtToken)
       this.authService.storeRefreshToken(res.refreshToken)
       this.authService.setLoginState(true)
+      this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
       this.router.navigate(['/Home']);
-      
+
     },
     error:(err)=>{
       console.log("Login error:",err);
@@ -50,5 +51,5 @@ private Loginauth!:Subscription;
   });
  }
 
-  
+
 }

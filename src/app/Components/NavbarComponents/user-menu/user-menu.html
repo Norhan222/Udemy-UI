@@ -6,14 +6,13 @@
   </div>
     <span class="notification-badge"></span>
 
-
   <!-- Dropdown -->
    @if(isOpen){
   <div class="dropdown">
 
     <!-- User Info -->
     <div class="user-info">
-      <div class="avatar big">NA</div>
+      <div class="avatar big">{{ (user.firstName + ' ' + user.lastName) | intiials }}</div>
        <div class="us">
        <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
         <p>{{ user.email }}</p>
