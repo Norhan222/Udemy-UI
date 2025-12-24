@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../Services/course-service';
+import { CartService } from '../../Services/cart-service';
 
 interface Instructor { id:number; name:string; title:string; image:string; rating:number; students:number; bio:string; }
 interface Curriculum { sectionId:number; sectionTitle:string; lectures:{id:number; title:string; duration:string; isFree:boolean}[] }
@@ -37,7 +38,18 @@ export class CourseDetailsComponent implements OnInit {
     private zone: NgZone
   ) {}
 
+  private cartService = inject(CartService);
+  cartItems: any[] = []; 
   ngOnInit(): void {
+ 
+    this.cartService.getCart().subscribe({
+      next: (res) => {
+        this.cartItems=res.data.items;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
     // listen to route id changes
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
@@ -50,7 +62,9 @@ export class CourseDetailsComponent implements OnInit {
     this.route.queryParamMap.subscribe(q => {
       this.couponApplied = q.get('couponCode') || q.get('coupon');
     });
+   
   }
+  
 
   private loadCourseDetails(courseId: number): void {
     this.loading = true;
@@ -133,8 +147,24 @@ export class CourseDetailsComponent implements OnInit {
 
   openVideoModal(): void { this.showVideoModal = true; }
   closeVideoModal(): void { this.showVideoModal = false; }
-  addToCart(): void { this.cartAdded = true; setTimeout(() => this.cartAdded = false, 2000); }
-  buyNow(): void { this.addToCart(); }
+ 
+  
+  addToCart(id:any): void { 
+    this.cartService.addToCart(id).subscribe({
+      next: (res) => {
+       
+        console.log("addCart",res);
+        console.log(id);
+       
+      },
+      error: (err) => {
+        console.error(err);
+        console.log(id);
+       
+      }
+    });
+  }
+  buyNow(): void {  }
   addToWishlist(): void { this.wishlistAdded = !this.wishlistAdded; }
 
   getRatingStars(rating: number): string {

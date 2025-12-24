@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Pipe } from '@angular/core';
 import { CartService } from '../../Services/cart-service';
-import { CurrencyPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-cart-component',
