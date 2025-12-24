@@ -1,7 +1,7 @@
 html,body{
   height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* Root */
@@ -15,7 +15,7 @@ html,body{
 .app-body {
   flex: 1;
   display: flex;
-  overflow: hidden;
+  /* min-height: 100vh; */
 }
 
 /* Sidebar */
@@ -30,7 +30,6 @@ app-sidebar {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  overflow: hidden;
 }
 
 /* Navbar */
@@ -44,6 +43,8 @@ app-navbar {
   flex: 1;
   /* overflow-y: auto; */
   background: #ffffff;
+      padding: calc(60px + 20px) 24px 24px;
+      min-height: 100vh;
 }
 
 /* Footer */

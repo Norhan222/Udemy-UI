@@ -13,9 +13,9 @@ import { Topic } from '../../../Models/topic';
 })
 export class ExploreMenu implements OnInit , OnChanges{
   isOpen = false;
-  categories!: Category[];
+  categories: Category[]=[];
   subCategories!: SubCategory[]|null;
-  topics!: Topic[] ;
+  topics: Topic[]=[] ;
   activeCategoryId: number | null = null;
   activeSubCategoryId: number | null = null;
 

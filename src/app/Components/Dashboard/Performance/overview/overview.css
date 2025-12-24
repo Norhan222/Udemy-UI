@@ -1,0 +1,49 @@
+
+
+/* Purple theme */
+.text-purple {
+  color: #5624d0;
+}
+
+.btn-purple {
+  background-color: #5624d0;
+  color: #fff;
+  border: none;
+}
+
+.btn-purple:hover {
+  background-color: #401b9c;
+}
+
+/* Cards */
+.stats-card,
+.chart-card {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+/* Stats */
+.stat:not(:last-child) {
+  border-right: 1px solid #eee;
+}
+
+.stat h3 {
+  font-weight: bold;
+}
+
+/* Chart empty */
+.chart-empty {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+/* Cursor */
+.cursor-pointer {
+  cursor: pointer;
+}

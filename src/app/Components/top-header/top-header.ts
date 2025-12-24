@@ -26,7 +26,9 @@ export class TopHeader implements OnInit{
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe(data=>{
       this.categories=data
+      console.log(this.categories);
     })
+
 
   }
 
