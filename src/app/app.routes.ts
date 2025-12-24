@@ -9,6 +9,7 @@ import { Notfound } from './Components/notfound/notfound';
 import { Home } from './Components/home/home';
 import { CourseDetailsComponent } from './Components/course-details/course-details';
 import { DashboardLayout } from './Components/Dashboard/dashboard-layout/dashboard-layout';
+import { CartComponent } from './Components/cart-component/cart-component';
 
 export const routes: Routes = [
     // {path:'', redirectTo: 'Home', pathMatch: 'full'},
