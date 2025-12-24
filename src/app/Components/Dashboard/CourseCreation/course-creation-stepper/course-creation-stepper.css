@@ -1,0 +1,16 @@
+.stepper-wrapper {
+  min-height: 100vh;
+  background-color: #f7f9fa;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 24px 128px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 40px 16px 128px;
+  }
+}

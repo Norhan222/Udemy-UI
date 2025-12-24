@@ -1,0 +1,26 @@
+<div class="step-container">
+  <h1 class="step-title">
+    First, let's find out what type of course you're making.
+  </h1>
+
+  <div class="options-container">
+    <!-- Course Option -->
+    <div (click)="selectCourseType('course')" [class.selected]="selectedType === 'course'" class="option-card">
+      <div class="option-icon">▶️</div>
+      <h3 class="option-title">Course</h3>
+      <p class="option-description">
+        Create rich learning experiences with the help of video lectures, quizzes, coding exercises, etc.
+      </p>
+    </div>
+
+    <!-- Practice Test Option -->
+    <div (click)="selectCourseType('practice-test')" [class.selected]="selectedType === 'practice-test'"
+      class="option-card">
+      <div class="option-icon">📝</div>
+      <h3 class="option-title">Practice Test</h3>
+      <p class="option-description">
+        Help students prepare for certification exams by providing practice questions.
+      </p>
+    </div>
+  </div>
+</div>
