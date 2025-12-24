@@ -12,6 +12,7 @@ import { Home } from './Components/home/home';
 import { CourseDetailsComponent } from './Components/course-details/course-details';
 import { DashboardLayout } from './Components/Dashboard/dashboard-layout/dashboard-layout';
 import { CartComponent } from './Components/cart-component/cart-component';
+import { MyLearning } from './Components/my-learning/my-learning';
 
 export const routes: Routes = [
     // {path:'', redirectTo: 'Home', pathMatch: 'full'},
@@ -33,6 +34,8 @@ export const routes: Routes = [
     {path:'Register', component:Register,title:'Register'},
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     {path:'Cart', component: CartComponent, title: 'Cart'},
+    {path:'my-learning', component: MyLearning, title: 'My Learning'},
+
     // {path:'**', component:Notfound,title:'Not Found Page'},
     ]
   },
