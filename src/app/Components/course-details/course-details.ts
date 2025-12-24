@@ -97,7 +97,7 @@ export class CourseDetailsComponent implements OnInit {
           id: c.instructorId || 1,
           name: c.instructorName || 'Instructor',
           title: c.instructorTitle || '',
-          image: c.instructorImage || c.thumbnailUrl || 'https://via.placeholder.com/80',
+          image: c.instructorImage || 'https://via.placeholder.com/80',
           rating: c.instructorRating || 0,
           students: c.studentCount || 0,
           bio: c.instructorBio || '',
