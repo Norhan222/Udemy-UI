@@ -26,7 +26,7 @@ export class TopicsRecommended implements OnInit, OnDestroy {
   
       ngOnInit() {
 
-          this.dataResponse = this.topicService.getRecommended().subscribe((data)=>{
+          this.dataResponse = this.topicService.getTopics().subscribe((data)=>{
                         this.topics = data;
                         for (let i = 0; i < this.topics.length; i += 2) {
           this.topicGroups.push([
