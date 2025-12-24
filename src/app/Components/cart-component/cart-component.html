@@ -1,86 +1,55 @@
 <div class="container">
     <h1>Shopping Cart</h1>
-    <p class="sub-title">2 Courses in Cart</p>
+    <p class="sub-title">{{ cartItems.length }} Courses in Cart</p>
 
     <div class="content">
-
         <!-- LEFT -->
         <div class="cart-items">
-
-            <!-- ITEM -->
+           
+         @if(cartItems.length>0){
+               @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
-                <img src="" class="course-img">
+                <img [src]="item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
 
                 <div class="course-info">
-                    <h3>Creating a Social Media App with C#, JS, ASP.NET and Azure</h3>
-                    <p class="author">By Elvis Trupia</p>
+                    <h3>{{ item.courseTitle }}</h3>
+                    <p class="author">By {{ item.instructorName }}</p>
 
                     <div class="rating">
-                        <span class="rate">4.6</span>
+                        <span class="rate">{{ item.courseRating }}</span>
                         ⭐⭐⭐⭐☆
-                        <span class="count">(89 ratings)</span>
+                        <span class="count">({{ item.totalStudents }} ratings)</span>
                     </div>
 
-                    <p class="details">21 total hours • 186 lectures • All Levels</p>
+                    <p class="details">{{ item.courseDescription }}</p>
                     <span class="badge">Premium</span>
                 </div>
 
                 <div class="course-actions">
-                    <a href="#">Remove</a>
+                    <a (click)="removeItem(item.courseId)">Remove</a>
                     <a href="#">Save for Later</a>
                     <a href="#">Move to Wishlist</a>
                 </div>
 
                 <div class="price">
-                    <span class="new">E£299.99</span>
-                    <span class="old">E£399.99</span>
+                    <span class="new">E£{{ item.coursePrice }}</span>
                 </div>
             </div>
-
-            <!-- ITEM -->
-            <div class="cart-item">
-                <img src="" class="course-img">
-
-                <div class="course-info">
-                    <h3>Introduction to OpenAI API & ChatGPT API for Developers</h3>
-                    <p class="author">By Valentin Despa and 1 other</p>
-
-                    <div class="rating">
-                        <span class="rate">4.5</span>
-                        ⭐⭐⭐⭐☆
-                        <span class="count">(97,648 ratings)</span>
-                    </div>
-
-                    <p class="details">3 total hours • 39 lectures • All Levels</p>
-                    <span class="badge">Premium</span>
-                </div>
-
-                <div class="course-actions">
-                    <a href="#">Remove</a>
-                    <a href="#">Save for Later</a>
-                    <a href="#">Move to Wishlist</a>
-                </div>
-
-                <div class="price">
-                    <span class="new">E£299.99</span>
-                    <span class="old">E£399.99</span>
-                </div>
-            </div>
-
+        }
+         }
         </div>
 
         <!-- RIGHT -->
         <div class="summary">
             <p class="label">Total:</p>
-            <h2>E£599.98</h2>
-            <p class="old-total">E£799.98</p>
-            <p class="discount">25% off</p>
+            <h2>E£{{ total  }}</h2>
+            <p class="old-total">E£{{ subTotal}}</p>
+            <p class="discount">0% off</p>
 
             <button class="checkout">Proceed to Checkout →</button>
             <p class="note">You won't be charged yet</p>
 
             <button class="coupon">Apply Coupon</button>
         </div>
-
     </div>
 </div>

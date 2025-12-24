@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Pipe } from '@angular/core';
 import { CartService } from '../../Services/cart-service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart-component',
@@ -17,8 +18,9 @@ export class CartComponent implements OnInit{
   ngOnInit(): void {
     this.cartService.getCart().subscribe({
       next: (res) => {
-        this.cartItems = res.data.items;
-        
+        this.cartItems=res.data.items;
+        console.log("res",res.data.items);
+        console.log("cart",this.cartItems);    
         this.subTotal = res.data.subTotal;
         this.total = res.data.total;
       },
@@ -26,7 +28,6 @@ export class CartComponent implements OnInit{
         console.error(err);
       }
     });
-    // console.log("cart",this.cartItems);
   }
 
   // لو حبيت تضيف remove from cart
