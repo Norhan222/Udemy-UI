@@ -264,6 +264,7 @@
 .header-thumbnail {
   position: relative;
   width: 600px;
+  height: auto;
 }
 
 .header-thumbnail img {
@@ -339,6 +340,33 @@
     top: auto;
   }
 }
+
+/* Debug panel */
+.debug-panel {
+  background: rgba(255,255,255,0.08);
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.debug-panel .last-error {
+  color: #ffefef;
+  background: #7f1d1d;
+  padding: 6px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.debug-panel .logs {
+  max-height: 120px;
+  overflow: auto;
+  margin-top: 8px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #f3f4f6;
+}
+
 
 .panel-tabs {
   display: flex;
