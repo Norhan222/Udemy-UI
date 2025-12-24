@@ -1,0 +1,70 @@
+.navbar {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  padding: 10px 80px;
+  background: #ffffff;
+  border-bottom: 1px solid #c8c9ca;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+}
+
+.nav-item {
+  font-size: 14px;
+  font-weight: 350;
+  cursor: pointer;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #1c1d1f;
+  padding: 18px 0;
+}
+
+.mega-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  /* max-width: 1000px; */
+}
+
+.mega-content span {
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+
+}
+
+.mega-content span:hover {
+  color: rgb(162, 75, 209);
+}
+
+
+
+
+
+
+
+
+
+/* ===== Tooltip Arrow ===== */
+.tooltip-arrow {
+  position: absolute;
+  top: -7px;
+  /* يطلع فوق الـ menu */
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 0;
+  height: 0;
+
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #1c1d1f;
+}

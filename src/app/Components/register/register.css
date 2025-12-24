@@ -72,6 +72,15 @@
             transform: translateY(0);
             box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
         }
+        .continue-btn:disabled {
+    background: #ccc; /* لون رمادي */
+    color: #888;      /* لون نص أخف */
+    cursor: not-allowed;
+    box-shadow: none; /* إزالة الظل */
+    transform: none;  /* منع أي حركة عند hover أو active */
+    opacity: 0.7;     /* تخفيف المظهر */
+}
+
 
         .divider {
             display: flex;

@@ -1,0 +1,225 @@
+<div class="course-details-container" *ngIf="!loading">
+  <!-- Header Section -->
+  <div class="course-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-info">
+          <div class="breadcrumb">
+            <a href="#">Home</a> / <a href="#">{{ course!.category }}</a> / <span>{{ course!.title }}</span>
+          </div>
+          <h1 class="course-title">{{ course!.title }}</h1>
+          <div class="course-meta-row">
+            <!-- <span class="course-id">Course ID: {{ course!.id }}</span> -->
+            <span class="course-description">{{ course!.description }}</span>
+          </div>
+          <div class="rating-info">
+            <div class="rating">
+              <span class="stars">{{ getRatingStars(course!.rating) }}</span>
+              <span class="rating-number">{{ course!.rating }}</span>
+              <span class="review-count">({{ formatNumber(course!.reviewCount) }} ratings)</span>
+            </div>
+            <span class="student-count">{{ formatNumber(course!.studentCount) }} students</span>
+          </div>
+          <div class="meta-info">
+            <span *ngIf="course!.instructors && course!.instructors.length > 0">Created by <strong>{{ course!.instructors[0].name }}</strong></span>
+            <span *ngIf="!(course!.instructors && course!.instructors.length > 0)">Created by <strong>Unknown</strong></span>
+            <span>Last updated {{ course!.lastUpdated }}</span>
+            <span>{{ course!.language }}</span>
+          </div>
+        </div>
+        <div class="header-thumbnail">
+          <img [src]="course!.thumbnail" [alt]="course!.title" />
+          <button class="play-button" (click)="openVideoModal()">
+            <span class="play-icon">▶</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Modal -->
+  <div class="video-modal" *ngIf="showVideoModal" (click)="closeVideoModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-button" (click)="closeVideoModal()">×</button>
+      <video controls autoplay>
+        <source [src]="course!.videoPreview" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <div class="container main-content">
+    <!-- Main Content -->
+    <div class="course-main">
+      <!-- What You'll Learn -->
+      <section class="learning-section" *ngIf="course!.whatYouWillLearn && course!.whatYouWillLearn.length">
+        <h2>What you'll learn</h2>
+        <div class="learning-grid">
+          <div class="learning-item" *ngFor="let item of course!.whatYouWillLearn">
+            <span class="checkmark">✓</span>
+            <span>{{ item }}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Curriculum -->
+      <section class="curriculum-section">
+        <h2>Course content</h2>
+        <div class="curriculum-header">
+          <!-- <span>{{ (course!.curriculum || []).length }} sections</span> -->
+          <!-- <span>{{ course!.duration }} total length</span> -->
+        </div>
+        <div class="curriculum-list">
+          <div *ngIf="!(course!.curriculum && course!.curriculum.length)">No curriculum available for this course.</div>
+          <div
+            class="curriculum-section-item"
+            *ngFor="let section of course!.curriculum"
+            [class.expanded]="isSectionExpanded(section.sectionId)"
+          >
+            <div class="section-header" (click)="toggleSection(section.sectionId)">
+              <span class="section-title">
+                <i class="arrow">{{ isSectionExpanded(section.sectionId) ? '▼' : '▶' }}</i>
+                {{ section.sectionTitle }}
+              </span>
+              <span class="lecture-count">{{ section.lectures.length }} lectures</span>
+            </div>
+            <div class="section-content" *ngIf="isSectionExpanded(section.sectionId)">
+              <div class="lecture" *ngFor="let lecture of section.lectures">
+                <div class="lecture-info">
+                  <span class="lecture-icon">
+                    {{ lecture.isFree ? '🎥' : '🔒' }}
+                  </span>
+                  <span class="lecture-title">{{ lecture.title }}</span>
+                  <span class="lecture-duration">{{ lecture.duration }}</span>
+                </div>
+                <span class="free-badge" *ngIf="lecture.isFree">Free</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Requirements -->
+      <section class="requirements-section" *ngIf="course!.requirements && course!.requirements.length">
+        <h2>Requirements</h2>
+        <ul class="requirements-list">
+          <li *ngFor="let requirement of course!.requirements">{{ requirement }}</li>
+        </ul>
+      </section>
+
+      <!-- Instructors -->
+      <section class="instructors-section">
+        <h2>Your instructors</h2>
+        <div class="instructors-list">
+          <div class="instructor-card" *ngFor="let instructor of course!.instructors">
+            <img [src]="instructor.image" [alt]="instructor.name" class="instructor-image" />
+            <div class="instructor-info">
+              <h3>{{ instructor.name }}</h3>
+              <p class="instructor-title">{{ instructor.title }}</p>
+              <div class="instructor-stats">
+                <span>{{ instructor.rating }} ★</span>
+                <span>{{ formatNumber(instructor.students) }} Students</span>
+              </div>
+              <p class="instructor-bio">{{ instructor.bio }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews -->
+      <section class="reviews-section">
+        <h2>Reviews</h2>
+        <div class="reviews-header">
+          <div class="overall-rating">
+            <div class="rating-large">{{ course!.rating }}</div>
+            <div class="stars-large">{{ getRatingStars(course!.rating) }}</div>
+            <div class="total-ratings">{{ formatNumber(course!.reviewCount) }} ratings</div>
+          </div>
+        </div>
+        <div class="reviews-list">
+          <div class="review-item" *ngFor="let review of course!.reviews">
+            <div class="review-header">
+              <img [src]="review.userImage" [alt]="review.userName" class="user-image" />
+              <div class="review-user-info">
+                <h4>{{ review.userName }}</h4>
+                <div class="review-rating">{{ getRatingStars(review.rating) }}</div>
+                <p class="review-date">{{ review.date }}</p>
+              </div>
+            </div>
+            <h5 class="review-title">{{ review.title }}</h5>
+            <p class="review-description">{{ review.description }}</p>
+            <button class="helpful-button">👍 Helpful ({{ review.helpful }})</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="course-sidebar">
+      <div class="purchase-panel">
+        <div class="coupon-banner" *ngIf="couponApplied">
+          {{ couponApplied }} is applied • <strong>Udemy coupon</strong>
+        </div>
+
+        <div class="panel-tabs">
+          <button class="tab active">Full course</button>
+          <button class="tab">Certificate</button>
+        </div>
+
+        <div class="price-amount">
+          <div class="price-row">
+            <div class="current-price">${{ course!.price }}</div>
+            <div class="original-price">${{ course!.originalPrice }}</div>
+          </div>
+          <div class="price-note">Includes access on mobile and TV • 30-day money-back guarantee</div>
+        </div>
+
+        <button class="primary-cta" (click)="addToCart()">{{ cartAdded ? '✓ Added to Cart' : 'Add to cart' }}</button>
+        <button class="secondary-cta" (click)="buyNow()">Buy now</button>
+
+        <div class="coupon-row">
+          <input class="coupon-input" placeholder="Coupon code" />
+          <button class="apply-coupon">Apply</button>
+        </div>
+
+        <div class="money-back tiny-note">
+          30-day money-back guarantee
+        </div>
+      </div>
+
+      <div class="course-features">
+        <h3>This course includes:</h3>
+        <ul class="features-list">
+          <li *ngFor="let feature of course!.features">
+            <span class="feature-icon">✓</span>
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="course-info-card">
+        <h3>Course Details</h3>
+        <div class="info-item">
+          <span class="label">Level:</span>
+          <span class="value">{{ course!.level }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Duration:</span>
+          <span class="value">{{ course!.duration }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Language:</span>
+          <span class="value">{{ course!.language }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Last updated:</span>
+          <span class="value">{{ course!.lastUpdated }}</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <p>Loading course details...</p>
+</div>

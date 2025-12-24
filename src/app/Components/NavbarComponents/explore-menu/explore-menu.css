@@ -23,7 +23,7 @@
 .explore-dropdown {
   /* display: none; */
   position: absolute;
-  top: 50px;
+  top: 40px;
   left: 0;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, .15);

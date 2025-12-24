@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { ILecture } from '../../Models/ilecture';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { Tag } from 'primeng/tag';
-
 @Component({
   selector: 'app-start-your-courses',
-  imports: [Carousel, ButtonModule, Tag],
+  imports: [Carousel, ButtonModule],
   templateUrl: './start-your-courses.html',
   styleUrl: './start-your-courses.css',
 })

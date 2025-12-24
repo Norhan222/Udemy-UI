@@ -1,0 +1,27 @@
+.col-plan{
+  border: 1px solid rgb(179, 177, 192);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  ;
+  background-color:#f3f3fa
+}
+
+button{
+  border:1px solid blueviolet;
+  padding: 10px;
+  border-radius: 3px;
+  color: rgb(80, 3, 153);
+  background-color:#f3f3fa ;
+  font-weight: bold;
+  width: 40%;
+  margin-bottom: 50px;
+}
+li{
+  margin-top: 10px;
+}
+
+li >i {
+  margin-right: 20px;
+  color: rgb(1, 71, 1);
+}

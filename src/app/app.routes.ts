@@ -1,10 +1,17 @@
 import { Routes } from '@angular/router';
 import { Login } from './Components/login/login';
 import { Register } from './Components/register/register';
+import { Notfound } from './Components/notfound/notfound';
+import { Home } from './Components/home/home';
+import { CourseDetailsComponent } from './Components/course-details/course-details';
+import { CartComponent } from './Components/cart-component/cart-component';
 
 export const routes: Routes = [
-    //  {path:'', redirectTo: 'parent', pathMatch: 'full'}
+    {path:'', redirectTo: 'Home', pathMatch: 'full'},
+    {path:'Home', component:Home,title:'Home'},
     {path:'Login', component:Login,title:'Login'},
     {path:'Register', component:Register,title:'Register'},
-    // ,{path:'**', component:,title:'Not Found Page'}
+    {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
+    {path:'Cart', component: CartComponent, title: 'Cart'},
+    {path:'**', component:Notfound,title:'Not Found Page'}
 ];

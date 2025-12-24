@@ -5,11 +5,11 @@
   justify-content:space-between ; 
   background-color: black;
   border-radius: 20px;
+  font-weight: bold ;
 }
 
 .buscont{
    margin-left: 10px;
-   margin-bottom: 10px;
 
 }
 

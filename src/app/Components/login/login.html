@@ -60,18 +60,17 @@
         }
       </div>
     }
-     
+    @if(errorMessage ) {
+     <div  class="alert alert-danger mt-2">
+  {{ errorMessage }}
+</div>
+    }
   </div>
   <button
     type="submit"
     class="continue-btn"
-  >
-    @if (isLoading) {
-      Logging in...
-    } @else {
-      Continue
-      }
-  </button>
+     [disabled]="LoginForm.invalid"
+  >Continue</button>
 
 </form>
 

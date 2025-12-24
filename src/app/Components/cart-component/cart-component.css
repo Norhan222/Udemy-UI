@@ -1,0 +1,160 @@
+.container {
+    width: 90%;
+    margin: 40px auto;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.sub-title {
+    color: #6a6f73;
+    margin-bottom: 20px;
+}
+
+.content {
+    display: flex;
+    gap: 40px;
+}
+
+/* CART ITEMS */
+.cart-items {
+    width: 70%;
+}
+
+.cart-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+}
+
+.course-img {
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
+}
+
+.course-info {
+    flex: 1;
+}
+
+.course-info h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.author {
+    font-size: 13px;
+    color: #6a6f73;
+}
+
+.rating {
+    font-size: 13px;
+    margin: 6px 0;
+}
+
+.rate {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.details {
+    font-size: 12px;
+    color: #6a6f73;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    background: #6f2dbd;
+    color: #fff;
+    border-radius: 6px;
+}
+
+/* ACTIONS */
+.course-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.course-actions a {
+    font-size: 13px;
+    color: #5624d0;
+    text-decoration: none;
+}
+
+/* PRICE */
+.price {
+    text-align: right;
+}
+
+.price .new {
+    font-weight: bold;
+    color: #5624d0;
+}
+
+.price .old {
+    display: block;
+    text-decoration: line-through;
+    font-size: 13px;
+    color: #6a6f73;
+}
+
+/* SUMMARY */
+.summary {
+    width: 30%;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.summary .label {
+    font-size: 14px;
+    color: #6a6f73;
+}
+
+.summary h2 {
+    font-size: 32px;
+    margin: 5px 0;
+}
+
+.old-total {
+    text-decoration: line-through;
+    color: #6a6f73;
+}
+
+.discount {
+    color: #b4690e;
+    margin-bottom: 15px;
+}
+
+.checkout {
+    width: 100%;
+    padding: 14px;
+    background: #6f2dbd;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.note {
+    font-size: 12px;
+    color: #6a6f73;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.coupon {
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #6f2dbd;
+    color: #6f2dbd;
+    cursor: pointer;
+}
