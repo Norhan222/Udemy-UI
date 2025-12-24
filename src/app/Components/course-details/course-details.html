@@ -175,9 +175,13 @@
         </div>
 
         <!-- <button class="primary-cta" (click)="addToCart(course?.id)">{{ cartAdded ? '✓ Added to Cart' : 'Add to cart' }}</button> -->
-        <button class="primary-cta" (click)="addToCart(course?.id)"> Added to Cart</button>
-
-
+        <!-- <button class="primary-cta" (click)="addToCart(course?.id)"> Added to Cart</button> -->
+         <button 
+  class="primary-cta" 
+  [disabled]="isInCart(course?.id)" 
+  (click)="addToCart(course?.id)">
+  {{ isInCart(course?.id) ? 'Added to Cart' : 'Add to Cart' }}
+</button>
 
         <button class="secondary-cta" (click)="buyNow()">Buy now</button>
 

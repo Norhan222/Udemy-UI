@@ -311,6 +311,12 @@ a {
   color: white;
   border: none;
 }
+.primary-cta:disabled {
+  background: #ccc;       /* لون رمادي */
+  color: #666;            /* لون نص أفتح */
+  cursor: not-allowed;    /* أيقونة عدم التفاعل */
+  opacity: 0.7;           /* شوية شفافية */
+}
 
 .secondary-cta {
   border: 1px solid #1c1d1f;

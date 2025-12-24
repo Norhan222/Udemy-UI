@@ -54,8 +54,9 @@ private router = inject(Router);
     console.log('CART ITEMS:', this.cartItems);
     this.cdr.detectChanges();
   },
-  error: () => {
+  error: (er) => {
     this.cartLoaded = true;
+    console.error('Error fetching cart items:', er);
   }
 });
 
@@ -74,7 +75,34 @@ private router = inject(Router);
     });
    
   }
-  
+  isInCart(courseId: number | null | undefined): boolean {
+  if (!courseId || !this.cartItems?.length) return false;
+  return this.cartItems.some(item => item.courseId === courseId);
+}
+
+    addToCart(id: any): void {
+
+  // ❌ لو مش عامل Login
+  if (!this.auth.getToken()) {
+    this.router.navigate(['/Login'], {
+      queryParams: { returnUrl: `/course/${id}` }
+    });
+    return;
+  }
+
+  // ✅ لو عامل Login
+  this.cartService.addToCart(id).subscribe({
+    next: (res) => {
+      console.log('addCart', res);
+      this.cartAdded = true;
+       this.cartItems.push({ courseId: id, ...res.data }); 
+      this.cdr.detectChanges(); // force update
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
 
   private loadCourseDetails(courseId: number): void {
     this.loading = true;
@@ -158,27 +186,6 @@ private router = inject(Router);
   openVideoModal(): void { this.showVideoModal = true; }
   closeVideoModal(): void { this.showVideoModal = false; }
  
-  addToCart(id: any): void {
-
-  // ❌ لو مش عامل Login
-  if (!this.auth.getToken()) {
-    this.router.navigate(['/Login'], {
-      queryParams: { returnUrl: `/course/${id}` }
-    });
-    return;
-  }
-
-  // ✅ لو عامل Login
-  this.cartService.addToCart(id).subscribe({
-    next: (res) => {
-      console.log('addCart', res);
-      this.cartAdded = true;
-    },
-    error: (err) => {
-      console.error(err);
-    }
-  });
-}
 
   buyNow(): void {  }
   addToWishlist(): void { this.wishlistAdded = !this.wishlistAdded; }
