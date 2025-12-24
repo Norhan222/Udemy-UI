@@ -76,4 +76,10 @@ export const routes: Routes = [
       // }
     ]
   },
+  {path:'course-creation',
+    loadComponent:() =>
+     import('./Components/Dashboard/CourseCreation/course-creation-stepper/course-creation-stepper')
+      .then(m => m.CourseCreationStepper)
+  
+  }
 ];

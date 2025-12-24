@@ -1,0 +1,61 @@
+.stepper-header {
+  background-color: white;
+  border-bottom: 1px solid #d1d7dc;
+  padding: 16px 24px;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  width: 96px;
+  height: 32px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.step-indicator {
+  color: #6a6f73;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.exit-btn {
+  color: #5624d0;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 0.2s;
+}
+
+.exit-btn:hover {
+  color: #401b9c;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 6px;
+}
+
+.progress-bar {
+  background-color: #5624d0;
+  height: 6px;
+  transition: width 0.5s ease-out;
+}

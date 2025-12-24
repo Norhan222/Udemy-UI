@@ -1,0 +1,20 @@
+<div class="form-container">
+  <h1 class="form-title">
+    What category best fits the knowledge you'll share?
+  </h1>
+  <p class="form-subtitle">
+    If you're not sure about the right category, you can change it later.
+  </p>
+
+  <div class="form-group">
+    <label class="form-label">
+      Course Category
+    </label>
+    <select [(ngModel)]="category" (ngModelChange)="onCategoryChange($event)" class="form-select">
+      <option value="">Choose a category</option>
+      <option *ngFor="let cat of categories" [value]="cat.value">
+        {{ cat.label }}
+      </option>
+    </select>
+  </div>
+</div>
