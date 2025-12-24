@@ -4,7 +4,7 @@
 <aside class="performance-sidebar">
   <h5 class="title">Performance</h5>
 
-  <a routerLink="overview" routerLinkActive="active">Overview</a>
+  <a routerLink="/dashboard/performance/overview" routerLinkActive="active">Overview</a>
   <a routerLink="revenue" routerLinkActive="active">Revenue</a>
   <a routerLink="students" routerLinkActive="active">Students</a>
 
@@ -18,7 +18,8 @@
 </aside>
 <main class="performance-content">
   <!-- <app-overview></app-overview> -->
-   <app-reviews></app-reviews>
+   <!-- <app-reviews></app-reviews> -->
+  <router-outlet></router-outlet>
 </main>
 
 </div>
