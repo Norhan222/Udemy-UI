@@ -4,6 +4,7 @@ import { Register } from './Components/register/register';
 import { Notfound } from './Components/notfound/notfound';
 import { Home } from './Components/home/home';
 import { CourseDetailsComponent } from './Components/course-details/course-details';
+import { CartComponent } from './Components/cart-component/cart-component';
 
 export const routes: Routes = [
     {path:'', redirectTo: 'Home', pathMatch: 'full'},
@@ -11,5 +12,6 @@ export const routes: Routes = [
     {path:'Login', component:Login,title:'Login'},
     {path:'Register', component:Register,title:'Register'},
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
+    {path:'Cart', component: CartComponent, title: 'Cart'},
     {path:'**', component:Notfound,title:'Not Found Page'}
 ];
