@@ -9,7 +9,7 @@
           </div>
           <h1 class="course-title">{{ course!.title }}</h1>
           <div class="course-meta-row">
-            <span class="course-id">Course ID: {{ course!.id }}</span>
+            <!-- <span class="course-id">Course ID: {{ course!.id }}</span> -->
             <span class="course-description">{{ course!.description }}</span>
           </div>
           <div class="rating-info">
@@ -21,7 +21,8 @@
             <span class="student-count">{{ formatNumber(course!.studentCount) }} students</span>
           </div>
           <div class="meta-info">
-            <span>Created by <strong>{{ course!.instructors[0].name }}</strong></span>
+            <span *ngIf="course!.instructors && course!.instructors.length > 0">Created by <strong>{{ course!.instructors[0].name }}</strong></span>
+            <span *ngIf="!(course!.instructors && course!.instructors.length > 0)">Created by <strong>Unknown</strong></span>
             <span>Last updated {{ course!.lastUpdated }}</span>
             <span>{{ course!.language }}</span>
           </div>
@@ -51,7 +52,7 @@
     <!-- Main Content -->
     <div class="course-main">
       <!-- What You'll Learn -->
-      <section class="learning-section">
+      <section class="learning-section" *ngIf="course!.whatYouWillLearn && course!.whatYouWillLearn.length">
         <h2>What you'll learn</h2>
         <div class="learning-grid">
           <div class="learning-item" *ngFor="let item of course!.whatYouWillLearn">
@@ -65,10 +66,11 @@
       <section class="curriculum-section">
         <h2>Course content</h2>
         <div class="curriculum-header">
-          <span>{{ course!.curriculum.length }} sections</span>
-          <span>{{ course!.duration }} total length</span>
+          <!-- <span>{{ (course!.curriculum || []).length }} sections</span> -->
+          <!-- <span>{{ course!.duration }} total length</span> -->
         </div>
         <div class="curriculum-list">
+          <div *ngIf="!(course!.curriculum && course!.curriculum.length)">No curriculum available for this course.</div>
           <div
             class="curriculum-section-item"
             *ngFor="let section of course!.curriculum"
@@ -98,7 +100,7 @@
       </section>
 
       <!-- Requirements -->
-      <section class="requirements-section">
+      <section class="requirements-section" *ngIf="course!.requirements && course!.requirements.length">
         <h2>Requirements</h2>
         <ul class="requirements-list">
           <li *ngFor="let requirement of course!.requirements">{{ requirement }}</li>
@@ -154,20 +156,33 @@
 
     <!-- Sidebar -->
     <aside class="course-sidebar">
-      <div class="price-card">
-        <div class="price-section">
-          <span class="current-price">${{ course!.price }}</span>
-          <span class="original-price">${{ course!.originalPrice }}</span>
-          <span class="discount">{{ Math.round((1 - course!.price / course!.originalPrice) * 100) }}% off</span>
+      <div class="purchase-panel">
+        <div class="coupon-banner" *ngIf="couponApplied">
+          {{ couponApplied }} is applied • <strong>Udemy coupon</strong>
         </div>
-        <button class="add-to-cart-btn" (click)="addToCart()" [class.added]="cartAdded">
-          {{ cartAdded ? '✓ Added to Cart' : 'Add to Cart' }}
-        </button>
-        <button class="buy-now-btn">Buy Now</button>
-        <button class="wishlist-btn" (click)="addToWishlist()" [class.added]="wishlistAdded">
-          {{ wishlistAdded ? '❤' : '🤍' }} Save
-        </button>
-        <div class="money-back">
+
+        <div class="panel-tabs">
+          <button class="tab active">Full course</button>
+          <button class="tab">Certificate</button>
+        </div>
+
+        <div class="price-amount">
+          <div class="price-row">
+            <div class="current-price">${{ course!.price }}</div>
+            <div class="original-price">${{ course!.originalPrice }}</div>
+          </div>
+          <div class="price-note">Includes access on mobile and TV • 30-day money-back guarantee</div>
+        </div>
+
+        <button class="primary-cta" (click)="addToCart()">{{ cartAdded ? '✓ Added to Cart' : 'Add to cart' }}</button>
+        <button class="secondary-cta" (click)="buyNow()">Buy now</button>
+
+        <div class="coupon-row">
+          <input class="coupon-input" placeholder="Coupon code" />
+          <button class="apply-coupon">Apply</button>
+        </div>
+
+        <div class="money-back tiny-note">
           30-day money-back guarantee
         </div>
       </div>
