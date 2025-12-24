@@ -4,10 +4,11 @@ import { AuthService } from '../../../Services/auth-service';
 import { User } from '../../../Models/user';
 import { IntiialsPipe } from '../../../Pipes/intiials-pipe';
 import { CapitalizePipe } from '../../../Pipes/capitalize-pipe';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-menu',
-  imports: [CommonModule,IntiialsPipe,CapitalizePipe],
+  imports: [CommonModule,IntiialsPipe,CapitalizePipe,RouterOutlet],
   templateUrl: './user-menu.html',
   styleUrl: './user-menu.css',
 })

@@ -1,0 +1,416 @@
+<!-- instructor-courses.component.html -->
+<div class="page-container">
+  <div class="container">
+    <!-- Header -->
+    <h1 class="page-title">Courses</h1>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-button" [class.active]="activeTab === 'courses'" (click)="switchTab('courses')">
+          Courses
+        </button>
+        <button class="tab-button" [class.active]="activeTab === 'bundles'" (click)="switchTab('bundles')">
+          Course bundles
+        </button>
+      </div>
+    </div>
+    <div class="courses-content" *ngIf="activeTab === 'courses'">
+    <!-- Email Banner -->
+    <div class="banner" *ngIf="showEmailBanner">
+      <!-- <div class="banner-icon"> -->
+        <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5624d0" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg> -->
+        <div class="banner-icon">
+            <i class="bi bi-info-circle"></i>
+          </div>
+      <!-- </div> -->
+      <div class="banner-content">
+        <h3 class="banner-title">Stop Missing Instructor Emails!</h3>
+        <p class="banner-text">
+          Update your communications settings to receive instructor emails focused on giving you all
+          the tools you'll need to be successful during course creation and beyond. Get started today!
+        </p>
+        <div class="banner-actions">
+          <button class="btn btn-primary-outline" (click)="receiveEmails()">
+            Receive emails
+          </button>
+          <button class="btn btn-text" (click)="dismissEmailBanner()">
+            Dismiss
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Banner -->
+    <div class="banner" *ngIf="showUpdateBanner">
+      <div class="banner-icon">
+        <i class="bi bi-info-circle"></i>
+        </div>
+      <div class="banner-content">
+        <h3 class="banner-title">
+          We're updating the free course experience for students and instructors.
+        </h3>
+        <ul class="banner-list">
+          <li>
+            New free courses (published after March 17, 2020) must have less than 2 hours of video content.
+          </li>
+          <li>
+            Existing free courses (published before March 17, 2020) that contain more than 2 hours
+            of video content will remain published.
+          </li>
+          <li>
+            All free courses will only consist of video content and resources. Certificate of completion,
+            Q&A, and direct messaging will only be available for paid enrollments.
+          </li>
+        </ul>
+        <p class="banner-text">
+          To learn more about the new free course experience and policy read our
+          <a href="#" class="link">FAQ on the teaching center</a>.
+        </p>
+        <button class="btn btn-primary-outline" (click)="dismissUpdateBanner()">
+          Dismiss
+        </button>
+      </div>
+    </div>
+   
+
+    <!-- Search and Actions Bar -->
+    <div class="actions-bar">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search your courses" [(ngModel)]="searchTerm"
+          (input)="onSearch()" />
+        <button class="search-button">
+          <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg> -->
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+
+      <select class="sort-select" [(ngModel)]="sortOrder" (change)="onSortChange()">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+        <option value="title">Title A-Z</option>
+      </select>
+
+      <button class="btn btn-primary" (click)="createNewCourse()">
+        New course
+      </button>
+    </div>
+
+    <!-- Courses List -->
+    <div class="courses-container">
+      <div class="course-item" *ngFor="let course of filteredCourses; let last = last" [class.last]="last">
+        <div class="course-thumbnail">
+          <svg width="120" height="90" viewBox="0 0 120 90" fill="none">
+            <rect width="120" height="90" fill="#e8e8e8" rx="4" />
+            <rect x="15" y="15" width="35" height="28" fill="#c4c4c4" rx="2" />
+            <rect x="15" y="50" width="45" height="25" fill="#c4c4c4" rx="2" />
+            <rect x="70" y="15" width="35" height="28" fill="#c4c4c4" rx="2" />
+          </svg>
+        </div>
+        <div class="course-details">
+          <div class="course-info">
+            <h4 class="course-title">{{ course.title }}</h4>
+            <div class="course-status">
+              <span class="status-badge draft">DRAFT</span>
+              <span class="status-text">Public</span>
+            </div>
+          </div>
+          <div class="course-progress">
+            <div class="progress-info">
+              <span class="progress-label">Finish your course</span>
+              <a href="#" class="edit-link" (click)="editCourse(course.id); $event.preventDefault()">
+                Edit / manage course
+              </a>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="65"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredCourses.length === 0">
+        <p>No courses found matching your search.</p>
+      </div>
+    </div>
+    
+    <!-- Resources Section -->
+    <div class="resources-section">
+      <p class="resources-text">
+        Based on your experience, we think these resources will be helpful.
+      </p>
+    
+      <!-- Main Resource Card -->
+      <div class=" main-resource-card">
+        <div class="resource-illustration ">
+          <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+            <rect x="40" y="40" width="120" height="80" fill="#e0d4f7" rx="8" />
+            <rect x="50" y="50" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <rect x="85" y="50" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <rect x="120" y="50" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <rect x="50" y="75" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <rect x="85" y="75" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <rect x="120" y="75" width="30" height="20" fill="#8b5cf6" rx="2" />
+            <circle cx="165" cy="130" r="25" fill="#f97316" />
+            <ellipse cx="165" cy="165" rx="20" ry="8" fill="#7c3aed" />
+            <line x1="145" y1="110" x2="135" y2="95" stroke="#1c1d1f" stroke-width="2" />
+            <line x1="185" y1="110" x2="195" y2="95" stroke="#1c1d1f" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="resource-content ">
+          <h3 class="resource-title">Create an Engaging Course</h3>
+          <p class="resource-description">
+            Whether you've been teaching for years or are teaching for the first time, you can
+            make an engaging course. We've compiled resources and best practices to help you
+            get to the next level, no matter where you're starting.
+          </p>
+          <a href="#" class="resource-link">Get Started</a>
+        </div>
+      </div>
+    
+      <!-- Secondary Resource Cards -->
+      <div class="secondary-resources">
+        <div class="resource-card">
+          <div class="card-illustration">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <rect x="20" y="40" width="60" height="50" fill="#fef3c7" rx="4" />
+              <circle cx="100" cy="70" r="15" fill="#8b5cf6" />
+              <rect x="95" y="80" width="10" height="30" fill="#7c3aed" />
+              <rect x="85" y="105" width="30" height="5" fill="#7c3aed" />
+              <circle cx="40" cy="120" r="20" fill="#f97316" />
+              <ellipse cx="40" cy="145" rx="15" ry="5" fill="#7c3aed" />
+              <rect x="30" y="50" width="40" height="5" fill="#fbbf24" rx="2" />
+              <rect x="30" y="60" width="30" height="5" fill="#fbbf24" rx="2" />
+              <polygon points="50,70 55,75 50,80" fill="#8b5cf6" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Get Started with Video</h4>
+            <p class="card-description">
+              Quality video lectures can set your course apart. Use our resources to learn the basics.
+            </p>
+            <a href="#" class="resource-link">Get Started</a>
+          </div>
+        </div>
+    
+        <div class="resource-card">
+          <div class="card-illustration">
+            <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+              <circle cx="65" cy="40" r="8" fill="#60a5fa" />
+              <circle cx="85" cy="35" r="6" fill="#34d399" />
+              <circle cx="75" cy="50" r="7" fill="#a78bfa" />
+              <rect x="55" y="90" width="30" height="40" fill="#fef3c7" rx="4" />
+              <circle cx="100" cy="100" r="25" fill="#f97316" />
+              <ellipse cx="100" cy="135" rx="20" ry="8" fill="#7c3aed" />
+              <rect x="60" y="100" width="20" height="3" fill="#fbbf24" rx="1" />
+              <rect x="60" y="107" width="15" height="3" fill="#fbbf24" rx="1" />
+              <rect x="60" y="114" width="18" height="3" fill="#fbbf24" rx="1" />
+            </svg>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Build Your Audience</h4>
+            <p class="card-description">
+              Set your course up for success by building your audience.
+            </p>
+            <a href="#" class="resource-link">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="challenge-section">
+      <div class="challenge-illustration">
+        <svg width="220" height="200" viewBox="0 0 220 200" fill="none">
+          <rect x="40" y="140" width="60" height="10" fill="#7c3aed" rx="2" />
+          <polygon points="50,150 60,140 70,150" fill="#8b5cf6" />
+          <rect x="100" y="60" width="80" height="70" fill="#e0d4f7" rx="4" />
+          <rect x="110" y="70" width="20" height="15" fill="#f97316" rx="2" />
+          <rect x="135" y="70" width="20" height="15" fill="#fbbf24" rx="2" />
+          <rect x="160" y="70" width="10" height="50" fill="#10b981" rx="2" />
+          <circle cx="145" cy="105" r="3" fill="#1c1d1f" />
+          <circle cx="155" cy="105" r="3" fill="#1c1d1f" />
+          <path d="M 140 115 Q 150 120 160 115" stroke="#1c1d1f" stroke-width="2" fill="none" />
+          <ellipse cx="150" cy="165" rx="40" ry="12" fill="#5cb85c" />
+          <circle cx="165" cy="135" r="30" fill="#f97316" />
+          <line x1="145" y1="115" x2="135" y2="100" stroke="#1c1d1f" stroke-width="2" />
+          <line x1="155" y1="115" x2="165" y2="100" stroke="#1c1d1f" stroke-width="2" />
+        </svg>
+      </div>
+      <div class="challenge-content">
+        <h3 class="challenge-title">Join the New Instructor Challenge!</h3>
+        <p class="challenge-description">
+          Get exclusive tips and resources designed to help you launch your first course faster!
+          Eligible instructors who publish their first course on time will receive a special bonus
+          to celebrate. Start today!
+        </p>
+        <a href="#" class="resource-link">Get Started</a>
+      </div>
+    </div>
+    
+    <!-- Popular Resources Section -->
+    <div class="popular-resources">
+      <h3 class="popular-title">Have questions? Here are our most popular instructor resources.</h3>
+    
+      <div class="resources-grid">
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <rect x="10" y="15" width="30" height="25" fill="#e0d4f7" rx="3" />
+              <circle cx="48" cy="28" r="8" fill="#8b5cf6" />
+              <path d="M 43 28 L 48 32 L 53 23" stroke="#fff" stroke-width="2" fill="none" />
+              <rect x="15" y="20" width="8" height="6" fill="#5624d0" rx="1" />
+              <rect x="26" y="20" width="8" height="6" fill="#5624d0" rx="1" />
+            </svg>
+          </div>
+          <h4 class="resource-item-title">
+            <a href="#" class="resource-item-link">Test Video</a>
+          </h4>
+          <p class="resource-item-desc">Send us a sample video and get expert feedback.</p>
+        </div>
+    
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <ellipse cx="30" cy="45" rx="15" ry="5" fill="#e0d4f7" />
+              <circle cx="30" cy="28" r="12" fill="#8b5cf6" />
+              <circle cx="25" cy="26" r="2" fill="#fff" />
+              <circle cx="35" cy="26" r="2" fill="#fff" />
+              <path d="M 24 32 Q 30 36 36 32" stroke="#fff" stroke-width="2" fill="none" />
+              <path d="M 20 20 Q 18 15 22 12" stroke="#1c1d1f" stroke-width="2" fill="none" />
+              <path d="M 40 20 Q 42 15 38 12" stroke="#1c1d1f" stroke-width="2" fill="none" />
+            </svg>
+          </div>
+          <h4 class="resource-item-title">
+            <a href="#" class="resource-item-link">Instructor Community</a>
+          </h4>
+          <p class="resource-item-desc">Connect with experienced instructors. Ask questions, browse discussions, and more.
+          </p>
+        </div>
+    
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <circle cx="20" cy="25" r="8" fill="#8b5cf6" />
+              <circle cx="18" cy="23" r="2" fill="#fff" />
+              <circle cx="22" cy="23" r="2" fill="#fff" />
+              <path d="M 17 28 Q 20 30 23 28" stroke="#fff" stroke-width="1.5" fill="none" />
+              <rect x="32" y="15" width="20" height="25" fill="#e0d4f7" rx="2" />
+              <rect x="36" y="20" width="12" height="3" fill="#5624d0" rx="1" />
+              <rect x="36" y="26" width="12" height="3" fill="#5624d0" rx="1" />
+              <rect x="36" y="32" width="8" height="3" fill="#5624d0" rx="1" />
+            </svg>
+          </div>
+          <h4 class="resource-item-title">
+            <a href="#" class="resource-item-link">Teaching Center</a>
+          </h4>
+          <p class="resource-item-desc">Learn about best practices for teaching on Udemy.</p>
+        </div>
+    
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <circle cx="30" cy="30" r="18" fill="#e0d4f7" />
+              <circle cx="30" cy="30" r="12" fill="#8b5cf6" />
+              <path d="M 30 18 L 30 30 L 38 30" stroke="#fff" stroke-width="2" fill="none" />
+              <circle cx="45" cy="20" r="6" fill="#5624d0" />
+              <path d="M 42 20 L 44 22 L 48 18" stroke="#fff" stroke-width="1.5" fill="none" />
+            </svg>
+          </div>
+          <h4 class="resource-item-title">
+            <a href="#" class="resource-item-link">Marketplace Insights</a>
+          </h4>
+          <p class="resource-item-desc">Validate your course topic by exploring our marketplace supply and demand.</p>
+        </div>
+    
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <circle cx="35" cy="25" r="12" fill="#8b5cf6" />
+              <path d="M 30 20 Q 32 18 35 20" stroke="#fff" stroke-width="2" fill="none" />
+              <circle cx="32" cy="24" r="2" fill="#fff" />
+              <circle cx="38" cy="24" r="2" fill="#fff" />
+              <path d="M 31 28 Q 35 31 39 28" stroke="#fff" stroke-width="2" fill="none" />
+              <rect x="18" y="38" width="8" height="12" fill="#e0d4f7" rx="2" />
+              <circle cx="22" cy="43" r="2" fill="#5624d0" />
+            </svg>
+          </div>
+          <h4 class="resource-item-title">
+            <a href="#" class="resource-item-link">Help and Support</a>
+          </h4>
+          <p class="resource-item-desc">Browse our Help Center or contact our support team.</p>
+        </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredCourses.length === 0">
+        <p>No courses found matching your search.</p>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="bundles-content" *ngIf="activeTab === 'bundles'">
+      <div class="bundle-preview">
+        <div class="bundle-card">
+          <h3 class="bundle-card-title">Bundle title</h3>
+    
+          <div class="bundle-items">
+            <div class="bundle-item">
+              <div class="bundle-thumbnail">
+                <svg width="130" height="100" viewBox="0 0 130 100" fill="none">
+                  <rect width="130" height="100" fill="#e8e5f0" rx="4" />
+                  <circle cx="65" cy="50" r="20" fill="#c4b5d8" />
+                  <polygon points="60,45 60,55 70,50" fill="#a39ab8" />
+                </svg>
+                <button class="bundle-add-btn">+</button>
+              </div>
+              <div class="bundle-item-info">
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line medium"></div>
+                <div class="skeleton-line short"></div>
+              </div>
+            </div>
+    
+            <div class="bundle-item">
+              <div class="bundle-thumbnail">
+                <svg width="130" height="100" viewBox="0 0 130 100" fill="none">
+                  <rect width="130" height="100" fill="#e8e5f0" rx="4" />
+                  <circle cx="65" cy="50" r="20" fill="#c4b5d8" />
+                  <polygon points="60,45 60,55 70,50" fill="#a39ab8" />
+                </svg>
+              </div>
+              <div class="bundle-item-info">
+                <div class="skeleton-line long"></div>
+                <div class="skeleton-line medium"></div>
+                <div class="skeleton-line short"></div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="bundle-footer">
+            <div class="bundle-total">
+              <span class="total-label">Total:</span>
+              <div class="skeleton-line price"></div>
+            </div>
+            <button class="btn btn-secondary bundle-cart-btn">Add all to cart</button>
+          </div>
+        </div>
+      </div>
+    
+      <div class="bundle-create-section">
+        <h3 class="bundle-create-title">Create your first course bundle</h3>
+        <p class="bundle-create-description">
+          Curate and combine your courses to increase the visibility of your courses.
+        </p>
+        <button class="btn btn-primary bundle-create-btn">
+          <span class="btn-icon">+</span>
+          Create course bundle
+        </button>
+      </div>
+    </div>
+    </div>

@@ -4,13 +4,16 @@
   background: linear-gradient(180deg, #0f1117, #151826);
   color: #fff;
   transition: width 0.6s ease;
-  overflow: hidden;
   position: sticky;
   top: 0;
 }
+/* .sidebar .nav .label {
+ display:none;
+} */
 
 .sidebar:hover {
-  width: 340px;
+  width: 300px;
+
 }
 
 /* Logo */
