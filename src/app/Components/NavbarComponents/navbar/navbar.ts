@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../../Services/category-service';
 import { Category } from '../../../Models/category';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { SubCategory } from '../../../Models/sub-category';
 import { Topic } from '../../../Models/topic';
 import { ExploreMenu } from '../explore-menu/explore-menu';
@@ -19,7 +19,7 @@ import { UserMenu } from '../user-menu/user-menu';
 })
 export class Navbar implements OnInit{
  isLoggdIn$;
- constructor(private auth:AuthService) {
+ constructor(private auth:AuthService,private router: Router) {
   this.isLoggdIn$=auth.isLoggedIn$
  }
   ngOnInit(): void {
@@ -28,6 +28,13 @@ export class Navbar implements OnInit{
       this.auth.firstName.next(this.auth.getUserClaims()?.name.split(' ')[0])
     }
 
+  }
+  goToCart() {
+    if (this.auth.getToken()) {
+      this.router.navigate(['/Cart']);
+    } else {
+      this.router.navigate(['/Login']);
+    }
   }
 
 
