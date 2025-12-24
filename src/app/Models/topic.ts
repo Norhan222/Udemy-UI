@@ -3,5 +3,12 @@ export interface Topic {
     name:            string,
     description:     string ,
     subCategoryId:   number,
-    subCategoryName: string
+    subCategoryName: string,
+    categoryName: string,
+    
 }
+
+
+
+
+     
