@@ -1,0 +1,22 @@
+<header class="stepper-header">
+  <div class="header-container">
+    <div class="header-left">
+      <!-- Udemy Logo -->
+      <svg class="logo" viewBox="0 0 91 34" fill="none">
+        <path d="M14.05 8.112L7.024 4.056 7.024 14.168 14.05 10.112C14.578 9.854 14.578 9.11 14.05 8.112Z"
+          fill="#A435F0" />
+        <path d="M0 4.056L7.024 0V10.112L0 14.168V4.056Z" fill="#A435F0" />
+        <text x="25" y="24" class="logo-text" fill="#1c1d1f">udemy</text>
+      </svg>
+      <span class="step-indicator">
+        Step {{ currentStep }} of {{ totalSteps }}
+      </span>
+    </div>
+    <button class="exit-btn" (click)="onExit()">
+      Exit
+    </button>
+  </div>
+</header>
+<div class="progress-container">
+  <div class="progress-bar" [style.width.%]="progressPercentage"></div>
+</div>

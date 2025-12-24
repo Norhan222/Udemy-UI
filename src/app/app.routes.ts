@@ -1,3 +1,5 @@
+import { Overview } from './Components/Dashboard/Performance/overview/overview';
+import { PerformanceLayout } from './Components/Dashboard/Performance/performance-layout/performance-layout';
 import { InstructorCourses } from './Components/Dashboard/instructor-courses/instructor-courses';
 import { AppLayout } from './app-layout/app-layout';
 import { App } from './app';
@@ -31,7 +33,7 @@ export const routes: Routes = [
     {path:'Register', component:Register,title:'Register'},
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     {path:'Cart', component: CartComponent, title: 'Cart'},
-    {path:'**', component:Notfound,title:'Not Found Page'},
+    // {path:'**', component:Notfound,title:'Not Found Page'},
     ]
   },
    {
@@ -43,12 +45,26 @@ export const routes: Routes = [
       { path: 'courses',loadComponent: () =>
           import('./Components/Dashboard/instructor-courses/instructor-courses')
             .then(m => m.InstructorCourses) },
-      // {
-      //   path: 'dashboard',
-      //   loadComponent: () =>
-      //     import('./instructor/pages/dashboard/dashboard.component')
-      //       .then(m => m.DashboardComponent)
-      // },
+      {
+        path: 'performance',
+        loadComponent: () =>
+          import('./Components/Dashboard/Performance/performance-layout/performance-layout')
+            .then(m => m.PerformanceLayout),
+        children: [
+          {
+            path: 'overview',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/overview/overview')
+                .then(m => m.Overview)
+          },
+          // {
+          //   path: 'students',
+          //   loadComponent: () =>
+          //     import('./Components/Dashboard/Performance/students/students.component')
+          //       .then(m => m.StudentsComponent)
+          // }
+        ]
+      },
       // {
       //   path: 'courses',
       //   loadComponent: () =>
@@ -57,4 +73,10 @@ export const routes: Routes = [
       // }
     ]
   },
+  {path:'course-creation',
+    loadComponent:() =>
+     import('./Components/Dashboard/CourseCreation/course-creation-stepper/course-creation-stepper')
+      .then(m => m.CourseCreationStepper)
+  
+  }
 ];

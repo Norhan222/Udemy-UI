@@ -1,144 +1,261 @@
+/* Reset */
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #1c1d1f;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #3e4143;
+}
 
-        .footer {
-            background: #2d2f31;
-            color: #fff;
-            padding: 40px 24px 24px;
-        }
+.container {
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
 
-        .footer-content {
-            max-width: 1340px;
-            margin: 0 auto;
-        }
+/* Top Banner Section */
+.top-banner {
+    background-color: #3e4143;
+    padding: 24px 0;
+    color: #fff;
+}
 
-        .footer-columns {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-bottom: 40px;
-        }
+.banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .footer-column h3 {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #fff;
-        }
+.banner-text h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
 
-        .footer-column ul {
-            list-style: none;
-        }
+.banner-text p {
+    font-size: 14px;
+    color: #d1d7dc;
+}
 
-        .footer-column ul li {
-            margin-bottom: 8px;
-        }
+.banner-btn {
+    padding: 12px 24px;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
 
-        .footer-column ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
+.banner-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
 
-        .footer-column ul li a:hover {
-            color: #c0c4fc;
-        }
+/* Business Banner */
+.business-banner {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 24px;
-            border-top: 1px solid #3e4143;
-        }
+.business-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.business-content p {
+    font-size: 14px;
+    color: #1c1d1f;
+}
 
-        .udemy-logo {
-            width: 91px;
-            height: 34px;
-        }
+.business-content strong {
+    font-weight: 700;
+}
 
-        .udemy-logo svg {
-            fill: #fff;
-        }
+.company-logos {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
 
-        .copyright {
-            color: #fff;
-            font-size: 12px;
-        }
+.company-logos img {
+    height: 30px;
+    opacity: 0.8;
+    filter: grayscale(100%);
+}
 
-        .footer-actions {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
+/* Main Footer */
+.main-footer {
+    background-color: #2d2f31;
+    color: #fff;
+    padding: 40px 0 24px;
+}
 
-        .cookie-settings {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-        }
+.footer-top {
+    margin-bottom: 32px;
+}
 
-        .cookie-settings:hover {
-            color: #c0c4fc;
-        }
+.footer-top h2 {
+    font-size: 19px;
+    font-weight: 700;
+}
 
-        .language-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border: 1px solid #3e4143;
-            border-radius: 4px;
-            background: transparent;
-        }
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-        .language-selector:hover {
-            background: #3e4143;
-        }
+.footer-column h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+}
 
-        .globe-icon {
-            width: 16px;
-            height: 16px;
-        }
+.footer-column ul {
+    list-style: none;
+}
 
-        @media (max-width: 1024px) {
-            .footer-columns {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+.footer-column ul li {
+    margin-bottom: 8px;
+}
 
-        @media (max-width: 768px) {
-            .footer-columns {
-                grid-template-columns: 1fr;
-            }
+.footer-column ul li a {
+    color: #d1d7dc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
 
-            .footer-bottom {
-                flex-direction: column;
-                gap: 16px;
-                align-items: flex-start;
-            }
+.footer-column ul li a:hover {
+    color: #fff;
+}
 
-            .footer-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
+/* Bottom Footer */
+.footer-bottom {
+    margin-bottom: 24px;
+}
+
+.footer-bottom-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+/* Copyright Bar */
+.copyright-bar {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 24px;
+}
+
+.copyright-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-copyright {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.udemy-logo {
+    width: 91px;
+    height: 34px;
+}
+
+.logo-copyright span {
+    font-size: 12px;
+    color: #d1d7dc;
+}
+
+.settings-language {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.language-btn,
+.cookie-btn {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.language-btn:hover,
+.cookie-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.language-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-links,
+    .footer-bottom-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .banner-content,
+    .business-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .company-logos {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-links,
+    .footer-bottom-links {
+        grid-template-columns: 1fr;
+    }
+
+    .copyright-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .logo-copyright {
+        flex-direction: column;
+    }
+
+    .settings-language {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .language-btn,
+    .cookie-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

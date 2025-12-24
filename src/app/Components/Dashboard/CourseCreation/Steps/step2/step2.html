@@ -1,0 +1,19 @@
+<div class="form-container">
+  <h1 class="form-title">
+    How about a working title?
+  </h1>
+  <p class="form-subtitle">
+    It's ok if you can't think of a good title now. You can change it later.
+  </p>
+
+  <div class="form-group">
+    <label class="form-label">
+      Course Title
+    </label>
+    <input type="text" [(ngModel)]="courseTitle" (ngModelChange)="onTitleChange($event)"
+      placeholder="e.g. Learn Photoshop CS6 from Scratch" maxlength="60" class="form-input" />
+    <div class="character-count">
+      {{ courseTitle.length }}/60
+    </div>
+  </div>
+</div>
