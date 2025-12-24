@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../Services/course-service';
 import { CartService } from '../../Services/cart-service';
+import { AuthService } from '../../Services/auth-service';
 
 interface Instructor { id:number; name:string; title:string; image:string; rating:number; students:number; bio:string; }
 interface Curriculum { sectionId:number; sectionTitle:string; lectures:{id:number; title:string; duration:string; isFree:boolean}[] }
@@ -37,19 +38,28 @@ export class CourseDetailsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private zone: NgZone
   ) {}
-
+ private auth = inject(AuthService);
+private router = inject(Router);
   private cartService = inject(CartService);
   cartItems: any[] = []; 
+  cartLoaded = false;
+
   ngOnInit(): void {
  
-    this.cartService.getCart().subscribe({
-      next: (res) => {
-        this.cartItems=res.data.items;
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
+  this.cartService.getCart().subscribe({
+  next: (res: any) => {
+    this.cartItems = res.data.items;
+    this.cartLoaded = true;
+
+    console.log('CART ITEMS:', this.cartItems);
+    this.cdr.detectChanges();
+  },
+  error: () => {
+    this.cartLoaded = true;
+  }
+});
+
+
     // listen to route id changes
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
@@ -148,22 +158,28 @@ export class CourseDetailsComponent implements OnInit {
   openVideoModal(): void { this.showVideoModal = true; }
   closeVideoModal(): void { this.showVideoModal = false; }
  
-  
-  addToCart(id:any): void { 
-    this.cartService.addToCart(id).subscribe({
-      next: (res) => {
-       
-        console.log("addCart",res);
-        console.log(id);
-       
-      },
-      error: (err) => {
-        console.error(err);
-        console.log(id);
-       
-      }
+  addToCart(id: any): void {
+
+  // ❌ لو مش عامل Login
+  if (!this.auth.getToken()) {
+    this.router.navigate(['/Login'], {
+      queryParams: { returnUrl: `/course/${id}` }
     });
+    return;
   }
+
+  // ✅ لو عامل Login
+  this.cartService.addToCart(id).subscribe({
+    next: (res) => {
+      console.log('addCart', res);
+      this.cartAdded = true;
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+
   buyNow(): void {  }
   addToWishlist(): void { this.wishlistAdded = !this.wishlistAdded; }
 
