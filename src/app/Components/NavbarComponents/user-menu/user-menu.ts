@@ -94,7 +94,9 @@ export class UserMenu implements OnInit {
   logout() {
     this.auth.Signout();
   }
-
+navigateToInstructorDashboard(){
+  this.router.navigate(['/dashboard']);
+}
   // يقفل لما أضغط في أي مكان بره
   // @HostListener('document:click', ['$event'])
   // onClickOutside(event: MouseEvent) {
