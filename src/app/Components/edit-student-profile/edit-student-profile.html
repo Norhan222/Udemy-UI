@@ -1,0 +1,100 @@
+<div class="edit-profile-card udemy-style">
+  <h3>Edit profile</h3>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <div class="grid">
+      <!-- Left column (photo + quick links) -->
+      <aside class="left-col">
+        <div class="avatar-preview big">
+          <img *ngIf="imagePreview" [src]="imagePreview" alt="avatar" />
+          <div *ngIf="!imagePreview" class="avatar-fallback big">{{ (profileForm.get('firstName')?.value || '') | slice:0:1}}{{ (profileForm.get('lastName')?.value || '') | slice:0:1}}</div>
+        </div>
+
+        <div class="file-input">
+          <label class="btn">Change photo
+            <input type="file" #fileInput (change)="onFileChange($event, fileInput)" accept="image/*" />
+          </label>
+          <button type="button" class="btn-link" *ngIf="imagePreview" (click)="removeAvatar(fileInput)">Remove photo</button>
+          <p class="muted">JPG, PNG up to 2 MB</p>
+
+          <div class="file-guidance">
+            <small>Guidelines: use a clear headshot (no logos), JPG/PNG, &le; 2MB. Photos may require approval.</small>
+          </div>
+
+          <ul class="error-list" *ngIf="fileErrors.length">
+            <li *ngFor="let err of fileErrors">{{err}}</li>
+          </ul>
+        </div>
+
+        <hr />
+        <div class="links">
+          <a (click)="viewPublicProfile()" class="link">View public profile</a>
+        </div>
+      </aside>
+
+      <!-- Right column: form fields -->
+      <section class="right-col">
+        <div class="form-group">
+          <label>Full name</label>
+          <div class="split">
+            <input type="text" formControlName="firstName" placeholder="First name" />
+            <input type="text" formControlName="lastName" placeholder="Last name" />
+          </div>
+          <div class="error" *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">First name is required (min 2).</div>
+          <div class="error" *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">Last name is required (min 2).</div>
+        </div>
+
+        <div class="form-group">
+          <label>Headline</label>
+          <input type="text" formControlName="headline" placeholder="e.g. Instructor at Something" maxlength="60" />
+          <div class="muted">Add a professional headline like, "Instructor at Udemy"</div>
+        </div>
+
+        <div class="form-group">
+          <label>Biography</label>
+          <textarea formControlName="bio" rows="6" placeholder="Tell learners about your experience and expertise"></textarea>
+          <div class="muted">Links and coupon codes are not permitted in this section.</div>
+          <ul class="error-list" *ngIf="bioErrors.length">
+            <li *ngFor="let err of bioErrors">{{err}}</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label>Website</label>
+          <input type="text" formControlName="website" placeholder="https://your-site.com" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group small">
+            <label>Language</label>
+            <select formControlName="language">
+              <option value="en">English (US)</option>
+              <option value="ar">Arabic</option>
+              <option value="es">Spanish</option>
+            </select>
+          </div>
+
+          <div class="form-group small">
+            <label>Country</label>
+            <select formControlName="country">
+              <option value="">(not set)</option>
+              <option value="US">United States</option>
+              <option value="EG">Egypt</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" type="submit" [disabled]="isLoading || profileForm.invalid">Save</button>
+          <span class="muted" *ngIf="isLoading">Saving…</span>
+        </div>
+
+        <p class="success" *ngIf="successMessage">{{successMessage}}</p>
+        <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+        <p class="error" *ngIf="errorMessage && errorMessage.toLowerCase().includes('path1')">If your image was rejected, try a smaller JPG/PNG or contact support if the problem persists.</p>
+      </section>
+    </div>
+
+  </form>
+</div>

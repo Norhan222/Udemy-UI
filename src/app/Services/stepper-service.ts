@@ -63,7 +63,7 @@ export class StepperService {
 
   isStepValid(step: number): boolean {
     const data = this.getFormData();
-    
+
     switch (step) {
       case 1:
         return data.courseType !== '';
@@ -72,7 +72,7 @@ export class StepperService {
       case 3:
         return data.category !== '';
       case 4:
-        return data.description.trim().length >= 200;
+        return data.description.trim() !== '';           //length >200
       default:
         return false;
     }

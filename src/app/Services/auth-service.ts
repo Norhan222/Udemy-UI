@@ -16,8 +16,19 @@ export class AuthService {
   baseUrl:string=environment.apiUrl
   private  isLoggedInSubject=new BehaviorSubject<boolean>(false)
   isLoggedIn$=this.isLoggedInSubject.asObservable();
+
+    // shared first name observable
     firstName=new BehaviorSubject<string>('')
     firstName$=this.firstName.asObservable();
+
+    // shared profile image observable so components can react to changes (e.g., after upload)
+    profileImage=new BehaviorSubject<string | null>(null)
+    profileImage$=this.profileImage.asObservable();
+
+    // helper to update profile image (adds to central place if we later want to transform url)
+    setProfileImage(url: string | null){
+      this.profileImage.next(url ?? null);
+    }
   private userPayload:any;
 private jwtHelper = new JwtHelperService();
   constructor(private http: HttpClient) {
@@ -86,6 +97,30 @@ private jwtHelper = new JwtHelperService();
     email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
     role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
   };
+}
+
+// Student profile endpoints (GET/PUT)
+getStudentProfile(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/student/profile`);
+}
+
+updateStudentProfile(formData: FormData): Observable<any> {
+  // Sending FormData for multipart (profile image upload + fields)
+  return this.http.put<any>(`${this.baseUrl}/student/profile`, formData);
+}
+
+// Change password endpoint (optional)
+changeStudentPassword(data: any): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/student/profile/change-password`, data);
+}
+
+// Instructor profile endpoints (mirror student endpoints if backend exposes them)
+getInstructorProfile(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
+}
+
+updateInstructorProfile(formData: FormData): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/instructor/profile`, formData);
 }
 
 }

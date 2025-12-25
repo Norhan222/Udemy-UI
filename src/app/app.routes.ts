@@ -32,6 +32,10 @@ export const routes: Routes = [
     {path:'Home', component:Home,title:'Home'},
     {path:'Login', component:Login,title:'Login'},
     {path:'Register', component:Register,title:'Register'},
+    // Profile edit (student)
+    { path: 'Profile/Edit', loadComponent: () => import('./Components/edit-student-profile/edit-student-profile').then(m => m.EditStudentProfile), title: 'Edit Profile' },
+    // Instructor profile edit
+    { path: 'Instructor/Profile/Edit', loadComponent: () => import('./Components/edit-instructor-profile/edit-instructor-profile').then(m => m.EditInstructorProfile), title: 'Edit Instructor Profile' },
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     {path:'Cart', component: CartComponent, title: 'Cart'},
     {path:'my-learning', component: MyLearning, title: 'My Learning'},
@@ -80,6 +84,10 @@ export const routes: Routes = [
     loadComponent:() =>
      import('./Components/Dashboard/CourseCreation/course-creation-stepper/course-creation-stepper')
       .then(m => m.CourseCreationStepper)
-  
-  }
+
+  },
+   {path:'complete-creation-course',
+     loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
+     .then(m => m.CompleteCreationCourse)
+    }
 ];

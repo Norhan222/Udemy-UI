@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { StepperService } from '../../../../../Services/stepper-service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-step4',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './step4.html',
   styleUrl: './step4.css',
 })
