@@ -3,8 +3,9 @@
 <!-- <p-carousel [value]="topics" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions"> -->
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product #item style="">
-        <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <ng-template let-product #item>
+        <!-- appCourseShowDialog [dialog]="productsDialog" [hoverData]="product" -->
+        <div class="card"  [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; border:none">
           <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
           <div class="card-body">
             <h6 style="font-weight:bold;">{{product.title}}</h6>
@@ -20,6 +21,45 @@
             <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 5px;"><i class="bi bi-patch-check"></i> Premium</button>
           </div>
         </div>
+        <!-- <app-card-dialog #productsDialog ></app-card-dialog> -->
+         <!-- <p-overlay #op>
+  <ng-template let-data="product">
+    <h3>{{ data.name }}</h3>
+    <p>Price: {{ data.price }}$</p>
+    <p>ID: {{ data.id }}</p>
+  </ng-template>
+</p-overlay> -->
   </ng-template>
 </p-carousel>
+</section>
+ 
+
+<section style="margin: 10px 0 50px 0;">
+  <h2 style="font-weight: bold; margin: 20px 0 20px 0;"> Our top pick for you</h2>
+  <div class="card mb-3" style="max-width: 540px;" style="padding:30px">
+     <div class="row g-0">
+       <div class="col-md-4" style="border:1px solid black">
+         <img [src]="topPickCourse.thumbnailUrl" class="" height="100%" width="100%" alt="...">
+       </div>
+       <div class="col-md-4">
+            <div class="card-body">
+                <h3 class="card-title">{{topPickCourse.title}}</h3>
+                <p class="card-text">{{topPickCourse.description}}</p>
+                <span>By {{topPickCourse.instructorName}}</span>
+                <p>Updated {{topPickCourse.lastUpdatedDate}}</p>
+                <div style="display: flex;">
+                     <span>4.7</span>
+                     <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
+                         <p-rating [(ngModel)]="value" [disabled]="true" />
+                     </div>
+                     <span>(2,039)</span>
+                    <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 5px; margin-left:15px"><i class="bi bi-patch-check"></i> Premium</button>
+         
+                </div>
+                <h4 style="margin-top:70px">E&pound;{{topPickCourse.price}}</h4>
+          
+             </div>
+        </div>
+      </div>
+  </div>
 </section>

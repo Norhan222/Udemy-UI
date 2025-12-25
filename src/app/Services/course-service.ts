@@ -19,6 +19,17 @@ export class CourseService {
   getCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
+  
+  getRecommendedCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Recommended?take=10`);
+  }
+
+
+  getPopularCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Popular/1?take=10`);
+  }
+
+
 
   getCourseById(id: number, forceRefresh = false): Observable<ICourse> {
     if (!forceRefresh && this.courseCache.has(id)) {

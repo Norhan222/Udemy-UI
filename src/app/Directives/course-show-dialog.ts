@@ -1,33 +1,55 @@
-import { Directive } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[appCourseShowDialog]',
+  standalone: true
 })
-export class CourseShowDialog {// implements OnInit, OnChanges {
+export class CourseShowDialog {
+  @Input() dialog!: { visible: boolean; data: any };
+  @Input() hoverData!: any; // Object اللي هنبعته
 
-  //  @Input() color: string = 'red';
-  //  @Input() course!: ICourse;
-  // constructor(public elm:ElementRef) {
+  private timeoutId: any;
 
-  //   this.elm.nativeElement.style.borderRadius="10px";
-  //  }
-  // ngOnInit(): void {
-  //   console.log('ngOnInit');
-  // }
+  @HostListener('mouseenter')
+  onEnter() {
+    clearTimeout(this.timeoutId);
+    this.dialog.data = this.hoverData;
+    this.dialog.visible = true;
+  }
 
-  //  ngOnChanges(): void {
-  //      //1
-  //      console.log('ngOnChanges');
-
-  //      this.elm.nativeElement.style.color= `${this.color}`;
-  //    }
-
-  //  @HostListener('mouseover') mouseOver(){
-  //   this.elm.nativeElement.style.boxShadow = "5px 5px 5px 5px blue";
-  //  }
-
-  //  @HostListener('mouseout') mouseOut(){
-  //   this.elm.nativeElement.style.boxShadow = "0px 0px 0px 0px blue";
-  //  }
+  @HostListener('mouseleave')
+  onLeave() {
+    this.timeoutId = setTimeout(() => {
+      this.dialog.visible = false;
+    }, 200);
+  }
 
 }
+
+/*
+import { Directive, HostListener, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appHoverPrimeDialog]',
+  standalone: true
+})
+export class HoverPrimeDialogDirective {
+
+  @Input() dialog!: { visible: boolean };
+
+  @HostListener('mouseenter')
+  open() {
+    if (this.dialog) {
+      this.dialog.visible = true;
+    }
+  }
+
+  @HostListener('mouseleave')
+  close() {
+    if (this.dialog) {
+      this.dialog.visible = false;
+    }
+  }
+}
+
+*/ 
