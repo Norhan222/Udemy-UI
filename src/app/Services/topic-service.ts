@@ -11,7 +11,11 @@ export class TopicService {
   baseUrl = environment.apiUrl;
   constructor(private http:HttpClient) {}
   getTopics():Observable<Topic[]> {
-      return this.http.get<Topic[]>(`${this.baseUrl}/Topic?page=1&pageSize=10`);
+      return this.http.get<Topic[]>(`${this.baseUrl}/Topic/GetAll`);
     }
-  
+
+  getRecommended():Observable<Topic[]> {
+      return this.http.get<Topic[]>(`${this.baseUrl}/Topic/recommended`);
+    }
+
 }

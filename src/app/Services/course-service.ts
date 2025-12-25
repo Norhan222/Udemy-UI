@@ -20,6 +20,17 @@ export class CourseService {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
 
+  getRecommendedCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Recommended?take=10`);
+  }
+
+
+  getPopularCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Popular/1?take=10`);
+  }
+
+
+
   getCourseById(id: number, forceRefresh = false): Observable<ICourse> {
     if (!forceRefresh && this.courseCache.has(id)) {
       // ✅ emit inside Angular zone naturally
@@ -43,5 +54,8 @@ export class CourseService {
     } else {
       this.courseCache.clear();
     }
+  }
+  createCourse(course: FormData): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/Course/CreateCourse`, course);
   }
 }

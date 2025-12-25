@@ -30,8 +30,8 @@ export class MostPopular implements OnInit, OnDestroy {
 
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getCourses().subscribe((data)=>{
-              this.courses = data;
+        this.dataResponse = this.courseService.getPopularCourses().subscribe((data:any)=>{
+              this.courses = data.data;
               this.cdn.detectChanges();
            })
         
