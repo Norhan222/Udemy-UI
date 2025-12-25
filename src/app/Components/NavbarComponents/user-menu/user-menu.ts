@@ -21,6 +21,8 @@ export class UserMenu implements OnInit {
      this.user.firstName=this.userInfo.name.split(' ')[0]
      this.user.lastName=this.userInfo.name.split(' ')[1]
      this.user.email=this.userInfo.email
+     this.user.role=this.userInfo.role
+     console.log(this.user.role);
   }
   ngOnInit(): void {
 

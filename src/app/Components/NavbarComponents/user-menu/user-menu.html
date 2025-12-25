@@ -28,7 +28,9 @@
     <a>My learning</a>
     <a>My cart</a>
     <a>Wishlist</a>
+    @if(user.role==='Instructor'){
     <a (click)="navigateToInstructorDashboard()">Instructor dashboard</a>
+    }
 
     <hr />
 

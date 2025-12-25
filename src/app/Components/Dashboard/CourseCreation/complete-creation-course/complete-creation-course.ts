@@ -162,6 +162,9 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
     this.course.level=this.level
     this.course.category=this.category
     this.course.subcategory=this.subcategory
+    this.course.Thumbnail=this.courseImage!
+    this.course.PreviewVideo=this.promoVideo!
+
    this.course.price=this.priceTier==='Free'?0:parseFloat( this.priceTier.replace('$',''))
 
 
