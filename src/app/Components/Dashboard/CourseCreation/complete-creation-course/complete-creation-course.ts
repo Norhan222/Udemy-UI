@@ -53,7 +53,8 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   showSectionModal = false;
   showLectureModal = false;
   showVideoUploadModal = false;
-    showSuccessModal = false;
+  showSuccessModal = false;
+  isSubmitting = false;
   selectedLecture: any = null;
   newSectionTitle = '';
   newSectionObjective = '';
@@ -208,7 +209,13 @@ this.courseService.createCourse(formData).subscribe({
   }
 });
 
+    this.isSubmitting = true;
 
+ setTimeout(() => {
+      this.isSubmitting = false;
+      this.showSuccessModal = true;
+      console.log('Course submitted for review successfully!');
+    }, 2000);
 
    console.log('Submitting course for review...', this.course);
   }
