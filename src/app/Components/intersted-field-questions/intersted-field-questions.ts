@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RadioButton } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-intersted-field-questions',
-  imports: [FormsModule, RadioButton],
+  imports: [CommonModule, FormsModule, RadioButton],
   templateUrl: './intersted-field-questions.html',
   styleUrl: './intersted-field-questions.css',
 })
