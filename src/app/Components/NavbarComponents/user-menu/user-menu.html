@@ -31,14 +31,10 @@
     <a>My learning</a>
     <a>My cart</a>
     <a>Wishlist</a>
-<<<<<<< HEAD
     <a *ngIf="isInstructor" routerLink="/dashboard/courses" routerLinkActive="active">Instructor dashboard</a>
-=======
     @if(user.role==='Instructor'){
     <a (click)="navigateToInstructorDashboard()">Instructor dashboard</a>
     }
->>>>>>> 01b345b2e7cb848e883fc7a407c1ec6268a34017
-
     <hr />
 
     <a>Notifications</a>
@@ -58,5 +54,5 @@
 
     <a class="logout" (click)="logout()">Log out</a>
   </div>
-   
+
 </div>
