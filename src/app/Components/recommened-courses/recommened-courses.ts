@@ -9,10 +9,14 @@ import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
 import { RouterLink } from '@angular/router';
+import { CardDialog } from '../card-dialog/card-dialog';
+import { CourseShowDialog } from '../../Directives/course-show-dialog';
+import { CommonModule } from '@angular/common';
+import { OverlayModule } from 'primeng/overlay';
 
 @Component({
   selector: 'app-recommened-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
+  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,CardDialog ,CourseShowDialog ],
   templateUrl: './recommened-courses.html',
   styleUrl: './recommened-courses.css',
 })
@@ -20,6 +24,7 @@ export class RecommenedCourses implements OnInit, OnDestroy {
   responsiveOptions: any[] | undefined;
 
     courses!:ICourse [] ;
+    topPickCourse!: ICourse;
     dataResponse!: Subscription;
 
       value: number = 3;
@@ -30,8 +35,9 @@ export class RecommenedCourses implements OnInit, OnDestroy {
 
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getCourses().subscribe((data)=>{
-              this.courses = data;
+        this.dataResponse = this.courseService.getRecommendedCourses().subscribe((data:any)=>{
+              this.courses = data.data;
+              this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();
            })
         

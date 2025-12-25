@@ -3,7 +3,7 @@
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product #item style="">
-        <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+        <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; border:none;">
           <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
           <div class="card-body">
             <h6 style="font-weight:bold;">{{product.title}}</h6>

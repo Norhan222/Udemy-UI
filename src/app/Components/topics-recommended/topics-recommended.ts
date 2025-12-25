@@ -12,35 +12,36 @@ import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-topics-recommended',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,CommonModule],
+  imports: [Carousel, ButtonModule,CommonModule],
   templateUrl: './topics-recommended.html',
   styleUrl: './topics-recommended.css',
 })
 export class TopicsRecommended implements OnInit, OnDestroy {
-    responsiveOptions: any[] | undefined;
+    
     topics!:Topic [] ;
     dataResponse!: Subscription;
     topicGroups: string[][] = [];
   
       constructor(private topicService: TopicService, public cdn:ChangeDetectorRef) {}
-  
       ngOnInit() {
 
-          this.dataResponse = this.topicService.getTopics().subscribe((data)=>{
-                        this.topics = data;
-                        for (let i = 0; i < this.topics.length; i += 2) {
-          this.topicGroups.push([
+          this.dataResponse = this.topicService.getRecommended().subscribe((data: any)=>{
+          this.topics = data.data;
+          this.topicGroups = [];
+         for (let i = 0; i < this.topics.length; i += 2) {
+             this.topicGroups.push([
                 this.topics[i].name,
                 this.topics[i + 1]?.name
                 
-          ]);
-      }
-                     })
+             ]);
+         }
+         console.log('kkk',this.topicGroups);
+         console.log('kkk',this.topics);
+        this.cdn.detectChanges();
+       })
          
           
       }
-
-      
       ngOnDestroy(): void {
           this.dataResponse.unsubscribe(); //end request
         }
