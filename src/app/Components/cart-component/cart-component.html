@@ -30,13 +30,16 @@
                         (click)="removeItem(item.courseId)">
                         Remove
                     </button>
-                    <!-- <a href="#">Save for Later</a> -->
                     <button type="button" class="btn btn-link p-0 text-decoration-none"
-                        [disabled]="wishlistMap[item.courseId] || loadingMap[item.courseId]"
                         (click)="addWishlist(item.courseId)">
+                        Move to Wishlist
+                    </button>
+                    <!-- <a href="#">Save for Later</a> -->
+                    <!-- <button type="button" class="btn btn-link p-0 text-decoration-none"
+                        [disabled]="wishlistMap[item.courseId] || loadingMap[item.courseId]"
+                        >
 
                         @if(!wishlistMap[item.courseId]) {
-                        <span>Move to Wishlist</span>
                         } @else {
                         <span class="text-success fw-semibold">
                             ✔ In Wishlist
@@ -46,7 +49,7 @@
                         @if(loadingMap[item.courseId]) {
                         <span class="spinner-border spinner-border-sm ms-1"></span>
                         }
-                    </button>
+                    </button> -->
 
                 </div>
 
