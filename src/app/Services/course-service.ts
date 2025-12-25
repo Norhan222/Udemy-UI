@@ -19,7 +19,7 @@ export class CourseService {
   getCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
-  
+
   getRecommendedCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Recommended?take=10`);
   }
@@ -54,5 +54,8 @@ export class CourseService {
     } else {
       this.courseCache.clear();
     }
+  }
+  createCourse(course: FormData): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/Course/CreateCourse`, course);
   }
 }

@@ -80,6 +80,10 @@ export const routes: Routes = [
     loadComponent:() =>
      import('./Components/Dashboard/CourseCreation/course-creation-stepper/course-creation-stepper')
       .then(m => m.CourseCreationStepper)
-  
-  }
+
+  },
+   {path:'complete-creation-course',
+     loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
+     .then(m => m.CompleteCreationCourse)
+    }
 ];

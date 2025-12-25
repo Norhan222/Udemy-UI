@@ -4,7 +4,7 @@ import { AuthService } from '../../../Services/auth-service';
 import { User } from '../../../Models/user';
 import { IntiialsPipe } from '../../../Pipes/intiials-pipe';
 import { CapitalizePipe } from '../../../Pipes/capitalize-pipe';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-menu',
@@ -15,7 +15,7 @@ import { RouterOutlet } from '@angular/router';
 export class UserMenu implements OnInit {
   user:User;
   userInfo:any;
-  constructor(private auth :AuthService){
+  constructor(private auth :AuthService, private router: Router){
      this.user=new User()
      this.userInfo=this.auth.getUserClaims()
      this.user.firstName=this.userInfo.name.split(' ')[0]
@@ -38,8 +38,12 @@ export class UserMenu implements OnInit {
 
   logout() {
     this.auth.Signout();
+    this.router.navigate(['/home']);
   }
+navigateToInstructorDashboard():void{
 
+ this.router.navigate(['/dashboard']);
+}
   // يقفل لما أضغط في أي مكان بره
   // @HostListener('document:click', ['$event'])
   // onClickOutside(event: MouseEvent) {
