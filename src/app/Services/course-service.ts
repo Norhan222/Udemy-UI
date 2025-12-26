@@ -58,4 +58,7 @@ export class CourseService {
   createCourse(course: FormData): Observable<number> {
     return this.http.post<number>(`${this.baseUrl}/Course/CreateCourse`, course);
   }
+  getInstructorCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/InstructorCourses`);
+  }
 }
