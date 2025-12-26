@@ -2,20 +2,19 @@
   <div ><h1 style="margin: 30px 0 30px 20px;">Let's start learning</h1></div>
   <div style=" text-align: center;align-content: center;"><a href="#" style="color: blue;">learn more</a></div>
 </div>
-<p-carousel [value]="lectures"  [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+<p-carousel [value]="courses"  [numVisible]="4" [numScroll]="2" [responsiveOptions]="responsiveOptions">
     <ng-template let-product #item>
         <div class="card mb-3 mx-2" style="max-width: 540px; ">
             <div class="row g-0">
-                 <div class="col-md-4">
+                 <div class="col-md-4" style="background-image: url('{{product.thumbnailUrl}}'); height: 150px; background-size: cover; background-position: center; position: relative;">
                     <div class="container-fluid"  style="height: 100%;;background-color:black ; opacity:.5 ; text-align: center;align-content: center;">
                       <i class="bi bi-play-circle-fill" style="font-size:50px; color:white"></i>
                     </div>
                  </div>
                 <div class="col-md-8">
                    <div class="card-body">
-                     <p class="card-text">This is a wi This content is a little bit longer fhirit vjgjkigt.....</p>
-                        <p class="card-title" style = "font-weight: bold;">{{product.name}}</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                     <p class="card-text" style="margin-bottom: 10px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{product.description}}</p>
+                        <h5 class="card-title" style = "font-weight:600;">{{product.title}}</h5>
                     </div>
                 </div>
            </div>
