@@ -28,9 +28,9 @@
     <hr />
 
     <!-- Links -->
-    <a>My learning</a>
-    <a>My cart</a>
-    <a>Wishlist</a>
+    <a routerLink="/my-learning" routerLinkActive="active">My learning</a>
+    <a routerLink="/Cart" routerLinkActive="active">My cart</a>
+    <a  >Wishlist</a>
     <a *ngIf="isInstructor" routerLink="/dashboard/courses" routerLinkActive="active">Instructor dashboard</a>
     @if(user.role==='Instructor'){
     <a (click)="navigateToInstructorDashboard()">Instructor dashboard</a>

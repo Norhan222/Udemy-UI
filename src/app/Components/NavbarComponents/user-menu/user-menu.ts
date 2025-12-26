@@ -93,7 +93,9 @@ export class UserMenu implements OnInit {
 
   logout() {
     this.auth.Signout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/Home']);
+
+  
   }
 navigateToInstructorDashboard(){
   this.router.navigate(['/dashboard']);
