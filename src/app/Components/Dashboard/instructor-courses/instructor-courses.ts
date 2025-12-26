@@ -2,12 +2,12 @@ import { CourseService } from './../../../Services/course-service';
 import { CommonModule } from '@angular/common';
 import { Component, model, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ICourse } from '../../../Models/icourse';
 
 @Component({
   selector: 'app-instructor-courses',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './instructor-courses.html',
   styleUrl: './instructor-courses.css',
 })
@@ -19,6 +19,7 @@ export class InstructorCourses implements OnInit {
   activeTab: string = 'courses';
   courses:ICourse[] = [];
   // courses: Course[] = [
+
   //   {
   //     id: 1,
   //     title: 'Web Development Bootcamp',
@@ -50,12 +51,16 @@ export class InstructorCourses implements OnInit {
   // ];
   filteredCourses: ICourse[] = [];
 
-  constructor(private router: Router, private courseService: CourseService) {}
+  constructor(private router: Router, private courseService: CourseService) {
+    //  this.courseService.getInstructorCourses().subscribe(courses => {
+    //   this.courses = courses
+    // this.filteredCourses = [...this.courses];
+    //  });
+  }
   ngOnInit(): void {
     this.courseService.getInstructorCourses().subscribe(courses => {
       console.log('Instructor courses fetched:', courses);
       this.courses = courses
-
     this.filteredCourses = [...this.courses];
   })
 };

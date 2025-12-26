@@ -15,7 +15,7 @@ courseTitle = '';
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.courseTitle = data.courseTitle;
+      this.courseTitle = data.courseTitle??'';
     });
   }
 
