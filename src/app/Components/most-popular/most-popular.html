@@ -1,24 +1,60 @@
 
 <!-- <p-carousel [value]="topics" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions"> -->
 <section style="margin: 10px 0 50px 0;">
-<p-carousel [value]="courses"  [numVisible]="5" [numScroll]="2" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product #item style="">
-        <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer; width: 18rem; margin:5px; height:320px; border:none">
-          <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
+  <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product #item>
+        <!-- appCourseShowDialog [dialog]="productsDialog" [hoverData]="product" -->
+        <div class="card course-card" style="cursor:pointer; width: 18rem; margin:5px; border:none">
+          <div [routerLink]="['/course', product.id]">
+            <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
           <div class="card-body">
             <h6 style="font-weight:bold;">{{product.title}}</h6>
-            <p style ="margin-top:-5px">{{product.instructorName}}</p>
-            <div style="display: flex;">
+            <p style ="margin-top:5px">{{product.instructorName}}</p>
+            <div style="display: flex; margin-top:5px">
               <span>4.7</span>
               <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
                 <p-rating [(ngModel)]="value" [disabled]="true" />
               </div>
-            <span>(222)</span>
+              <span>(222)</span>
             </div>
             <h6 style="font-weight:bold;">E&pound;{{product.price}}</h6>
-            <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 5px;"><i class="bi bi-patch-check"></i> Premium</button>
+            <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 2px; padding:2px"><i class="bi bi-patch-check"></i> Premium</button>
           </div>
-        </div>
+          </div>
+          <div class="hover-info" style="height:1999px">
+           <h4>{{product.title}}</h4>
+           <button type="button" class="" style="background-color:#6d28d2;margin-top:10px ;color:white; border-radius: 2px; padding:2px"><i class="bi bi-patch-check"></i> Premium</button>
+          <p>updated in {{product.lastUpdatedDate}}</p>
+          
+          <p style="margin-top:10px">{{product.description}}</p>
+          <!-- <i class="bi bi-check2"></i><p></p> -->
+           <br/>
+          <div style="text-align:center">
+           <button type="button" class=" btn" [disabled]="isInCart(product?.id)" 
+           (click)="addToCart(product?.id)"  style="background-color:#5f2eaf; color:white; padding:15px 50px 15px 50px; font-weight:bold ;"><i class="bi bi-patch-check"></i>  {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}</button>
+           <button (click)="addToCart(product?.id)" [disabled]="isInCart(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+            @if(isInCart(product?.id))
+            {
+              <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
+            }@else
+            {
+                <i class="bi bi-heart" style="color:#5f2eaf"></i>
+            }
+            
+          </button>
+ 
+          </div>
+       </div>
+     </div>
+          
+        <!-- <app-card-dialog #productsDialog ></app-card-dialog> -->
+         <!-- <p-overlay #op>
+  <ng-template let-data="product">
+    <h3>{{ data.name }}</h3>
+    <p>Price: {{ data.price }}$</p>
+    <p>ID: {{ data.id }}</p>
+  </ng-template>
+</p-overlay> -->
   </ng-template>
 </p-carousel>
 </section>

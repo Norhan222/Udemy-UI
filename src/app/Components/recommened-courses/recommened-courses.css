@@ -1,0 +1,53 @@
+.course-card {
+  
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  min-height:320px;
+  height:auto
+}
+
+/* صورة */
+.course-img {
+}
+
+/* الديف اللي بيظهر */
+.hover-info {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 320px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  height:7000px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100px);
+  transform: translateX(-100px);
+  transition: 0.3s ease;
+  z-index: 10;
+  border:1px solid #5f2eaf
+  
+  
+}
+
+/* hover */
+.course-card:hover .hover-info {
+  opacity: 1;
+  visibility: visible;
+  height:500px
+  
+}
+
+ ul>li{
+    margin-top:5px
+ }
+
+ a{
+  text-decoration:none;
+ }
+ a:click{
+  color:black
+ }

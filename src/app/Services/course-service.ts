@@ -19,6 +19,10 @@ export class CourseService {
   getCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
+
+  getStudentCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
+  }
   
   getRecommendedCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Recommended?take=10`);
