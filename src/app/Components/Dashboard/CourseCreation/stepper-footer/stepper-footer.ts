@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StepperService } from '../../../../Services/stepper-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stepper-footer',
@@ -13,7 +14,7 @@ export class StepperFooter implements OnInit {
   totalSteps = 4;
   isCurrentStepValid = false;
 
-  constructor(private stepperService: StepperService) {}
+  constructor(private stepperService: StepperService ,private router: Router) {}
 
   ngOnInit(): void {
     this.stepperService.currentStep$.subscribe(step => {
@@ -39,7 +40,8 @@ export class StepperFooter implements OnInit {
   onContinue(): void {
     if (this.isCurrentStepValid) {
       if (this.currentStep === this.totalSteps) {
-        this.createCourse();
+        this.router.navigate(['/complete-creation-course']);
+        // this.createCourse();
       } else {
         this.stepperService.nextStep();
       }

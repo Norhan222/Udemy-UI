@@ -301,6 +301,21 @@
             background: #5624d0;
             color: white;
         }
+         .btn-remove {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: #e41631;
+            border: 2px solid #e41631;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: #eb1248;
+            color: white;
+        }
 
         .rating {
             color: #e59819;

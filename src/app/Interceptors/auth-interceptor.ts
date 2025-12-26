@@ -22,7 +22,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
          return HandleUnauthorizedError()
       }
     }
-      return throwError(()=>new Error("Some other error occured"))
+      // Log the error and rethrow the original HttpErrorResponse so callers can inspect status and body
+      console.error('HTTP error intercepted', err);
+      return throwError(()=>err);
     })
   );
   function HandleUnauthorizedError() {

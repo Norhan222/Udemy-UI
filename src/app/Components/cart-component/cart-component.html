@@ -5,9 +5,9 @@
     <div class="content">
         <!-- LEFT -->
         <div class="cart-items">
-           
-         @if(cartItems.length>0){
-               @for( item of cartItems ; track item.courseId ) {
+
+            @if(cartItems.length>0){
+            @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
                 <img [src]="item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
 
@@ -26,23 +26,45 @@
                 </div>
 
                 <div class="course-actions">
-                    <a class="btn btn-danger text-white"(click)="removeItem(item.courseId)">Remove</a>
-                    <a href="#">Save for Later</a>
-                    <a href="#">Move to Wishlist</a>
+                    <button type="button" class="btn btn-link p-0 text-decoration-none"
+                        (click)="removeItem(item.courseId)">
+                        Remove
+                    </button>
+                    <button type="button" class="btn btn-link p-0 text-decoration-none"
+                        (click)="addWishlist(item.courseId)">
+                        Move to Wishlist
+                    </button>
+                    <!-- <a href="#">Save for Later</a> -->
+                    <!-- <button type="button" class="btn btn-link p-0 text-decoration-none"
+                        [disabled]="wishlistMap[item.courseId] || loadingMap[item.courseId]"
+                        >
+
+                        @if(!wishlistMap[item.courseId]) {
+                        } @else {
+                        <span class="text-success fw-semibold">
+                            ✔ In Wishlist
+                        </span>
+                        }
+
+                        @if(loadingMap[item.courseId]) {
+                        <span class="spinner-border spinner-border-sm ms-1"></span>
+                        }
+                    </button> -->
+
                 </div>
 
                 <div class="price">
                     <span class="new">E£{{ item.coursePrice }}</span>
                 </div>
             </div>
-        }
-         }
+            }
+            }
         </div>
 
         <!-- RIGHT -->
         <div class="summary">
             <p class="label">Total:</p>
-            <h2>E£{{ total  }}</h2>
+            <h2>E£{{ total }}</h2>
             <p class="old-total">E£{{ subTotal}}</p>
             <p class="discount">0% off</p>
 

@@ -1,18 +1,21 @@
 <div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
 
   <!-- Avatar -->
-  <div class="avatar" >
-    {{ (user.firstName + ' ' + user.lastName)  | intiials }}
+  <div class="avatar">
+    <img *ngIf="user.profileImageUrl; else initialsSmall" [src]="user.profileImageUrl" alt="avatar" />
+    <ng-template #initialsSmall>{{ (user.firstName + ' ' + user.lastName)  | intiials }}</ng-template>
   </div>
     <span class="notification-badge"></span>
 
   <!-- Dropdown -->
-   @if(isOpen){
-  <div class="dropdown">
+  <div class="dropdown" *ngIf="isOpen">
 
     <!-- User Info -->
     <div class="user-info">
-      <div class="avatar big">{{ (user.firstName + ' ' + user.lastName) | intiials }}</div>
+      <div class="avatar big">
+        <img *ngIf="user.profileImageUrl; else initialsBig" [src]="user.profileImageUrl" alt="avatar" />
+        <ng-template #initialsBig>{{ (user.firstName + ' ' + user.lastName) | intiials }}</ng-template>
+      </div>
        <div class="us">
        <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
         <p>{{ user.email }}</p>
@@ -28,8 +31,10 @@
     <a>My learning</a>
     <a>My cart</a>
     <a>Wishlist</a>
-    <a routerLink="/dashboard/courses" routerLinkActive="active">Instructor dashboard</a>
-
+    <a *ngIf="isInstructor" routerLink="/dashboard/courses" routerLinkActive="active">Instructor dashboard</a>
+    @if(user.role==='Instructor'){
+    <a (click)="navigateToInstructorDashboard()">Instructor dashboard</a>
+    }
     <hr />
 
     <a>Notifications</a>
@@ -40,7 +45,7 @@
 
     <hr />
 
-    <a>Account settings</a>
+    <a (click)="navigateToProfile()" style="cursor:pointer">Account settings</a>
     <a>Payment methods</a>
     <a>Subscriptions</a>
     <a>Purchase history</a>
@@ -49,5 +54,5 @@
 
     <a class="logout" (click)="logout()">Log out</a>
   </div>
-   }
+
 </div>

@@ -165,7 +165,31 @@
             <p>My Lists content goes here.</p>
         </div>
         <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
-            <p>Wishlist content goes here.</p>
+            
+             <div class="course-grid">
+                @for(item of wishlistItems ; track item.courseId){
+                <!-- Course  -->
+                <div class="course-card">
+                    <div style="position: relative;">
+                        <img src="{{ item.courseThumbnailUrl}}" alt="{{ item.courseTitle }}" class="course-image">
+                        <div class="course-menu">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </div>
+                    </div>
+                    <div class="course-content">
+                        <h4 class="course-title">{{ item.courseTitle }}</h4>
+                        <p class="course-author">{{ item.instructorName }}</p>
+                        <div class="course-action">
+                            <button class="btn-start ">START COURSE</button>
+                            <button class="btn-remove mt-2" (click)="remove(item.courseId)">Remove</button>
+
+                        </div>
+                    </div>
+                </div>
+            }@empty {
+                <h3>No wishlist items found.</h3>
+            }
+            </div>
         </div>
         <div class="tab-pane fade" id="certifications" role="tabpanel" aria-labelledby="certifications-tab">
             <p>Certifications content goes here.</p>

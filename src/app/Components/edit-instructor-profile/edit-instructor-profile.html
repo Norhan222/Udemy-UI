@@ -1,0 +1,67 @@
+<div class="edit-profile-card">
+  <h3>Edit Instructor Profile</h3>
+
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <div class="media-row">
+      <div class="avatar-preview">
+        <img *ngIf="avatarPreview" [src]="avatarPreview" alt="avatar" />
+        <div *ngIf="!avatarPreview" class="avatar-fallback">{{ (profileForm.get('firstName')?.value || '') | slice:0:1}}{{ (profileForm.get('lastName')?.value || '') | slice:0:1}}</div>
+      </div>
+
+      <div class="cover-preview">
+        <img *ngIf="coverPreview" [src]="coverPreview" alt="cover" />
+        <div *ngIf="!coverPreview" class="cover-fallback">Cover image</div>
+      </div>
+    </div>
+
+    <div class="file-row">
+      <label class="btn">Change avatar<input type="file" (change)="onAvatarChange($event)" accept="image/*"/></label>
+      <label class="btn">Change cover<input type="file" (change)="onCoverChange($event)" accept="image/*"/></label>
+    </div>
+    <p class="muted">Avatar up to 2 MB · Cover up to 3 MB</p>
+
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" formControlName="firstName" />
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text" formControlName="lastName" />
+    </div>
+
+    <div class="form-group">
+      <label>Expertise (comma separated)</label>
+      <input type="text" formControlName="expertise" />
+    </div>
+
+    <div class="form-group">
+      <label>Website</label>
+      <input type="url" formControlName="website" placeholder="https://your-site.com" />
+    </div>
+
+    <div class="form-group">
+      <label>Twitter</label>
+      <input type="text" formControlName="twitter" />
+    </div>
+
+    <div class="form-group">
+      <label>LinkedIn</label>
+      <input type="text" formControlName="linkedin" />
+    </div>
+
+    <div class="form-group">
+      <label>Bio</label>
+      <textarea formControlName="bio" rows="6"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" [disabled]="isLoading || profileForm.invalid">Save changes</button>
+      <span class="muted" *ngIf="isLoading">Saving...</span>
+    </div>
+
+    <p class="success" *ngIf="successMessage">{{successMessage}}</p>
+    <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+  </form>
+</div>
