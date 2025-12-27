@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { InstructorService } from '../../../../Services/instructor-service';
 
 @Component({
   selector: 'app-students',
@@ -9,64 +10,73 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './students.css',
 })
 export class Students {
+  students: Student[] = [];
+ constructor(private instructorService: InstructorService) {
+    this.instructorService.getInstructorStudents().subscribe(data => {
+      this.students = data;
+       this.courses = this.getUniqueCourses();
+    this.calculateCounts();
+    this.filterStudents();
+    });
+ }
 
-  students: Student[] = [
-    { 
-      id: 1, 
-      name: 'أحمد محمد علي', 
-      email: 'ahmed.mohamed@email.com', 
-      enrolledCourses: [
-        { title: 'Web Development Bootcamp', enrollDate: '2024-12-15', progress: 85, lastAccessed: '2 hours ago', rating: 5 },
-        { title: 'JavaScript Mastery', enrollDate: '2024-11-20', progress: 60, lastAccessed: '1 day ago', rating: null }
-      ],
-      country: 'Egypt',
-      totalWatchTime: '48h 30m'
-    },
-    { 
-      id: 2, 
-      name: 'Sarah Johnson', 
-      email: 'sarah.j@email.com', 
-      enrolledCourses: [
-        { title: 'UI/UX Design Complete', enrollDate: '2024-11-20', progress: 45, lastAccessed: '3 hours ago', rating: 4 }
-      ],
-      country: 'USA',
-      totalWatchTime: '24h 15m'
-    },
-    { 
-      id: 3, 
-      name: 'محمود حسن', 
-      email: 'mahmoud.h@email.com', 
-      enrolledCourses: [
-        { title: 'Data Science Pro', enrollDate: '2024-10-10', progress: 100, lastAccessed: '1 week ago', rating: 5 },
-        { title: 'Python Programming', enrollDate: '2024-10-15', progress: 95, lastAccessed: '2 days ago', rating: 5 },
-        { title: 'Machine Learning A-Z', enrollDate: '2024-11-01', progress: 70, lastAccessed: '5 hours ago', rating: 4 }
-      ],
-      country: 'Saudi Arabia',
-      totalWatchTime: '156h 45m'
-    },
-    { 
-      id: 4, 
-      name: 'فاطمة علي', 
-      email: 'fatima.ali@email.com', 
-      enrolledCourses: [
-        { title: 'Mobile Development', enrollDate: '2025-01-05', progress: 20, lastAccessed: '30 minutes ago', rating: null }
-      ],
-      country: 'Egypt',
-      totalWatchTime: '8h 20m'
-    },
-    { 
-      id: 5, 
-      name: 'John Smith', 
-      email: 'john.smith@email.com', 
-      enrolledCourses: [
-        { title: 'Web Development Bootcamp', enrollDate: '2024-09-15', progress: 100, lastAccessed: '2 weeks ago', rating: 5 },
-        { title: 'React Advanced Course', enrollDate: '2024-10-01', progress: 100, lastAccessed: '1 week ago', rating: 5 },
-        { title: 'Node.js Complete Guide', enrollDate: '2024-11-10', progress: 88, lastAccessed: '1 day ago', rating: 4 }
-      ],
-      country: 'UK',
-      totalWatchTime: '210h 30m'
-    },
-  ];
+  //  = [
+  //   { 
+  //     id: 1, 
+  //     name: 'أحمد محمد علي', 
+  //     email: 'ahmed.mohamed@email.com', 
+  //     enrolledCourses: [
+  //       { title: 'Web Development Bootcamp', enrollDate: '2024-12-15', progress: 85, lastAccessed: '2 hours ago', rating: 5 },
+  //       { title: 'JavaScript Mastery', enrollDate: '2024-11-20', progress: 60, lastAccessed: '1 day ago', rating: null }
+  //     ],
+  //     country: 'Egypt',
+  //     totalWatchTime: '48h 30m'
+  //   },
+  //   { 
+  //     id: 2, 
+  //     name: 'Sarah Johnson', 
+  //     email: 'sarah.j@email.com', 
+  //     enrolledCourses: [
+  //       { title: 'UI/UX Design Complete', enrollDate: '2024-11-20', progress: 45, lastAccessed: '3 hours ago', rating: 4 }
+  //     ],
+  //     country: 'USA',
+  //     totalWatchTime: '24h 15m'
+  //   },
+  //   { 
+  //     id: 3, 
+  //     name: 'محمود حسن', 
+  //     email: 'mahmoud.h@email.com', 
+  //     enrolledCourses: [
+  //       { title: 'Data Science Pro', enrollDate: '2024-10-10', progress: 100, lastAccessed: '1 week ago', rating: 5 },
+  //       { title: 'Python Programming', enrollDate: '2024-10-15', progress: 95, lastAccessed: '2 days ago', rating: 5 },
+  //       { title: 'Machine Learning A-Z', enrollDate: '2024-11-01', progress: 70, lastAccessed: '5 hours ago', rating: 4 }
+  //     ],
+  //     country: 'Saudi Arabia',
+  //     totalWatchTime: '156h 45m'
+  //   },
+  //   { 
+  //     id: 4, 
+  //     name: 'فاطمة علي', 
+  //     email: 'fatima.ali@email.com', 
+  //     enrolledCourses: [
+  //       { title: 'Mobile Development', enrollDate: '2025-01-05', progress: 20, lastAccessed: '30 minutes ago', rating: null }
+  //     ],
+  //     country: 'Egypt',
+  //     totalWatchTime: '8h 20m'
+  //   },
+  //   { 
+  //     id: 5, 
+  //     name: 'John Smith', 
+  //     email: 'john.smith@email.com', 
+  //     enrolledCourses: [
+  //       { title: 'Web Development Bootcamp', enrollDate: '2024-09-15', progress: 100, lastAccessed: '2 weeks ago', rating: 5 },
+  //       { title: 'React Advanced Course', enrollDate: '2024-10-01', progress: 100, lastAccessed: '1 week ago', rating: 5 },
+  //       { title: 'Node.js Complete Guide', enrollDate: '2024-11-10', progress: 88, lastAccessed: '1 day ago', rating: 4 }
+  //     ],
+  //     country: 'UK',
+  //     totalWatchTime: '210h 30m'
+  //   },
+  // ];
 
   filteredStudents: Student[] = [];
   courses: string[] = [];
