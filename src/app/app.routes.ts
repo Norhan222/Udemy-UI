@@ -1,3 +1,4 @@
+import { Reviews } from './Components/Dashboard/Performance/reviews/reviews';
 import { Overview } from './Components/Dashboard/Performance/overview/overview';
 import { PerformanceLayout } from './Components/Dashboard/Performance/performance-layout/performance-layout';
 import { InstructorCourses } from './Components/Dashboard/instructor-courses/instructor-courses';
@@ -64,12 +65,18 @@ export const routes: Routes = [
               import('./Components/Dashboard/Performance/overview/overview')
                 .then(m => m.Overview)
           },
-          // {
-          //   path: 'students',
-          //   loadComponent: () =>
-          //     import('./Components/Dashboard/Performance/students/students.component')
-          //       .then(m => m.StudentsComponent)
-          // }
+          {
+            path: 'reviews',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/reviews/reviews')
+                .then(m => m.Reviews)
+          },
+           {
+            path: 'students',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/students/students')
+                .then(m => m.Students)
+          }
         ]
       },
       // {
