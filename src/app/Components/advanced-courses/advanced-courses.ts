@@ -14,6 +14,7 @@ import { CourseShowDialog } from '../../Directives/course-show-dialog';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
+import { WishlistService } from '../../Services/wishlist';
 @Component({
   selector: 'app-advanced-courses',
   imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
@@ -26,18 +27,21 @@ export class AdvancedCourses implements OnInit, OnDestroy {
     courses!:ICourse [] ;
     dataResponse!: Subscription;
     cartAdded = false;
-      value: number = 3;
+    wihshListAdded =false;
+    value: number = 3;
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
 
       constructor(public courseService: CourseService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
        private cartService = inject(CartService);
+       private wihshList =inject(WishlistService);
                        cartItems: any[] = []; 
+                        wishlistItems: any[] = [];
                        cartLoaded = false;
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getCourses().subscribe((data)=>{
-              this.courses = data;
+        this.dataResponse = this.courseService.getStudentCourses().subscribe((data:any)=>{
+              this.courses = data.data;
               this.cdn.detectChanges();
            })
         
@@ -79,6 +83,20 @@ export class AdvancedCourses implements OnInit, OnDestroy {
          }
         });
 
+        this.wihshList.getWishlist().subscribe({
+          next: (res: any) => {
+          this.wishlistItems = res.data;
+          this.wihshListAdded = true;
+          console.log('WISHLIST ITEMS:', this.wishlistItems);
+          this.cdn.detectChanges();
+        },
+        error: (er) => {
+         console.error('Error fetching wishlist items:', er);
+       }
+      });
+
+
+
       
           //
  }
@@ -103,6 +121,11 @@ export class AdvancedCourses implements OnInit, OnDestroy {
           return this.cartItems.some(item => item.courseId === courseId);
         }
 
+      isInWishlist(courseId: number | null | undefined): boolean {
+        if (!courseId || !this.wishlistItems?.length) return false;
+        return this.wishlistItems.some(item => item.courseId === courseId);
+      }
+
         addToCart(id: any): void {
          this.cartService.addToCart(id).subscribe({
           next: (res) => {
@@ -115,6 +138,20 @@ export class AdvancedCourses implements OnInit, OnDestroy {
          console.error(err);
         }
        });
+    }
+
+      addToWishlist(id: any): void {
+       this.wihshList.addToWishlist(id).subscribe({
+        next: (res) => {
+        console.log('addWishlist', res);
+        this.wihshListAdded = true;
+        this.wishlistItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges(); // force update
+        },
+        error: (err) => {
+        console.error(err);
+        }
+        });
     }
 
 
