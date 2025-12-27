@@ -4,8 +4,8 @@
   <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product #item>
         <!-- appCourseShowDialog [dialog]="productsDialog" [hoverData]="product" -->
-        <div class="card course-card" style="cursor:pointer; width: 18rem; margin:5px; border:none">
-          <div [routerLink]="['/course', product.id]">
+        <div class="card course-card" style="cursor:pointer;height:500px width: 18rem; margin:5px; border:none">
+          <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer;height:320px ;width: 18rem; margin:5px; border:none">
             <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
           <div class="card-body">
             <h6 style="font-weight:bold;">{{product.title}}</h6>

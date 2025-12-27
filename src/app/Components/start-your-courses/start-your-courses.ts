@@ -27,7 +27,7 @@ export class StartYourCourses {
            public cdn:ChangeDetectorRef) {} ///private productService: ProductService) {}
 
     ngOnInit() {
-       this.dataResponse = this.courseService.getRecommendedCourses().subscribe((data:any)=>{
+       this.dataResponse = this.courseService.getStudentCourses().subscribe((data:any)=>{
               this.courses = data.data;
               this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();

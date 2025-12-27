@@ -24,8 +24,7 @@
   height:7000px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(100px);
-  transform: translateX(-100px);
+  transform: translateY(10px);
   transition: 0.3s ease;
   z-index: 10;
   border:1px solid #5f2eaf
@@ -37,6 +36,7 @@
 .course-card:hover .hover-info {
   opacity: 1;
   visibility: visible;
+  transform: translateY(-10px);
   height:500px
   
 }

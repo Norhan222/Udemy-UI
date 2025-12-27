@@ -36,8 +36,8 @@ export class AdvancedCourses implements OnInit, OnDestroy {
                        cartLoaded = false;
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getCourses().subscribe((data)=>{
-              this.courses = data;
+        this.dataResponse = this.courseService.getStudentCourses().subscribe((data:any)=>{
+              this.courses = data.data;
               this.cdn.detectChanges();
            })
         
