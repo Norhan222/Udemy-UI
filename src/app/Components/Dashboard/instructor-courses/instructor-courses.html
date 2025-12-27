@@ -107,25 +107,28 @@
     <div class="courses-container">
       <div class="course-item" *ngFor="let course of filteredCourses; let last = last" [class.last]="last">
         <div class="course-thumbnail">
-          <svg width="120" height="90" viewBox="0 0 120 90" fill="none">
+          <div class="media-preview-box">
+            <img [src]="course.thumbnailUrl" alt="Course Thumbnail" />
+          </div>
+          <!-- <svg width="120" height="90" viewBox="0 0 120 90" fill="none">
             <rect width="120" height="90" fill="#e8e8e8" rx="4" />
             <rect x="15" y="15" width="35" height="28" fill="#c4c4c4" rx="2" />
             <rect x="15" y="50" width="45" height="25" fill="#c4c4c4" rx="2" />
             <rect x="70" y="15" width="35" height="28" fill="#c4c4c4" rx="2" />
-          </svg>
+          </svg> -->
         </div>
         <div class="course-details">
           <div class="course-info">
             <h4 class="course-title">{{ course.title }}</h4>
             <div class="course-status">
-              <span class="status-badge draft">DRAFT</span>
+              <span class="status-badge draft" [style.background-color]="course.approvalStatus === 'Approved' ? 'green' : ''" [style.color]="course.approvalStatus === 'Approved' ? 'white' : ''">{{ course.approvalStatus }}</span>
               <span class="status-text">Public</span>
             </div>
           </div>
           <div class="course-progress">
             <div class="progress-info">
               <span class="progress-label">Finish your course</span>
-              <a href="#" class="edit-link" (click)="editCourse(course.id); $event.preventDefault()">
+              <a  class="edit-link"[class.disabled-link]="course.approvalStatus === 'Pending'" [routerLink]="['/complete-creation-course', course.id]" routerLinkActive="router-link-active" (click)="editCourse(course.id); $event.preventDefault()" >
                 Edit / manage course
               </a>
             </div>
@@ -135,6 +138,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- Empty State -->
       <div class="empty-state" *ngIf="filteredCourses.length === 0">

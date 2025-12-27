@@ -89,5 +89,10 @@ export const routes: Routes = [
    {path:'complete-creation-course',
      loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
      .then(m => m.CompleteCreationCourse)
-    }
+    },
+     {path:'complete-creation-course/:id',
+     loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
+     .then(m => m.CompleteCreationCourse)
+    },
+
 ];

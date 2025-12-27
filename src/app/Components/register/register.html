@@ -129,7 +129,13 @@
     class="continue-btn"
     [disabled]="LoginForm.invalid"
   >
-  Continue</button>
+  Continue
+  @if(isLoading) {
+ <div class="spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+}
+</button>
 
 
 </form>

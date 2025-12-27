@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../Services/auth-service';
 import { Observable, Subscription } from 'rxjs';
@@ -29,16 +29,17 @@ export class Login implements OnInit{
   }
 private Loginauth!:Subscription;
 
-
+private cd = inject(ChangeDetectorRef);
 errorMessage: string = '';
 
 
  onSubmit(){
   // console.log(this.LoginForm.value);
+  this.isLoading=true;
  this.authService.Login(this.LoginForm.value).subscribe({
     next:(res)=>{
       console.log("Login response:",res);
-      this.isLoading=true;
+      this.isLoading=false;
       this.authService.storeToken(res.jwtToken)
       this.authService.storeRefreshToken(res.refreshToken)
       this.authService.setLoginState(true)
@@ -47,8 +48,10 @@ errorMessage: string = '';
 
     },
     error:(err)=>{
-      console.log("Login error:",err);
+      console.log("Login error:",err.error[0]);
       this.isLoading=false;
+      this.errorMessage=err.error[0];
+      this.cd.detectChanges();
     }
   });
 }

@@ -16,7 +16,7 @@ export class Step4 {
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.description = data.description;
+      this.description = data.description??'';
     });
   }
 
