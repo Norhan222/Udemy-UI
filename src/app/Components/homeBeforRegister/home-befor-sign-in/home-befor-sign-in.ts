@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
+import { OurpPlans } from '../ourp-plans/ourp-plans';
 import { TechnicalTopics } from '../technical-topics/technical-topics';
 import { TopicsCarousel } from '../topics-carousel/topics-carousel';
-import { OurpPlans } from '../ourp-plans/ourp-plans';
-
 @Component({
   selector: 'app-home-befor-sign-in',
   imports: [TechnicalTopics,TopicsCarousel,OurpPlans  ],

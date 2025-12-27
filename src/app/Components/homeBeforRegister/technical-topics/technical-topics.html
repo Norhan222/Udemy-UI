@@ -1,0 +1,146 @@
+<section style="margin:30px; background-color: #f7f9fb; padding:30px; border-radius:20px;">
+  <h2>Skills to transform your career and life</h2>
+  <p>From critical skills to technical topics, Udemy supports your professional development.</p>
+
+  <div class="card" style="border:none;border-style:none ; margin-top:20px;background-color: #f7f9fb;" *ngIf="courses?.length">
+
+    <p-tabs [value]="courses[0]?.id" style="border:none; background-color: #f7f9fb; margin: 0 10px">
+
+      <!-- Tabs Header -->
+      <p-tablist style="border:none; background-color: #f7f9fb; margin: 0 10px">
+        <p-tab
+          *ngFor="let topic of courses; trackBy: trackByTopicId"
+          [value]="topic.id"
+          style="border:none; margin: 0 10px">
+          {{ topic.name }}
+        </p-tab>
+      </p-tablist>
+      <br>
+      <hr>
+      <!-- Tabs Content -->
+      <p-tabpanels style="border:none; background-color: #f7f9fb; margin: 0 10px">
+        <p-tabpanel 
+          *ngFor="let topic of courses; trackBy: trackByTopicId"
+          [value]="topic.id">
+
+          <p-carousel
+            [value]="topic.courses"
+            [numVisible]="5"
+            [numScroll]="1"
+            [responsiveOptions]="responsiveOptions">
+
+            <ng-template pTemplate="item" let-product>
+
+              <div class="card course-card"
+                   style="cursor:pointer; width:18rem; margin:5px; border:none">
+
+                <a [routerLink]="['/course', product.id]" style="text-decoration:none; color:inherit">
+
+                  <img [src]="product.thumbnailUrl"
+                       height="150"
+                       width="100%"
+                       alt="Course Image" />
+
+                  <div class="card-body">
+
+                    <h6 style="font-weight:bold">
+                      {{ product.title }}
+                    </h6>
+
+                    <p style="margin-top:5px">
+                      {{ product.instructorName }}
+                    </p>
+
+                    <div style="display:flex; margin-top:5px">
+                      <span>4.7</span>
+
+                      <div class="card flex justify-center"
+                           style="border:none; padding:5px 5px 0 5px">
+                        <p-rating
+                          [(ngModel)]="ratingValue"
+                          [disabled]="true">
+                        </p-rating>
+                      </div>
+
+                      <span>(222)</span>
+                    </div>
+
+                    <h6 style="font-weight:bold">
+                      E&pound;{{ product.price }}
+                    </h6>
+
+                    <button type="button"
+                            style="background-color:#6d28d2;
+                                   color:white;
+                                   border-radius:2px;
+                                   padding:2px">
+                      <i class="bi bi-patch-check"></i> Premium
+                    </button>
+
+                  </div>
+                </a>
+
+                <!-- Hover Info -->
+                <div class="hover-info">
+
+                  <h4>{{ product.title }}</h4>
+
+                  <button type="button"
+                          style="background-color:#6d28d2;
+                                 margin-top:10px;
+                                 color:white;
+                                 border-radius:2px;
+                                 padding:2px">
+                    <i class="bi bi-patch-check"></i> Premium
+                  </button>
+
+                  <p>Updated in {{ product.lastUpdatedDate }}</p>
+                  <p style="margin-top:10px">
+                    {{ product.description }}
+                  </p>
+
+                  <div style="text-align:center">
+
+                    <button class="btn"
+                            style="background-color:#5f2eaf;
+                                   color:white;
+                                   padding:15px 50px;
+                                   font-weight:bold"
+                            [disabled]="isInCart(product.id)"
+                            (click)="addToCart(product.id)">
+                      {{ isInCart(product.id) ? 'Added to Cart' : 'Add to Cart' }}
+                    </button>
+
+                    <button
+                      style="border-radius:50%;
+                             border:1px solid #5f2eaf;
+                             padding:10px;
+                             margin-left:15px;
+                             background-color:white"
+                      [disabled]="isInCart(product.id)"
+                      (click)="addToCart(product.id)">
+
+                      <i class="bi"
+                         [ngClass]="isInCart(product.id)
+                          ? 'bi-heart-fill'
+                          : 'bi-heart'"
+                         style="color:#5f2eaf">
+                      </i>
+
+                    </button>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </ng-template>
+
+          </p-carousel>
+
+        </p-tabpanel>
+      </p-tabpanels>
+
+    </p-tabs>
+  </div>
+</section>

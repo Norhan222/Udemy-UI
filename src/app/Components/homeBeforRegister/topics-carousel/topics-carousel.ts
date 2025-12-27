@@ -2,35 +2,34 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Carousel } from 'primeng/carousel';
 import { Tag } from 'primeng/tag';
-import { Topic } from '../../Models/topic';
-import { ICourse } from '../../Models/icourse';
+import { Topic } from '../../../Models/topic';
 import { Subscription } from 'rxjs';
-import { CourseService } from '../../Services/course-service';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
+import { TopicService } from '../../../Services/topic-service';
 
 @Component({
   selector: 'app-topics-carousel',
-  imports: [Carousel, ButtonModule, Tag,CardModule,FormsModule, Rating],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule],
   templateUrl: './topics-carousel.html',
   styleUrl: './topics-carousel.css',
 })
 export class TopicsCarousel implements OnInit, OnDestroy {
   responsiveOptions: any[] | undefined;
 
-    courses!:ICourse [] ;
+    courses!:Topic [] ;
     dataResponse!: Subscription;
 
       value: number = 3;
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
 
-      constructor(public courseService: CourseService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
+      constructor(public topicService: TopicService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
 
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getCourses().subscribe((data)=>{
+        this.dataResponse = this.topicService.getTopics().subscribe((data)=>{
               this.courses = data;
               this.cdn.detectChanges();
            })

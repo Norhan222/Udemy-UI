@@ -1,60 +1,69 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold; "> Trending courses </h2>
-<!-- <p-carousel [value]="topics" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions"> -->
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
 <section style="margin: 10px 0 50px 0;">
-  <p-carousel [value]="courses"  [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product #item>
-        <!-- appCourseShowDialog [dialog]="productsDialog" [hoverData]="product" -->
-        <div class="card course-card" style="cursor:pointer;height:500px width: 18rem; margin:5px; border:none">
-          <div class="card" [routerLink]="['/course', product.id]" style="cursor:pointer;height:320px ;width: 18rem; margin:5px; border:none">
-            <img [src]="product.thumbnailUrl" height="150px" width="100%" alt="Course Image" />
-          <div class="card-body">
-            <h6 style="font-weight:bold;">{{product.title}}</h6>
-            <p style ="margin-top:5px">{{product.instructorName}}</p>
-            <div style="display: flex; margin-top:5px">
-              <span>4.7</span>
-              <div class="card flex justify-center" style="border:none ; padding: 5px 5px 0 5px; ">
-                <p-rating [(ngModel)]="value" [disabled]="true" />
-              </div>
-              <span>(222)</span>
+  <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product pTemplate="item">
+      <div class="course-card-wrapper">
+        <div class="course-card" [routerLink]="['/course', product.id]" style="height:320px">
+          <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
+          <div class="course-basic-info">
+            <h3 class="course-title">{{product.title}}</h3>
+            <p class="course-instructor">{{product.instructorName}}</p>
+            <div class="course-rating">
+              <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
             </div>
-            <h6 style="font-weight:bold;">E&pound;{{product.price}}</h6>
-            <button type="button" class="" style="background-color:#6d28d2; color:white; border-radius: 2px; padding:2px"><i class="bi bi-patch-check"></i> Premium</button>
+            <div class="course-price">E&pound;{{product.price}}</div>
+            <button type="button" class="" 
+                    style="background-color:#6d28d2;margin-top:10px ;
+                          color:white; border-radius: 2px; padding:2px">
+                <i class="bi bi-patch-check"></i> Premium</button>
+            <p class="hover-description">
           </div>
-          </div>
-          <div class="hover-info" style="">
-           <h4>{{product.title}}</h4>
-           <button type="button" class="" style="background-color:#6d28d2;margin-top:10px ;color:white; border-radius: 2px; padding:2px"><i class="bi bi-patch-check"></i> Premium</button>
-          <p>updated in {{product.lastUpdatedDate}}</p>
-          
-          <p style="margin-top:10px">{{product.description}}</p>
-          <!-- <i class="bi bi-check2"></i><p></p> -->
-           <br/>
-          <div style="text-align:center">
-           <button type="button" class=" btn" [disabled]="isInCart(product?.id)" 
-           (click)="addToCart(product?.id)"  style="background-color:#5f2eaf; color:white; padding:15px 50px 15px 50px; font-weight:bold ;"><i class="bi bi-patch-check"></i>  {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}</button>
-           <button (click)="addToCart(product?.id)" [disabled]="isInCart(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
-            @if(isInCart(product?.id))
-            {
-              <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
-            }@else
-            {
-                <i class="bi bi-heart" style="color:#5f2eaf"></i>
-            }
+
+          <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
+          <div class="course-hover-card">
+            <h3 class="hover-title">{{product.title}}</h3>
+            <button type="button" class="" 
+                    style="background-color:#6d28d2;margin-top:10px ;
+                          color:white; border-radius: 2px; padding:2px">
+                <i class="bi bi-patch-check"></i> Premium</button>
+            <p class="hover-description">
+              Updated in {{product.lastUpdatedDate}}
+            </p>
+            <div class="hover-stats">
+              <span>62 total hours</span>
+              <span>•</span>
+              <span>All Levels</span>
+              <span>•</span>
+              <span>Subtitles</span>
+            </div>
+            <ul class="hover-list">
+              <li>Build 16 web development projects</li>
+              <li>Learn the latest technologies</li>
+              <li>Build a portfolio of websites</li>
+            </ul>
+            <div class="hover-buttons">
+                <button type="button" class=" " 
+                    [disabled]="isInCart(product?.id)" 
+                    (click)="addToCart(product?.id)"  
+                    style="background-color:#5f2eaf; color:white; 
+                           padding:15px 50px 15px 50px; font-weight:bold ;">
+                   <i class="bi bi-patch-check"></i>  
+                       {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
+                  </button>
+                  <button (click)="addToCart(product?.id)" [disabled]="isInCart(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+                        @if(isInCart(product?.id))
+                        {
+                           <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
+                       }@else
+                      {
+                          <i class="bi bi-heart" style="color:#5f2eaf"></i>
+                      }
             
           </button>
- 
+            </div>
           </div>
-       </div>
-     </div>
-          
-        <!-- <app-card-dialog #productsDialog ></app-card-dialog> -->
-         <!-- <p-overlay #op>
-  <ng-template let-data="product">
-    <h3>{{ data.name }}</h3>
-    <p>Price: {{ data.price }}$</p>
-    <p>ID: {{ data.id }}</p>
-  </ng-template>
-</p-overlay> -->
-  </ng-template>
-</p-carousel>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
 </section>
