@@ -1,16 +1,17 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
+
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
       <div class="course-card-wrapper">
-        <div class="course-card" [routerLink]="['/course', product.id]" style="height:320px">
-          <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
-          <div class="course-basic-info">
-            <h3 class="course-title">{{product.title}}</h3>
-            <p class="course-instructor">{{product.instructorName}}</p>
-            <div class="course-rating">
-              <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
-            </div>
+        <div class="course-card"  style="height:320px">
+          <div [routerLink]="['/course', product.id]">
+            <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
+            <div class="course-basic-info">
+               <h3 class="course-title">{{product.title}}</h3>
+                <p class="course-instructor">{{product.instructorName}}</p>
+                <div class="course-rating">
+                   <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+                 </div>
             <div class="course-price">E&pound;{{product.price}}</div>
             <button type="button" class="" 
                     style="background-color:#6d28d2;margin-top:10px ;
@@ -18,7 +19,7 @@
                 <i class="bi bi-patch-check"></i> Premium</button>
             <p class="hover-description">
           </div>
-
+         </div>
           <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
           <div class="course-hover-card">
             <h3 class="hover-title">{{product.title}}</h3>
@@ -42,7 +43,7 @@
               <li>Build a portfolio of websites</li>
             </ul>
             <div class="hover-buttons">
-                <button type="button" class=" " 
+                 <button type="button" class=" " 
                     [disabled]="isInCart(product?.id)" 
                     (click)="addToCart(product?.id)"  
                     style="background-color:#5f2eaf; color:white; 
@@ -50,16 +51,15 @@
                    <i class="bi bi-patch-check"></i>  
                        {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
                   </button>
-                  <button (click)="addToCart(product?.id)" [disabled]="isInCart(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
-                        @if(isInCart(product?.id))
+                  <button (click)="addToWishlist(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+                        @if(isInWishlist(product?.id))
                         {
                            <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
                        }@else
                       {
                           <i class="bi bi-heart" style="color:#5f2eaf"></i>
                       }
-            
-          </button>
+                   </button>
             </div>
           </div>
         </div>
