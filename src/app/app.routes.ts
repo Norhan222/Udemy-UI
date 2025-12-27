@@ -1,3 +1,4 @@
+import { Reviews } from './Components/Dashboard/Performance/reviews/reviews';
 import { Overview } from './Components/Dashboard/Performance/overview/overview';
 import { PerformanceLayout } from './Components/Dashboard/Performance/performance-layout/performance-layout';
 import { InstructorCourses } from './Components/Dashboard/instructor-courses/instructor-courses';
@@ -13,6 +14,7 @@ import { CourseDetailsComponent } from './Components/course-details/course-detai
 import { DashboardLayout } from './Components/Dashboard/dashboard-layout/dashboard-layout';
 import { CartComponent } from './Components/cart-component/cart-component';
 import { MyLearning } from './Components/my-learning/my-learning';
+import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in';
 
 export const routes: Routes = [
     // {path:'', redirectTo: 'Home', pathMatch: 'full'},
@@ -21,7 +23,26 @@ export const routes: Routes = [
     // {path:'Register', component:Register,title:'Register'},
     // {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     // {path:'**', component:Notfound,title:'Not Found Page'},
-     {
+     
+//befor login ///////////////////
+{
+  path: '',
+  loadComponent: () =>
+    import('./app-start-home/app-start-home')
+      .then(m => m.AppStartHome),
+  children: [
+    { path: '', loadComponent: () => import('./Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in').then(m => m.HomeBeforSignIn) },
+    {path:'', redirectTo: 'HomeBeforSignIn', pathMatch: 'full'},
+    {path:'Login', component:Login,title:'Login'},
+    {path:'Register', component:Register,title:'Register'},
+  ]
+},
+///*********************************** */
+    
+    
+    
+    
+    {
     path: '',
     loadComponent: () =>
       import('./app-layout/app-layout')
@@ -38,6 +59,7 @@ export const routes: Routes = [
     { path: 'Instructor/Profile/Edit', loadComponent: () => import('./Components/edit-instructor-profile/edit-instructor-profile').then(m => m.EditInstructorProfile), title: 'Edit Instructor Profile' },
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     {path:'Cart', component: CartComponent, title: 'Cart'},
+    {path:'logout', component: HomeBeforSignIn, title: 'Cart'},
     {path:'my-learning', component: MyLearning, title: 'My Learning'},
 
     // {path:'**', component:Notfound,title:'Not Found Page'},
@@ -64,12 +86,18 @@ export const routes: Routes = [
               import('./Components/Dashboard/Performance/overview/overview')
                 .then(m => m.Overview)
           },
-          // {
-          //   path: 'students',
-          //   loadComponent: () =>
-          //     import('./Components/Dashboard/Performance/students/students.component')
-          //       .then(m => m.StudentsComponent)
-          // }
+          {
+            path: 'reviews',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/reviews/reviews')
+                .then(m => m.Reviews)
+          },
+           {
+            path: 'students',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/students/students')
+                .then(m => m.Students)
+          }
         ]
       },
       // {
@@ -89,5 +117,10 @@ export const routes: Routes = [
    {path:'complete-creation-course',
      loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
      .then(m => m.CompleteCreationCourse)
-    }
+    },
+     {path:'complete-creation-course/:id',
+     loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
+     .then(m => m.CompleteCreationCourse)
+    },
+
 ];

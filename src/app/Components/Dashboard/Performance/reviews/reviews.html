@@ -1,95 +1,77 @@
 <div class="reviews-container">
-  <!-- Header -->
-  <div class="header">
-    <h1 class="title">Reviews</h1>
-    <div class="course-selector">
-      <select [(ngModel)]="selectedCourse" class="course-dropdown">
-        <option *ngFor="let course of courses" [value]="course.id">
-          {{ course.name }}
-        </option>
-      </select>
-    </div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button
-      class="tab"
-      [class.active]="activeTab === 'reviews'"
-      (click)="switchTab('reviews')">
-      Reviews
-    </button>
-    <button
-      class="tab"
-      [class.active]="activeTab === 'insights'"
-      (click)="switchTab('insights')">
-      Insights
-      <span class="badge">New</span>
-    </button>
-  </div>
-
-  <!-- Filters Section -->
-  <div class="filters-section">
-    <div class="filters-left">
-      <!-- Not Answered Filter -->
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          [(ngModel)]="filters.notAnswered"
-          (change)="onFilterChange()">
-        <span class="checkbox-label">Not answered</span>
-      </label>
-
-      <!-- Has Comment Filter -->
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          [(ngModel)]="filters.hasComment"
-          (change)="onFilterChange()">
-        <span class="checkbox-label">Has a comment</span>
-      </label>
-
-      <!-- Rating Filter -->
-      <div class="filter-dropdown">
-        <label>Rating:</label>
-        <select
-          [(ngModel)]="filters.rating"
-          (change)="onFilterChange()"
-          class="dropdown">
-          <option *ngFor="let option of ratingOptions" [value]="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-      </div>
-
-      <!-- Sort By Filter -->
-      <div class="filter-dropdown">
-        <label>Sort by:</label>
-        <select
-          [(ngModel)]="filters.sortBy"
-          (change)="onFilterChange()"
-          class="dropdown">
-          <option *ngFor="let option of sortOptions" [value]="option.value">
-            {{ option.label }}
+  <div class="max-w-7xl">
+    <!-- Header -->
+    <div class="header">
+      <h1>Reviews</h1>
+      <div class="course-select">
+        <select [(ngModel)]="selectedCourse"  (click)="onFilterChange()">
+          <option *ngFor="let course of courses"  [value]="course">
+            {{ course === 'all' ? 'All courses' : course }}
           </option>
         </select>
       </div>
     </div>
 
-    <!-- Export Button -->
-    <button class="export-btn" (click)="exportToCSV()">
-      Export to CSV...
-    </button>
-  </div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button [class.active]="activeTab === 'reviews'" (click)="activeTab = 'reviews'">
+        Reviews
+      </button>
+      <button [class.active]="activeTab === 'insights'" (click)="activeTab = 'insights'">
+        Insights
+        <span class="badge-new">New</span>
+      </button>
+    </div>
 
-  <!-- Info Message -->
-  <div class="info-message">
-    <span class="info-icon">ℹ️</span>
-    <p>It can take up to 48 hours for approved student ratings to show on your course landing page.</p>
-  </div>
+    <!-- Filters -->
+    <div class="filters-card">
+      <div class="filters-row">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showNotAnswered" (change)="onFilterChange()">
+          <span>Not answered</span>
+        </label>
 
-  <!-- Reviews Content -->
-  <div class="content-area">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showWithComment" (change)="onFilterChange()">
+          <span>Has a comment</span>
+        </label>
+
+        <div class="filter-group">
+          <span>Rating:</span>
+          <select [(ngModel)]="selectedRating" (change)="onFilterChange()">
+            <option value="all">All</option>
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="2">2 stars</option>
+            <option value="1">1 star</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <span>Sort by:</span>
+          <select [(ngModel)]="sortBy" (change)="onFilterChange()">
+            <option value="lowest">Lowest rating</option>
+            <option value="highest">Highest rating</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </div>
+
+        <button class="export-btn" (click)="exportToCSV()">
+          <span class="icon">↓</span>
+          Export to CSV...
+        </button>
+      </div>
+    </div>
+
+    <!-- Info Banner -->
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <p>It can take up to 48 hours for approved student ratings to show on your course landing page.</p>
+    </div>
+
+    <!-- Reviews List -->
     <div *ngIf="filteredReviews.length === 0" class="no-reviews">
       <p>No reviews found</p>
     </div>
@@ -97,16 +79,55 @@
     <div *ngIf="filteredReviews.length > 0" class="reviews-list">
       <div *ngFor="let review of filteredReviews" class="review-card">
         <div class="review-header">
-          <span class="student-name">{{ review.studentName }}</span>
-          <span class="rating">⭐ {{ review.rating }}</span>
+          <div class="student-info">
+            <div class="avatar">{{ getInitial(review.studentName) }}</div>
+            <div>
+              <h3>{{ review.studentName }}</h3>
+              <p class="course-name">{{ review.courseTitle }}</p>
+            </div>
+          </div>
+          <div class="rating-section">
+            <div class="stars">
+              <span *ngFor="let star of getStarArray(review.rating)" [class.filled]="star <= review.rating">
+                ★
+              </span>
+            </div>
+            <span *ngIf="!review.answered" class="not-answered-badge">
+              Not answered
+            </span>
+          </div>
         </div>
-        <div class="review-date">{{ review.date | date:'medium' }}</div>
-        <p *ngIf="review.comment" class="review-comment">{{ review.comment }}</p>
-        <div class="review-status">
-          <span *ngIf="!review.isAnswered" class="not-answered">Not answered</span>
-          <span *ngIf="review.isAnswered" class="answered">Answered</span>
+
+        <p *ngIf="review.comment" class="comment">{{ review.comment }}</p>
+
+        <div class="review-footer">
+          <span class="date">{{ review.createdDate }}</span>
+          <button *ngIf="!review.answered && replyingTo !== review.id" (click)="handleReply(review.id)"
+            class="reply-btn">
+            Reply
+          </button>
+        </div>
+
+        <!-- Reply Box -->
+        <div *ngIf="replyingTo === review.id" class="reply-box">
+          <label>Your Reply</label>
+          <textarea [(ngModel)]="replyText" placeholder="Write your reply here..." rows="4">
+          </textarea>
+          <div class="reply-actions">
+            <button (click)="handleCancelReply()" class="cancel-btn">
+              Cancel
+            </button>
+            <button (click)="handleSendReply(review.id)" [disabled]="!replyText.trim()" class="send-btn">
+              Send Reply
+            </button>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- Results Count -->
+    <div *ngIf="filteredReviews.length > 0" class="results-count">
+      Showing {{ filteredReviews.length }} of {{ reviews.length }} reviews
     </div>
   </div>
 </div>

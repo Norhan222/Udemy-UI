@@ -2,12 +2,12 @@
   <!-- Top Navigation -->
   <div class="top-nav">
     <div class="nav-left">
-      <button class="back-btn">
+      <button class="back-btn" routerLink="/dashboard/courses">
         <span class="arrow">←</span>
         <span>Back to courses</span>
       </button>
-      <span class="course-name">Angular</span>
-      <span class="draft-badge">DRAFT</span>
+      <span class="course-name">{{ courseTitle }}</span>
+      <!-- <span class="draft-badge">DRAFT</span> -->
       <span class="upload-status">0min of video content uploaded</span>
     </div>
     <div class="nav-right">
@@ -68,7 +68,7 @@
               <span class="helper-text">
                 Your title should be a mix of attention-grabbing, informative, and optimized for search
               </span>
-              <span class="char-count">{{ courseTitle.length }}/60</span>
+              <span class="char-count">{{ courseTitle?.length??0 }}/60</span>
             </div>
           </div>
 
@@ -113,7 +113,7 @@
               <select [(ngModel)]="language" class="form-select">
                 <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
               </select>
-              <select [(ngModel)]="level" class="form-select " [class.error]="level.trim().length === 0">
+              <select [(ngModel)]="level" class="form-select " [class.error]="level.toString().trim().length === 0">
                 <option value="" disabled selected>-- Select Level --</option>
                 <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
               </select>

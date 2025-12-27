@@ -95,9 +95,10 @@ export class UserMenu implements OnInit {
     this.auth.Signout();
     this.router.navigate(['/Home']);
 
+  
   }
 navigateToInstructorDashboard(){
-  this.router.navigate(['/dashboard']);
+  this.router.navigate(['/dashboard/courses']);
 }
   // يقفل لما أضغط في أي مكان بره
   // @HostListener('document:click', ['$event'])

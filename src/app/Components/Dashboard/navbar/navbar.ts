@@ -9,5 +9,8 @@ import { UserMenu } from '../../NavbarComponents/user-menu/user-menu';
 })
 export class Navbar {
  role = 'Student';
-  
+  navigateToHome(){
+    window.location.href = '/';
+  }
+
 }
