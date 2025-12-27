@@ -68,7 +68,18 @@
             <p class="old-total">E£{{ subTotal}}</p>
             <p class="discount">0% off</p>
 
-            <button class="checkout">Proceed to Checkout →</button>
+            <!-- <button class="checkout">Proceed to Checkout →</button> -->
+             <button
+  class="btn btn-success w-100 mt-3"
+  (click)="payNow()">
+  Pay Now
+  @if(loading) {
+   <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  }
+</button>
+
             <p class="note">You won't be charged yet</p>
 
             <button class="coupon">Apply Coupon</button>
