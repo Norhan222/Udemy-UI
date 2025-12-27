@@ -1,15 +1,16 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Payment } from '../../Services/payment';
-import { interval, switchMap, takeWhile } from 'rxjs';
+import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-cart-component',
   templateUrl: './cart-component.html',
   styleUrls: ['./cart-component.css'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit ,OnDestroy{
+
   private cartService = inject(CartService);
   private wishlistService = inject(WishlistService);
   private paymentService = inject(Payment);
@@ -19,7 +20,7 @@ export class CartComponent implements OnInit {
   subTotal: number = 0;
   total: number = 0;
   loading: boolean = false; // Spinner
-
+  private createPymentSub!: Subscription;
   ngOnInit(): void {
     this.loadCart();
   }
@@ -98,8 +99,8 @@ export class CartComponent implements OnInit {
         this.cd.detectChanges();
 
         // Polling لحالة الدفع كل ثانيتين
-        interval(3000).pipe(
-          switchMap(() => this.paymentService.getPaymentStatus(res.transactionIds[0])),
+    this.createPymentSub=    interval(3000).pipe(
+          switchMap(() =>  this.paymentService.getPaymentStatus(res.transactionIds[0])),
           takeWhile(statusRes => statusRes.status === 'Pending', true)
         ).subscribe({
           next: (statusRes) => {
@@ -113,6 +114,7 @@ export class CartComponent implements OnInit {
                 this.loading = false;
                 this.cd.detectChanges();
                 alert("Payment successful! Cart cleared.");
+                this.createPymentSub.unsubscribe();
               });
             } else if (statusRes.status !== 'Pending') {
               this.loading = false;
@@ -133,5 +135,12 @@ export class CartComponent implements OnInit {
         alert('Error creating payment');
       }
     });
+  }
+
+
+
+
+    ngOnDestroy(): void {
+    this.createPymentSub.unsubscribe();
   }
 }

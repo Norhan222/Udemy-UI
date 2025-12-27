@@ -81,82 +81,29 @@
 
              <!-- ----------------------------------- -->
             <div class="course-grid">
-                <!-- Course 1 -->
+                <!-- Course  -->
+                  @for(course of myCourses ; track course.id){
                 <div class="course-card">
                     <div style="position: relative;">
-                        <img src="https://img-c.udemycdn.com/course/240x135/1605930_7da8_5.jpg" alt="ASP.NET CORE MVC" class="course-image">
+                        <img src="{{ course.courseThumbnailUrl}}" alt="{{ course.title }}" class="course-image">
                         <div class="course-menu">
                             <i class="fas fa-ellipsis-v"></i>
                         </div>
                     </div>
                     <div class="course-content">
-                        <h4 class="course-title">ASP.NET CORE MVC | Build a Complete eCommerce App</h4>
-                        <p class="course-author">Ervis Trupja</p>
+                        <h4 class="course-title">{{ course.title }}</h4>
+                        <p class="course-author">{{ course.instructorName }}</p>
                         <div class="course-action">
                             <button class="btn-start">START COURSE</button>
                         </div>
                     </div>
                 </div>
+            }@empty {
+                <h3>No courses found.</h3>
+            }
+                
 
-                <!-- Course 2 -->
-                <div class="course-card">
-                    <div style="position: relative;">
-                        <img src="https://img-c.udemycdn.com/course/240x135/3873464_403c_3.jpg" alt="ASP.NET CORE WEB API" class="course-image">
-                        <div class="course-menu">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title">ASP.NET CORE WEB API | The Complete Guide</h4>
-                        <p class="course-author">Ervis Trupja</p>
-                        <div class="course-action">
-                            <button class="btn-start">START COURSE</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 3 -->
-                <div class="course-card">
-                    <div style="position: relative;">
-                        <img src="https://img-c.udemycdn.com/course/240x135/2394970_2346_4.jpg" alt="Mastering C#" class="course-image">
-                        <div class="course-menu">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title">Mastering C#: Beginner to Professional in Arabic</h4>
-                        <p class="course-author">Ahmad Mohey</p>
-                        <div class="progress-bar-custom">
-                            <div class="progress-fill" style="width: 9%;"></div>
-                        </div>
-                        <p class="progress-text">9% complete</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-text">Leave a rating</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 4 -->
-                <div class="course-card">
-                    <div style="position: relative;">
-                        <img src="https://img-c.udemycdn.com/course/240x135/5426508_6645_2.jpg" alt="Photoshop 2023" class="course-image">
-                        <div class="course-menu">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </div>
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title">Photoshop 2023 from scratch (arabic)</h4>
-                        <p class="course-author">Mahmood Qadaya</p>
-                        <div class="course-action">
-                            <button class="btn-start">START COURSE</button>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
