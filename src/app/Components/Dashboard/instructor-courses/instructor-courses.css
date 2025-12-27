@@ -967,3 +967,31 @@
     padding: 1rem;
   }
 }
+.disabled-link{
+  pointer-events: none;
+  color: gray;
+  cursor: not-allowed;
+}
+
+
+
+
+
+.media-preview-box {
+  width: 120px;
+  height: 90px;
+  border: 1px solid #d1d7dc;
+  border-radius: 4px;
+  background: #f7f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.media-preview-box img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

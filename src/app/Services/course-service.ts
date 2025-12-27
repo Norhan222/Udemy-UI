@@ -12,7 +12,7 @@ export class CourseService {
   baseUrl = environment.apiUrl;
 
   // ✅ cache DATA not Observable
-  private courseCache = new Map<number, ICourse>();
+  private courseCache = new Map<Number, ICourse>();
 
   constructor(private http: HttpClient) {}
 
@@ -22,9 +22,9 @@ export class CourseService {
 
 
   getStudentCourses(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);
   }
-  
+
   getRecommendedCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Recommended?take=10`);
   }
@@ -36,13 +36,29 @@ export class CourseService {
 
 
 
-  getCourseById(id: number, forceRefresh = false): Observable<ICourse> {
+  getCourseById(id: Number, forceRefresh = false): Observable<ICourse> {
     if (!forceRefresh && this.courseCache.has(id)) {
       // ✅ emit inside Angular zone naturally
       return of(this.courseCache.get(id)!);
     }
 
     return this.http.get<ICourse>(`${this.baseUrl}/Course/Get/${id}`).pipe(
+      tap(course => {
+        this.courseCache.set(id, course);
+      }),
+      catchError(err => {
+        this.courseCache.delete(id);
+        return throwError(() => err);
+      })
+    );
+  }
+   getInstructorCourseById(id: Number, forceRefresh = false): Observable<ICourse> {
+    if (!forceRefresh && this.courseCache.has(id)) {
+      // ✅ emit inside Angular zone naturally
+      return of(this.courseCache.get(id)!);
+    }
+
+    return this.http.get<ICourse>(`${this.baseUrl}/InstructorCourse/${id}`).pipe(
       tap(course => {
         this.courseCache.set(id, course);
       }),

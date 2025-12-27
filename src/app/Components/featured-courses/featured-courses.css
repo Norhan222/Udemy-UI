@@ -1,3 +1,12 @@
-.p-tablist-tab-list{
-  border:none
+::ng-deep .p-tablist {
+  border: none !important;
+}
+
+::ng-deep .p-tab {
+  border: none !important;
+}
+
+::ng-deep .p-tabpanels {
+  border: none !important;
+  padding: 0 !important;
 }

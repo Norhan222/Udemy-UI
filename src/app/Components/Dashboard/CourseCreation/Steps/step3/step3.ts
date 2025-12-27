@@ -31,7 +31,7 @@ category = '';
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.category = data.category;
+      this.category = data.category??'';
     });
   }
 

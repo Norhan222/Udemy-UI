@@ -68,11 +68,11 @@ export class StepperService {
       case 1:
         return data.courseType !== '';
       case 2:
-        return data.courseTitle.trim() !== '';
+        return data.courseTitle?.trim() !== '';
       case 3:
         return data.category !== '';
       case 4:
-        return data.description.trim() !== '';           //length >200
+        return data.description?.trim() !== '';           //length >200
       default:
         return false;
     }
@@ -83,8 +83,8 @@ export class StepperService {
   }
 }
 export interface CourseFormData {
-  courseType: string;
-  courseTitle: string;
-  category: string;
-  description: string;
+  courseType: string | null;
+  courseTitle: string | null;
+  category: string | null;
+  description: string   | null;
 }

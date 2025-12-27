@@ -14,6 +14,7 @@ import { CourseShowDialog } from '../../Directives/course-show-dialog';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
+import { WishlistService } from '../../Services/wishlist';
 
 @Component({
   selector: 'app-most-popular',
@@ -26,6 +27,7 @@ export class MostPopular implements OnInit, OnDestroy {
 
     courses!:ICourse [] ;
     dataResponse!: Subscription;
+    wihshListAdded =false;
     cartAdded = false;
       value: number = 3;
       // selectedCourse: any;
@@ -33,16 +35,17 @@ export class MostPopular implements OnInit, OnDestroy {
 
       constructor(public courseService: CourseService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
        private cartService = inject(CartService);
-        cartItems: any[] = []; 
-        cartLoaded = false;
+        private wihshList =inject(WishlistService);
+                               cartItems: any[] = []; 
+                                wishlistItems: any[] = [];
+                               cartLoaded = false;
       ngOnInit() {
 
         this.dataResponse = this.courseService.getPopularCourses().subscribe((data:any)=>{
               this.courses = data.data;
               this.cdn.detectChanges();
            })
-        
-          this.responsiveOptions = [
+        this.responsiveOptions = [
               {
                   breakpoint: '1400px',
                   numVisible: 2,
@@ -65,64 +68,96 @@ export class MostPopular implements OnInit, OnDestroy {
               }
           ];
        //add to cart
-      
-               this.cartService.getCart().subscribe({
-                   next: (res: any) => {
-                   this.cartItems = res.data.items;
-                   this.cartLoaded = true;
-      
-                  console.log('CART ITEMS:', this.cartItems);
-                  this.cdn.detectChanges();
-                },
-                error: (er) => {
-                    this.cartLoaded = true;
-                   console.error('Error fetching cart items:', er);
-               }
-              });
-      
-            
-                //
+
+         this.cartService.getCart().subscribe({
+             next: (res: any) => {
+             this.cartItems = res.data.items;
+             this.cartLoaded = true;
+
+            console.log('CART ITEMS:', this.cartItems);
+            this.cdn.detectChanges();
+          },
+          error: (er) => {
+              this.cartLoaded = true;
+             console.error('Error fetching cart items:', er);
+         }
+        });
+
+        this.wihshList.getWishlist().subscribe({
+          next: (res: any) => {
+          this.wishlistItems = res.data;
+          this.wihshListAdded = true;
+          console.log('WISHLIST ITEMS:', this.wishlistItems);
+          this.cdn.detectChanges();
+        },
+        error: (er) => {
+         console.error('Error fetching wishlist items:', er);
        }
+      });
+
+
+
       
-            // getSeverity(status: string) {
-            //     switch (status) {
-            //         case 'INSTOCK':
-            //             return 'success';
-            //         case 'LOWSTOCK':
-            //             return 'warn';
-            //         case 'OUTOFSTOCK':
-            //             return 'danger';
-            //     }
-            // }
-      
-      
-      
-      
-      
-              isInCart(courseId: number | null | undefined): boolean {
-                if (!courseId || !this.cartItems?.length) return false;
-                return this.cartItems.some(item => item.courseId === courseId);
-              }
-      
-              addToCart(id: any): void {
-               this.cartService.addToCart(id).subscribe({
-                next: (res) => {
-                console.log('addCart', res);
-                this.cartAdded = true;
-                this.cartItems.push({ courseId: id, ...res.data }); 
-               this.cdn.detectChanges(); // force update
-               },
-               error: (err) => {
-               console.error(err);
-              }
-             });
-          }
-      
-      
-        ngOnDestroy(): void {
-          this.dataResponse.unsubscribe(); //end request
+          //
+ }
+
+      // getSeverity(status: string) {
+      //     switch (status) {
+      //         case 'INSTOCK':
+      //             return 'success';
+      //         case 'LOWSTOCK':
+      //             return 'warn';
+      //         case 'OUTOFSTOCK':
+      //             return 'danger';
+      //     }
+      // }
+
+
+
+
+
+        isInCart(courseId: number | null | undefined): boolean {
+          if (!courseId || !this.cartItems?.length) return false;
+          return this.cartItems.some(item => item.courseId === courseId);
         }
-      
-      
+
+      isInWishlist(courseId: number | null | undefined): boolean {
+        if (!courseId || !this.wishlistItems?.length) return false;
+        return this.wishlistItems.some(item => item.courseId === courseId);
       }
-      
+
+        addToCart(id: any): void {
+         this.cartService.addToCart(id).subscribe({
+          next: (res) => {
+          console.log('addCart', res);
+          this.cartAdded = true;
+          this.cartItems.push({ courseId: id, ...res.data }); 
+         this.cdn.detectChanges(); // force update
+         },
+         error: (err) => {
+         console.error(err);
+        }
+       });
+    }
+
+      addToWishlist(id: any): void {
+       this.wihshList.addToWishlist(id).subscribe({
+        next: (res) => {
+        console.log('addWishlist', res);
+        this.wihshListAdded = true;
+        this.wishlistItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges(); // force update
+        },
+        error: (err) => {
+        console.error(err);
+        }
+        });
+    }
+
+
+  ngOnDestroy(): void {
+    this.dataResponse.unsubscribe(); //end request
+  }
+
+
+}

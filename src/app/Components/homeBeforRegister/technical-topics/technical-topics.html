@@ -1,8 +1,37 @@
+<section style="margin:30px; background-color: #f7f9fb; padding:30px; border-radius:20px;">
+  <h2>Skills to transform your career and life</h2>
+  <p>From critical skills to technical topics, Udemy supports your professional development.</p>
 
-<section style="margin: 10px 0 50px 0;">
-  <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product pTemplate="item">
-      <div class="course-card-wrapper">
+  <div class="card" style="border:none;border-style:none ; margin-top:20px;background-color: #f7f9fb;" *ngIf="courses?.length">
+
+    <p-tabs [value]="courses[0]?.id" style="border:none; background-color: #f7f9fb; margin: 0 10px">
+
+      <!-- Tabs Header -->
+      <p-tablist style="border:none; background-color: #f7f9fb; margin: 0 10px">
+        <p-tab
+          *ngFor="let topic of courses; trackBy: trackByTopicId"
+          [value]="topic.id"
+          style="border:none; margin: 0 10px">
+          {{ topic.name }}
+        </p-tab>
+      </p-tablist>
+      <br>
+      <hr>
+      <!-- Tabs Content -->
+      <p-tabpanels style="border:none; background-color: #f7f9fb; margin: 0 10px">
+        <p-tabpanel 
+          *ngFor="let topic of courses; trackBy: trackByTopicId"
+          [value]="topic.id">
+
+          <p-carousel
+            [value]="topic.courses"
+            [numVisible]="4"
+            [numScroll]="1"
+            [responsiveOptions]="responsiveOptions">
+
+            <ng-template pTemplate="item" let-product>
+
+              <div class="course-card-wrapper">
         <div class="course-card"  style="height:320px">
           <div [routerLink]="['/course', product.id]">
             <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
@@ -44,26 +73,31 @@
             </ul>
             <div class="hover-buttons">
                  <button type="button" class=" " 
-                    [disabled]="isInCart(product?.id)" 
-                    (click)="addToCart(product?.id)"  
+                    [disabled]="true" 
                     style="background-color:#5f2eaf; color:white; 
                            padding:15px 50px 15px 50px; font-weight:bold ;">
                    <i class="bi bi-patch-check"></i>  
                        {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
                   </button>
-                  <button (click)="addToWishlist(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
-                        @if(isInWishlist(product?.id))
-                        {
+                  <button [disabled]="true"  style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+                        
                            <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
-                       }@else
-                      {
-                          <i class="bi bi-heart" style="color:#5f2eaf"></i>
-                      }
+                       
+                      
                    </button>
             </div>
           </div>
         </div>
       </div>
-    </ng-template>
-  </p-carousel>
+
+               
+            </ng-template>
+
+          </p-carousel>
+
+        </p-tabpanel>
+      </p-tabpanels>
+
+    </p-tabs>
+  </div>
 </section>

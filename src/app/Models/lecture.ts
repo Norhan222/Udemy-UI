@@ -1,5 +1,8 @@
 export interface Lecture {
+  id:number
+  videoUrl:File|null
   title:string
-  video:File|null
+  type:string
+  contentType:string
 
 }

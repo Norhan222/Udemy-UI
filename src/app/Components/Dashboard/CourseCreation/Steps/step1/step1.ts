@@ -14,7 +14,7 @@ selectedType = '';
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.selectedType = data.courseType;
+      this.selectedType = data.courseType??'';
     });
   }
 

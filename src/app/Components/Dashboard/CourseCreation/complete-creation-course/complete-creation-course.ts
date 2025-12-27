@@ -1,3 +1,4 @@
+import { Lecture } from './../../../../Models/lecture';
 import { Category } from './../../../../Models/category';
 import { CourseFormData, StepperService } from './../../../../Services/stepper-service';
 import { CommonModule } from '@angular/common';
@@ -7,37 +8,41 @@ import { FormsModule } from '@angular/forms';
 import { Course } from '../../../../Models/course';
 import { Title } from '@angular/platform-browser';
 import { CourseService } from '../../../../Services/course-service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ICourse } from '../../../../Models/icourse';
 
 @Component({
   selector: 'app-complete-creation-course',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './complete-creation-course.html',
   styleUrl: './complete-creation-course.css',
 })
 export class CompleteCreationCourse implements OnInit {
 
 course!:Course;
+editCourse!:ICourse;
 sectionss:Section[]=[];
 courseData!:CourseFormData;
-courseTitle='';
-courseDescription=''
-category='';
-constructor(private courseService:CourseService ,private StepperService:StepperService){
-  this.course=new Course();
-}
-  ngOnInit(): void {
-    this.courseData=this.StepperService.getFormData();
-     this.courseTitle = this.courseData.courseTitle;
-        this.courseDescription = this.courseData.description ;
-          this.category = this.courseData.category;
-
-
-  }
-   activePage = 'course-landing';
+courseTitle:string |null='';
+courseDescription :string | null='';
+category:string | null='';
+courseId!:Number;
+activePage = 'course-landing';
+editSections:Section[]=[];
+  sections:Section[] = [
+    {
+      id: 1,
+      title: 'Introduction',
+      expanded: false,
+      lectures: [
+        { id: 1, title: 'Introduction', type: 'lecture', contentType: '', videoUrl: null }
+      ]
+    }
+  ];
 
   // Course Landing Page Data
   courseSubtitle = '';
-  language = 'English (US)';
+  language = this.editCourse?.language;
   level = '';
   subcategory = '';
   primaryTopic = '';
@@ -45,7 +50,71 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   // Pricing Page Data
   currency = 'USD';
   priceTier = '';
+constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute){
+  this.course=new Course();
 
+}
+  ngOnInit(): void {
+ this.route.paramMap.subscribe(params => {
+      const Id = params.get('id');
+      if (Id) {
+        this.courseId = +Id;
+        this.loadCourse(this.courseId);
+        console.log('Course Edit:', this.editCourse);
+      }
+  });
+    this.courseData=this.StepperService.getFormData();
+    this.courseTitle = this.courseData?.courseTitle=='' ? this.editCourse?.title : this.courseData?.courseTitle;
+    this.courseDescription = this.courseData.description ==''?this.editCourse?.description:this.courseData.description;
+    this.category = this.courseData.category  || 'Design';
+
+    this.activePage = 'course-landing';
+    this.courseImagePreview = this.editCourse?.thumbnailUrl ?? null;
+    this.promoVideoPreview = this.editCourse?.previewVideoUrl ?? null;
+
+    // Course Landing Page Data
+    this.courseSubtitle = '';
+    this.language = this.editCourse?.language ?? 'English (US)';
+    this.level =this.editCourse?.level ?? '';
+    this.subcategory = '';
+    this.primaryTopic = '';
+    // Pricing Page Data
+    this.currency = 'USD';
+    this.priceTier = this.editCourse?.price==0?'Free':'';
+
+    this.editCourse?.sections?.forEach(sec=>{
+      const section:Section={
+        id:sec.id,
+        title:sec.title,
+        expanded:sec.expanded,
+        lectures:sec.lectures
+
+      }
+      sec?.lectures?.forEach(lec=>{
+        const lecture:Lecture={
+          id:lec.id,
+          videoUrl:lec.videoUrl,
+          title:lec.title,
+          type:lec.type,
+          contentType:lec.contentType
+        }
+        section.lectures.push(lecture);
+      })
+      this.editSections.push(section);
+    })
+    console.log(`kkkkkk${this.editCourse}`)
+    // this.sections=this.editSections.length>0?this.editSections:[
+    //   {
+    //   id: 1,
+    //   title: 'Introduction',
+    //   expanded: false,
+    //   lectures: [
+    //     { id: 1, title: 'Introduction', type: 'lecture', contentType: '', videoUrl: null }
+    //   ]
+    //   },
+    //   ]
+
+  }
   // Curriculum Data
   showCurriculumInfo = true;
   showNewFeatureInfo = true;
@@ -65,19 +134,10 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   editingLecture: any = null;
   videoFile: File | null = null;
   videoFileName = 'No file selected';
-    promoVideo: File | null = null;
+  promoVideo: File | null = null;
   promoVideoPreview: string | null = null;
 
-  sections = [
-    {
-      id: 1,
-      title: 'Introduction',
-      expanded: false,
-      lectures: [
-        { id: 1, title: 'Introduction', type: 'lecture', contentType: '', video: null }
-      ]
-    }
-  ];
+
 
   // Editor States
   isBold = false;
@@ -111,6 +171,21 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   subcategories = ['Web Design', 'Graphic Design', 'UI/UX', 'Game Design'];
   currencies = ['USD', 'EUR', 'GBP', 'EGP'];
   priceTiers = ['Free', '$19.99', '$29.99', '$49.99', '$99.99', '$199.99'];
+
+
+
+loadCourse(id:Number){
+  this.courseService.getInstructorCourseById(id).subscribe({
+    next:(course)=>{
+      this.editCourse=course;
+    },
+    error:(error)=>{
+      console.error('Error fetching course:',error);
+    }
+  });
+
+
+}
 
   navigateToPage(item: SidebarItem): void {
     // Remove active from all items
@@ -157,14 +232,15 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
       alert('Please complete all required fields before submitting for review.');
       return;
     }
-    this.course.title=this.courseTitle
-    this.course.description=this.courseDescription
+    this.course.title=this.courseTitle??''
+    this.course.description=this.courseDescription??''
     this.course.language=this.language
     this.course.level=this.level
-    this.course.category=this.category
-    this.course.subcategory=this.subcategory
+    this.course.category=this.category??''
+    this.course.subcategory=this.subcategory??''
     this.course.Thumbnail=this.courseImage!
     this.course.PreviewVideo=this.promoVideo!
+    this.course.shortTitle=this.courseSubtitle
 
    this.course.price=this.priceTier==='Free'?0:parseFloat( this.priceTier.replace('$',''))
 
@@ -194,8 +270,8 @@ formData.append('PreviewVideo',this.course.PreviewVideo);
      `Sections[${i}].Lectures[${j}].title`,
      lecture.title
    );
-   if(lecture.video){
-    formData.append(`Sections[${i}].Lectures[${j}].video`, lecture.video)
+   if(lecture.videoUrl){
+    formData.append(`Sections[${i}].Lectures[${j}].video`, lecture.videoUrl)
    }
 
    });
@@ -222,12 +298,12 @@ this.courseService.createCourse(formData).subscribe({
 
  canSubmitForReview(): boolean {
     // Check Course Landing Page fields
-    const hasTitle = this.courseTitle.trim().length > 0;
-    const hasSubtitle = this.courseSubtitle.trim().length > 0;
-    const hasDescription = this.courseDescription.trim().length >= 200;
-    const hasLevel = this.level.trim().length > 0;
-    const hasCategory = this.category.trim().length > 0;
-    const hasSubcategory = this.subcategory.trim().length > 0;
+    const hasTitle = (this.courseTitle?.trim().length ?? 0) > 0;
+    const hasSubtitle = (this.courseSubtitle?.trim().length ?? 0) > 0;
+    const hasDescription = (this.courseDescription?.trim().length ?? 0) >= 200;
+    const hasLevel = (this.level?.trim().length ?? 0) > 0;
+    const hasCategory = (this.category?.trim().length ?? 0) > 0;
+    const hasSubcategory = (this.subcategory?.trim().length ?? 0) > 0;
     const hasPrimaryTopic = this.primaryTopic.trim().length > 0;
 
     // Check Pricing
@@ -241,7 +317,7 @@ this.courseService.createCourse(formData).subscribe({
     );
     const allVideoLecturesHaveVideo = this.sections.every(section =>
       section.lectures.every(lecture =>
-        lecture.contentType !== 'Video' || (lecture.contentType === 'Video' && lecture.video !== null)
+        lecture.contentType !== 'Video' || (lecture.contentType === 'Video' && lecture.videoUrl !== null)
       )
     );
 
@@ -253,9 +329,9 @@ this.courseService.createCourse(formData).subscribe({
   getValidationMessages(): string[] {
     const messages: string[] = [];
 
-    if (this.courseTitle.trim().length === 0) messages.push('Course title is required');
+    if (this.courseTitle?.trim().length === 0) messages.push('Course title is required');
     if (this.courseSubtitle.trim().length === 0) messages.push('Course subtitle is required');
-    if (this.courseDescription.trim().length < 200) messages.push('Course description must be at least 200 characters');
+    if ((this.courseDescription?.trim().length ?? 0) < 200 ) messages.push('Course description must be at least 200 characters');
     if (this.level.trim().length === 0) messages.push('Course level is required');
     if (this.subcategory.trim().length === 0) messages.push('Course subcategory is required');
     if (this.primaryTopic.trim().length === 0) messages.push('Primary topic is required');
@@ -275,7 +351,7 @@ this.courseService.createCourse(formData).subscribe({
       }
 
       const videoLecturesWithoutVideo = this.sections.flatMap(s => s.lectures)
-        .filter(l => l.contentType === 'Video' && !l.video);
+        .filter(l => l.contentType === 'Video' && !l.videoUrl);
       if (videoLecturesWithoutVideo.length > 0) {
         messages.push('All video lectures must have a video file uploaded');
       }
@@ -423,7 +499,7 @@ this.courseService.createCourse(formData).subscribe({
           title: this.newLectureTitle,
           type: 'lecture',
           contentType: '',
-          video: null
+          videoUrl: null
         };
         section.lectures.push(newLecture);
       }
