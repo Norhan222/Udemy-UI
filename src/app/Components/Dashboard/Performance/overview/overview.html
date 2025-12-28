@@ -1,12 +1,23 @@
 <div class="performance-page">
 
+  <!-- Loading Overlay -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner-border text-purple" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 class="fw-bold mb-1">
         Overview
-        <span class="text-purple cursor-pointer">
-          All courses <i class="bi bi-chevron-down"></i>
+        <span class="dropdown-wrapper">
+          <select [(ngModel)]="selectedCourse" (change)="onCourseChange()" class="course-select text-purple">
+            <option *ngFor="let course of courses" [value]="course">
+              {{ course }}
+            </option>
+          </select>
         </span>
       </h2>
       <p class="text-muted">Get top insights about your performance</p>
@@ -16,52 +27,65 @@
   <!-- Stats -->
   <div class="card stats-card mb-4">
     <div class="row text-center">
-      <div class="col-md-4 stat">
-        <p class="text-muted mb-1">This month so far</p>
-        <h3>$0.00</h3>
-        <small>$0.00 total revenue</small>
-      </div>
-
-      <div class="col-md-4 stat">
+      <div *ngFor="let metric of metrics; let i = index" class="col-md-4 stat"
+        [class.border-end]="i < metrics.length - 1">
         <p class="text-muted mb-1">
-          This month so far <i class="bi bi-info-circle"></i>
+          {{ metric.label }}
+          <i *ngIf="metric.hasInfo" class="bi bi-info-circle ms-1"></i>
         </p>
-        <h3>0</h3>
-        <small>0 total enrollments</small>
+        <h3 class="mb-2 metric-value">{{ metric.value }}</h3>
+        <small class="text-muted">{{ metric.subtitle }}</small>
       </div>
+    </div>
 
-      <div class="col-md-4 stat">
-        <p class="text-muted mb-1">
-          This month so far <i class="bi bi-info-circle"></i>
-        </p>
-        <h3>0</h3>
-        <small>0.00 average rating</small>
-      </div>
+    <!-- Empty State -->
+    <div *ngIf="metrics.length === 0" class="text-center py-5">
+      <i class="bi bi-graph-up text-muted" style="font-size: 3rem;"></i>
+      <p class="text-muted mt-3">No performance data available</p>
     </div>
   </div>
 
   <!-- Chart section -->
   <div class="card chart-card">
-    <div class="d-flex justify-content-end mb-3">
-      <span class="me-2">Date range:</span>
+    <div class="d-flex justify-content-end align-items-center mb-3 flex-wrap gap-2">
+      <span class="me-2 text-nowrap">Date range:</span>
 
-      <select class="form-select w-auto me-2">
-        <option>Last 12 months</option>
-        <option>Last 6 months</option>
-        <option>This year</option>
+      <select [(ngModel)]="selectedRange" (change)="onDateRangeChange()" class="form-select date-select w-auto me-2">
+        <option *ngFor="let range of dateRanges" [value]="range">
+          {{ range }}
+        </option>
       </select>
 
-      <button class="btn btn-purple">
+      <button class="btn btn-purple" (click)="onExport()">
         Export <i class="bi bi-chevron-down"></i>
       </button>
     </div>
 
-    <div class="chart-empty">
-      No data to display
+    <!-- Chart Area -->
+    <div class="chart-container">
+      <div *ngIf="hasData()" class="chart-content">
+        <!-- ✅ هنا ممكن تضيف chart library زي Chart.js أو ngx-charts -->
+        <div class="simple-chart">
+          <div class="chart-bars">
+            <div *ngFor="let data of performanceData.chartData?.slice(0, 12)" class="chart-bar-wrapper"
+              [title]="'Revenue: $' + data.revenue">
+              <div class="chart-bar" [style.height.%]="(data.revenue / 1200) * 100">
+              </div>
+              <span class="chart-label">{{ data.month }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!hasData()" class="chart-empty">
+        <i class="bi bi-bar-chart text-muted mb-2" style="font-size: 2rem;"></i>
+        <p class="text-muted">No data to display</p>
+        <small class="text-muted">Data will appear here once you have enrollments</small>
+      </div>
     </div>
 
     <div class="text-end mt-3">
-      <a href="#" class="text-purple fw-semibold">
+      <a href="#" class="text-purple fw-semibold text-decoration-none">
         Revenue Report →
       </a>
     </div>

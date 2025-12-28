@@ -2,17 +2,31 @@
   <!-- Top Navigation -->
   <div class="top-nav">
     <div class="nav-left">
-      <button class="back-btn" routerLink="/dashboard/courses">
+      <button class="back-btn"  (click)="onBackToCourses()">
         <span class="arrow">←</span>
         <span>Back to courses</span>
       </button>
-      <span class="course-name">{{ courseTitle }}</span>
+      <span class="course-name">{{ courseTitle || 'New Course' }}</span>
+
+      <span *ngIf="hasUnsavedChanges" class="unsaved-badge" title="You have unsaved changes">
+        ● Unsaved Changes
+      </span>
       <!-- <span class="draft-badge">DRAFT</span> -->
       <span class="upload-status">0min of video content uploaded</span>
     </div>
     <div class="nav-right">
       <button class="preview-btn" (click)="onPreview()">Preview</button>
-      <button class="save-btn" (click)="onSave()">Save</button>
+      <button class="save-btn" [disabled]="!hasUnsavedChanges || isSaving" [class.disabled]="!hasUnsavedChanges"
+        [class.saving]="isSaving" (click)="onSave()" [title]="hasUnsavedChanges ? 'Save your changes' : 'No changes to save'">
+        <span *ngIf="!isSaving">
+          <span class="save-icon">💾</span>
+          Save
+        </span>
+        <span *ngIf="isSaving" class="saving-spinner">
+          <span class="spinner-small"></span>
+          Saving...
+        </span>
+      </button>
       <button class="settings-btn">⚙</button>
     </div>
   </div>
@@ -35,6 +49,24 @@
         title="{{ canSubmitForReview() ? 'Submit for Review' : 'Please complete all required fields' }}">
         Submit for Review
       </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <!-- Validation Info -->
       <div *ngIf="!canSubmitForReview()" class="validation-info">
@@ -63,7 +95,9 @@
           <!-- Course Title -->
           <div class="form-group">
             <label class="form-label">Course title</label>
-            <input type="text" [(ngModel)]="courseTitle" class="form-input" maxlength="60" />
+            <input type="text"  [(ngModel)]="courseTitle"
+                      (ngModelChange)="onCourseDataChange()"
+             class="form-input" maxlength="60" />
             <div class="form-helper">
               <span class="helper-text">
                 Your title should be a mix of attention-grabbing, informative, and optimized for search
@@ -75,7 +109,9 @@
           <!-- Course Subtitle -->
           <div class="form-group">
             <label class="form-label">Course subtitle</label>
-            <input type="text" [(ngModel)]="courseSubtitle" placeholder="Insert your course subtitle."
+            <input type="text" [(ngModel)]="courseSubtitle"
+              (ngModelChange)="onCourseDataChange()"
+             placeholder="Insert your course subtitle."
               class="form-input" maxlength="120" />
             <div class="form-helper">
               <span class="helper-text">
@@ -100,7 +136,9 @@
                 <button class="toolbar-btn">☰</button>
                 <button class="toolbar-btn">≡</button>
               </div>
-              <textarea [(ngModel)]="courseDescription" placeholder="Insert your course description."
+              <textarea [(ngModel)]="courseDescription" 
+                (ngModelChange)="onCourseDataChange()"
+              placeholder="Insert your course description."
                 class="form-textarea"></textarea>
             </div>
             <span class="helper-text">Description should have minimum 200 words.</span>
@@ -110,19 +148,27 @@
           <div class="form-group">
             <label class="form-label">Basic info</label>
             <div class="grid-2">
-              <select [(ngModel)]="language" class="form-select">
+              <select [(ngModel)]="language"
+              (ngModelChange)="onCourseDataChange()"
+               class="form-select">
                 <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
               </select>
-              <select [(ngModel)]="level" class="form-select " [class.error]="level.toString().trim().length === 0">
+              <select [(ngModel)]="level"
+              (ngModelChange)="onCourseDataChange()"
+               class="form-select " [class.error]="level.toString().trim().length === 0">
                 <option value="" disabled selected>-- Select Level --</option>
                 <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
               </select>
             </div>
             <div class="grid-2">
-              <select [(ngModel)]="category" class="form-select">
+              <select [(ngModel)]="category" 
+              (ngModelChange)="onCourseDataChange()"
+              class="form-select">
                 <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
               </select>
-              <select [(ngModel)]="subcategory" class="form-select "
+              <select [(ngModel)]="subcategory"
+              (ngModelChange)="onCourseDataChange()"
+               class="form-select "
                 [class.error]="subcategory.trim().length === 0">
                 <option value="" disabled selected>-- Select Subcategory --</option>
                 <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
@@ -133,7 +179,9 @@
           <!-- Primary Topic -->
           <div class="form-group">
             <label class="form-label">What is primarily taught in your course?</label>
-            <input type="text" [(ngModel)]="primaryTopic" placeholder="e.g. Landscape Photography" class="form-input" />
+            <input type="text" [(ngModel)]="primaryTopic"
+             (ngModelChange)="onCourseDataChange()"
+             placeholder="e.g. Landscape Photography" class="form-input" />
           </div>
 
          <!-- Course Image -->
@@ -178,7 +226,7 @@
                 <input
                   type="file"
                   accept="image/*"
-                  (change)="onFileSelected($event)"
+                  (change)="onFileSelected($event);onCourseDataChange() "
                   id="imageInput"
                   hidden
                 />
@@ -234,7 +282,7 @@
                 <input
                   type="file"
                   accept="video/*"
-                  (change)="onVideoSelected($event)"
+                  (change)="onVideoSelected($event);onCourseDataChange()"
                   id="videoInput"
                   hidden
                 />
@@ -279,7 +327,9 @@
               <div class="form-row">
                 <div class="form-field">
                   <label class="form-label">Currency</label>
-                  <select [(ngModel)]="currency" class="form-select">
+                  <select [(ngModel)]="currency"
+                  (ngModelChange)="onCourseDataChange()"
+                   class="form-select">
                     <option *ngFor="let curr of currencies" [value]="curr">{{ curr }}</option>
                   </select>
                 </div>
@@ -289,7 +339,9 @@
                     Price Tier
                     <!-- <span class="info-icon" title="Select the price tier for your course">ⓘ</span> -->
                   </label>
-                  <select [(ngModel)]="priceTier" class="form-select "
+                  <select [(ngModel)]="priceTier"
+                  (ngModelChange)="onCourseDataChange()"
+                   class="form-select "
                     [class.error]="priceTier.trim().length === 0">
                     <option value="" disabled selected>Select</option>
                     <option *ngFor="let tier of priceTiers" [value]="tier">{{ tier }}</option>
@@ -385,9 +437,9 @@
                     <span class="lecture-title" (click)="editLecture(section.id, lecture)" style="cursor: pointer;"
                       title="Click to edit">{{ lecture.title }}</span>
                     <span *ngIf="lecture.contentType" class="content-type-badge">{{ lecture.contentType }}</span>
-                    <!-- <span *ngIf="lecture.video" class="video-uploaded-badge" title="{{ lecture.video.name }}">
-                      📹 {{ (lecture.video.size / 1024 / 1024).toFixed(2) }} MB
-                    </span> -->
+                    <span *ngIf="lecture.videoUrl" class="video-uploaded-badge" title="{{ lecture.videoUrl.name }}">
+                      📹 {{ (lecture.videoUrl.size / 1024 / 1024).toFixed(2) }} MB
+                    </span>
                   </div>
                   <div class="lecture-actions">
                     <button class="content-btn" (click)="addContent(section, lecture)">

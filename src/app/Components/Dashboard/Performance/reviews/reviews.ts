@@ -1,6 +1,6 @@
 import { ReviewService } from './../../../../Services/review-service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Review } from '../../../../Models/review';
 
@@ -27,7 +27,7 @@ export class Reviews implements  OnInit {
   courses: string[] = [];
   
   activeTab: string = 'reviews';
-  showNotAnswered: boolean = true;
+  showNotAnswered: boolean = false;
   showWithComment: boolean = false;
   selectedRating: string = 'all';
   sortBy: string = 'lowest';
@@ -35,19 +35,21 @@ export class Reviews implements  OnInit {
   
   replyingTo: number | null = null;
   replyText: string = '';
-  constructor(private ReviewService: ReviewService) {
-       this.ReviewService.getReviews().subscribe(reviews => {
-      this.reviews=reviews
-     this.courses = ['all',...new Set(this.reviews.map(r => r.courseTitle))];
-    });
+  constructor(private ReviewService: ReviewService, private cdr:ChangeDetectorRef) {
+       
     // this.filterReviews();
 
   }
 
   ngOnInit() {
+    this.ReviewService.getReviews().subscribe(reviews => {
+      this.reviews=reviews
+     this.courses = ['all',...new Set(this.reviews.map(r => r.courseTitle))];
+         this.filterReviews();
+    this.cdr.detectChanges()
+    });
    
     this.courses = ['all',...new Set(this.reviews.map(r => r.courseTitle))];
-    this.filterReviews();
   }
 
   filterReviews() {

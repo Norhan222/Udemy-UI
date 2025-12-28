@@ -15,6 +15,7 @@ import { DashboardLayout } from './Components/Dashboard/dashboard-layout/dashboa
 import { CartComponent } from './Components/cart-component/cart-component';
 import { MyLearning } from './Components/my-learning/my-learning';
 import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in';
+import { componentDeactivateGuard } from './Guard/component-deactivate-guard';
 
 export const routes: Routes = [
     // {path:'', redirectTo: 'Home', pathMatch: 'full'},
@@ -120,7 +121,8 @@ export const routes: Routes = [
     },
      {path:'complete-creation-course/:id',
      loadComponent: () => import('./Components/Dashboard/CourseCreation/complete-creation-course/complete-creation-course')
-     .then(m => m.CompleteCreationCourse)
+     .then(m => m.CompleteCreationCourse),
+     canDeactivate:[componentDeactivateGuard]
     },
 
 ];
