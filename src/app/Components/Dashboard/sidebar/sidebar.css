@@ -1,101 +1,132 @@
- .sidebar {
+/* ===============================
+   SIDEBAR BASE
+================================ */
+.sidebar {
   width: 60px;
   height: 100vh;
   background: linear-gradient(180deg, #0f1117, #151826);
   color: #fff;
-  transition: width 0.6s ease;
   position: sticky;
   top: 0;
-}
-/* .sidebar .nav .label {
- display:none;
-} */
+  overflow: hidden;
+  z-index: 100;
 
+  transition:
+    width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* expand on visible area hover */
 .sidebar:hover {
   width: 300px;
-
 }
 
-/* Logo */
+/* ===============================
+   LOGO
+================================ */
 .logo {
   height: 70px;
-  padding-top: 20px;
   padding: 20px 16px;
   display: flex;
   align-items: center;
   position: relative;
 }
 
-/* Collapsed logo */
 .logo-icon {
   width: 28px;
   height: 28px;
   object-fit: contain;
+  transition: opacity 0.3s ease;
 }
 
-/* Full logo hidden */
 .logo-full {
   position: absolute;
   left: 16px;
+  width: 120px;
   opacity: 0;
-  width: 100px;
-  transition: opacity 0.5s ease;
+  transform: translateX(-12px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* On expand */
 .sidebar:hover .logo-icon {
   opacity: 0;
 }
 
 .sidebar:hover .logo-full {
   opacity: 1;
+  transform: translateX(0);
 }
 
-.logo .udemy {
-  width: 100px;
-}
-
-.logo .accent {
-  color: #a435f0;
-}
-
+/* ===============================
+   NAV
+================================ */
 .nav {
-  gap: 8px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .nav-item {
   cursor: pointer;
-  padding: 12px 20px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
-  gap: 25px;
-  color: red;
-  transition: all 0.2s ease;
-  font-weight: 700;
+  gap: 22px;
+  font-weight: 600;
+
+  /* left border */
+  border-left: 4px solid transparent;
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.2s ease,
+    border-color 0.25s ease;
 }
 
 .nav-item i {
   font-size: 20px;
-
+  min-width: 24px;
 }
 
+/* ===============================
+   LABELS
+================================ */
+.label {
+  opacity: 0;
+  white-space: nowrap;
+  transform: translateX(-6px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease;
+}
+
+.sidebar:hover .label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===============================
+   NAV ITEM HOVER
+================================ */
 .nav-item:hover {
   background: #5b5f78;
-  /* background-color: rgb(133, 135, 137);*/
+  transform: translateX(4px);
+  border-left-color: #a435f0;
 }
 
-/* .nav-item.active {
-  background: #5b5f78;
-  color: #fff;
-} */
-
-
-
-
-.logo-full {
-  transform: translateX(-10px);
+/* ===============================
+   ACTIVE ITEM
+================================ */
+.nav-item.active {
+  border-left-color: #a435f0;
 }
 
-.sidebar:hover .logo-full {
-  transform: translateX(0);
+/* ===============================
+   SMOOTH CLOSE
+================================ */
+.sidebar:not(:hover) .label {
+  transition-delay: 0.05s;
 }

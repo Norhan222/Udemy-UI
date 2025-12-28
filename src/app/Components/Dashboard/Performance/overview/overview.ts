@@ -11,7 +11,7 @@ import { Chart } from 'chart.js';
   styleUrl: './overview.css',
 })
 export class Overview {
-  selectedRange = 'Last 12 months';
+ selectedRange = 'Last 12 months';
   selectedCourse = 'All courses';
   isLoading = false;
   
@@ -43,7 +43,6 @@ export class Overview {
 
     // ✅ استخدم setTimeout أقصر أو احذفه تماماً
     try {
-      
       this.performanceData = this.getMockData();
       this.updateMetrics();
       this.isLoading = false;
@@ -52,19 +51,6 @@ export class Overview {
       this.isLoading = false;
     }
   }
-  createChart(){
-  new Chart('myChart', {
-    type: 'bar',
-    data: {
-      labels: this.performanceData.chartData?.map(d => d.month),
-      datasets: [{
-        label: 'Revenue',
-        data: this.performanceData.chartData?.map(d => d.revenue),
-        backgroundColor: '#5624d0'
-      }]
-    }
-  });
-}
 
   // ✅ Mock Data Generator
   getMockData(): PerformanceData {
@@ -78,7 +64,7 @@ export class Overview {
       totalEnrollments: baseEnrollments * 8,
       monthEnrollments: baseEnrollments,
       averageRating: this.getRandomRating(),
-      chartData:this.generateChartData()
+      chartData: this.generateChartData()
     };
   }
 
@@ -182,6 +168,20 @@ export class Overview {
   hasData(): boolean {
     return this.performanceData.totalRevenue > 0 || 
            this.performanceData.totalEnrollments > 0;
+  }
+
+  // ✅ حساب ارتفاع الـ bar بشكل ديناميكي
+  getBarHeight(revenue: number): number {
+    if (!this.performanceData.chartData || this.performanceData.chartData.length === 0) {
+      return 0;
+    }
+
+    // احسب أعلى قيمة في الـ chart
+    const maxRevenue = Math.max(...this.performanceData.chartData.map(d => d.revenue));
+    
+    // احسب النسبة المئوية (مع حد أدنى 20%)
+    const percentage = (revenue / maxRevenue) * 100;
+    return Math.max(percentage, 20); // على الأقل 20% عشان يبقى ظاهر
   }
 }
 interface PerformanceMetric {
