@@ -599,4 +599,39 @@
                 align-items: flex-start;
             }
         }
-    
+/* Loading Container */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 400px;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+.empty-state i {
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    color: #1c1d1f;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #6a6f73;
+    font-size: 16px;
+}

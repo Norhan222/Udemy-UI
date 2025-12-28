@@ -85,4 +85,23 @@ export class CourseService {
   getMyCourses(): Observable<any> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);  
   }
+  // lern component test
+  getCourseByIdtest(id: number, forceRefresh = false): Observable<ICourse> {
+  if (!forceRefresh && this.courseCache.has(id)) {
+    return of(this.courseCache.get(id)!);
+  }
+
+  return this.http
+    .get<ICourse>(`${this.baseUrl}/Course/GetById/${id}`)
+    .pipe(
+      tap(course => {
+        this.courseCache.set(id, course);
+      }),
+      catchError(err => {
+        this.courseCache.delete(id);
+        return throwError(() => err);
+      })
+    );
+}
+
 }
