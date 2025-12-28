@@ -82,4 +82,7 @@ export class CourseService {
   getInstructorCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/InstructorCourses`);
   }
+  getMyCourses(): Observable<any> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);  
+  }
 }

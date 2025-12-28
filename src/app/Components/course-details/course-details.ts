@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../Services/course-service';
 import { CartService } from '../../Services/cart-service';
 import { AuthService } from '../../Services/auth-service';
+import { WishlistService } from '../../Services/wishlist';
 
 interface Instructor { id:number; name:string; title:string; image:string; rating:number; students:number; bio:string; }
 interface Curriculum { sectionId:number; sectionTitle:string; lectures:{id:number; title:string; duration:string; isFree:boolean}[] }
@@ -31,6 +32,17 @@ export class CourseDetailsComponent implements OnInit {
   wishlistAdded = false;
   couponApplied: string | null = null;
   Math = Math;
+  subTotal: number = 0;
+  total: number = 0;
+  movingToWishlist = false; // ✅ loading state for move to wishlist
+  
+  private wishlistService = inject(WishlistService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private cartService = inject(CartService);
+  
+  cartItems: any[] = []; 
+  cartLoaded = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,28 +50,20 @@ export class CourseDetailsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private zone: NgZone
   ) {}
- private auth = inject(AuthService);
-private router = inject(Router);
-  private cartService = inject(CartService);
-  cartItems: any[] = []; 
-  cartLoaded = false;
 
   ngOnInit(): void {
- 
-  this.cartService.getCart().subscribe({
-  next: (res: any) => {
-    this.cartItems = res.data.items;
-    this.cartLoaded = true;
-
-    console.log('CART ITEMS:', this.cartItems);
-    this.cdr.detectChanges();
-  },
-  error: (er) => {
-    this.cartLoaded = true;
-    console.error('Error fetching cart items:', er);
-  }
-});
-
+    this.cartService.getCart().subscribe({
+      next: (res: any) => {
+        this.cartItems = res.data.items;
+        this.cartLoaded = true;
+        console.log('CART ITEMS:', this.cartItems);
+        this.cdr.detectChanges();
+      },
+      error: (er) => {
+        this.cartLoaded = true;
+        console.error('Error fetching cart items:', er);
+      }
+    });
 
     // listen to route id changes
     this.route.paramMap.subscribe(params => {
@@ -73,36 +77,43 @@ private router = inject(Router);
     this.route.queryParamMap.subscribe(q => {
       this.couponApplied = q.get('couponCode') || q.get('coupon');
     });
-   
   }
+
   isInCart(courseId: number | null | undefined): boolean {
-  if (!courseId || !this.cartItems?.length) return false;
-  return this.cartItems.some(item => item.courseId === courseId);
-}
-
-    addToCart(id: any): void {
-
-  // ❌ لو مش عامل Login
-  if (!this.auth.getToken()) {
-    this.router.navigate(['/Login'], {
-      queryParams: { returnUrl: `/course/${id}` }
+    if (!courseId || !this.cartItems?.length) return false;
+    
+    // Log for debugging
+    console.log('Checking if course', courseId, 'is in cart:', this.cartItems);
+    
+    // Try both courseId and id properties, and convert to numbers for comparison
+    return this.cartItems.some(item => {
+      const itemId = item.courseId || item.id;
+      return Number(itemId) === Number(courseId);
     });
-    return;
   }
 
-  // ✅ لو عامل Login
-  this.cartService.addToCart(id).subscribe({
-    next: (res) => {
-      console.log('addCart', res);
-      this.cartAdded = true;
-       this.cartItems.push({ courseId: id, ...res.data }); 
-      this.cdr.detectChanges(); // force update
-    },
-    error: (err) => {
-      console.error(err);
+  addToCart(id: any): void {
+    // ❌ لو مش عامل Login
+    if (!this.auth.getToken()) {
+      this.router.navigate(['/Login'], {
+        queryParams: { returnUrl: `/course/${id}` }
+      });
+      return;
     }
-  });
-}
+
+    // ✅ لو عامل Login
+    this.cartService.addToCart(id).subscribe({
+      next: (res) => {
+        console.log('addCart', res);
+        this.cartAdded = true;
+        this.cartItems.push({ courseId: id, ...res.data }); 
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
 
   private loadCourseDetails(courseId: number): void {
     this.loading = true;
@@ -110,13 +121,11 @@ private router = inject(Router);
 
     this.courseService.getCourseById(courseId).subscribe({
       next: courseData => {
-        // ✅ ensure Angular zone updates the UI
         this.zone.run(() => {
           this.mapCourse(courseData);
         });
       },
       error: () => {
-        // fallback to all courses if single fetch fails
         this.courseService.getCourses().subscribe(list => {
           const found = list.find(x => Number(x.id) === courseId);
           this.zone.run(() => {
@@ -170,7 +179,7 @@ private router = inject(Router);
     };
 
     this.loading = false;
-    this.cdr.detectChanges(); // ✅ force UI update
+    this.cdr.detectChanges();
   }
 
   toggleSection(sectionId: number): void {
@@ -185,10 +194,8 @@ private router = inject(Router);
 
   openVideoModal(): void { this.showVideoModal = true; }
   closeVideoModal(): void { this.showVideoModal = false; }
- 
 
-  buyNow(): void {  }
-  addToWishlist(): void { this.wishlistAdded = !this.wishlistAdded; }
+  buyNow(): void { }
 
   getRatingStars(rating: number): string {
     return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
@@ -198,5 +205,55 @@ private router = inject(Router);
     if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + 'M';
     if (num >= 1_000) return (num / 1_000).toFixed(1) + 'K';
     return num.toString();
+  }
+  
+  // ✅ Enhanced addWishlist with loading state
+  addWishlist(courseId: number) {
+    if (!this.auth.getToken()) {
+      this.router.navigate(['/Login'], {
+        queryParams: { returnUrl: `/course/${courseId}` }
+      });
+      return;
+    }
+
+    this.movingToWishlist = true;
+
+    this.wishlistService.addToWishlist(courseId).subscribe({
+      next: () => {
+        console.log("Added to wishlist");
+        this.wishlistAdded = true;
+        
+        // ✅ Remove from cart after moving to wishlist
+        if (this.isInCart(courseId)) {
+          this.removeItem(courseId);
+        } else {
+          this.movingToWishlist = false;
+          this.cdr.detectChanges();
+        }
+      },
+      error: err => {
+        this.movingToWishlist = false;
+        console.error("Not added to wishlist", err);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  // ✅ Remove from cart
+  removeItem(courseId: number) {
+    this.cartService.removeFromCart(courseId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(item => item.courseId !== courseId);
+        this.subTotal = this.cartItems.reduce((acc, item) => acc + item.coursePrice, 0);
+        this.total = this.subTotal;
+        this.movingToWishlist = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.movingToWishlist = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

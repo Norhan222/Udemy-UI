@@ -160,11 +160,12 @@
         <div class="coupon-banner" *ngIf="couponApplied">
           {{ couponApplied }} is applied • <strong>Udemy coupon</strong>
         </div>
-
+<!-- 
         <div class="panel-tabs">
           <button class="tab active">Full course</button>
-          <button class="tab">Certificate</button>
-        </div>
+          <button class="tab">Certificate</button> -->
+           <!-- In your sticky sidebar, after "Add to Cart" button -->
+        <!-- </div> -->
 
         <div class="price-amount">
           <div class="price-row">
@@ -183,8 +184,30 @@
   {{ isInCart(course?.id) ? 'Added to Cart' : 'Add to Cart' }}
 </button>
 
-        <button class="secondary-cta" (click)="buyNow()">Buy now</button>
+<!-- Your button -->
+<!-- FOR TESTING - ALWAYS SHOW BUTTON -->
+<button 
+  (click)="addWishlist(course!.id)" 
+  [disabled]="movingToWishlist || wishlistAdded"
+  class="btn btn-outline-primary w-100 mt-2"
+  style="background: yellow;">
+  
+  <span *ngIf="!movingToWishlist && !wishlistAdded">
+    Move to Wishlist
+  </span>
+  
+  <span *ngIf="movingToWishlist">
+    <span class="spinner-border spinner-border-sm me-2"></span>
+    Moving...
+  </span>
+  
+  <span *ngIf="wishlistAdded" class="text-success">
+    ✓ Moved to Wishlist
+  </span>
+</button>
 
+
+<button class="secondary-cta" (click)="buyNow()">Buy now</button>
         <div class="coupon-row">
           <input class="coupon-input" placeholder="Coupon code" />
           <button class="apply-coupon">Apply</button>
