@@ -8,28 +8,24 @@
   </div>
 
   <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h2 class="fw-bold mb-1">
-        Overview
-        <span class="dropdown-wrapper">
-          <select [(ngModel)]="selectedCourse" (change)="onCourseChange()" class="course-select text-purple">
-            <option *ngFor="let course of courses" [value]="course">
-              {{ course }}
-            </option>
-          </select>
-        </span>
-      </h2>
-      <p class="text-muted">Get top insights about your performance</p>
-    </div>
+  <div class="mb-4">
+    <h2 class="fw-bold mb-1">
+      Overview
+      <select [(ngModel)]="selectedCourse" (ngModelChange)="onCourseChange()" class="course-select text-purple">
+        <option *ngFor="let course of courses" [value]="course">
+          {{ course }}
+        </option>
+      </select>
+    </h2>
+    <p class="text-muted">Get top insights about your performance</p>
   </div>
 
   <!-- Stats -->
   <div class="card stats-card mb-4">
-    <div class="row text-center">
-      <div *ngFor="let metric of metrics; let i = index" class="col-md-4 stat"
-        [class.border-end]="i < metrics.length - 1">
-        <p class="text-muted mb-1">
+    <div class="row text-center g-0">
+      <div *ngFor="let metric of metrics; let i = index; let last = last" class="col-md-4 stat"
+        [class.border-end]="!last">
+        <p class="text-muted mb-2">
           {{ metric.label }}
           <i *ngIf="metric.hasInfo" class="bi bi-info-circle ms-1"></i>
         </p>
@@ -40,17 +36,17 @@
 
     <!-- Empty State -->
     <div *ngIf="metrics.length === 0" class="text-center py-5">
-      <i class="bi bi-graph-up text-muted" style="font-size: 3rem;"></i>
       <p class="text-muted mt-3">No performance data available</p>
     </div>
   </div>
 
   <!-- Chart section -->
   <div class="card chart-card">
-    <div class="d-flex justify-content-end align-items-center mb-3 flex-wrap gap-2">
-      <span class="me-2 text-nowrap">Date range:</span>
+    <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
+      <span class="me-2">Date range:</span>
 
-      <select [(ngModel)]="selectedRange" (change)="onDateRangeChange()" class="form-select date-select w-auto me-2">
+      <select [(ngModel)]="selectedRange" (ngModelChange)="onDateRangeChange()"
+        class="form-select date-select w-auto me-2">
         <option *ngFor="let range of dateRanges" [value]="range">
           {{ range }}
         </option>
@@ -64,23 +60,22 @@
     <!-- Chart Area -->
     <div class="chart-container">
       <div *ngIf="hasData()" class="chart-content">
-        <!-- ✅ هنا ممكن تضيف chart library زي Chart.js أو ngx-charts -->
         <div class="simple-chart">
           <div class="chart-bars">
-            <div *ngFor="let data of performanceData.chartData?.slice(0, 12)" class="chart-bar-wrapper"
-              [title]="'Revenue: $' + data.revenue">
-              <div class="chart-bar" [style.height.%]="(data.revenue / 1200) * 100">
+            <ng-container *ngFor="let data of performanceData.chartData; let i = index">
+              <div class="chart-bar-wrapper">
+                <div class="chart-bar" [style.height.%]="getBarHeight(data.revenue)"
+                  [attr.title]="'Revenue: $' + data.revenue">
+                </div>
+                <span class="chart-label">{{ data.month }}</span>
               </div>
-              <span class="chart-label">{{ data.month }}</span>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
 
       <div *ngIf="!hasData()" class="chart-empty">
-        <i class="bi bi-bar-chart text-muted mb-2" style="font-size: 2rem;"></i>
         <p class="text-muted">No data to display</p>
-        <small class="text-muted">Data will appear here once you have enrollments</small>
       </div>
     </div>
 

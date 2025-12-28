@@ -15,7 +15,10 @@ import { DashboardLayout } from './Components/Dashboard/dashboard-layout/dashboa
 import { CartComponent } from './Components/cart-component/cart-component';
 import { MyLearning } from './Components/my-learning/my-learning';
 import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in';
+
 import { componentDeactivateGuard } from './Guard/component-deactivate-guard';
+import { Learn } from './Components/learn/learn';
+
 
 export const routes: Routes = [
     // {path:'', redirectTo: 'Home', pathMatch: 'full'},
@@ -62,6 +65,7 @@ export const routes: Routes = [
     {path:'Cart', component: CartComponent, title: 'Cart'},
     {path:'logout', component: HomeBeforSignIn, title: 'Cart'},
     {path:'my-learning', component: MyLearning, title: 'My Learning'},
+    {path:'learn/:id', component: Learn, title: 'learn'},
 
     // {path:'**', component:Notfound,title:'Not Found Page'},
     ]

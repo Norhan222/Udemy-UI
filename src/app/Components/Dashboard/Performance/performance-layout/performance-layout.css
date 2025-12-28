@@ -42,14 +42,14 @@ body {
 /* hover */
 .performance-sidebar a:hover {
   background: #ffffff;
-  border-left-color: #5624d0;
+  border-left-color: #a435f0;
 }
 
 /* active */
 .performance-sidebar a.active {
   background: #ffffff;
   font-weight: 600;
-  border-left-color: #5624d0;
+  border-left-color: #a435f0;
 }
 .performance-sidebar a:last-child {
   border-bottom: none;

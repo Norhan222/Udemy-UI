@@ -1,11 +1,18 @@
-<div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
+<div class="profile-wrapper"
+     (pointerenter)="openMenu()"
+     (pointerleave)="closeMenu()">
 
   <!-- Avatar -->
   <div class="avatar">
-    <img *ngIf="user.profileImageUrl; else initialsSmall" [src]="user.profileImageUrl" alt="avatar" />
-    <ng-template #initialsSmall>{{ (user.firstName + ' ' + user.lastName)  | intiials }}</ng-template>
+    <img *ngIf="user.profileImageUrl; else initials"
+         [src]="user.profileImageUrl"
+         alt="avatar" />
+    <ng-template #initials>
+      {{ (user.firstName + ' ' + user.lastName) | intiials }}
+    </ng-template>
   </div>
-    <span class="notification-badge"></span>
+
+  <span class="notification-badge"></span>
 
   <!-- Dropdown -->
   <div class="dropdown" *ngIf="isOpen">
@@ -13,20 +20,23 @@
     <!-- User Info -->
     <div class="user-info">
       <div class="avatar big">
-        <img *ngIf="user.profileImageUrl; else initialsBig" [src]="user.profileImageUrl" alt="avatar" />
-        <ng-template #initialsBig>{{ (user.firstName + ' ' + user.lastName) | intiials }}</ng-template>
+        <img *ngIf="user.profileImageUrl; else initialsBig"
+             [src]="user.profileImageUrl" />
+        <ng-template #initialsBig>
+          {{ (user.firstName + ' ' + user.lastName) | intiials }}
+        </ng-template>
       </div>
-       <div class="us">
-       <h5>{{ (user.firstName + ' ' + user.lastName) |capitalize }}</h5>
+
+      <div class="us">
+        <h5>{{ (user.firstName + ' ' + user.lastName) | capitalize }}</h5>
         <p>{{ user.email }}</p>
-       <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
-  Logout
-</a>
-
-        </div>
+        <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
+          Logout
+        </a>
+      </div>
     </div>
-    <hr />
 
+    <hr />
     <!-- Links -->
     <a routerLink="/my-learning" routerLinkActive="active">My learning</a>
     <a routerLink="/Cart" routerLinkActive="active">My cart</a>
