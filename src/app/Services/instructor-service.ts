@@ -16,4 +16,5 @@ export class InstructorService {
   getInstructorStudents(): Observable<Student[]> {
     return this.http.get<Student[]>(`${this.baseUrl}/InstructorCourse/students`);
   }
+  // getRejectedMessages()
 }

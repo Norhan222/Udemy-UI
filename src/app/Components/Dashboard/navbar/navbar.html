@@ -3,7 +3,22 @@
   <span class="role me-4" (click)="navigateToHome()">Home</span>
 
   <!-- Notification -->
-  <i class="bi bi-bell notification me-4"></i>
+  <!-- <i class="bi bi-bell notification me-4"(pointerenter)="toggleNotifications()"></i> -->
+<div class="notification-wrapper me-4" (mouseenter)="onNotificationMouseEnter()" (mouseleave)="onNotificationMouseLeave()">
+
+  <div class="notification-trigger" >
+    <i class="bi bi-bell notification"></i>
+
+    <!-- Badge للـ unread count -->
+    <span *ngIf="getUnreadCount() > 0" class="notification-badge-nav">
+      {{ getUnreadCount() }}
+    </span>
+
+    <!-- Notifications Panel -->
+    <app-instructor-notification >
+    </app-instructor-notification>
+  </div>
+</div>
 
   <!-- Avatar -->
    <app-user-menu></app-user-menu>
