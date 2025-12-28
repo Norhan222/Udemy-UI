@@ -278,8 +278,8 @@
 }
 
 ::ng-deep .p-tablist-tab-list{
-  border-style:none ;
-  border:none;
+  border-style:none !important;
+  border:none !important;
   border-bottom: 1px solid #dee2e6 !important;
 }
 ::ng-deep.p-tab-active {
