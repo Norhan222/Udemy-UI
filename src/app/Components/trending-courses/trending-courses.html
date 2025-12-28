@@ -3,31 +3,29 @@
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
       <div class="course-card-wrapper">
-        <div class="course-card"  style="height:320px">
+        <div class="course-card" style="height:320px">
           <div [routerLink]="['/course', product.id]">
             <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
             <div class="course-basic-info">
-               <h3 class="course-title">{{product.title}}</h3>
-                <p class="course-instructor">{{product.instructorName}}</p>
-                <div class="course-rating">
-                   <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
-                 </div>
-            <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
+              <h3 class="course-title">{{product.title}}</h3>
+              <p class="course-instructor"> {{product.instructorName}}</p>
+              <div class="course-rating">
+                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
+                <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+              </div>
+              <div class="course-price">E&pound;{{product.price}}</div>
+              <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+                <i class="bi bi-patch-check"></i> Premium
+              </button>
+            </div>
           </div>
-         </div>
 
-          <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
+          <!-- الكارد التفصيلي -->
           <div class="course-hover-card">
             <h3 class="hover-title">{{product.title}}</h3>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
+            <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+              <i class="bi bi-patch-check"></i> Premium
+            </button>
             <p class="hover-description">
               Updated in {{product.lastUpdatedDate}}
             </p>
@@ -44,7 +42,7 @@
               <li>Build a portfolio of websites</li>
             </ul>
             <div class="hover-buttons">
-                 <button type="button" class=" " 
+               <button type="button" class=" " 
                     [disabled]="isInCart(product?.id)" 
                     (click)="addToCart(product?.id)"  
                     style="background-color:#5f2eaf; color:white; 

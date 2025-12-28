@@ -2,24 +2,26 @@
   <div ><h1 style="margin: 30px 0 30px 20px;">Let's start learning</h1></div>
   <div style=" text-align: center;align-content: center;"><a href="#" style="color: blue;">learn more</a></div>
 </div>
-<p-carousel [value]="courses"  [numVisible]="4" [numScroll]="2" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product #item>
-        <div class="card mb-3 mx-2" style="max-width: 540px; ">
-            <div class="row g-0">
-                 <div class="col-md-4" style="background-image: url('{{product.thumbnailUrl}}'); height: 150px; background-size: cover; background-position: center; position: relative;">
-                    <div class="container-fluid"  style="height: 100%;;background-color:black ; opacity:.5 ; text-align: center;align-content: center;">
-                      <i class="bi bi-play-circle-fill" style="font-size:50px; color:white"></i>
-                    </div>
-                 </div>
-                <div class="col-md-8">
-                   <div class="card-body">
-                     <p class="card-text" style="margin-bottom: 10px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{product.description}}</p>
-                        <h5 class="card-title" style = "font-weight:600;">{{product.title}}</h5>
-                    </div>
-                </div>
-           </div>
+<p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+  <ng-template let-product pTemplate="item">
+    <div class="learning-carousel-wrapper">
+      <div class="learning-card">
+        <div class="learning-card-row">
+          <div class="learning-card-image" [style.background-image]="'url(' + product.thumbnailUrl + ')'">
+            <div class="learning-card-overlay">
+              <i class="bi bi-play-circle-fill"></i>
+            </div>
+          </div>
+          <div class="learning-card-content">
+            <div class="learning-card-body">
+              <p class="learning-card-description">{{product.description}}</p>
+              <h5 class="learning-card-title">{{product.title}}</h5>
+            </div>
+          </div>
         </div>
-    </ng-template>
+      </div>
+    </div>
+  </ng-template>
 </p-carousel>
 
 <section class="UdBus" style="margin-left:20px; ">

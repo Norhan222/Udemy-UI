@@ -2,21 +2,19 @@
   <h2>Skills to transform your career and life</h2>
   <p>From critical skills to technical topics, Udemy supports your professional development.</p>
 
-  <div class="card" style="border:none;border-style:none ; margin-top:20px;background-color: #f7f9fb;" *ngIf="courses?.length">
+  <div style="margin-top:20px;background-color: #f7f9fb;" *ngIf="courses?.length">
 
-    <p-tabs [value]="courses[0]?.id" style="border:none; background-color: #f7f9fb; margin: 0 10px">
+    <p-tabs [value]="courses[0]?.id" style=" background-color: #f7f9fb; margin: 0 10px">
 
       <!-- Tabs Header -->
-      <p-tablist style="border:none; background-color: #f7f9fb; margin: 0 10px">
-        <p-tab
+      <p-tablist style=" margin: 0 10px">
+        <p-tab 
           *ngFor="let topic of courses; trackBy: trackByTopicId"
           [value]="topic.id"
-          style="border:none; margin: 0 10px">
+          style=" margin: 0 10px 0 10px; border-bottom: 2px solid #000;">
           {{ topic.name }}
         </p-tab>
       </p-tablist>
-      <br>
-      <hr>
       <!-- Tabs Content -->
       <p-tabpanels style="border:none; background-color: #f7f9fb; margin: 0 10px">
         <p-tabpanel 
@@ -39,8 +37,9 @@
                <h3 class="course-title">{{product.title}}</h3>
                 <p class="course-instructor">{{product.instructorName}}</p>
                 <div class="course-rating">
-                   <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
-                 </div>
+                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
+                <p-rating [(ngModel)]="value"  [readonly]="true"></p-rating>
+              </div>
             <div class="course-price">E&pound;{{product.price}}</div>
             <button type="button" class="" 
                     style="background-color:#6d28d2;margin-top:10px ;

@@ -27,7 +27,7 @@ export class TechnicalTopics implements OnInit, OnDestroy {
     courses!:TopicWithCourses[] ;
     dataResponse!: Subscription;
    cartAdded = false;
-      value: number = 3;
+      value: number = 3.7;
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
 
