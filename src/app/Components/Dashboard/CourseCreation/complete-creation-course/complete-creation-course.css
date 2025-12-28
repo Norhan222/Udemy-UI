@@ -1381,3 +1381,327 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
 }
+
+
+
+
+
+/* /////////////////////////////// edit   btn save*/
+
+
+/* ✅ Unsaved Changes Badge */
+.unsaved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 12px;
+  animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ✅ Save Button States */
+.save-btn {
+  padding: 10px 20px;
+  background: #a435f0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #8710d8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(164, 53, 240, 0.3);
+}
+
+.save-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ✅ Disabled State */
+.save-btn:disabled,
+.save-btn.disabled {
+  background: #d1d7dc;
+  color: #6a6f73;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.save-btn:disabled:hover,
+.save-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ✅ Saving State */
+.save-btn.saving {
+  background: #8710d8;
+  cursor: wait;
+}
+
+.save-icon {
+  font-size: 16px;
+}
+
+/* ✅ Small Spinner للـ Saving */
+.saving-spinner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ✅ Back Button مع تحذير */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  /* border: 1px solid #fff; */
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: #2d2f31;
+  border-color: #fff;
+}
+
+.back-btn .arrow {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ✅ تحسينات للـ Navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 16px 24px; */
+  background: #1c1d1f;
+  border-bottom: 1px solid #000;
+  /* position: sticky; */
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.course-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.upload-status {
+  font-size: 13px;
+  color: #d1d7dc;
+}
+
+/* ✅ Preview Button */
+.preview-btn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preview-btn:hover {
+  background: #fff;
+  color: #1c1d1f;
+}
+
+/* ✅ Settings Button */
+.settings-btn {
+  padding: 10px 12px;
+  background: transparent;
+  /* border: 1px solid #fff;
+  border-radius: 4px; */
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
+  background: #2d2f31;
+  border-color: #fff;
+}
+
+/* ✅ Success Animation عند الحفظ */
+@keyframes saveSuccess {
+  0% {
+    background: #a435f0;
+  }
+
+  50% {
+    background: #10b981;
+  }
+
+  100% {
+    background: #a435f0;
+  }
+}
+
+.save-btn.success {
+  animation: saveSuccess 1s ease;
+}
+
+/* ✅ Responsive */
+@media (max-width: 768px) {
+  .top-nav {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .nav-left,
+  .nav-right {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .unsaved-badge {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .save-btn,
+  .preview-btn,
+  .back-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

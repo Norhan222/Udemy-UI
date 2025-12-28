@@ -1,164 +1,116 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Topic } from '../../Models/topic';
+
+// ==========================================
+// trending-courses.ts - TypeScript المعدل
+// ==========================================
+
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CourseService } from '../../Services/course-service';
+import { RouterLink } from '@angular/router';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { ICourse } from '../../Models/icourse';
-import { Subscription } from 'rxjs';
-import { CourseService } from '../../Services/course-service';
-import { RouterLink } from '@angular/router';
-import { CardDialog } from '../card-dialog/card-dialog';
-import { CourseShowDialog } from '../../Directives/course-show-dialog';
-import { CommonModule } from '@angular/common';
-import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })
-export class TrendingCourses implements OnInit, OnDestroy {
+export class TrendingCourses implements OnInit, OnDestroy, AfterViewInit {
   responsiveOptions: any[] | undefined;
+  courses!: ICourse[];
+  dataResponse!: Subscription;
+  wihshListAdded = false;
+  cartAdded = false;
+  value: number = 3;
 
-    courses!:ICourse [] ;
-    dataResponse!: Subscription;
-    cartAdded = false;
-    wihshListAdded =false;
-      value: number = 3;
-      // selectedCourse: any;
-      // @ViewChild('op') OP!:OverlayPanel;
+  private cartService = inject(CartService);
+  private wihshList = inject(WishlistService);
+  cartItems: any[] = [];
+  wishlistItems: any[] = [];
+  cartLoaded = false;
 
-      constructor(public courseService: CourseService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
-       private cartService = inject(CartService);
-        private wihshList =inject(WishlistService);
-                                      cartItems: any[] = []; 
-                                       wishlistItems: any[] = [];
-                                      cartLoaded = false;
-      ngOnInit() {
-
-        this.dataResponse = this.courseService.getPopularCourses().subscribe((data:any)=>{
-              this.courses = data.data;
-              this.cdn.detectChanges();
-           })
-        
-          this.responsiveOptions = [
-              {
-                  breakpoint: '1400px',
-                  numVisible: 2,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '1199px',
-                  numVisible: 3,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '767px',
-                  numVisible: 2,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '575px',
-                  numVisible: 1,
-                  numScroll: 1,
-              }
-          ];
-       //add to cart
-
-         this.cartService.getCart().subscribe({
-             next: (res: any) => {
-             this.cartItems = res.data.items;
-             this.cartLoaded = true;
-
-            console.log('CART ITEMS:', this.cartItems);
-            this.cdn.detectChanges();
-          },
-          error: (er) => {
-              this.cartLoaded = true;
-             console.error('Error fetching cart items:', er);
-         }
-        });
-
-        this.wihshList.getWishlist().subscribe({
-          next: (res: any) => {
-          this.wishlistItems = res.data;
-          this.wihshListAdded = true;
-          console.log('WISHLIST ITEMS:', this.wishlistItems);
-          this.cdn.detectChanges();
-        },
-        error: (er) => {
-         console.error('Error fetching wishlist items:', er);
-       }
-      });
-
-
-
-      
-          //
- }
-
-      // getSeverity(status: string) {
-      //     switch (status) {
-      //         case 'INSTOCK':
-      //             return 'success';
-      //         case 'LOWSTOCK':
-      //             return 'warn';
-      //         case 'OUTOFSTOCK':
-      //             return 'danger';
-      //     }
-      // }
-
-
-
-
-
-        isInCart(courseId: number | null | undefined): boolean {
-          if (!courseId || !this.cartItems?.length) return false;
-          return this.cartItems.some(item => item.courseId === courseId);
-        }
-
-      isInWishlist(courseId: number | null | undefined): boolean {
-        if (!courseId || !this.wishlistItems?.length) return false;
-        return this.wishlistItems.some(item => item.courseId === courseId);
-      }
-
-        addToCart(id: any): void {
-         this.cartService.addToCart(id).subscribe({
-          next: (res) => {
-          console.log('addCart', res);
-          this.cartAdded = true;
-          this.cartItems.push({ courseId: id, ...res.data }); 
-         this.cdn.detectChanges(); // force update
-         },
-         error: (err) => {
-         console.error(err);
-        }
-       });
-    }
-
-      addToWishlist(id: any): void {
-       this.wihshList.addToWishlist(id).subscribe({
-        next: (res) => {
-        console.log('addWishlist', res);
-        this.wihshListAdded = true;
-        this.wishlistItems.push({ courseId: id, ...res.data });
-        this.cdn.detectChanges(); // force update
-        },
-        error: (err) => {
-        console.error(err);
-        }
-        });
-    }
-
-
-  ngOnDestroy(): void {
-    this.dataResponse.unsubscribe(); //end request
+  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef) {}
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
 
+  ngOnInit() {
+    this.dataResponse = this.courseService.getPopularCourses().subscribe((data: any) => {
+      this.courses = data.data;
+      this.cdn.detectChanges();
+    });
 
+    this.responsiveOptions = [
+      { breakpoint: '1400px', numVisible: 2, numScroll: 1 },
+      { breakpoint: '1199px', numVisible: 3, numScroll: 1 },
+      { breakpoint: '767px', numVisible: 2, numScroll: 1 },
+      { breakpoint: '575px', numVisible: 1, numScroll: 1 }
+    ];
+
+    this.cartService.getCart().subscribe({
+      next: (res: any) => {
+        this.cartItems = res.data.items;
+        this.cartLoaded = true;
+        this.cdn.detectChanges();
+      },
+      error: (er) => {
+        this.cartLoaded = true;
+        console.error('Error fetching cart items:', er);
+      }
+    });
+
+    this.wihshList.getWishlist().subscribe({
+      next: (res: any) => {
+        this.wishlistItems = res.data;
+        this.wihshListAdded = true;
+        this.cdn.detectChanges();
+      },
+      error: (er) => {
+        console.error('Error fetching wishlist items:', er);
+      }
+    });
+  }
+
+  isInCart(courseId: number | null | undefined): boolean {
+    if (!courseId || !this.cartItems?.length) return false;
+    return this.cartItems.some(item => item.courseId === courseId);
+  }
+
+  isInWishlist(courseId: number | null | undefined): boolean {
+    if (!courseId || !this.wishlistItems?.length) return false;
+    return this.wishlistItems.some(item => item.courseId === courseId);
+  }
+
+  addToCart(id: any): void {
+    this.cartService.addToCart(id).subscribe({
+      next: (res) => {
+        this.cartAdded = true;
+        this.cartItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges();
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  addToWishlist(id: any): void {
+    this.wihshList.addToWishlist(id).subscribe({
+      next: (res) => {
+        this.wihshListAdded = true;
+        this.wishlistItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges();
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.dataResponse.unsubscribe();
+  }
 }

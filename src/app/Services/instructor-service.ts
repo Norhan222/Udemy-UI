@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Review } from '../Models/review';
 import { Observable } from 'rxjs';
+import { ICourse } from '../Models/icourse';
+import { Student } from '../Models/student';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ReviewService {
+export class InstructorService {
   baseUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
-  
-  getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseUrl}/student/reviews/instructor-getAllReviews`);
+
+  getInstructorStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(`${this.baseUrl}/InstructorCourse/students`);
   }
 }

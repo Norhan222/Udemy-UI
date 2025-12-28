@@ -1,6 +1,6 @@
 import { CourseService } from './../../../Services/course-service';
 import { CommonModule } from '@angular/common';
-import { Component, model, NgModule, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, model, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ICourse } from '../../../Models/icourse';
@@ -51,17 +51,16 @@ export class InstructorCourses implements OnInit {
   // ];
   filteredCourses: ICourse[] = [];
 
-  constructor(private router: Router, private courseService: CourseService) {
-    //  this.courseService.getInstructorCourses().subscribe(courses => {
-    //   this.courses = courses
-    // this.filteredCourses = [...this.courses];
-    //  });
+  constructor(private router: Router, private courseService: CourseService ,private cdr:ChangeDetectorRef) {
+  
   }
   ngOnInit(): void {
     this.courseService.getInstructorCourses().subscribe(courses => {
       console.log('Instructor courses fetched:', courses);
       this.courses = courses
     this.filteredCourses = [...this.courses];
+    
+    this.cdr.detectChanges()
   })
 };
 
