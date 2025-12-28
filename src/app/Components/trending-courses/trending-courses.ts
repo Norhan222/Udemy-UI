@@ -3,7 +3,7 @@
 // trending-courses.ts - TypeScript المعدل
 // ==========================================
 
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, QueryList, ViewChildren, AfterViewInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
 import { RouterLink } from '@angular/router';
@@ -15,10 +15,14 @@ import { Rating } from 'primeng/rating';
 import { ICourse } from '../../Models/icourse';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
+import { Tooltip } from 'primeng/tooltip';
+import { Popover } from 'primeng/popover';
+import { PopoverModule } from 'primeng/popover';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,Tooltip,PopoverModule, ButtonModule, ],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })
@@ -30,11 +34,35 @@ export class TrendingCourses implements OnInit, OnDestroy, AfterViewInit {
   cartAdded = false;
   value: number = 3;
 
+  ///
+   @ViewChild('op') op!: Popover;
+
+    selectedMember = null;
+
+    members = [
+        { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
+        { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
+        { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' },
+    ];
+
+    toggle(event: any) {
+        this.op.show(event);
+    }
+
+    selectMember(member: any) {
+        this.selectedMember = member;
+        this.op.hide();
+    }
+  ///
+
   private cartService = inject(CartService);
   private wihshList = inject(WishlistService);
   cartItems: any[] = [];
   wishlistItems: any[] = [];
   cartLoaded = false;
+
+  //////
+
 
   constructor(public courseService: CourseService, public cdn: ChangeDetectorRef) {}
   ngAfterViewInit(): void {

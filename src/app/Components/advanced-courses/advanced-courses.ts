@@ -15,9 +15,10 @@ import { CommonModule } from '@angular/common';
 import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
+import { Popover, PopoverModule } from 'primeng/popover';
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })
@@ -25,27 +26,45 @@ export class AdvancedCourses implements OnInit, OnDestroy {
   responsiveOptions: any[] | undefined;
 
     courses!:ICourse [] ;
+    topPickCourse!: ICourse;
     dataResponse!: Subscription;
     cartAdded = false;
     wihshListAdded =false;
     value: number = 3;
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
+      @ViewChild('op') op!: Popover;
 
-      constructor(public courseService: CourseService , public cdn:ChangeDetectorRef) {}//private topicService: TopicService) {}
-       private cartService = inject(CartService);
-       private wihshList =inject(WishlistService);
-                       cartItems: any[] = []; 
+              selectedMember = null;
+
+
+
+              toggle(event: any) {
+                  this.op.show(event);
+              }
+
+              selectMember(member: any) {
+                  this.selectedMember = member;
+                  this.op.hide();
+              }
+
+      constructor(public courseService: CourseService ,
+        public cdn:ChangeDetectorRef) {}
+         private cartService = inject(CartService);
+        private wihshList =inject(WishlistService);
+                       cartItems: any[] = [];
                         wishlistItems: any[] = [];
                        cartLoaded = false;
+
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getStudentCourses().subscribe((data:any)=>{
+        this.dataResponse = this.courseService.getMyCourses().subscribe((data:any)=>{
               this.courses = data.data;
+              this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();
            })
-        
-          this.responsiveOptions = [
+
+         this.responsiveOptions = [
               {
                   breakpoint: '1400px',
                   numVisible: 2,
@@ -97,7 +116,7 @@ export class AdvancedCourses implements OnInit, OnDestroy {
 
 
 
-      
+
           //
  }
 
@@ -131,7 +150,7 @@ export class AdvancedCourses implements OnInit, OnDestroy {
           next: (res) => {
           console.log('addCart', res);
           this.cartAdded = true;
-          this.cartItems.push({ courseId: id, ...res.data }); 
+          this.cartItems.push({ courseId: id, ...res.data });
          this.cdn.detectChanges(); // force update
          },
          error: (err) => {

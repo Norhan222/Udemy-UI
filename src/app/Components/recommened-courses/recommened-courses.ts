@@ -15,10 +15,11 @@ import { CommonModule } from '@angular/common';
 import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
+import { Popover, PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-recommened-courses',
-  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,CardDialog ,CourseShowDialog ],
+  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,CardDialog ,CourseShowDialog,PopoverModule ],
   templateUrl: './recommened-courses.html',
   styleUrl: './recommened-courses.css',
 })
@@ -31,14 +32,28 @@ export class RecommenedCourses implements OnInit, OnDestroy {
     cartAdded = false;
     wihshListAdded =false;
     value: number = 3;
+
+    @ViewChild('op') op!: Popover;
+
+        selectedMember = null;
+
+       
+        toggle(event: any) {
+            this.op.show(event);
+        }
+
+        selectMember(member: any) {
+            this.selectedMember = member;
+            this.op.hide();
+        }
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
 
-      constructor(public courseService: CourseService , 
+      constructor(public courseService: CourseService ,
         public cdn:ChangeDetectorRef) {}
          private cartService = inject(CartService);
         private wihshList =inject(WishlistService);
-                       cartItems: any[] = []; 
+                       cartItems: any[] = [];
                         wishlistItems: any[] = [];
                        cartLoaded = false;
 
@@ -49,7 +64,7 @@ export class RecommenedCourses implements OnInit, OnDestroy {
               this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();
            })
-        
+
          this.responsiveOptions = [
               {
                   breakpoint: '1400px',
@@ -102,7 +117,7 @@ export class RecommenedCourses implements OnInit, OnDestroy {
 
 
 
-      
+
           //
  }
 
@@ -136,7 +151,7 @@ export class RecommenedCourses implements OnInit, OnDestroy {
           next: (res) => {
           console.log('addCart', res);
           this.cartAdded = true;
-          this.cartItems.push({ courseId: id, ...res.data }); 
+          this.cartItems.push({ courseId: id, ...res.data });
          this.cdn.detectChanges(); // force update
          },
          error: (err) => {
