@@ -13,6 +13,7 @@ export interface ICourse {
     previewVideoUrl:string,
     instructorId: string,
     lastUpdatedDate: string,
+    rating: number,
     topicName: string,
     instructorName: string,
     sections:Section[]

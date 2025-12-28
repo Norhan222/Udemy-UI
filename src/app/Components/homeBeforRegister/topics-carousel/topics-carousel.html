@@ -17,8 +17,8 @@
   </div>
   <div class="col-9">
   <p-carousel [value]="courses"  [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product #item >
-       <div class="card" style="width: 18rem; background-image: url('topic3.jpg'); height: 400px; width: 90%;border-radius:20px;">
+    <ng-template let-product pTemplate="item" >
+       <div class="card" style="background-image: url('topic3.jpg'); height: 400px; width: 90%;border-radius:20px;">
          <div style="height: 300px;"></div>
          <div>
           <a >

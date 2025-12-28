@@ -10,8 +10,9 @@
                <h3 class="course-title">{{product.title}}</h3>
                 <p class="course-instructor">{{product.instructorName}}</p>
                 <div class="course-rating">
-                   <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
-                 </div>
+                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
+                <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+              </div>
             <div class="course-price">E&pound;{{product.price}}</div>
             <button type="button" class="" 
                     style="background-color:#6d28d2;margin-top:10px ;
