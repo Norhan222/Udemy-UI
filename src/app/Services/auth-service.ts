@@ -5,79 +5,126 @@ import { environment } from '../../environments/environment';
 import { LoginRequest } from '../Models/login-request';
 import { IRegisterRequest } from '../Models/iregister-request';
 import { TokenApi } from '../Models/token-api';
-import{JwtHelperService} from '@auth0/angular-jwt';
-import { User } from '../Models/user';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl:string=environment.apiUrl
-  private  isLoggedInSubject=new BehaviorSubject<boolean>(false)
-  isLoggedIn$=this.isLoggedInSubject.asObservable();
 
-    // shared first name observable
-    firstName=new BehaviorSubject<string>('')
-    firstName$=this.firstName.asObservable();
+  baseUrl: string = environment.apiUrl;
 
-    // shared profile image observable so components can react to changes (e.g., after upload)
-    profileImage=new BehaviorSubject<string | null>(null)
-    profileImage$=this.profileImage.asObservable();
+  private jwtHelper = new JwtHelperService();
 
-    // helper to update profile image (adds to central place if we later want to transform url)
-    setProfileImage(url: string | null){
-      this.profileImage.next(url ?? null);
-    }
-  private userPayload:any;
-private jwtHelper = new JwtHelperService();
-  constructor(private http: HttpClient) {
-    // this.userPayload=this.decodeToken()
-    // console.log(this.userPayload.name)
-    // this.getUserInfoFromToken()
-  }
+  /* =========================
+     AUTH STATE
+  ========================== */
+
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+  /* =========================
+     SHARED USER DATA (NAME + IMAGE)
+  ========================== */
+
+  firstName = new BehaviorSubject<string>(
+    localStorage.getItem('firstName') || ''
+  );
+  firstName$ = this.firstName.asObservable();
+
+  profileImage = new BehaviorSubject<string | null>(
+    localStorage.getItem('profileImage')
+  );
+  profileImage$ = this.profileImage.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  /* =========================
+     AUTH METHODS
+  ========================== */
 
   Login(data: LoginRequest): Observable<any> {
-     return this.http.post(`${this.baseUrl}/Account/login`, data);
+    return this.http.post(`${this.baseUrl}/Account/login`, data);
   }
+
   Registerstudent(data: IRegisterRequest): Observable<any> {
-     return this.http.post(`${this.baseUrl}/Account/register-student`, data);
-  }
-      Registerinstructor(data: IRegisterRequest): Observable<any> {
-     return this.http.post(`${this.baseUrl}/Account/register-instructor`, data);
+    return this.http.post(`${this.baseUrl}/Account/register-student`, data);
   }
 
-  Signout(){
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshtoken');
-      this.isLoggedInSubject.next(false);
+  Registerinstructor(data: IRegisterRequest): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Account/register-instructor`, data);
   }
 
-  storeToken(tokenValue:string){
-      localStorage.setItem('token',tokenValue)
-  }
-  getToken():string|null{
-   return localStorage.getItem('token')
-  }
-  storeRefreshToken(tokenValue:string){
-      localStorage.setItem('refreshtoken',tokenValue)
-  }
-  getRefreshToken(){
-   return localStorage.getItem('refreshtoken')
-  }
-  setLoginState(state:boolean){
-    this.isLoggedInSubject.next(state)
-  }
-  isLoggedIn():boolean{
-      return this.isLoggedInSubject.value
-  }
-   renewToken(tokenApi:TokenApi):Observable<any>{
-    return this.http.post<any>(`${this.baseUrl}/Account/refresh-token`, tokenApi)
+  Signout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshtoken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('profileImage');
+
+    this.isLoggedInSubject.next(false);
+    this.firstName.next('');
+    this.profileImage.next(null);
   }
 
- decodeToken(): any | null {
+  setLoginState(state: boolean) {
+    this.isLoggedInSubject.next(state);
+  }
+
+  isLoggedIn(): boolean {
+    return this.isLoggedInSubject.value;
+  }
+
+  /* =========================
+     TOKEN HANDLING
+  ========================== */
+
+  storeToken(tokenValue: string) {
+    localStorage.setItem('token', tokenValue);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  storeRefreshToken(tokenValue: string) {
+    localStorage.setItem('refreshtoken', tokenValue);
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshtoken');
+  }
+
+  renewToken(tokenApi: TokenApi): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/Account/refresh-token`,
+      tokenApi
+    );
+  }
+
+  /* =========================
+     USER DATA HELPERS
+  ========================== */
+
+  setFirstName(name: string) {
+    localStorage.setItem('firstName', name);
+    this.firstName.next(name);
+  }
+
+  setProfileImage(url: string | null) {
+    if (url) {
+      localStorage.setItem('profileImage', url);
+    } else {
+      localStorage.removeItem('profileImage');
+    }
+    this.profileImage.next(url);
+  }
+
+  /* =========================
+     JWT HELPERS
+  ========================== */
+
+  decodeToken(): any | null {
     const token = this.getToken();
-
     if (!token) return null;
 
     try {
@@ -88,39 +135,140 @@ private jwtHelper = new JwtHelperService();
   }
 
   getUserClaims() {
-  const decoded = this.decodeToken();
-  if (!decoded) return null;
+    const decoded = this.decodeToken();
+    if (!decoded) return null;
 
-  return {
-    id: decoded.sub,
-    name: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-    email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-    role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-  };
+    return {
+      id: decoded.sub,
+      name:
+        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+      email:
+        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+      role:
+        decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+    };
+  }
+
+  /* =========================
+     STUDENT PROFILE
+  ========================== */
+
+  getStudentProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/student/profile`);
+  }
+
+  updateStudentProfile(formData: FormData): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/student/profile`,
+      formData
+    );
+  }
+
+  changeStudentPassword(data: any): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/student/profile/change-password`,
+      data
+    );
+  }
+
+  /* =========================
+     INSTRUCTOR PROFILE// auth-service.ts
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  baseUrl = environment.apiUrl;
+  private jwtHelper = new JwtHelperService();
+
+  // ===== GLOBAL USER STATE =====
+  fullName$ = new BehaviorSubject<string>('');
+  profileImage$ = new BehaviorSubject<string>('');
+
+  constructor(private http: HttpClient) {}
+
+  // ===== AUTH =====
+  Login(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Account/login`, data);
+  }
+
+  Signout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshtoken');
+    this.fullName$.next('');
+    this.profileImage$.next('');
+  }
+
+  storeToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // ===== JWT =====
+  decodeToken(): any | null {
+    const token = this.getToken();
+    if (!token) return null;
+    return this.jwtHelper.decodeToken(token);
+  }
+
+  getUserClaims() {
+    const decoded = this.decodeToken();
+    if (!decoded) return null;
+
+    return {
+      id: decoded.sub,
+      name: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+      email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+      role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+    };
+  }
+
+  // ===== PROFILE HELPERS =====
+  setFullName(name: string) {
+    this.fullName$.next(name);
+  }
+
+  setProfileImage(url: string) {
+    this.profileImage$.next(url);
+  }
+
+  // ===== STUDENT =====
+  getStudentProfile() {
+    return this.http.get<any>(`${this.baseUrl}/student/profile`);
+  }
+
+  updateStudentProfile(formData: FormData) {
+    return this.http.put<any>(`${this.baseUrl}/student/profile`, formData);
+  }
+
+  // ===== INSTRUCTOR =====
+  getInstructorProfile() {
+    return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
+  }
+
+  updateInstructorProfile(formData: FormData) {
+    return this.http.put<any>(`${this.baseUrl}/instructor/profile`, formData);
+  }
 }
 
-// Student profile endpoints (GET/PUT)
-getStudentProfile(): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/student/profile`);
-}
+  ========================== */
 
-updateStudentProfile(formData: FormData): Observable<any> {
-  // Sending FormData for multipart (profile image upload + fields)
-  return this.http.put<any>(`${this.baseUrl}/student/profile`, formData);
-}
+  getInstructorProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
+  }
 
-// Change password endpoint (optional)
-changeStudentPassword(data: any): Observable<any> {
-  return this.http.put<any>(`${this.baseUrl}/student/profile/change-password`, data);
-}
-
-// Instructor profile endpoints (mirror student endpoints if backend exposes them)
-getInstructorProfile(): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
-}
-
-updateInstructorProfile(formData: FormData): Observable<any> {
-  return this.http.put<any>(`${this.baseUrl}/instructor/profile`, formData);
-}
-
+  updateInstructorProfile(formData: FormData): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/instructor/profile`,
+      formData
+    );
+  }
 }
