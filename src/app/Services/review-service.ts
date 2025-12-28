@@ -12,6 +12,6 @@ export class ReviewService {
   constructor(private http: HttpClient) {}
   
   getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseUrl}/student/reviews`);
+    return this.http.get<Review[]>(`${this.baseUrl}/student/reviews/instructor-getAllReviews`);
   }
 }

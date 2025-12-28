@@ -85,4 +85,8 @@ export class CourseService {
   getMyCourses(): Observable<any> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);  
   }
+
+ updateInstructorCourse(courseId: Number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/courses/${courseId}`, formData);
+  }
 }

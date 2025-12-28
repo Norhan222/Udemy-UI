@@ -4,5 +4,4 @@ export interface Lecture {
   title:string
   type:string
   contentType:string
-
 }
