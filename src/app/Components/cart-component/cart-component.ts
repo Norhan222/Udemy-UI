@@ -4,9 +4,13 @@ import { WishlistService } from '../../Services/wishlist';
 import { Payment } from '../../Services/payment';
 import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
 
+
+
+
 @Component({
   selector: 'app-cart-component',
   templateUrl: './cart-component.html',
+  imports: [],
   styleUrls: ['./cart-component.css'],
 })
 export class CartComponent implements OnInit ,OnDestroy{
@@ -32,6 +36,8 @@ export class CartComponent implements OnInit ,OnDestroy{
         this.subTotal = res.data.subTotal;
         this.total = res.data.total;
         this.cd.detectChanges();
+        console.log("cart",this.cartItems);
+        
       },
       error: (err) => console.error(err),
     });
@@ -136,8 +142,6 @@ export class CartComponent implements OnInit ,OnDestroy{
       }
     });
   }
-
-
 
 
     ngOnDestroy(): void {

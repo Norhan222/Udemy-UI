@@ -138,7 +138,7 @@ isInWishlist(courseId: number | null | undefined): boolean {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error(err);
+        console.error("addCart",err);
       }
     });
   }
