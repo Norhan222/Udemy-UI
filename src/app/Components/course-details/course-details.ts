@@ -35,7 +35,9 @@ export class CourseDetailsComponent implements OnInit {
   subTotal: number = 0;
   total: number = 0;
   movingToWishlist = false; // ✅ loading state for move to wishlist
-  
+  wishlistItems: any[] = []; 
+  wishlistLoaded = false;
+
   private wishlistService = inject(WishlistService);
   private auth = inject(AuthService);
   private router = inject(Router);
@@ -52,6 +54,8 @@ export class CourseDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      window.scrollTo(0, 0);
+    // ✅ NEW: Fetch cart items
     this.cartService.getCart().subscribe({
       next: (res: any) => {
         this.cartItems = res.data.items;
@@ -64,6 +68,19 @@ export class CourseDetailsComponent implements OnInit {
         console.error('Error fetching cart items:', er);
       }
     });
+    // ✅ NEW: Fetch wishlist items
+  this.wishlistService.getWishlist().subscribe({
+    next: (res: any) => {
+      this.wishlistItems = res.data.items || res.data || [];
+      this.wishlistLoaded = true;
+      console.log('WISHLIST ITEMS:', this.wishlistItems);
+      this.cdr.detectChanges();
+    },
+    error: (er) => {
+      this.wishlistLoaded = true;
+      console.error('Error fetching wishlist items:', er);
+    }
+  });
 
     // listen to route id changes
     this.route.paramMap.subscribe(params => {
@@ -78,6 +95,17 @@ export class CourseDetailsComponent implements OnInit {
       this.couponApplied = q.get('couponCode') || q.get('coupon');
     });
   }
+  // ✅ NEW: Add method to check if course is in wishlist
+isInWishlist(courseId: number | null | undefined): boolean {
+  if (!courseId || !this.wishlistItems?.length) return false;
+  
+  console.log('Checking if course', courseId, 'is in wishlist:', this.wishlistItems);
+  
+  return this.wishlistItems.some(item => {
+    const itemId = item.courseId || item.id;
+    return Number(itemId) === Number(courseId);
+  });
+}
 
   isInCart(courseId: number | null | undefined): boolean {
     if (!courseId || !this.cartItems?.length) return false;
@@ -207,37 +235,40 @@ export class CourseDetailsComponent implements OnInit {
     return num.toString();
   }
   
-  // ✅ Enhanced addWishlist with loading state
-  addWishlist(courseId: number) {
-    if (!this.auth.getToken()) {
-      this.router.navigate(['/Login'], {
-        queryParams: { returnUrl: `/course/${courseId}` }
-      });
-      return;
-    }
+  // Update your addWishlist method to update the local wishlistItems:
+addWishlist(courseId: number) {
+  if (!this.auth.getToken()) {
+    this.router.navigate(['/Login'], {
+      queryParams: { returnUrl: `/course/${courseId}` }
+    });
+    return;
+  }
 
-    this.movingToWishlist = true;
+  this.movingToWishlist = true;
 
-    this.wishlistService.addToWishlist(courseId).subscribe({
-      next: () => {
-        console.log("Added to wishlist");
-        this.wishlistAdded = true;
-        
-        // ✅ Remove from cart after moving to wishlist
-        if (this.isInCart(courseId)) {
-          this.removeItem(courseId);
-        } else {
-          this.movingToWishlist = false;
-          this.cdr.detectChanges();
-        }
-      },
-      error: err => {
+  this.wishlistService.addToWishlist(courseId).subscribe({
+    next: (res) => {
+      console.log("Added to wishlist");
+      
+      // ✅ Add to local wishlist array
+      this.wishlistItems.push({ courseId: courseId, ...res.data });
+      this.wishlistAdded = true;
+      
+      // Remove from cart if present
+      if (this.isInCart(courseId)) {
+        this.removeItem(courseId);
+      } else {
         this.movingToWishlist = false;
-        console.error("Not added to wishlist", err);
         this.cdr.detectChanges();
       }
-    });
-  }
+    },
+    error: err => {
+      this.movingToWishlist = false;
+      console.error("Not added to wishlist", err);
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   // ✅ Remove from cart
   removeItem(courseId: number) {

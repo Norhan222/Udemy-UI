@@ -319,6 +319,24 @@ a {
   opacity: 0.7;           /* شوية شفافية */
 }
 
+.primary-wishlist-cta {
+  background: #a435f0;
+  color: white;
+  border: none;
+}
+.secondary-cta {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.primary-wishlist-cta:disabled {
+  background: #ccc;       /* لون رمادي */
+  color: #666;            /* لون نص أفتح */
+  cursor: not-allowed;    /* أيقونة عدم التفاعل */
+  opacity: 0.7;           /* شوية شفافية */
+}
+
 .secondary-cta {
   border: 1px solid #1c1d1f;
   background: white;
