@@ -38,14 +38,22 @@ errorMessage: string = '';
   this.isLoading=true;
  this.authService.Login(this.LoginForm.value).subscribe({
     next:(res)=>{
-      console.log("Login response:",res);
+      console.log("Login response:",res.role);
       this.isLoading=false;
       // this.authService.storeToken(res.jwtToken)
       // this.authService.storeRefreshToken(res.refreshToken)
       // this.authService.profileImage.next(res.profileImageUrl)
       this.authService.setLoginState(true)
       this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
-      this.router.navigate(['/Home']);
+     if (res.role === 'Admin') {
+        window.open('https://localhost:7288/', '_blank');
+         }
+      if(res.role==='Instructor'){
+        this.router.navigate(['/dashboard/courses']);
+      }
+      if(res.role==='Student'){
+        this.router.navigate(['/Home']);
+      }
     },
     error:(err)=>{
       console.log("Login error:",err.error[0]);
