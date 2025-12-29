@@ -66,8 +66,8 @@
       <section class="curriculum-section">
         <h2>Course content</h2>
         <div class="curriculum-header">
-          <!-- <span>{{ (course!.curriculum || []).length }} sections</span> -->
-          <!-- <span>{{ course!.duration }} total length</span> -->
+          <span>{{ (course!.curriculum || []).length }} sections</span>
+          <span>{{ course!.duration }} total length</span>
         </div>
         <div class="curriculum-list">
           <div *ngIf="!(course!.curriculum && course!.curriculum.length)">No curriculum available for this course.</div>
