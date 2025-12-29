@@ -4,9 +4,13 @@ import { WishlistService } from '../../Services/wishlist';
 import { Payment } from '../../Services/payment';
 import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
 
+
+
+
 @Component({
   selector: 'app-cart-component',
   templateUrl: './cart-component.html',
+  imports: [],
   styleUrls: ['./cart-component.css'],
 })
 export class CartComponent implements OnInit ,OnDestroy{
@@ -138,8 +142,6 @@ export class CartComponent implements OnInit ,OnDestroy{
       }
     });
   }
-
-
 
 
     ngOnDestroy(): void {

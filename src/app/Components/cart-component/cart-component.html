@@ -1,3 +1,4 @@
+@if(cartItems.length > 0) {
 <div class="container">
     <h1>Shopping Cart</h1>
     <p class="sub-title">{{ cartItems.length }} Courses in Cart</p>
@@ -6,7 +7,7 @@
         <!-- LEFT -->
         <div class="cart-items">
 
-            @if(cartItems.length>0){
+           
             @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
                 <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
@@ -58,7 +59,7 @@
                 </div>
             </div>
             }
-            }
+            
         </div>
 
         <!-- RIGHT -->
@@ -86,3 +87,9 @@
         </div>
     </div>
 </div>
+} @else {
+<div class="container text-center empty-cart">
+    <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
+    <h2>Your cart is empty</h2>
+</div>
+}
