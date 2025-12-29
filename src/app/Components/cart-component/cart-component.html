@@ -9,7 +9,7 @@
             @if(cartItems.length>0){
             @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
-                <img [src]="item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
+                <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
 
                 <div class="course-info">
                     <h3>{{ item.courseTitle }}</h3>
