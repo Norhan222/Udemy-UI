@@ -137,9 +137,9 @@ export class Learn implements OnInit {
     console.log('Learn Course ID:', this.courseId);
     this.loadCourse();
   }
-
   loadCourse(forceRefresh = false): void {
     this.loading = true;
+    this.courseId=62
 
     this.courseService.getCourseByIdtest(this.courseId, forceRefresh)
       .subscribe({
