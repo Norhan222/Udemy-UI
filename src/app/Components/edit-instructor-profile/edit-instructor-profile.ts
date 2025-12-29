@@ -30,6 +30,7 @@ export class EditInstructorProfile {
         firstName: res.firstName,
         lastName: res.lastName,
         bio: res.bio
+        
       });
 
       if (res.profileImageUrl) {

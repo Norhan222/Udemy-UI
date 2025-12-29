@@ -5,7 +5,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-performance-layout',
-  imports: [Overview,Reviews,RouterOutlet,RouterModule],
+  imports: [RouterOutlet,RouterModule],
   templateUrl: './performance-layout.html',
   styleUrl: './performance-layout.css',
 })

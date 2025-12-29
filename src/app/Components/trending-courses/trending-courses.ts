@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,Tooltip,PopoverModule, ButtonModule, ],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,PopoverModule, ButtonModule, ],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })

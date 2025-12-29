@@ -9,7 +9,7 @@ import { CapitalizePipe } from '../../Pipes/capitalize-pipe';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule,CapitalizePipe],
+  imports: [CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

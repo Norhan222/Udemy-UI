@@ -10,9 +10,11 @@
     <i class="bi bi-bell notification"></i>
 
     <!-- Badge للـ unread count -->
-    <span *ngIf="getUnreadCount() > 0" class="notification-badge-nav">
-      {{ getUnreadCount() }}
-    </span>
+    @if (getUnreadCount() > 0) {
+      <span class="notification-badge-nav">
+        {{ getUnreadCount() }}
+      </span>
+    }
 
     <!-- Notifications Panel -->
     <app-instructor-notification >

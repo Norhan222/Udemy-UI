@@ -4,12 +4,11 @@ import { CategoryService } from '../../Services/category-service';
 import { AuthService } from '../../Services/auth-service';
 import { SubCategory } from '../../Models/sub-category';
 import { CommonModule } from '@angular/common';
-import { CapitalizePipe } from '../../Pipes/capitalize-pipe';
-import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
   selector: 'app-top-header',
-  imports: [CommonModule,CapitalizePipe],
+  imports: [CommonModule],
   templateUrl: './top-header.html',
   styleUrl: './top-header.css',
 })
