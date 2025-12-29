@@ -19,7 +19,7 @@ import { Popover, PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-recommened-courses',
-  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,CardDialog ,CourseShowDialog,PopoverModule ],
+  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,PopoverModule ],
   templateUrl: './recommened-courses.html',
   styleUrl: './recommened-courses.css',
 })

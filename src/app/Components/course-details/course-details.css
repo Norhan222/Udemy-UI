@@ -1,3 +1,4 @@
+
 /* ========= GLOBAL FONT & RESET ========= */
 :host {
   display: block;
@@ -394,4 +395,3 @@ a {
     grid-template-columns: 1fr;
   }
 }
-

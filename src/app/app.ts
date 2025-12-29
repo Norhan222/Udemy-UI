@@ -4,14 +4,11 @@ import { Footer } from './Components/footer/footer';
 import { Navbar } from './Components/NavbarComponents/navbar/navbar';
 import { Header } from './Components/header/header';
 import { TopHeader } from './Components/top-header/top-header';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from './Services/auth-service';
-import { environment } from '../environments/environment';
-import { LoginResponse } from './Models/login-response';
+import { NgxSpinnerComponent } from "ngx-spinner";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Navbar,Footer,TopHeader],
+  imports: [RouterOutlet, NgxSpinnerComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -26,5 +23,4 @@ constructor(private http:HttpClient,private authService:AuthService){
   }
   }
   protected readonly title = signal('UdemyUI');
- 
 }

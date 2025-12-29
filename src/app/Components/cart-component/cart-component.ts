@@ -32,6 +32,8 @@ export class CartComponent implements OnInit ,OnDestroy{
         this.subTotal = res.data.subTotal;
         this.total = res.data.total;
         this.cd.detectChanges();
+        console.log("cart",this.cartItems);
+        
       },
       error: (err) => console.error(err),
     });

@@ -110,7 +110,7 @@ export class CourseDetailsComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error(err);
+        console.error("addCart",err);
       }
     });
   }
