@@ -1,33 +1,33 @@
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
-      <div class="course-card-wrapper">
-        <div class="course-card"  style="height:320px">
-          <div [routerLink]="['/course', product.id]">
+      <div style="margin:10px; background-color: white; ">
+        <button style="border: none; background: transparent;"  (mouseenter)="toggle($event)" styleClass="min-w-48 " (mouseleave)="op.hide()">
+          <button [routerLink]="['/course', product.id]"  style="border: none;background: transparent;" >
             <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
             <div class="course-basic-info">
-               <h3 class="course-title">{{product.title}}</h3>
-                <p class="course-instructor">{{product.instructorName}}</p>
-                <div class="course-rating">
+              <h3 class="course-title">{{product.title}}</h3>
+              <p class="course-instructor"> {{product.instructorName}}</p>
+              <div class="course-rating">
                 <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
                 <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
               </div>
-            <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
+              <div class="course-price">E&pound;{{product.price}}</div>
+              <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
                 <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
-          </div>
-         </div>
+                </div>
+              </button>
+          </button>
 
-          <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
-          <div class="course-hover-card">
+          <!-- الكارد التفصيلي -->
+          <p-popover #op position="right" [style]="{'box-shadow': '0 2px 8px rgba(0,0,0,0.2)'}">
+            <div class="flex flex-col gap-4" style="width:320px; padding:15px; background-color:white; border-radius:5px; box-shadow:0 2px 8px rgba(0,0,0,0.2);"
+              (mouseleave)="op.hide()">
             <h3 class="hover-title">{{product.title}}</h3>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
+            <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+              <i class="bi bi-patch-check"></i> Premium
+            </button>
             <p class="hover-description">
               Updated in {{product.lastUpdatedDate}}
             </p>
@@ -42,14 +42,17 @@
               <li>Build 16 web development projects</li>
               <li>Learn the latest technologies</li>
               <li>Build a portfolio of websites</li>
+              <li>Build 16 web development projects</li>
+              <li>Learn the latest technologies</li>
+              <li>Build a portfolio of websites</li>
             </ul>
             <div class="hover-buttons">
-                <button type="button" class=" " 
-                    [disabled]="isInCart(product?.id)" 
-                    (click)="addToCart(product?.id)"  
-                    style="background-color:#5f2eaf; color:white; 
+               <button type="button" class=" "
+                    [disabled]="isInCart(product?.id)"
+                    (click)="addToCart(product?.id)"
+                    style="background-color:#5f2eaf; color:white;
                            padding:15px 50px 15px 50px; font-weight:bold ;">
-                   <i class="bi bi-patch-check"></i>  
+                   <i class="bi bi-patch-check"></i>
                        {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
                   </button>
                   <button (click)="addToWishlist(product?.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
@@ -62,9 +65,13 @@
                       }
                    </button>
             </div>
-          </div>
-        </div>
+            </div>
+          </p-popover>
       </div>
     </ng-template>
   </p-carousel>
 </section>
+
+
+
+
