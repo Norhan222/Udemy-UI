@@ -5,6 +5,10 @@ import { Navbar } from './Components/NavbarComponents/navbar/navbar';
 import { Header } from './Components/header/header';
 import { TopHeader } from './Components/top-header/top-header';
 import { NgxSpinnerComponent } from "ngx-spinner";
+import { HttpClient } from '@angular/common/http';
+import { LoginResponse } from './Models/login-response';
+import { environment } from '../environments/environment';
+import { AuthService } from './Services/auth-service';
 
 @Component({
   selector: 'app-root',
