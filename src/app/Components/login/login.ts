@@ -40,12 +40,12 @@ errorMessage: string = '';
     next:(res)=>{
       console.log("Login response:",res);
       this.isLoading=false;
-      this.authService.storeToken(res.jwtToken)
-      this.authService.storeRefreshToken(res.refreshToken)
+      // this.authService.storeToken(res.jwtToken)
+      // this.authService.storeRefreshToken(res.refreshToken)
+      // this.authService.profileImage.next(res.profileImageUrl)
       this.authService.setLoginState(true)
       this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
       this.router.navigate(['/Home']);
-
     },
     error:(err)=>{
       console.log("Login error:",err.error[0]);

@@ -3,14 +3,25 @@
      (pointerleave)="closeMenu()">
 
   <!-- Avatar -->
-  <div class="avatar">
+  <!-- <div class="avatar">
     <img *ngIf="user.profileImageUrl; else initials"
          [src]="user.profileImageUrl"
          alt="avatar" />
     <ng-template #initials>
       {{ (user.firstName + ' ' + user.lastName) | intiials }}
     </ng-template>
-  </div>
+  </div> -->
+  @if(userData$ |async; as userr){
+  @if(userr.profileImageUrl){
+    <img class="profileImage" [src]="userr.profileImageUrl"/>
+  }
+
+  @else{
+  <div class="avatar">
+        {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+    </div>
+  }
+
 
   <span class="notification-badge"></span>
 
@@ -19,17 +30,29 @@
 
     <!-- User Info -->
     <div class="user-info">
-      <div class="avatar big">
-        <img *ngIf="user.profileImageUrl; else initialsBig"
+      @if((userr.profileImageUrl)){
+      <img class="avatarProfile" [src]="(userr.profileImageUrl)" />
+      }
+
+      @else{
+              <div class="avatar big">
+
+      <div class="avatar">
+        {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+      </div>
+            </div>
+
+      }
+
+        <!-- <img  *ngIf="user.profileImageUrl; else initialsBig"
              [src]="user.profileImageUrl" />
         <ng-template #initialsBig>
           {{ (user.firstName + ' ' + user.lastName) | intiials }}
-        </ng-template>
-      </div>
+        </ng-template> -->
 
       <div class="us">
-        <h5>{{ (user.firstName + ' ' + user.lastName) | capitalize }}</h5>
-        <p>{{ user.email }}</p>
+        <h5>{{ (userr.firstName + ' ' + userr.lastName) | capitalize }}</h5>
+        <p>{{ userr.email }}</p>
         <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
           Logout
         </a>
@@ -64,4 +87,4 @@
     <a class="logout" (click)="logout()">Log out</a>
   </div>
 
-</div>
+  }

@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../Models/login-request';
 import { IRegisterRequest } from '../Models/iregister-request';
 import { TokenApi } from '../Models/token-api';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoginResponse } from '../Models/login-response';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class AuthService {
   /* =========================
      AUTH STATE
   ========================== */
-
+  private userSubject =new BehaviorSubject<LoginResponse["user"] |null>(null)
+  user$=this.userSubject.asObservable();
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
@@ -27,14 +29,10 @@ export class AuthService {
      SHARED USER DATA (NAME + IMAGE)
   ========================== */
 
-  firstName = new BehaviorSubject<string>(
-    localStorage.getItem('firstName') || ''
-  );
+  firstName = new BehaviorSubject<string>('')
   firstName$ = this.firstName.asObservable();
 
-  profileImage = new BehaviorSubject<string | null>(
-    localStorage.getItem('profileImage')
-  );
+  profileImage = new BehaviorSubject<string>('')
   profileImage$ = this.profileImage.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -43,8 +41,15 @@ export class AuthService {
      AUTH METHODS
   ========================== */
 
-  Login(data: LoginRequest): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Account/login`, data);
+  Login(data: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.baseUrl}/Account/login`, data)
+    .pipe(
+      tap(res=>{
+        localStorage.setItem('token', res.jwtToken)
+        this.userSubject.next(res.user)
+      }
+      )
+    );
   }
 
   Registerstudent(data: IRegisterRequest): Observable<any> {
@@ -63,7 +68,7 @@ export class AuthService {
 
     this.isLoggedInSubject.next(false);
     this.firstName.next('');
-    this.profileImage.next(null);
+    this.profileImage.next('');
   }
 
   setLoginState(state: boolean) {
@@ -116,7 +121,6 @@ export class AuthService {
     } else {
       localStorage.removeItem('profileImage');
     }
-    this.profileImage.next(url);
   }
 
   /* =========================

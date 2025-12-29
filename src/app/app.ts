@@ -1,9 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from './Components/footer/footer';
 import { Navbar } from './Components/NavbarComponents/navbar/navbar';
 import { Header } from './Components/header/header';
 import { TopHeader } from './Components/top-header/top-header';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './Services/auth-service';
+import { environment } from '../environments/environment';
+import { LoginResponse } from './Models/login-response';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +15,16 @@ import { TopHeader } from './Components/top-header/top-header';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App  implements OnInit{
+
+constructor(private http:HttpClient,private authService:AuthService){
+}
+  ngOnInit(): void {
+     if (localStorage.getItem('token')) {
+    this.http.get<LoginResponse['user']>(`${environment.apiUrl}/Account/me`)
+      .subscribe(user => this.authService['userSubject'].next(user));
+  }
+  }
   protected readonly title = signal('UdemyUI');
+ 
 }

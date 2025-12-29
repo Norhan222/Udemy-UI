@@ -13,6 +13,17 @@
   justify-content: center;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.2s;
+}
+.profileImage{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+        object-fit: contain;
     transition: all 0.2s;
 }
 
@@ -20,6 +31,17 @@
   width: 65px;
   height: 65px;
   font-size:1.5rem;
+}
+.avatarProfile{
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      object-fit: contain;
+      transition: all 0.2s;
 }
 
 .dropdown {
