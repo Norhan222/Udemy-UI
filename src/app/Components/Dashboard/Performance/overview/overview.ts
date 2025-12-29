@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Chart } from 'chart.js';
+import { ChartData, PerformanceService } from '../../../../Services/performance-service';
 
 
 @Component({
@@ -10,12 +10,11 @@ import { Chart } from 'chart.js';
   templateUrl: './overview.html',
   styleUrl: './overview.css',
 })
-export class Overview {
- selectedRange = 'Last 12 months';
+export class Overview implements OnInit  {
+selectedRange = 'Last 12 months';
   selectedCourse = 'All courses';
   isLoading = false;
-  
-  // ✅ Performance Data
+
   performanceData: PerformanceData = {
     totalRevenue: 0,
     monthRevenue: 0,
@@ -24,80 +23,96 @@ export class Overview {
     averageRating: 0,
     chartData: []
   };
-  
-  // ✅ Metrics التي ستظهر في الكروت
-  metrics: PerformanceMetric[] = [];
 
-  // ✅ Options للـ dropdowns
-  courses = ['All courses', 'Course 1', 'Course 2', 'Course 3'];
-  dateRanges = ['Last 7 days', 'Last 30 days', 'Last 3 months', 'Last 6 months', 'Last 12 months', 'This year', 'All time'];
+  metrics: PerformanceMetric[] = [];
+  courses: string[] = ['All courses'];
+
+  dateRanges = [
+    'Last 7 days',
+    'Last 30 days',
+    'Last 12 months',
+    'All time'
+  ];
+
+  // ✅ Inject الـ Service
+  constructor(private performanceService: PerformanceService,private cdr:ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // ✅ حمّل البيانات فوراً بدون setTimeout
+    console.log('🚀 Overview component initialized');
+    this.loadCourses();
     this.loadPerformanceData();
   }
 
-  // ✅ تحميل البيانات (من API أو Mock Data)
-  loadPerformanceData(): void {
-    this.isLoading = true;
+  // ✅ استخدام الـ Service لجلب الكورسات
+  loadCourses(): void {
+    console.log('📚 Loading courses from API...');
 
-    // ✅ استخدم setTimeout أقصر أو احذفه تماماً
-    try {
-      this.performanceData = this.getMockData();
-      this.updateMetrics();
-      this.isLoading = false;
-    } catch (error) {
-      console.error('Error loading data:', error);
-      this.isLoading = false;
-    }
+    this.performanceService.getInstructorCourses().subscribe({
+      next: (courses) => {
+        this.courses = courses;
+        this.cdr.detectChanges()
+        console.log('✅ Courses loaded successfully:', courses);
+      },
+      error: (error) => {
+        console.error('❌ Error loading courses:', error);
+        console.warn('⚠️ Using fallback courses');
+        this.courses = ['All courses', 'Course 1', 'Course 2', 'Course 3'];
+      }
+    });
   }
 
-  // ✅ Mock Data Generator
+  // ✅ استخدام الـ Service لجلب بيانات الأداء
+  loadPerformanceData(): void {
+    console.log('📊 Loading performance data from API...');
+    console.log('   Course:', this.selectedCourse);
+    console.log('   Date Range:', this.selectedRange);
+
+    this.isLoading = true;
+
+    this.performanceService.getPerformanceData(
+      this.selectedCourse,
+      this.selectedRange
+    ).subscribe({
+      next: (data) => {
+        console.log('✅ Performance data loaded successfully:', data);
+        this.performanceData = data;
+        this.cdr.detectChanges()
+        this.updateMetrics();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('❌ Error loading performance data:', error);
+        console.warn('⚠️ Using mock data for development');
+
+        // Fallback للـ mock data
+        this.performanceData = this.getMockData();
+        this.updateMetrics();
+        this.isLoading = false;
+      }
+    });
+    this.cdr.detectChanges();
+  }
+
+  // ✅ Mock Data كـ fallback (للتطوير فقط)
   getMockData(): PerformanceData {
-    // ✅ بيانات عشوائية بناءً على الفلاتر
-    const baseRevenue = this.getBaseRevenue();
-    const baseEnrollments = this.getBaseEnrollments();
-    
+    console.log('🎭 Generating mock data...');
+
+    const baseRevenue = Math.floor(Math.random() * 5000) + 1000;
+    const baseEnrollments = Math.floor(Math.random() * 200) + 50;
+
     return {
       totalRevenue: baseRevenue * 10,
       monthRevenue: baseRevenue,
       totalEnrollments: baseEnrollments * 8,
       monthEnrollments: baseEnrollments,
-      averageRating: this.getRandomRating(),
-      chartData: this.generateChartData()
+      averageRating: parseFloat((Math.random() * 2 + 3).toFixed(2)),
+      chartData: this.generateMockChartData()
     };
   }
 
-  // ✅ حساب الـ Revenue بناءً على الكورس المختار
-  getBaseRevenue(): number {
-    if (this.selectedCourse === 'All courses') {
-      return Math.floor(Math.random() * 5000) + 1000; // 1000-6000
-    } else if (this.selectedCourse === 'Course 1') {
-      return Math.floor(Math.random() * 2000) + 500; // 500-2500
-    } else if (this.selectedCourse === 'Course 2') {
-      return Math.floor(Math.random() * 3000) + 800; // 800-3800
-    } else {
-      return Math.floor(Math.random() * 1500) + 300; // 300-1800
-    }
-  }
-
-  // ✅ حساب الـ Enrollments
-  getBaseEnrollments(): number {
-    if (this.selectedCourse === 'All courses') {
-      return Math.floor(Math.random() * 200) + 50; // 50-250
-    } else {
-      return Math.floor(Math.random() * 80) + 20; // 20-100
-    }
-  }
-
-  // ✅ Random Rating
-  getRandomRating(): number {
-    return parseFloat((Math.random() * 2 + 3).toFixed(2)); // 3.00-5.00
-  }
-
-  // ✅ Generate Chart Data
-  generateChartData(): any[] {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  generateMockChartData(): ChartData[] {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months.map(month => ({
       month,
       revenue: Math.floor(Math.random() * 1000) + 200,
@@ -105,8 +120,10 @@ export class Overview {
     }));
   }
 
-  // ✅ تحديث الـ Metrics Cards
+  // ✅ تحديث الـ Metrics Cards من البيانات
   updateMetrics(): void {
+    console.log('🔄 Updating metrics...');
+
     this.metrics = [
       {
         label: 'This month so far',
@@ -127,61 +144,63 @@ export class Overview {
         hasInfo: true
       }
     ];
+    this.cdr.detectChanges();
+
+    console.log('✅ Metrics updated:', this.metrics);
   }
 
   // ✅ عند تغيير الكورس
   onCourseChange(): void {
-    console.log('Course changed to:', this.selectedCourse);
+    console.log('📚 Course changed to:', this.selectedCourse);
     this.loadPerformanceData();
+    this.cdr.detectChanges()
   }
 
   // ✅ عند تغيير الـ Date Range
   onDateRangeChange(): void {
-    console.log('Date range changed to:', this.selectedRange);
+    console.log('📅 Date range changed to:', this.selectedRange);
     this.loadPerformanceData();
   }
 
-  // ✅ Export Data
+  // ✅ استخدام الـ Service للـ Export
   onExport(): void {
-    console.log('Exporting data...', {
-      course: this.selectedCourse,
-      range: this.selectedRange,
-      data: this.performanceData
-    });
+    console.log('📥 Exporting performance data...');
 
-    // ✅ هنا ممكن تعمل export لـ CSV أو PDF
-    const dataStr = JSON.stringify(this.performanceData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `performance-${Date.now()}.json`;
-    link.click();
-    
-    URL.revokeObjectURL(url);
-    
-    alert('Data exported successfully!');
+    const format = confirm('Export as CSV?\n\nClick OK for CSV or Cancel for JSON')
+      ? 'csv'
+      : 'json';
+
+    console.log(`   Format: ${format.toUpperCase()}`);
+
+    // ✅ استخدام الـ Service للـ export
+    this.performanceService.exportData(this.performanceData, format);
+
+    console.log('✅ Data exported successfully!');
+    alert(`Data exported successfully as ${format.toUpperCase()}!`);
   }
 
   // ✅ Check if there's data to display
   hasData(): boolean {
-    return this.performanceData.totalRevenue > 0 || 
-           this.performanceData.totalEnrollments > 0;
+    const result = this.performanceData.totalRevenue > 0 ||
+                   this.performanceData.totalEnrollments > 0;
+    return result;
   }
 
   // ✅ حساب ارتفاع الـ bar بشكل ديناميكي
   getBarHeight(revenue: number): number {
-    if (!this.performanceData.chartData || this.performanceData.chartData.length === 0) {
+    if (!this.performanceData.chartData ||
+        this.performanceData.chartData.length === 0) {
       return 0;
     }
 
-    // احسب أعلى قيمة في الـ chart
-    const maxRevenue = Math.max(...this.performanceData.chartData.map(d => d.revenue));
-    
-    // احسب النسبة المئوية (مع حد أدنى 20%)
+    const maxRevenue = Math.max(
+      ...this.performanceData.chartData.map(d => d.revenue)
+    );
+
+    if (maxRevenue === 0) return 0;
+
     const percentage = (revenue / maxRevenue) * 100;
-    return Math.max(percentage, 20); // على الأقل 20% عشان يبقى ظاهر
+    return Math.max(percentage, 20); // على الأقل 20%
   }
 }
 interface PerformanceMetric {
