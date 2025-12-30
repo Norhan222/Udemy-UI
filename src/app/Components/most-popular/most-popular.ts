@@ -19,12 +19,12 @@ import { Popover, PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-most-popular',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule,CommonModule],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
 })
 export class MostPopular implements OnInit, OnDestroy {
-   responsiveOptions: any[] | undefined;
+  responsiveOptions: any[] | undefined;
 
     courses!:ICourse [] ;
     topPickCourse!: ICourse;
@@ -32,22 +32,40 @@ export class MostPopular implements OnInit, OnDestroy {
     cartAdded = false;
     wihshListAdded =false;
     value: number = 3;
+
+    @ViewChild('op') op!: Popover;
+hoveredProduct: any = null;
+hideTimer: any;
+
+showPopover(event: MouseEvent, product: any, op: Popover) {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
+
+  this.hoveredProduct = product;
+
+  setTimeout(() => {
+    op.show(event);
+  });
+}
+
+scheduleHide(op: Popover) {
+  this.hideTimer = setTimeout(() => {
+    op.hide();
+    this.hoveredProduct = null;
+  },);
+}
+
+cancelHide() {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
+}
+
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
-      @ViewChild('op') op!: Popover;
-
-        selectedMember = null;
-
-        
-
-        toggle(event: any) {
-            this.op.show(event);
-        }
-
-        selectMember(member: any) {
-            this.selectedMember = member;
-            this.op.hide();
-        }
 
       constructor(public courseService: CourseService ,
         public cdn:ChangeDetectorRef) {}
@@ -56,13 +74,16 @@ export class MostPopular implements OnInit, OnDestroy {
                        cartItems: any[] = [];
                         wishlistItems: any[] = [];
                        cartLoaded = false;
+
       ngOnInit() {
 
         this.dataResponse = this.courseService.getPopularCourses().subscribe((data:any)=>{
               this.courses = data.data;
+              this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();
            })
-          this.responsiveOptions = [
+
+         this.responsiveOptions = [
               {
                   breakpoint: '1400px',
                   numVisible: 2,

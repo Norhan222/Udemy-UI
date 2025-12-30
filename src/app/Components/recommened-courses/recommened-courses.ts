@@ -34,18 +34,36 @@ export class RecommenedCourses implements OnInit, OnDestroy {
     value: number = 3;
 
     @ViewChild('op') op!: Popover;
+hoveredProduct: any = null;
+hideTimer: any;
 
-        selectedMember = null;
+showPopover(event: MouseEvent, product: any, op: Popover) {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
 
-       
-        toggle(event: any) {
-            this.op.show(event);
-        }
+  this.hoveredProduct = product;
 
-        selectMember(member: any) {
-            this.selectedMember = member;
-            this.op.hide();
-        }
+  setTimeout(() => {
+    op.show(event);
+  });
+}
+
+scheduleHide(op: Popover) {
+  this.hideTimer = setTimeout(() => {
+    op.hide();
+    this.hoveredProduct = null;
+  },);
+}
+
+cancelHide() {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
+}
+
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
 

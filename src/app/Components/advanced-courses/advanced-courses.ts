@@ -18,7 +18,7 @@ import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule],
+  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule,CommonModule],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })
@@ -34,19 +34,35 @@ export class AdvancedCourses implements OnInit, OnDestroy {
       // selectedCourse: any;
       // @ViewChild('op') OP!:OverlayPanel;
       @ViewChild('op') op!: Popover;
+hoveredProduct: any = null;
+hideTimer: any;
 
-              selectedMember = null;
+showPopover(event: MouseEvent, product: any, op: Popover) {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
 
+  this.hoveredProduct = product;
 
+  setTimeout(() => {
+    op.show(event);
+  });
+}
 
-              toggle(event: any) {
-                  this.op.show(event);
-              }
+scheduleHide(op: Popover) {
+  this.hideTimer = setTimeout(() => {
+    op.hide();
+    this.hoveredProduct = null;
+  },);
+}
 
-              selectMember(member: any) {
-                  this.selectedMember = member;
-                  this.op.hide();
-              }
+cancelHide() {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
+}
 
       constructor(public courseService: CourseService ,
         public cdn:ChangeDetectorRef) {}
@@ -58,7 +74,7 @@ export class AdvancedCourses implements OnInit, OnDestroy {
 
       ngOnInit() {
 
-        this.dataResponse = this.courseService.getMyCourses().subscribe((data:any)=>{
+        this.dataResponse = this.courseService.AdvancedCourses().subscribe((data:any)=>{
               this.courses = data.data;
               this.topPickCourse = this.courses[0];
               this.cdn.detectChanges();
