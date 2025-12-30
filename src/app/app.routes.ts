@@ -48,7 +48,6 @@ export const routes: Routes = [
 
 
 
-    {
   // {path:'', redirectTo: 'Home', pathMatch: 'full'},
   // {path:'Home', component:Home,title:'Home'},
   // {path:'Login', component:Login,title:'Login'},
