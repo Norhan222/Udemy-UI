@@ -33,11 +33,12 @@ export class AuthService {
      SHARED USER DATA (NAME + IMAGE)
   ========================== */
 
-  firstName = new BehaviorSubject<string>('')
-  firstName$ = this.firstName.asObservable();
+  firstName = new BehaviorSubject<string>('');
+firstName$ = this.firstName.asObservable();
 
-  profileImage = new BehaviorSubject<string>('')
-  profileImage$ = this.profileImage.asObservable();
+profileImage = new BehaviorSubject<string>('');
+profileImage$ = this.profileImage.asObservable();
+
 
   constructor(private http: HttpClient) {
 
@@ -139,14 +140,16 @@ export class AuthService {
     localStorage.setItem('firstName', name);
     this.firstName.next(name);
   }
-
-  setProfileImage(url: string | null) {
-    if (url) {
-      localStorage.setItem('profileImage', url);
-    } else {
-      localStorage.removeItem('profileImage');
-    }
+setProfileImage(url: string | null) {
+  if (url) {
+    localStorage.setItem('profileImage', url);
+    this.profileImage.next(url); // 🔥 REQUIRED
+  } else {
+    localStorage.removeItem('profileImage');
+    this.profileImage.next('');
   }
+}
+
 
   /* =========================
      JWT HELPERS
@@ -306,6 +309,11 @@ export class AuthService {
 // In your auth-service.ts file
 
 changePassword(passwordData: { currentPassword: string, newPassword: string, confirmNewPassword: string }): Observable<any> {
-  return this.http.put(`${this.baseUrl}/api/student/profile/change-password`, passwordData);
+  // تأكد أن الـ URL يطابق الـ backend
+  return this.http.put<any>(
+    `${this.baseUrl}/student/profile/change-password`,
+    passwordData
+  );
 }
+  
 }
