@@ -300,4 +300,12 @@ export class AuthService {
       formData
     );
   }
+  // Add this to your AuthService
+// Add this method to your auth-service.ts file
+
+// In your auth-service.ts file
+
+changePassword(passwordData: { currentPassword: string, newPassword: string, confirmNewPassword: string }): Observable<any> {
+  return this.http.put(`${this.baseUrl}/api/student/profile/change-password`, passwordData);
+}
 }
