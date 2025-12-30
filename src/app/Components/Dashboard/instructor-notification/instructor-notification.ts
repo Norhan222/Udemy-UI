@@ -3,6 +3,7 @@ import { NotificatonService } from '../../../Services/notificaton-service';
 import { CommonModule } from '@angular/common';
 import { NotificationMessage } from '../../../Models/notification-message';
 import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-instructor-notification',
@@ -18,7 +19,7 @@ export class InstructorNotification implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    public notificationsService: NotificatonService,
+    public notificationsService: NotificatonService ,private router:Router,
     private ngZone: NgZone
   ) {
     // Subscribe to show/hide notifications
@@ -45,7 +46,18 @@ export class InstructorNotification implements OnInit, OnDestroy {
     // Refresh notifications when component initializes
     this.notificationsService.refreshNotifications();
   }
+ navigateToMessageDetails(notification: NotificationMessage) {
+    // Mark as read
+    this.notificationsService.markAsRead(notification.id, this.activeTab);
 
+    // Close notifications panel
+    this.notificationsService.hideNotifications();
+
+    // Navigate to details page with notification data
+    this.router.navigate(['/messageDetails', notification.id], {
+      state: { notification: notification }
+    });
+  }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructorService } from '../../../Services/instructor-service';
 import { CommonModule } from '@angular/common';
+import { NotificationMessage } from '../../../Models/notification-message';
 
 @Component({
   selector: 'app-guideline-page',
@@ -10,10 +11,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './guideline-page.css',
 })
 export class GuidelinePage {
-notificationId: number = 0;
+  notification: any | null = null;
+  notificationId: number = 0;
   courseDetails: any = null;
   rejectionReasons: string[] = [];
-  isLoading: boolean = true;
+  isLoading: boolean = false;
 
   guidelines = [
     {
@@ -66,16 +68,21 @@ notificationId: number = 0;
     private route: ActivatedRoute,
     private router: Router,
     private instructorService: InstructorService
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.notification = navigation.extras.state['notification'];
+    }
+    console.log(this.notification)
+  }
 
   ngOnInit(): void {
-    this.notificationId = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadRejectionDetails();
+
   }
 
   loadRejectionDetails() {
     this.isLoading = false;
-    
+
     // استدعاء الـ API عشان تجيب تفاصيل الرفض
     // this.instructorService.getCourseRejectionDetails(this.notificationId).subscribe({
     //   next: (response:any) => {
@@ -111,12 +118,12 @@ notificationId: number = 0;
   }
 
   goBack() {
-    this.router.navigate(['/instructor/dashboard']);
+    this.router.navigate(['/dashboard/courses']);
   }
 
-  editCourse() {
-    if (this.courseDetails?.courseId) {
-      this.router.navigate(['/instructor/courses/edit', this.courseDetails.courseId]);
+  editCourse(id:number) {
+    if (id) {
+      this.router.navigate(['/complete-creation-course', id]);
     }
   }
 

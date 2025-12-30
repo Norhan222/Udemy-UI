@@ -19,6 +19,7 @@ import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-
 
 import { componentDeactivateGuard } from './Guard/component-deactivate-guard';
 import { Learn } from './Components/learn/learn';
+import { EditInstructorProfile } from './Components/edit-instructor-profile/edit-instructor-profile';
 
 
 export const routes: Routes = [
@@ -28,7 +29,7 @@ export const routes: Routes = [
     // {path:'Register', component:Register,title:'Register'},
     // {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     // {path:'**', component:Notfound,title:'Not Found Page'},
-     
+
 //befor login ///////////////////
 {
   path: '',
@@ -43,17 +44,17 @@ export const routes: Routes = [
   ]
 },
 ///*********************************** */
-    
-    
-    
-    
+
+
+
+
     {
     path: '',
     loadComponent: () =>
       import('./app-layout/app-layout')
         .then(m => m.AppLayout),
     children: [
-      { path: '', loadComponent: () => import('./Components/home/home').then(m => m.Home) },
+      { path: '', component:Home},
     {path:'', redirectTo: 'Home', pathMatch: 'full'},
     {path:'Home', component:Home,title:'Home'},
     {path:'Login', component:Login,title:'Login'},
@@ -61,18 +62,13 @@ export const routes: Routes = [
     // Profile edit (student)
     { path: 'Profile/Edit', loadComponent: () => import('./Components/edit-student-profile/edit-student-profile').then(m => m.EditStudentProfile), title: 'Edit Profile' },
     // Instructor profile edit
-    { path: 'Instructor/Profile/Edit', loadComponent: () => import('./Components/edit-instructor-profile/edit-instructor-profile').then(m => m.EditInstructorProfile), title: 'Edit Instructor Profile' },
+    { path: 'Instructor/Profile/Edit',component: EditInstructorProfile, title: 'Edit Instructor Profile' },
     {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
     {path:'Cart', component: CartComponent, title: 'Cart'},
     {path:'logout', component: HomeBeforSignIn, title: 'Cart'},
     {path:'my-learning', component: MyLearning, title: 'My Learning'},
     {path:'learn/:id', component: Learn, title: 'learn'},
-    {
-    path:'HomeBeforSignIn',
-       loadComponent: () => import('./Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in')
-     .then(m=>m.HomeBeforSignIn)
-  }
-
+    {path:'HomeBeforSignIn', component: HomeBeforSignIn, title: 'learn'},
     // {path:'**', component:Notfound,title:'Not Found Page'},
     ]
   },
@@ -135,10 +131,9 @@ export const routes: Routes = [
      canDeactivate:[componentDeactivateGuard]
     },
   {
-    path:'messageDetails',
+    path:'messageDetails/:id',
      loadComponent: () => import('./Components/Dashboard/guideline-page/guideline-page')
      .then(m=>m.GuidelinePage)
   },
 
-  
 ];

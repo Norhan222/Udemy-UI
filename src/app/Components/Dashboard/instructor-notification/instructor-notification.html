@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="notifications-header">
       <h2>Notifications</h2>
-     
+
     </div>
 
     <!-- Tabs -->
@@ -29,13 +29,15 @@
     <!-- Notifications List -->
     <div *ngIf="!isLoading" class="notifications-list">
       <div *ngFor="let notification of getActiveNotifications()" class="notification-item"
-        [class.unread]="!notification.isRead" (click)="markAsRead(notification.id)">
+        [class.unread]="!notification.isRead" (click)="markAsRead(notification.id)"
+          (click)="navigateToMessageDetails(notification)"
+        >
 
         <div class="notification-icon">
           <img class="icon-circle" src="/udemy.png" alt="notification">
         </div>
 
-        <div class="notification-content">
+        <div class="notification-content" >
           <p class="notification-message">{{ notification.messageTitle }}</p>
           <span class="notification-time">{{ notification.time }}</span>
         </div>
