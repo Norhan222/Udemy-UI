@@ -1,44 +1,43 @@
+<nav class="navbar navbar-udemy">
+  <div class="navbar-container">
+    <div class="navbar-content">
+      <!-- Hamburger Menu -->
+      <button class="hamburger-menu" id="hamburgerBtn" type="button">
+        <i class="bi bi-list"></i>
+      </button>
 
-    <nav class="navbar navbar-udemy">
-        <div class="navbar-container">
-            <div class="navbar-content">
-                <!-- Hamburger Menu -->
-                <button class="hamburger-menu" id="hamburgerBtn" type="button">
-                    <i class="bi bi-list"></i>
-                </button>
+      <!-- Logo -->
+      <a class="navbar-brand" routerLink="/Home">
+        <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="Udemy" />
+      </a>
 
-                <!-- Logo -->
-                <a class="navbar-brand" routerLink="/Home">
-                    <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="Udemy" />
-                </a>
-
-                <!-- Explore Link -->
-                <!-- <a href="#" class="nav-link-explore">Explore</a> -->
-              <app-explore-menu></app-explore-menu>
+      <!-- Explore Link -->
+      <!-- <a href="#" class="nav-link-explore">Explore</a> -->
+      <app-explore-menu></app-explore-menu>
 
 
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <form class="search-form" action="#" method="get">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" placeholder="Search for anything" name="q">
-                    </form>
-                </div>
-                <!-- Navigation Links -->
-                <div class="nav-links">
-                    <a href="#" class="nav-link-text">Plans & Pricing</a>
-                    <a href="#" class="nav-link-text">Udemy Business</a>
-                    @if(!(isLoggdIn$ |async)){
-                    <a href="#" class="nav-link-text">Teach on Udemy</a>
-                    }
-                    @if((isLoggdIn$ |async)){
-                <a routerLink="/dashboard/courses" class="nav-link-text">Instructor</a>
-                <a routerLink="/my-learning" class="nav-link-text">My learning</a>
-                    }
-                </div>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <form class="search-form" (submit)="onSearch($event)">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search for anything" name="q" [(ngModel)]="searchQuery">
+        </form>
+      </div>
+      <!-- Navigation Links -->
+      <div class="nav-links">
+        <a href="#" class="nav-link-text">Plans & Pricing</a>
+        <a href="#" class="nav-link-text">Udemy Business</a>
+        @if(!(isLoggdIn$ |async)){
+        <a href="#" class="nav-link-text">Teach on Udemy</a>
+        }
+        @if((isLoggdIn$ |async)){
+        <a routerLink="/dashboard/courses" class="nav-link-text">Instructor</a>
+        <a routerLink="/my-learning" class="nav-link-text">My learning</a>
+        }
+      </div>
 
-                <div class="nav-icons">
-                  <!-- @if((isLoggdIn$)){
+      <div class="nav-icons">
+        <!-- @if((isLoggdIn$)){
                 <a href="#" class="cart-icon">
                 <i class="bi bi-heart"></i>
                 </a>
@@ -52,50 +51,50 @@
                 <i class="bi bi-bell"></i>
                 </a>
               } -->
-                <a class="cart-icon" (click)="goToCart()">
-                      <i class="bi bi-cart3"></i>
-                </a>
+        <a class="cart-icon" (click)="goToCart()">
+          <i class="bi bi-cart3"></i>
+        </a>
 
-                </div>
+      </div>
 
-                <!-- Cart Icon -->
+      <!-- Cart Icon -->
 
-                @if(!(isLoggdIn$ |async)){
-                <!-- Login Button -->
-                <a  class="btn-login" routerLink="Login">Log in</a>
+      @if(!(isLoggdIn$ |async)){
+      <!-- Login Button -->
+      <a class="btn-login" routerLink="Login">Log in</a>
 
-                <!-- Sign up Button -->
-                <a class="btn-signup" routerLink="Register">Sign up</a>
+      <!-- Sign up Button -->
+      <a class="btn-signup" routerLink="Register">Sign up</a>
 
-                <!-- Language Icon -->
-                <a href="#" class="lang-icon">
-                    <i class="fas fa-globe"></i>
-                </a>
-               }
-               @if((isLoggdIn$ |async)){
-              <!-- <div class="profile">
+      <!-- Language Icon -->
+      <a href="#" class="lang-icon">
+        <i class="fas fa-globe"></i>
+      </a>
+      }
+      @if((isLoggdIn$ |async)){
+      <!-- <div class="profile">
                 <span class="avatar">NA</span>
 
               </div> -->
-              <app-user-menu></app-user-menu>
-            }
-              <!-- Avatar -->
+      <app-user-menu></app-user-menu>
+      }
+      <!-- Avatar -->
 
 
-              </div>
+    </div>
 
 
-            <!-- Mobile Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <a href="#" class="mobile-menu-item">Explore</a>
-                <a href="#" class="mobile-menu-item">Plans & Pricing</a>
-                <a href="#" class="mobile-menu-item">Udemy Business</a>
-                <a href="#" class="mobile-menu-item">Teach on Udemy</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#" class="mobile-menu-item">Explore</a>
+      <a href="#" class="mobile-menu-item">Plans & Pricing</a>
+      <a href="#" class="mobile-menu-item">Udemy Business</a>
+      <a href="#" class="mobile-menu-item">Teach on Udemy</a>
+    </div>
+  </div>
+</nav>
 
-    <!-- Bootstrap JS -->
+<!-- Bootstrap JS -->
 
 <!--
     <script>
@@ -211,4 +210,3 @@
           }
 
     </script> -->
-

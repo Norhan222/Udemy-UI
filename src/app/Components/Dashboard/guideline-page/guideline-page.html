@@ -33,15 +33,15 @@
     <div class="rejection-card">
       <div class="card-header">
         <h2>Issues found during review</h2>
-        <span class="reasons-count">{{ rejectionReasons.length }}</span>
+        <!-- <span class="reasons-count">{{ rejectionReasons.length }}</span> -->
       </div>
       <div class="reasons-list">
-        <div *ngFor="let reason of rejectionReasons; let i = index" class="reason-item">
-          <div class="reason-number">{{ i + 1 }}</div>
-          <p class="reason-text">{{ reason }}</p>
+        <div *ngIf="notification">
+          <!-- <div class="reason-number">{{ i + 1 }}</div> -->
+          <p class="reason-text">{{ notification?.message }}</p>
         </div>
 
-        <div *ngIf="rejectionReasons.length === 0" class="no-reasons">
+        <div *ngIf="!notification"  class="no-reasons">
           <p>No specific reasons provided. Please contact support for more information.</p>
         </div>
       </div>
@@ -73,7 +73,7 @@
     <div class="action-section">
       <h3>Next steps</h3>
       <div class="action-buttons">
-        <button class="btn-primary" (click)="editCourse()">
+        <button class="btn-primary" (click)="editCourse(notification.id)">
           Edit & resubmit course
         </button>
         <button class="btn-secondary" (click)="contactSupport()">

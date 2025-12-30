@@ -124,7 +124,9 @@ profileImage$ = this.profileImage.asObservable();
 
   renewToken(token:string): Observable<any> {
     return this.http.post<any>(
-      `${this.baseUrl}/Account/refresh-token`,token).pipe(
+      `${this.baseUrl}/Account/refresh-token`, {
+  Token: token
+}).pipe(
       tap(res=>{
         localStorage.setItem('token', res.token)
         localStorage.setItem('refreshToken',res.refreshToken)
