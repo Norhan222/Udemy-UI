@@ -30,7 +30,7 @@ export class Navbar implements OnInit{
 
   }
   goToCart() {
-    if (this.auth.getToken()) {
+    if (this.isLoggdIn$) {
       this.router.navigate(['/Cart']);
     } else {
       this.router.navigate(['/Login']);

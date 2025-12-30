@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../Models/login-request';
 import { IRegisterRequest } from '../Models/iregister-request';
@@ -23,7 +23,11 @@ export class AuthService {
   private userSubject =new BehaviorSubject<LoginResponse["user"] |null>(null)
   user$=this.userSubject.asObservable();
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  // isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+  isLoggedIn$ = this.user$.pipe(
+    map(user=>!!user)
+  )
 
   /* =========================
      SHARED USER DATA (NAME + IMAGE)
@@ -35,7 +39,9 @@ export class AuthService {
   profileImage = new BehaviorSubject<string>('')
   profileImage$ = this.profileImage.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  
+  }
 
   /* =========================
      AUTH METHODS
@@ -78,7 +84,9 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
   }
-
+ setUser(user:any){
+  this.userSubject.next(user)
+ }
   /* =========================
      TOKEN HANDLING
   ========================== */
@@ -98,12 +106,29 @@ export class AuthService {
   getRefreshToken(): string | null {
     return localStorage.getItem('refreshtoken');
   }
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshtoken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('profileImage');
 
-  renewToken(tokenApi: TokenApi): Observable<any> {
+    this.isLoggedInSubject.next(false);
+    this.firstName.next('');
+    this.profileImage.next('');
+    this.userSubject.next(null)
+    this.http.post(`${this.baseUrl}/Account/logout`, {}, {withCredentials:true}).subscribe()
+  }
+
+  renewToken(): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/Account/refresh-token`,
-      tokenApi
-    );
+      {},{withCredentials:true}
+    ).pipe(
+      tap(res=>{
+        localStorage.setItem('token', res.token)
+      })
+    )
   }
 
   /* =========================

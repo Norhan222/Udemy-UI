@@ -1,53 +1,63 @@
 import { TokenApi } from './../Models/token-api';
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../Services/auth-service';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+let isRefreshing = false;
+const refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService=inject(AuthService);
-  const token=authService.getToken();
-  const router=inject(Router)
-  if(token){
-    req=req.clone({
-      setHeaders:{Authorization:`Bearer ${token}`}
-    })
+
+export const authInterceptor: HttpInterceptorFn =  (
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<any>> => {
+  const authService = inject(AuthService);
+  const token = localStorage.getItem('token');
+  let authReq = req;
+  if (token) {
+    authReq = req.clone({
+      setHeaders: { Authorization: `Bearer ${token}` }
+    });
   }
-
-  return next(req).pipe(
-    catchError((err:any)=>{
-      if(err instanceof HttpErrorResponse){
-        if(err.status===401){
-         return HandleUnauthorizedError()
+  return next(authReq).pipe(
+    catchError((error: any) => {
+      if (error.status === 401) {
+        if (!isRefreshing) {
+          isRefreshing = true;
+          refreshTokenSubject.next(null);
+          return authService.renewToken().pipe(
+            switchMap((tokenResponse: any) => {
+              isRefreshing = false;
+              const newToken = tokenResponse.jwtToken;
+              console.log("tooooooooooooooooooooooooooooooooken",newToken)
+              localStorage.setItem('token', newToken);
+              refreshTokenSubject.next(newToken);
+              const newAuthReq = req.clone({
+                setHeaders: { Authorization: `Bearer ${newToken}` }
+              });
+              return next(newAuthReq);
+            }),
+            catchError((err: any) => {
+              isRefreshing = false;
+              authService.logout();
+              return throwError(() => err);
+            })
+          );
+        } else {
+          return refreshTokenSubject.pipe(
+            filter(tokenValue => tokenValue != null),
+            take(1),
+            switchMap(tokenValue => {
+              const newAuthReq = req.clone({
+                setHeaders: { Authorization: `Bearer ${tokenValue}` }
+              });
+              return next(newAuthReq);
+            })
+          );
+        }
       }
-    }
-      // Log the error and rethrow the original HttpErrorResponse so callers can inspect status and body
-      console.error('HTTP error intercepted', err);
-      return throwError(()=>err);
+      return throwError(() => error);
     })
   );
-  function HandleUnauthorizedError() {
-  let tokenApiModel =new TokenApi();
-   tokenApiModel.accessToken=authService.getToken()!;
-   tokenApiModel.token=authService.getRefreshToken()!;
-   return authService.renewToken(tokenApiModel)
-   .pipe(
-    switchMap((data:TokenApi)=>{
-      authService.storeRefreshToken(data.token);
-      authService.storeToken(data.accessToken);
-      authService.setLoginState(true)
-      req=req.clone({
-        setHeaders:{Authorization:`Bearer ${data.accessToken}`
-      }
-      })
-      return next(req);
-    }),
-    catchError((err)=>{
-      return throwError(()=>{
-       router.navigate(['login'])
-      })
-    })
-   )
-};
 };

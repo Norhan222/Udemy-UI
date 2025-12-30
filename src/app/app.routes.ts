@@ -1,3 +1,4 @@
+import { GuidelinePage } from './Components/Dashboard/guideline-page/guideline-page';
 import { Reviews } from './Components/Dashboard/Performance/reviews/reviews';
 import { Overview } from './Components/Dashboard/Performance/overview/overview';
 import { PerformanceLayout } from './Components/Dashboard/Performance/performance-layout/performance-layout';
@@ -66,6 +67,11 @@ export const routes: Routes = [
     {path:'logout', component: HomeBeforSignIn, title: 'Cart'},
     {path:'my-learning', component: MyLearning, title: 'My Learning'},
     {path:'learn/:id', component: Learn, title: 'learn'},
+    {
+    path:'HomeBeforSignIn',
+       loadComponent: () => import('./Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in')
+     .then(m=>m.HomeBeforSignIn)
+  }
 
     // {path:'**', component:Notfound,title:'Not Found Page'},
     ]
@@ -128,5 +134,11 @@ export const routes: Routes = [
      .then(m => m.CompleteCreationCourse),
      canDeactivate:[componentDeactivateGuard]
     },
+  {
+    path:'messageDetails',
+     loadComponent: () => import('./Components/Dashboard/guideline-page/guideline-page')
+     .then(m=>m.GuidelinePage)
+  },
 
+  
 ];

@@ -1,59 +1,64 @@
 <div class="notifications-wrapper">
-  <!-- Notification Bell Button -->
-  <!-- <button class="notification-bell" (click)="toggleNotifications()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-    </svg>
-    <span *ngIf="getUnreadCount() > 0" class="notification-badge">
-      {{ getUnreadCount() }}
-    </span>
-  </button> -->
 
-  <!-- Notifications Dropdown -->
-  <div *ngIf="showNotifications" class="notifications-overlay" >
-    <div class="notifications-panel" (click)="$event.stopPropagation()">
+  <!-- Notifications Panel -->
+  <div *ngIf="showNotifications" class="notifications-panel">
 
-      <!-- Header -->
-      <div class="notifications-header">
-        <h2>Notifications</h2>
-        <button class="settings-btn">Settings</button>
-      </div>
-
-      <!-- Tabs -->
-      <div class="notifications-tabs">
-        <button [class.active]="activeTab === 'instructor'" (click)="switchTab('instructor')" class="tab-btn">
-          Instructor
-        </button>
-        <button [class.active]="activeTab === 'student'" (click)="switchTab('student')" class="tab-btn">
-          Student
-        </button>
-      </div>
-
-      <!-- Notifications List -->
-      <div class="notifications-list">
-        <div *ngFor="let notification of getActiveNotifications()" class="notification-item"
-          [class.unread]="!notification.isRead" (click)="markAsRead(notification.id)">
-
-          <div class="notification-icon">
-            <img class="icon-circle" src="/udemy.png">
-          </div>
-
-          <div class="notification-content">
-            <p class="notification-message">{{ notification.message }}</p>
-            <span class="notification-time">{{ notification.time }}</span>
-          </div>
-
-          <div *ngIf="!notification.isRead" class="unread-dot"></div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="notifications-footer">
-        <button class="footer-btn" (click)="markAllAsRead()">Mark all as read</button>
-        <button class="footer-btn primary">See all</button>
-      </div>
-
+    <!-- Header -->
+    <div class="notifications-header">
+      <h2>Notifications</h2>
+     
     </div>
+
+    <!-- Tabs -->
+    <div class="notifications-tabs">
+      <button [class.active]="activeTab === 'instructor'" (click)="switchTab('instructor')" class="tab-btn">
+        Instructor
+        <span *ngIf="notifications.instructor.length > 0" class="tab-badge">
+          {{ notifications.instructor.length }}
+        </span>
+      </button>
+      <button [class.active]="activeTab === 'student'" (click)="switchTab('student')" class="tab-btn">
+        Student
+        <span *ngIf="notifications.student.length > 0" class="tab-badge">
+          {{ notifications.student.length }}
+        </span>
+      </button>
+    </div>
+
+
+    <!-- Notifications List -->
+    <div *ngIf="!isLoading" class="notifications-list">
+      <div *ngFor="let notification of getActiveNotifications()" class="notification-item"
+        [class.unread]="!notification.isRead" (click)="markAsRead(notification.id)">
+
+        <div class="notification-icon">
+          <img class="icon-circle" src="/udemy.png" alt="notification">
+        </div>
+
+        <div class="notification-content">
+          <p class="notification-message">{{ notification.messageTitle }}</p>
+          <span class="notification-time">{{ notification.time }}</span>
+        </div>
+
+        <div *ngIf="!notification.isRead" class="unread-dot"></div>
+      </div>
+
+      <!-- No Notifications -->
+      <div *ngIf="getActiveNotifications().length === 0" class="no-notifications">
+        <p class="emoji">📭</p>
+        <p class="text">No notifications yet</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="notifications-footer">
+      <button class="footer-btn" (click)="markAllAsRead()" [disabled]="areAllRead()">
+        Mark all as read
+      </button>
+      <button class="footer-btn primary" (click)="closeNotifications()">
+        Close
+      </button>
+    </div>
+
   </div>
 </div>

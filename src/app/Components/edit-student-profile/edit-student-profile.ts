@@ -33,14 +33,15 @@ export class EditStudentProfile implements OnInit {
   loadProfile() {
     this.authService.getStudentProfile().subscribe({
       next: (res: any) => {
+        console.log("norha",res.profileImageUrl);
         this.profileForm.patchValue({
           firstName: res.firstName,
           lastName: res.lastName
         });
 
-        if (res.profileImage) {
-          this.imagePreview = res.profileImage;
-          this.authService.setProfileImage(res.profileImage);
+        if (res.profileImageUrl) {
+          this.imagePreview = res.profileImageUrl;
+          this.authService.setProfileImage(res.profileImageUrl);
         }
       },
       error: () => {
@@ -94,6 +95,7 @@ export class EditStudentProfile implements OnInit {
         this.authService.setProfileImage(img);
         this.imagePreview = img;
       }
+      this.authService.setUser(res)
       },
       error: () => {
         this.isLoading = false;

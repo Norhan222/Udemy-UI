@@ -31,7 +31,7 @@ export class UserMenu implements OnInit {
 
   constructor(private auth: AuthService) {
   this.userData$=auth.user$
-
+  
   }
 
   ngOnInit(): void {
@@ -115,7 +115,8 @@ const claims = this.auth.getUserClaims();
       ? '/Instructor/Profile/Edit'
       : '/Profile/Edit';
 
-    this.router.navigate([path]);
+    // this.router.navigate([path]);
+    this.router.navigateByUrl('/Profile/Edit')
     this.isOpen = false;
   }
 
@@ -125,7 +126,7 @@ const claims = this.auth.getUserClaims();
   }
 
   logout() {
-    this.auth.Signout();
-    this.router.navigate(['/HomeBeforSignIn']);
+    this.auth.logout();
+    this.router.navigateByUrl('/HomeBeforSignIn');
   }
 }
