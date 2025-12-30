@@ -1,5 +1,6 @@
 export interface LoginResponse {
     jwtToken:string
+    refreshToken:string
     user:{
   id:string
   firstName:string

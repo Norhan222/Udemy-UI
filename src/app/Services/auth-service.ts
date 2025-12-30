@@ -40,7 +40,7 @@ export class AuthService {
   profileImage$ = this.profileImage.asObservable();
 
   constructor(private http: HttpClient) {
-  
+
   }
 
   /* =========================
@@ -52,6 +52,7 @@ export class AuthService {
     .pipe(
       tap(res=>{
         localStorage.setItem('token', res.jwtToken)
+        localStorage.setItem('refreshToken',res.refreshToken)
         this.userSubject.next(res.user)
       }
       )
@@ -104,12 +105,12 @@ export class AuthService {
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem('refreshtoken');
+    return localStorage.getItem('refreshToken');
   }
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshtoken');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('firstName');
     localStorage.removeItem('profileImage');
 
@@ -120,13 +121,12 @@ export class AuthService {
     this.http.post(`${this.baseUrl}/Account/logout`, {}, {withCredentials:true}).subscribe()
   }
 
-  renewToken(): Observable<any> {
+  renewToken(token:string): Observable<any> {
     return this.http.post<any>(
-      `${this.baseUrl}/Account/refresh-token`,
-      {},{withCredentials:true}
-    ).pipe(
+      `${this.baseUrl}/Account/refresh-token`,token).pipe(
       tap(res=>{
         localStorage.setItem('token', res.token)
+        localStorage.setItem('refreshToken',res.refreshToken)
       })
     )
   }
