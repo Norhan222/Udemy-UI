@@ -13,7 +13,7 @@ import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
   imports: [],
   styleUrls: ['./cart-component.css'],
 })
-export class CartComponent implements OnInit ,OnDestroy{
+export class CartComponent implements OnInit, OnDestroy {
 
   private cartService = inject(CartService);
   private wishlistService = inject(WishlistService);
@@ -36,8 +36,8 @@ export class CartComponent implements OnInit ,OnDestroy{
         this.subTotal = res.data.subTotal;
         this.total = res.data.total;
         this.cd.detectChanges();
-        console.log("cart",this.cartItems);
-        
+        console.log("cart", this.cartItems);
+
       },
       error: (err) => console.error(err),
     });
@@ -105,8 +105,8 @@ export class CartComponent implements OnInit ,OnDestroy{
         this.cd.detectChanges();
 
         // Polling لحالة الدفع كل ثانيتين
-    this.createPymentSub=    interval(3000).pipe(
-          switchMap(() =>  this.paymentService.getPaymentStatus(res.transactionIds[0])),
+        this.createPymentSub = interval(3000).pipe(
+          switchMap(() => this.paymentService.getPaymentStatus(res.transactionIds[0])),
           takeWhile(statusRes => statusRes.status === 'Pending', true)
         ).subscribe({
           next: (statusRes) => {
@@ -144,7 +144,9 @@ export class CartComponent implements OnInit ,OnDestroy{
   }
 
 
-    ngOnDestroy(): void {
-    this.createPymentSub.unsubscribe();
+  ngOnDestroy(): void {
+    if (this.createPymentSub) {
+      this.createPymentSub.unsubscribe();
+    }
   }
 }

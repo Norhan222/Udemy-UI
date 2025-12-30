@@ -1,0 +1,75 @@
+<div class="filter-sidebar" [class.visible]="isVisible">
+    <div class="sidebar-header">
+        <h3>Filters</h3>
+        <button class="close-btn" (click)="closeSidebar()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-content">
+        <!-- Ratings Filter -->
+        <div class="filter-section">
+            <h4>Ratings</h4>
+            <div class="filter-options">
+                <label *ngFor="let rating of ratings" class="radio-option">
+                    <input type="radio" name="rating" [value]="getRatingValue(rating.name)"
+                        [checked]="selectedRating === getRatingValue(rating.name)"
+                        (change)="onRatingChange(getRatingValue(rating.name))" />
+                    <span class="stars">
+                        <i *ngFor="let star of [1,2,3,4,5]"
+                            [class]="star <= getRatingValue(rating.name) ? 'fas fa-star' : 'far fa-star'">
+                        </i>
+                    </span>
+                    <span class="rating-text">{{ rating.name }}</span>
+                    <span class="count">({{ rating.count }})</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Language Filter -->
+        <div class="filter-section" *ngIf="languages.length > 0">
+            <h4>Language</h4>
+            <div class="filter-options">
+                <label *ngFor="let lang of languages" class="checkbox-option">
+                    <input type="checkbox" [checked]="selectedLanguages.includes(lang.name)"
+                        (change)="onLanguageChange(lang.name, $event.target.checked)" />
+                    <span>{{ lang.name }}</span>
+                    <span class="count">({{ lang.count }})</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Level Filter -->
+        <div class="filter-section" *ngIf="levels.length > 0">
+            <h4>Level</h4>
+            <div class="filter-options">
+                <label *ngFor="let level of levels" class="checkbox-option">
+                    <input type="checkbox" [checked]="selectedLevels.includes(level.name)"
+                        (change)="onLevelChange(level.name, $event.target.checked)" />
+                    <span>{{ level.name }}</span>
+                    <span class="count">({{ level.count }})</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-section" *ngIf="prices.length > 0">
+            <h4>Price</h4>
+            <div class="filter-options">
+                <label *ngFor="let price of prices" class="checkbox-option">
+                    <input type="checkbox" [checked]="selectedPrice === price.name"
+                        (change)="onPriceChange(price.name)" />
+                    <span>{{ price.name }}</span>
+                    <span class="count">({{ price.count }})</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Clear Filters Button -->
+        <div class="filter-actions">
+            <button class="clear-btn" (click)="clearFilters()">Clear All Filters</button>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-overlay" [class.visible]="isVisible" (click)="closeSidebar()"></div>
