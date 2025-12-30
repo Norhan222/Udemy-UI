@@ -72,61 +72,11 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
       } else {
         // ✅ لو مفيش ID يبقى كورس جديد
         this.initializeNewCourse();
-       
+
       }
 
     });
-//     this.courseData=this.StepperService.getFormData();
-//     this.courseTitle = this.courseData?.courseTitle=='' ? this.editCourse?.title : this.courseData?.courseTitle;
-//     this.courseDescription = this.courseData.description ==''?this.editCourse?.description:this.courseData.description;
-//     this.category = this.courseData.category  || 'Design';
 
-//     this.activePage = 'course-landing';
-//     this.courseImagePreview = this.editCourse?.thumbnailUrl ?? null;
-//     this.promoVideoPreview = this.editCourse?.previewVideoUrl ?? null;
-
-//     // Course Landing Page Data
-//     this.courseSubtitle = '';
-//     this.language = this.editCourse?.language ?? 'English (US)';
-//     this.level =this.editCourse?.level ?? '';
-//     this.subcategory = '';
-//     this.primaryTopic = '';
-//     // Pricing Page Data
-//     this.currency = 'USD';
-//     this.priceTier = this.editCourse?.price==0?'Free':'';
-
-//     this.editCourse?.sections?.forEach(sec=>{
-//       const section:Section={
-//         id:sec.id,
-//         title:sec.title,
-//         expanded:sec.expanded,
-//         lectures:sec.lectures
-
-//       }
-//       sec?.lectures?.forEach(lec=>{
-//         const lecture:Lecture={
-//           id:lec.id,
-//           videoUrl:lec.videoUrl,
-//           title:lec.title,
-//           type:lec.type,
-//           contentType:lec.contentType
-//         }
-//         section.lectures.push(lecture);
-//       })
-//       this.editSections.push(section);
-//     })
-//     console.log(`kkkkkk${this.editCourse}`)
-//     this.sections=this.editSections.length>0?this.editSections:[
-//       {
-//       id: 1,
-//       title: 'Introduction',
-//       expanded: false,
-//       lectures: [
-//         { id: 1, title: 'Introduction', type: 'lecture', contentType: '', videoUrl: null }
-//       ]
-//       },
-//       ]
-//  console.log(this.sections);
   }
   // Curriculum Data
   showCurriculumInfo = true;
@@ -196,11 +146,13 @@ initializeNewCourse(): void {
         id: 1,
         title: 'Introduction',
         expanded: false,
+        orderIndex:0,
         lectures: [
           {
             id: 1,
             title: 'Introduction',
             type: 'lecture',
+            orderIndex:0,
             contentType: '',
             videoUrl: null
           }
@@ -270,7 +222,7 @@ populateCourseData(): void {
     //////////////////edit
        // ✅ احفظ نسخة من الداتا الأصلية
     this.saveOriginalData();
-    
+
     // ✅ ابدأ تتبع التغييرات
     this.startChangeTracking();
     //////////////////
@@ -292,11 +244,13 @@ populateSections(): void {
           id: 1,
           title: 'Introduction',
           expanded: false,
+          orderIndex:0,
           lectures: [
             {
               id: 1,
               title: 'Introduction',
               type: 'lecture',
+              orderIndex:0,
               contentType: '',
               videoUrl: null
             }
@@ -314,6 +268,7 @@ populateSections(): void {
         id: sec.id || index + 1,
         title: sec.title || `Section ${index + 1}`,
         expanded: sec.expanded || false,
+        orderIndex:sec.orderIndex ??index,
         lectures: []
       };
 
@@ -325,6 +280,7 @@ populateSections(): void {
             title: lec.title || `Lecture ${lecIndex + 1}`,
             type: lec.type || 'lecture',
             contentType: lec.contentType || '',
+            orderIndex:lec.orderIndex??lecIndex,
             videoUrl: lec.videoUrl || null
           };
           section.lectures.push(lecture);
@@ -341,7 +297,7 @@ populateSections(): void {
 
 
 
- 
+
 
   navigateToPage(item: SidebarItem): void {
     // Remove active from all items
@@ -484,6 +440,14 @@ onSubmitForReview(): void {
     this.course.price = parseFloat(priceString) || 0;
   }
 
+  
+this.sections.forEach((s, i) => {
+  s.orderIndex = i;
+  s.lectures.forEach((l, j) => {
+    l.orderIndex = j;
+  });
+});
+
   // ✅ 6. إنشاء FormData
   const formData = new FormData();
 
@@ -522,6 +486,7 @@ onSubmitForReview(): void {
   this.sections.forEach((section, sectionIndex) => {
     // Section Title
     formData.append(`Sections[${sectionIndex}].Title`, section.title);
+   formData.append(`Sections[${sectionIndex}].orderIndex`, section.orderIndex.toString());
 
     console.log(`📚 Section ${sectionIndex}: ${section.title}`);
 
@@ -531,6 +496,10 @@ onSubmitForReview(): void {
       formData.append(
         `Sections[${sectionIndex}].Lectures[${lectureIndex}].Title`,
         lecture.title
+      );
+        formData.append(
+        `Sections[${sectionIndex}].Lectures[${lectureIndex}].orderIndex`,
+        lecture.orderIndex.toString()
       );
 
       // Lecture Content Type (optional)
@@ -769,6 +738,7 @@ debugFormData(formData: FormData): void {
         id: this.sections.length + 1,
         title: this.newSectionTitle,
         expanded: false,
+        orderIndex: this.sections.length,
 
         lectures: []
       };
@@ -830,6 +800,8 @@ debugFormData(formData: FormData): void {
           id: section.lectures.length + 1,
           title: this.newLectureTitle,
           type: 'lecture',
+            orderIndex: section.lectures.length,
+
           contentType: '',
           videoUrl: null
         };
@@ -950,7 +922,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       return;
     }
 
-    const hasChanges = 
+    const hasChanges =
       this.courseTitle !== this.originalCourseData.courseTitle ||
       this.courseDescription !== this.originalCourseData.courseDescription ||
       this.courseSubtitle !== this.originalCourseData.courseSubtitle ||
@@ -965,7 +937,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       JSON.stringify(this.sections) !== JSON.stringify(this.originalCourseData.sections);
 
     this.hasUnsavedChanges = hasChanges;
-    
+
     if (hasChanges) {
       console.log('⚠️ Unsaved changes detected');
     }
@@ -992,7 +964,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
 
     // إنشاء FormData
     const formData = new FormData();
-    
+
     // Course Basic Info
     formData.append('Id', this.courseId.toString());
     formData.append('Title', this.courseTitle ?? '');
@@ -1002,7 +974,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
     formData.append('Level', this.level);
     formData.append('Language', this.language);
     formData.append('Description', this.courseDescription ?? '');
-    
+
     // Primary Topic
     if (this.primaryTopic) {
       formData.append('PrimaryTopic', this.primaryTopic);
@@ -1034,7 +1006,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       section.lectures.forEach((lecture, j) => {
         formData.append(`Sections[${i}].Lectures[${j}].Id`, lecture.id?.toString() || '0');
         formData.append(`Sections[${i}].Lectures[${j}].Title`, lecture.title);
-        
+
         if (lecture.contentType) {
           formData.append(`Sections[${i}].Lectures[${j}].ContentType`, lecture.contentType);
         }
@@ -1057,24 +1029,24 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
         console.log('✅ Course saved successfully!', response);
         this.isSaving = false;
         this.hasUnsavedChanges = false;
-        
+
         // ✅ حدّث الداتا الأصلية
         this.saveOriginalData();
-        
+
         // عرض رسالة نجاح
         alert('Course saved successfully! ✅');
       },
       error: (error) => {
         console.error('❌ Error saving course:', error);
         this.isSaving = false;
-        
+
         let errorMessage = 'Failed to save course. ';
         if (error.error?.message) {
           errorMessage += error.error.message;
         } else {
           errorMessage += 'Please try again.';
         }
-        
+
         alert(errorMessage);
       }
     });

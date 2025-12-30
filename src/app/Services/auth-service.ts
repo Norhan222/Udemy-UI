@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../Models/login-request';
 import { IRegisterRequest } from '../Models/iregister-request';
@@ -23,19 +23,26 @@ export class AuthService {
   private userSubject =new BehaviorSubject<LoginResponse["user"] |null>(null)
   user$=this.userSubject.asObservable();
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  // isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
+  isLoggedIn$ = this.user$.pipe(
+    map(user=>!!user)
+  )
 
   /* =========================
      SHARED USER DATA (NAME + IMAGE)
   ========================== */
 
-  firstName = new BehaviorSubject<string>('')
-  firstName$ = this.firstName.asObservable();
+  firstName = new BehaviorSubject<string>('');
+firstName$ = this.firstName.asObservable();
 
-  profileImage = new BehaviorSubject<string>('')
-  profileImage$ = this.profileImage.asObservable();
+profileImage = new BehaviorSubject<string>('');
+profileImage$ = this.profileImage.asObservable();
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) {
+
+  }
 
   /* =========================
      AUTH METHODS
@@ -46,6 +53,7 @@ export class AuthService {
     .pipe(
       tap(res=>{
         localStorage.setItem('token', res.jwtToken)
+        localStorage.setItem('refreshToken',res.refreshToken)
         this.userSubject.next(res.user)
       }
       )
@@ -78,7 +86,9 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value;
   }
-
+ setUser(user:any){
+  this.userSubject.next(user)
+ }
   /* =========================
      TOKEN HANDLING
   ========================== */
@@ -96,14 +106,32 @@ export class AuthService {
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem('refreshtoken');
+    return localStorage.getItem('refreshToken');
+  }
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('profileImage');
+
+    this.isLoggedInSubject.next(false);
+    this.firstName.next('');
+    this.profileImage.next('');
+    this.userSubject.next(null)
+    this.http.post(`${this.baseUrl}/Account/logout`, {}, {withCredentials:true}).subscribe()
   }
 
-  renewToken(tokenApi: TokenApi): Observable<any> {
+  renewToken(token:string): Observable<any> {
     return this.http.post<any>(
-      `${this.baseUrl}/Account/refresh-token`,
-      tokenApi
-    );
+      `${this.baseUrl}/Account/refresh-token`, {
+  Token: token
+}).pipe(
+      tap(res=>{
+        localStorage.setItem('token', res.token)
+        localStorage.setItem('refreshToken',res.refreshToken)
+      })
+    )
   }
 
   /* =========================
@@ -114,14 +142,16 @@ export class AuthService {
     localStorage.setItem('firstName', name);
     this.firstName.next(name);
   }
-
-  setProfileImage(url: string | null) {
-    if (url) {
-      localStorage.setItem('profileImage', url);
-    } else {
-      localStorage.removeItem('profileImage');
-    }
+setProfileImage(url: string | null) {
+  if (url) {
+    localStorage.setItem('profileImage', url);
+    this.profileImage.next(url); // 🔥 REQUIRED
+  } else {
+    localStorage.removeItem('profileImage');
+    this.profileImage.next('');
   }
+}
+
 
   /* =========================
      JWT HELPERS
@@ -275,4 +305,17 @@ export class AuthService {
       formData
     );
   }
+  // Add this to your AuthService
+// Add this method to your auth-service.ts file
+
+// In your auth-service.ts file
+
+changePassword(passwordData: { currentPassword: string, newPassword: string, confirmNewPassword: string }): Observable<any> {
+  // تأكد أن الـ URL يطابق الـ backend
+  return this.http.put<any>(
+    `${this.baseUrl}/student/profile/change-password`,
+    passwordData
+  );
+}
+  
 }

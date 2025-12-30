@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { NotificatonService } from '../../../Services/notificaton-service';
 import { CommonModule } from '@angular/common';
+import { NotificationMessage } from '../../../Models/notification-message';
+import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-instructor-notification',
@@ -8,17 +11,59 @@ import { CommonModule } from '@angular/common';
   templateUrl: './instructor-notification.html',
   styleUrl: './instructor-notification.css',
 })
-export class InstructorNotification {
-activeTab: 'instructor' | 'student' = 'instructor';
+export class InstructorNotification implements OnInit, OnDestroy {
+  activeTab: 'instructor' | 'student' = 'instructor';
   showNotifications: boolean = false;
+  notifications: any = { instructor: [], student: [] };
+  isLoading: boolean = false;
+  private destroy$ = new Subject<void>();
 
+  constructor(
+    public notificationsService: NotificatonService ,private router:Router,
+    private ngZone: NgZone
+  ) {
+    // Subscribe to show/hide notifications
+    this.notificationsService.showNotifications$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(show => {
+        this.ngZone.run(() => {
+          this.showNotifications = show;
+        });
+      });
 
-constructor(private notificationsService:NotificatonService){
-   this.notificationsService.showNotifications$.subscribe(show => {
-      this.showNotifications = show;
+    // Subscribe to notifications updates
+    this.notificationsService.notifications$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(notifications => {
+        this.ngZone.run(() => {
+          this.notifications = notifications;
+          console.log('Notifications updated:', notifications);
+        });
+      });
+  }
+
+  ngOnInit(): void {
+    // Refresh notifications when component initializes
+    this.notificationsService.refreshNotifications();
+  }
+ navigateToMessageDetails(notification: NotificationMessage) {
+    // Mark as read
+    this.notificationsService.markAsRead(notification.id, this.activeTab);
+
+    // Close notifications panel
+    this.notificationsService.hideNotifications();
+
+    // Navigate to details page with notification data
+    this.router.navigate(['/messageDetails', notification.id], {
+      state: { notification: notification }
     });
-}
-closeNotifications() {
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  closeNotifications() {
     this.notificationsService.hideNotifications();
   }
 
@@ -27,29 +72,34 @@ closeNotifications() {
   }
 
   getActiveNotifications() {
-    return this.notificationsService.notifications[this.activeTab];
+    return this.notifications[this.activeTab] || [];
   }
 
   getUnreadCount() {
     return this.notificationsService.getUnreadCount();
   }
-
+ areAllRead(): boolean {
+    const activeNotifications = this.getActiveNotifications();
+    if (activeNotifications.length === 0) return true;
+    return activeNotifications.every((n: any) => n.isRead);
+  }
   markAllAsRead() {
-    this.notificationsService.notifications[this.activeTab].forEach(n => n.isRead = true);
+    this.notificationsService.markAllAsRead(this.activeTab);
   }
 
   markAsRead(notificationId: number) {
-    const notification = this.notificationsService.notifications[this.activeTab].find(n => n.id === notificationId);
-    if (notification) {
-      notification.isRead = true;
-    }
+    this.notificationsService.markAsRead(notificationId, this.activeTab);
   }
+
+  refreshNotifications() {
+    this.isLoading = true;
+    this.notificationsService.refreshNotifications();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
+  }
+
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
   }
-
-
-
 }
-
-

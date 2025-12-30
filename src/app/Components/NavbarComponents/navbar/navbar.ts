@@ -9,35 +9,43 @@ import { Topic } from '../../../Models/topic';
 import { ExploreMenu } from '../explore-menu/explore-menu';
 import { AuthService } from '../../../Services/auth-service';
 import { UserMenu } from '../user-menu/user-menu';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink,ExploreMenu,UserMenu],
+  imports: [CommonModule, RouterLink, ExploreMenu, UserMenu, FormsModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar implements OnInit{
- isLoggdIn$;
- constructor(private auth:AuthService,private router: Router) {
-  this.isLoggdIn$=auth.isLoggedIn$
- }
+export class Navbar implements OnInit {
+  isLoggdIn$;
+  searchQuery: string = '';
+  constructor(private auth: AuthService, private router: Router) {
+    this.isLoggdIn$ = auth.isLoggedIn$
+  }
   ngOnInit(): void {
-    if(this.auth.getToken()){
+    if (this.auth.getToken()) {
       this.auth.setLoginState(true)
       this.auth.firstName.next(this.auth.getUserClaims()?.name.split(' ')[0])
     }
 
   }
   goToCart() {
-    if (this.auth.getToken()) {
+    if (this.isLoggdIn$) {
       this.router.navigate(['/Cart']);
     } else {
       this.router.navigate(['/Login']);
     }
   }
 
+  onSearch(event: Event): void {
+    event.preventDefault();
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/search'], {
+        queryParams: { search: this.searchQuery }
+      });
+    }
+  }
 
 }
-
-

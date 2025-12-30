@@ -23,7 +23,11 @@ constructor(private http:HttpClient,private authService:AuthService){
   ngOnInit(): void {
      if (localStorage.getItem('token')) {
     this.http.get<LoginResponse['user']>(`${environment.apiUrl}/Account/me`)
-      .subscribe(user => this.authService['userSubject'].next(user));
+     // .subscribe(user => this.authService['userSubject']({
+     .subscribe({
+          next:user=>this.authService.setUser(user),
+          error:()=>this.authService.logout()
+      });
   }
   }
   protected readonly title = signal('UdemyUI');

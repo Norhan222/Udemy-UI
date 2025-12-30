@@ -42,7 +42,6 @@ errorMessage: string = '';
       // this.authService.storeToken(res.jwtToken)
       // this.authService.storeRefreshToken(res.refreshToken)
       // this.authService.profileImage.next(res.profileImageUrl)
-      this.authService.setLoginState(true)
       this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
      if (res.user.role === 'Admin') {
         window.open('https://localhost:7288/', '_blank');
@@ -50,7 +49,7 @@ errorMessage: string = '';
       if(res.user.role==='Instructor'){
         this.router.navigate(['/dashboard/courses']);
       }
-      if(res.user.role==='Student'){
+      if(res.user.role==='Student' ||res.user.role==='Instructor' ){
         this.router.navigate(['/Home']);
       }
     },

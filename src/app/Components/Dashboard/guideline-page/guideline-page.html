@@ -1,0 +1,102 @@
+<!-- course-rejection-details.component.html -->
+<div class="rejection-page">
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()">
+      ← Back to courses
+    </button>
+    <h1>Course submission feedback</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading details...</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading" class="content-wrapper">
+
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h3>Your course submission was rejected</h3>
+        <p>Please review the feedback below and resubmit your course after making the necessary improvements. Our team
+          is here to help you create a successful course.</p>
+      </div>
+    </div>
+
+
+
+    <!-- Rejection Reasons -->
+    <div class="rejection-card">
+      <div class="card-header">
+        <h2>Issues found during review</h2>
+        <!-- <span class="reasons-count">{{ rejectionReasons.length }}</span> -->
+      </div>
+      <div class="reasons-list">
+        <div *ngIf="notification">
+          <!-- <div class="reason-number">{{ i + 1 }}</div> -->
+          <p class="reason-text">{{ notification?.message }}</p>
+        </div>
+
+        <div *ngIf="!notification"  class="no-reasons">
+          <p>No specific reasons provided. Please contact support for more information.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guidelines Section -->
+    <div class="guidelines-section">
+      <div class="section-header">
+        <h2>Quality standards for course approval</h2>
+        <p>Make sure your course meets these requirements before resubmitting</p>
+      </div>
+
+      <div class="guidelines-grid">
+        <div *ngFor="let guideline of guidelines" class="guideline-card">
+          <div class="guideline-icon">{{ guideline.icon }}</div>
+          <h3>{{ guideline.title }}</h3>
+          <p class="guideline-desc">{{ guideline.description }}</p>
+          <ul class="guideline-points">
+            <li *ngFor="let point of guideline.points">
+              <span class="check-icon">✓</span>
+              {{ point }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-section">
+      <h3>Next steps</h3>
+      <div class="action-buttons">
+        <button class="btn-primary" (click)="editCourse(notification.id)">
+          Edit & resubmit course
+        </button>
+        <button class="btn-secondary" (click)="contactSupport()">
+          Contact support
+        </button>
+        <button class="btn-outline" (click)="goBack()">
+          Back to courses
+        </button>
+      </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="help-section">
+      <div class="help-icon">💬</div>
+      <div class="help-content">
+        <h4>Need help improving your course?</h4>
+        <p>Our instructor support team is available to answer questions and provide guidance on meeting our quality
+          standards.</p>
+        <button class="help-btn" (click)="contactSupport()">
+          Contact support team
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

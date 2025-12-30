@@ -1,48 +1,37 @@
-.edit-profile-card {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  background: #fff;
-}
+/* ===================== GENERAL ===================== */
+* { box-sizing: border-box; margin:0; padding:0; }
+.profile-page { min-height:100vh; background:#f7f9fa; font-family:Arial,sans-serif; color:#1c1d1f; }
+.profile-container { display:flex; max-width:1340px; margin:0 auto; padding:0; }
 
-.avatar-preview {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 12px;
-  background: #f3f3f3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* ===================== SIDEBAR ===================== */
+.profile-sidebar { width:280px; background:#fff; border-right:1px solid #d1d7dc; min-height:100vh; position:sticky; top:0; padding:40px 0; }
+.profile-preview { text-align:center; padding:0 24px 32px; border-bottom:1px solid #d1d7dc; margin-bottom:16px; }
+.avatar-circle { width:100px; height:100px; border-radius:50%; margin:0 auto 16px; overflow:hidden; background:#f7f9fa; display:flex; align-items:center; justify-content:center; border:2px solid #d1d7dc; }
+.avatar-circle img { width:100%; height:100%; object-fit:cover; }
+.avatar-fallback { font-size:36px; font-weight:700; color:#5624d0; text-transform:uppercase; }
+.profile-name { font-size:16px; font-weight:700; margin-top:8px; }
+.change-photo { display:inline-block; margin-top:8px; font-size:13px; color:#5624d0; cursor:pointer; font-weight:500; }
+.sidebar-nav { display:flex; flex-direction:column; margin-top:24px; }
+.nav-item { padding:12px 24px; color:#1c1d1f; text-decoration:none; font-size:14px; font-weight:400; cursor:pointer; border-left:3px solid transparent; transition:0.2s; }
+.nav-item.active { font-weight:700; border-left-color:#1c1d1f; }
 
-.avatar-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* ===================== MAIN CONTENT ===================== */
+.profile-content { flex:1; padding:40px 48px; max-width:920px; }
+.content-card { background:#fff; border:1px solid #d1d7dc; border-radius:2px; padding:32px; margin-bottom:24px; }
+.card-title { font-size:24px; font-weight:700; margin-bottom:16px; }
+.form-row { margin-bottom:16px; }
+.form-group.full-width { width:100%; }
+.form-input, .form-select, .form-textarea { width:100%; padding:12px 16px; font-size:15px; border:1px solid #d1d7dc; border-radius:2px; }
+.form-input.input-error { border-color:#d32f2f; }
+.form-actions { margin-top:24px; }
+.btn-primary { padding:12px 24px; font-size:16px; font-weight:700; color:#fff; background:#1c1d1f; border:none; border-radius:2px; cursor:pointer; }
+.btn-primary:hover:not(:disabled) { background:#0f0f10; }
+.btn-primary:disabled { background:#c0c4c8; cursor:not-allowed; opacity:0.7; }
+.alert { margin-top:16px; padding:12px 16px; border-radius:2px; font-size:14px; }
+.alert-success { background:#ecfdf5; color:#065f46; border:1px solid #10b981; }
+.alert-error { background:#fef2f2; color:#991b1b; border:1px solid #ef4444; }
 
-.avatar-fallback {
-  font-size: 36px;
-  font-weight: bold;
-}
-
-.form-group {
-  margin-bottom: 12px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-}
-
-.error { color: #c62828; }
-.success { color: #2e7d32; }
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:1024px){ .profile-container{ flex-direction:column; } .profile-sidebar{ width:100%; border-right:none; border-bottom:1px solid #d1d7dc; min-height:auto; padding:24px 0; } .sidebar-nav{ flex-direction:row; overflow-x:auto; padding:0 12px; } .nav-item{ border-left:none; border-bottom:3px solid transparent; white-space:nowrap; } .nav-item.active{ border-bottom-color:#1c1d1f; } .profile-content{ padding:24px 16px; } }
+@media(max-width:768px){ .card-title{ font-size:20px; } .form-input, .form-select, .form-textarea{ font-size:14px; } .btn-primary{ width:100%; } }
+@media(max-width:480px){ .profile-content{ padding:16px 8px; } .content-card{ padding:20px 12px; border-radius:0; } .avatar-circle{ width:80px; height:80px; } .avatar-fallback{ font-size:28px; } }

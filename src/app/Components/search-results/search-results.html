@@ -1,0 +1,89 @@
+<div class="search-results-container">
+    <!-- Header with Filter Button -->
+    <div class="search-header">
+        <button class="filter-toggle-btn" (click)="toggleFilterSidebar()">
+            <i class="fas fa-filter"></i> Filters
+        </button>
+        <div class="search-info">
+            <h1>{{ totalCount }} courses in "{{ searchQuery }}"</h1>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Filter Sidebar -->
+        <app-filter-sidebar [facets]="facets" [isVisible]="showFilterSidebar" (filterChange)="onFilterChange($event)"
+            (close)="toggleFilterSidebar()"></app-filter-sidebar>
+
+        <!-- Main Content Area -->
+        <div class="results-main">
+            <!-- Loading State -->
+            <div *ngIf="isLoading" class="courses-list">
+                <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-details">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line subtitle"></div>
+                        <div class="skeleton-line meta"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Results -->
+            <div *ngIf="!isLoading && courses.length > 0" class="courses-list">
+                <div *ngFor="let course of courses" class="course-card">
+                    <img [src]="course.image" [alt]="course.title" class="course-image"
+                        (click)="navigateToCourse(course.id)" />
+
+                    <div class="course-details">
+                        <h3 class="course-title" (click)="navigateToCourse(course.id)">{{ course.title }}</h3>
+                        <p class="course-instructor">{{ course.instructor }}</p>
+
+                        <div class="course-meta">
+                            <span class="rating-value">{{ course.rating }}</span>
+                            <div class="stars">
+                                <i *ngFor="let star of [1,2,3,4,5]"
+                                    [class]="star <= course.rating ? 'fas fa-star' : 'far fa-star'">
+                                </i>
+                            </div>
+                            <span class="review-count">({{ course.reviewCount }})</span>
+                        </div>
+
+                        <div class="course-footer">
+                            <div class="course-price">
+                                <span *ngIf="course.price === 0" class="free">Free</span>
+                                <span *ngIf="course.price > 0" class="paid">E£{{ course.price }}</span>
+                            </div>
+
+                            <button class="add-to-cart-btn" [class.added]="isInCart(course.id)"
+                                (click)="addToCart(course.id); $event.stopPropagation()">
+                                <i *ngIf="!isInCart(course.id)" class="fas fa-shopping-cart"></i>
+                                {{ isInCart(course.id) ? 'Added to cart' : 'Add to cart' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Results -->
+            <div *ngIf="!isLoading && courses.length === 0" class="no-results">
+                <i class="fas fa-search"></i>
+                <h2>No courses found</h2>
+                <p>Try adjusting your search or filters</p>
+            </div>
+
+            <!-- Pagination -->
+            <div *ngIf="!isLoading && courses.length > 0 && totalPages > 1" class="pagination">
+                <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+                    Previous
+                </button>
+
+                <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+
+                <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

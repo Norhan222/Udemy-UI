@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../Services/auth-service';
 
 @Component({
@@ -8,55 +8,75 @@ import { AuthService } from '../../Services/auth-service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-student-profile.html',
-  styleUrl: './edit-student-profile.css',
+  styleUrl: './edit-student-profile.css'
 })
 export class EditStudentProfile implements OnInit {
 
   private authService = inject(AuthService);
 
+  activeSection: 'profile' | 'password' = 'profile';
+
   isLoading = false;
+  isPasswordLoading = false;
+
   successMessage = '';
   errorMessage = '';
+  passwordSuccessMessage = '';
+  passwordErrorMessage = '';
 
   imagePreview: string | null = null;
   selectedFile: File | null = null;
 
   profileForm = new FormGroup({
     firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    lastName: new FormControl('', [Validators.required, Validators.minLength(2)])
+    lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    headline: new FormControl('', Validators.maxLength(60)),
+    biography: new FormControl('', Validators.maxLength(1000)),
+    language: new FormControl('English (US)')
   });
+
+  passwordForm = new FormGroup(
+    {
+      currentPassword: new FormControl('', Validators.required),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      confirmNewPassword: new FormControl('', Validators.required)
+    },
+    { validators: this.passwordMatchValidator }
+  );
+
+  languageOptions = ['English (US)', 'العربية'];
 
   ngOnInit(): void {
     this.loadProfile();
   }
 
-  loadProfile() {
-    this.authService.getStudentProfile().subscribe({
-      next: (res: any) => {
-        this.profileForm.patchValue({
-          firstName: res.firstName,
-          lastName: res.lastName
-        });
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const g = control as FormGroup;
+    return g.value.newPassword === g.value.confirmNewPassword ? null : { passwordMismatch: true };
+  }
 
-        if (res.profileImage) {
-          this.imagePreview = res.profileImage;
-          this.authService.setProfileImage(res.profileImage);
-        }
-      },
-      error: () => {
-        this.errorMessage = 'Failed to load profile';
-      }
+  scrollTo(section: 'profile' | 'password') {
+    this.activeSection = section;
+    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    const p = document.getElementById('profile')?.getBoundingClientRect().top || 0;
+    const pw = document.getElementById('password')?.getBoundingClientRect().top || 0;
+    this.activeSection = Math.abs(p) < Math.abs(pw) ? 'profile' : 'password';
+  }
+
+  loadProfile() {
+    this.authService.getStudentProfile().subscribe(res => {
+      this.profileForm.patchValue(res);
+      this.imagePreview = res.profileImageUrl;
     });
   }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      this.errorMessage = 'Only image files are allowed';
-      return;
-    }
+    if (!file || !file.type.startsWith('image/')) return;
 
     this.selectedFile = file;
 
@@ -69,31 +89,24 @@ export class EditStudentProfile implements OnInit {
     if (this.profileForm.invalid) return;
 
     this.isLoading = true;
-    this.errorMessage = '';
     this.successMessage = '';
+    this.errorMessage = '';
 
     const formData = new FormData();
     formData.append('FirstName', this.profileForm.value.firstName!);
     formData.append('LastName', this.profileForm.value.lastName!);
+    formData.append('Headline', this.profileForm.value.headline || '');
+    formData.append('Biography', this.profileForm.value.biography || '');
+    formData.append('Language', this.profileForm.value.language!);
 
     if (this.selectedFile) {
       formData.append('ProfileImage', this.selectedFile);
     }
 
     this.authService.updateStudentProfile(formData).subscribe({
-    next: (res: any) => {
-      this.isLoading = false;
-      this.successMessage = 'Profile updated successfully';
-
-      // ✅ update name immediately
-      this.authService.setFirstName(this.profileForm.value.firstName!);
-
-      // ✅ update image immediately (cache bust)
-      if (res.profileImage) {
-        const img = res.profileImage + '?v=' + Date.now();
-        this.authService.setProfileImage(img);
-        this.imagePreview = img;
-      }
+      next: () => {
+        this.isLoading = false;
+        this.successMessage = 'Profile updated successfully';
       },
       error: () => {
         this.isLoading = false;
@@ -101,4 +114,32 @@ export class EditStudentProfile implements OnInit {
       }
     });
   }
+
+  onPasswordSubmit() {
+    if (this.passwordForm.invalid) return;
+
+    this.isPasswordLoading = true;
+    this.passwordErrorMessage = '';
+    this.passwordSuccessMessage = '';
+
+   const payload = {
+  currentPassword: this.passwordForm.value.currentPassword!,
+  newPassword: this.passwordForm.value.newPassword!,
+  confirmNewPassword: this.passwordForm.value.confirmNewPassword!
+};
+
+
+    this.authService.changePassword(payload).subscribe({
+      next: () => {
+        this.isPasswordLoading = false;
+        this.passwordSuccessMessage = 'Password changed successfully';
+        this.passwordForm.reset();
+      },
+      error: (err) => {
+        this.isPasswordLoading = false;
+        this.passwordErrorMessage = err.error?.message || 'Current password is incorrect';
+      }
+    });
+  }
+
 }
