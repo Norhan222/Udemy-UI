@@ -1,33 +1,302 @@
-<div class="edit-profile-card">
-  <h3>Edit Profile</h3>
-
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-
-    <div class="avatar-preview">
-      <img *ngIf="imagePreview" [src]="imagePreview">
-      <div *ngIf="!imagePreview" class="avatar-fallback">
-        {{ profileForm.value.firstName?.charAt(0) }}
+<div class="profile-page">
+  <div class="profile-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="profile-sidebar">
+      <div class="profile-preview">
+        <div class="avatar-circle">
+          <img *ngIf="imagePreview" [src]="imagePreview" alt="Profile">
+          <div *ngIf="!imagePreview" class="avatar-fallback">
+            {{ profileForm.value.firstName?.charAt(0) || 'U' }}
+          </div>
+        </div>
+        <h3 class="profile-name">
+          {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}
+        </h3>
       </div>
-    </div>
 
-    <input type="file" accept="image/*" (change)="onFileChange($event)">
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item">View public profile</a>
+        <a href="#" class="nav-item active">Profile</a>
+        <a href="#" class="nav-item">Photo</a>
+        <a href="#" class="nav-item">Account Security</a>
+        <a href="#" class="nav-item">Subscriptions</a>
+        <a href="#" class="nav-item">Payment methods</a>
+        <a href="#" class="nav-item">Privacy</a>
+        <a href="#" class="nav-item">Notification Preferences</a>
+        <a href="#" class="nav-item">API clients</a>
+        <a href="#" class="nav-item">Close account</a>
+      </nav>
+    </aside>
 
-    <div class="form-group">
-      <label>First Name</label>
-      <input type="text" formControlName="firstName">
-    </div>
+    <!-- Main Content Area -->
+    <main class="profile-content">
+      
+      <!-- Public Profile Section -->
+      <section class="content-card">
+        <h2 class="card-title">Public profile</h2>
+        <p class="card-subtitle">Add information about yourself</p>
 
-    <div class="form-group">
-      <label>Last Name</label>
-      <input type="text" formControlName="lastName">
-    </div>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-    <button type="submit" [disabled]="isLoading || profileForm.invalid">
-      {{ isLoading ? 'Saving...' : 'Save' }}
-    </button>
+          <!-- Basics Section -->
+          <div class="form-section">
+            <h3 class="section-title">Basics:</h3>
 
-    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
-    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="text" 
+                  formControlName="firstName" 
+                  placeholder="First Name"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+                <small *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-text">
+                  First name must be at least 2 characters
+                </small>
+              </div>
+            </div>
 
-  </form>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="text" 
+                  formControlName="lastName" 
+                  placeholder="Last Name"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+                <small *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-text">
+                  Last name must be at least 2 characters
+                </small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <div class="input-with-counter">
+                  <input 
+                    type="text" 
+                    formControlName="headline" 
+                    placeholder="Headline"
+                    class="form-input"
+                    maxlength="60">
+                  <span class="char-counter">{{ getCharacterCount('headline') }}/60</span>
+                </div>
+                <p class="field-hint">Add a professional headline like, "Instructor at Udemy" or "Architect."</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Biography Section -->
+          <div class="form-section">
+            <h3 class="section-title">Biography</h3>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <div class="editor-toolbar">
+                  <button type="button" class="toolbar-btn" title="Bold">
+                    <strong>B</strong>
+                  </button>
+                  <button type="button" class="toolbar-btn" title="Italic">
+                    <em>I</em>
+                  </button>
+                </div>
+                <textarea 
+                  formControlName="biography" 
+                  placeholder="Biography"
+                  class="form-textarea"
+                  rows="6"
+                  maxlength="1000"></textarea>
+                <p class="field-hint">Links and coupon codes are not permitted in this section.</p>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <select formControlName="language" class="form-select">
+                  <option *ngFor="let lang of languageOptions" [value]="lang">{{ lang }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Links Section
+          <div class="form-section">
+            <h3 class="section-title">Links:</h3>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="url" 
+                  formControlName="website" 
+                  placeholder="Website (http(s)://..)"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('website')?.invalid && profileForm.get('website')?.touched">
+                <small *ngIf="profileForm.get('website')?.invalid && profileForm.get('website')?.touched" class="error-text">
+                  Please enter a valid URL starting with http:// or https://
+                </small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="url" 
+                  formControlName="twitter" 
+                  placeholder="Twitter (http(s)://www.twitter.com/..)"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('twitter')?.invalid && profileForm.get('twitter')?.touched">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="url" 
+                  formControlName="facebook" 
+                  placeholder="Facebook (http(s)://www.facebook.com/..)"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('facebook')?.invalid && profileForm.get('facebook')?.touched">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="url" 
+                  formControlName="linkedin" 
+                  placeholder="LinkedIn (http(s)://www.linkedin.com/..)"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('linkedin')?.invalid && profileForm.get('linkedin')?.touched">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <input 
+                  type="url" 
+                  formControlName="youtube" 
+                  placeholder="YouTube (http(s)://www.youtube.com/..)"
+                  class="form-input"
+                  [class.input-error]="profileForm.get('youtube')?.invalid && profileForm.get('youtube')?.touched">
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Save Button -->
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="btn-primary" 
+              [disabled]="isLoading || profileForm.invalid">
+              {{ isLoading ? 'Saving...' : 'Save' }}
+            </button>
+          </div>
+
+          <!-- Success/Error Messages -->
+          <div *ngIf="successMessage" class="alert alert-success">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4.3 6.3l-5 5c-.2.2-.4.3-.7.3s-.5-.1-.7-.3l-2-2c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l1.3 1.3 4.3-4.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4z"/>
+            </svg>
+            {{ successMessage }}
+          </div>
+
+          <div *ngIf="errorMessage" class="alert alert-error">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+            </svg>
+            {{ errorMessage }}
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Change Password Section -->
+      <section class="content-card">
+        <h2 class="card-title">Change Password</h2>
+        <p class="card-subtitle">Update your password to keep your account secure</p>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label class="form-label">Current Password</label>
+                <input 
+                  type="password" 
+                  formControlName="currentPassword" 
+                  placeholder="Enter current password"
+                  class="form-input"
+                  [class.input-error]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched">
+                <small *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" class="error-text">
+                  Current password is required
+                </small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label class="form-label">New Password</label>
+                <input 
+                  type="password" 
+                  formControlName="newPassword" 
+                  placeholder="Enter new password (minimum 6 characters)"
+                  class="form-input"
+                  [class.input-error]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+                <small *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" class="error-text">
+                  Password must be at least 6 characters
+                </small>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label class="form-label">Confirm New Password</label>
+                <input 
+                  type="password" 
+                  formControlName="confirmNewPassword" 
+                  placeholder="Re-enter new password"
+                  class="form-input"
+                  [class.input-error]="(passwordForm.get('confirmNewPassword')?.invalid && passwordForm.get('confirmNewPassword')?.touched) || (passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmNewPassword')?.touched)">
+                <small *ngIf="passwordForm.get('confirmNewPassword')?.invalid && passwordForm.get('confirmNewPassword')?.touched" class="error-text">
+                  Please confirm your password
+                </small>
+                <small *ngIf="passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmNewPassword')?.touched" class="error-text">
+                  Passwords do not match
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="btn-primary" 
+              [disabled]="isPasswordLoading || passwordForm.invalid">
+              {{ isPasswordLoading ? 'Changing...' : 'Change Password' }}
+            </button>
+          </div>
+
+          <!-- Success/Error Messages -->
+          <div *ngIf="passwordSuccessMessage" class="alert alert-success">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm4.3 6.3l-5 5c-.2.2-.4.3-.7.3s-.5-.1-.7-.3l-2-2c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l1.3 1.3 4.3-4.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4z"/>
+            </svg>
+            {{ passwordSuccessMessage }}
+          </div>
+
+          <div *ngIf="passwordErrorMessage" class="alert alert-error">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+            </svg>
+            {{ passwordErrorMessage }}
+          </div>
+
+        </form>
+      </section>
+
+    </main>
+
+  </div>
 </div>

@@ -5,37 +5,42 @@ import { AuthService } from '../Services/auth-service';
 import { BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 let isRefreshing = false;
-const refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-
-export const authInterceptor: HttpInterceptorFn =  (
+export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
   const token = localStorage.getItem('token');
+
   let authReq = req;
   if (token) {
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` }
     });
   }
+
   return next(authReq).pipe(
     catchError((error: any) => {
       if (error.status === 401) {
         if (!isRefreshing) {
           isRefreshing = true;
           refreshTokenSubject.next(null);
-          return authService.renewToken().pipe(
+         const token=authService.getRefreshToken()
+         if(token)
+          return authService.renewToken(token).pipe(
             switchMap((tokenResponse: any) => {
               isRefreshing = false;
               const newToken = tokenResponse.jwtToken;
-              console.log("tooooooooooooooooooooooooooooooooken",newToken)
               localStorage.setItem('token', newToken);
+              localStorage.setItem('refreshToken', tokenResponse.refreshToken)
               refreshTokenSubject.next(newToken);
+
               const newAuthReq = req.clone({
                 setHeaders: { Authorization: `Bearer ${newToken}` }
               });
+
               return next(newAuthReq);
             }),
             catchError((err: any) => {
