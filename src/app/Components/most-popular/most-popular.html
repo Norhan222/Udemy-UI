@@ -1,19 +1,18 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
       <div style="margin:10px; background-color: white; ">
-        <button style="border: none; background: transparent;"  (mouseenter)="toggle($event)" styleClass="min-w-48 " (mouseleave)="op.hide()">
-          <button [routerLink]="['/course', product.id]"  style="border: none;background: transparent;" >
+        <button style="border: none; background: transparent; width: 100%;"  (mouseenter)="toggle($event)" styleClass="min-w-48 " >
+          <button (mouseleave)="op.hide()" [routerLink]="['/course', product.id]"  style="border: none;background: transparent; width: 100%;" >
             <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
-            <div class="course-basic-info">
+            <div class="course-basic-info" style="text-align:start">
               <h3 class="course-title">{{product.title}}</h3>
               <p class="course-instructor"> {{product.instructorName}}</p>
               <div class="course-rating">
                 <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
                 <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
               </div>
-              <div class="course-price">E&pound;{{product.price}}</div>
+              <div class="course-price"  style="text-align:start">E&pound;{{product.price}}</div>
               <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
                 <i class="bi bi-patch-check"></i> Premium</button>
                 </div>

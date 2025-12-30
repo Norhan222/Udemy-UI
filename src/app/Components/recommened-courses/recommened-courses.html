@@ -1,8 +1,9 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">What to learn next</h2>
+<h4 style="margin: 0 0 20px 20px; font-weight: bold;">Recommended for you</h4>
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
-      <div style="margin:10px; background-color: white; ">
+      <div style="margin:10px; background-color: white; " class="lex justify-center">
         <button style="border: none; background: transparent;"  (mouseenter)="toggle($event)" styleClass="min-w-48 " (mouseleave)="op.hide()">
           <button [routerLink]="['/course', product.id]"  style="border: none;background: transparent;" >
             <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
@@ -21,9 +22,15 @@
           </button>
 
           <!-- الكارد التفصيلي -->
-          <p-popover #op position="right" [style]="{'box-shadow': '0 2px 8px rgba(0,0,0,0.2)'}">
-            <div class="flex flex-col gap-4" style="width:320px; padding:15px; background-color:white; border-radius:5px; box-shadow:0 2px 8px rgba(0,0,0,0.2);"
-              (mouseleave)="op.hide()">
+          <p-popover #op [style]="{'box-shadow': '0 2px 8px rgba(0,0,0,0.2)'}"
+                >
+                <ng-template #content >
+                  <div
+                  class="flex flex-col gap-4"
+                   style="width:320px; padding:15px;
+                          background-color:white;
+                          border-radius:5px;
+                          box-shadow:0 2px 8px rgba(0,0,0,0.2);">
             <h3 class="hover-title">{{product.title}}</h3>
             <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
               <i class="bi bi-patch-check"></i> Premium
@@ -66,6 +73,8 @@
                    </button>
             </div>
             </div>
+                </ng-template>
+
           </p-popover>
       </div>
     </ng-template>

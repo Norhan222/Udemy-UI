@@ -186,13 +186,14 @@
 
 <!-- Your button -->
 <!-- FOR TESTING - ALWAYS SHOW BUTTON -->
+<!-- Replace your existing wishlist button with this code -->
+
 <button 
   (click)="addWishlist(course!.id)" 
-  [disabled]="movingToWishlist || wishlistAdded"
-  class="btn b-2 w-100 mt-2"
-  style="background: rgb(255, 255, 255);">
+  [disabled]="movingToWishlist || isInWishlist(course?.id)"
+  class="btn b-2 w-100 mt-2 secondary-cta">
   
-  <span *ngIf="!movingToWishlist && !wishlistAdded">
+  <span *ngIf="!movingToWishlist && !isInWishlist(course?.id)">
     Move to Wishlist
   </span>
   
@@ -201,11 +202,10 @@
     Moving...
   </span>
   
-  <span *ngIf="wishlistAdded" class="text-success">
-    ✓ Moved to Wishlist
+  <span *ngIf="isInWishlist(course?.id)">
+    ✓ In Wishlist
   </span>
 </button>
-
 
 <button class="secondary-cta" (click)="buyNow()">Buy now</button>
         <div class="coupon-row">
