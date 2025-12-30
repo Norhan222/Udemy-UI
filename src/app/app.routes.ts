@@ -19,9 +19,35 @@ import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-
 
 import { componentDeactivateGuard } from './Guard/component-deactivate-guard';
 import { Learn } from './Components/learn/learn';
+import { EditInstructorProfile } from './Components/edit-instructor-profile/edit-instructor-profile';
 
 
 export const routes: Routes = [
+    // {path:'', redirectTo: 'Home', pathMatch: 'full'},
+    // {path:'Home', component:Home,title:'Home'},
+    // {path:'Login', component:Login,title:'Login'},
+    // {path:'Register', component:Register,title:'Register'},
+    // {path:'course/:id', component: CourseDetailsComponent, title: 'Course Details'},
+    // {path:'**', component:Notfound,title:'Not Found Page'},
+
+//befor login ///////////////////
+{
+  path: '',
+  loadComponent: () =>
+    import('./app-start-home/app-start-home')
+      .then(m => m.AppStartHome),
+  children: [
+    { path: '', loadComponent: () => import('./Components/homeBeforRegister/home-befor-sign-in/home-befor-sign-in').then(m => m.HomeBeforSignIn) },
+    {path:'', redirectTo: 'HomeBeforSignIn', pathMatch: 'full'},
+    {path:'Login', component:Login,title:'Login'},
+    {path:'Register', component:Register,title:'Register'},
+  ]
+},
+///*********************************** */
+
+
+
+
   // {path:'', redirectTo: 'Home', pathMatch: 'full'},
   // {path:'Home', component:Home,title:'Home'},
   // {path:'Login', component:Login,title:'Login'},
