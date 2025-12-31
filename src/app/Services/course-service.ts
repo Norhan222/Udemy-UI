@@ -4,12 +4,12 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-// course-content.model.ts
-export interface CourseContent {
+export interface Lecture {
   id: number;
   title: string;
-  description: string;
-  sections: Section[];
+  videoUrl: string | null;
+  duration: number;
+  orderIndex: number;
 }
 
 export interface Section {
@@ -17,24 +17,13 @@ export interface Section {
   title: string;
   orderIndex: number;
   lectures: Lecture[];
-
-  // UI ONLY
-  collapsed?: boolean;
-  completedLectures?: number;
-  totalLectures?: number;
-  totalDuration?: string;
 }
 
-export interface Lecture {
+export interface CourseContent {
   id: number;
   title: string;
-  videoUrl: string | null;
-  duration: number;
-  orderIndex: number;
-  isFree: boolean;
-
-  // UI ONLY
-  completed?: boolean;
+  description: string;
+  sections: Section[];
 }
 
 
@@ -144,7 +133,9 @@ getAdvancedCourses(): Observable<ICourse[]> {
     return this.http.put(`${this.baseUrl}/InstructorCourse/update/${courseId}`, formData);
   }
  
-   getCourseContent(courseId: number): Observable<CourseContent> {
-    return this.http.get<CourseContent>(`${this.baseUrl}/Course/${courseId}/Content`);
+  getCourseContent(courseId: number): Observable<CourseContent> {
+    return this.http.get<CourseContent>(
+      `${this.baseUrl}/Course/${courseId}/content`
+    );
   }
 }
