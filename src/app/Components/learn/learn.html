@@ -1,166 +1,38 @@
-<div class="udemy-learn-container" *ngIf="!loading && course">
-  <!-- ================= Header ================= -->
-  <header class="udemy-header">
-    <div class="header-left">
-      <button class="btn-icon" (click)="toggleSidebar()">
-        <i class="bi bi-list"></i>
-      </button>
-      <h1 class="course-title">{{ course.title }}</h1>
+<div class="learn-container" *ngIf="!loading && course; else loadingTpl">
+  <!-- ======= Video Player ======= -->
+  <div class="video-section">
+    <video #videoPlayer controls [src]="selectedLecture?.videoUrl" class="video-player"></video>
+    <h2 class="lecture-title">{{ selectedLecture?.title }}</h2>
+   <p class="course-description">
+  {{ course.description | slice:0:200 }}
+  <span *ngIf="course.description.length > 200">... 
+    <a href="#" (click)="showFullDescription = !showFullDescription; $event.preventDefault()">
+      {{ showFullDescription ? 'Show less' : 'Read more' }}
+    </a>
+  </span>
+</p>
+
+<!-- Full description عند الضغط -->
+<p *ngIf="showFullDescription">{{ course.description }}</p>
+
+  </div>
+
+  <!-- ======= Sidebar Sections ======= -->
+  <div class="sidebar">
+    <h3>{{ course.title }} Sections</h3>
+    <div *ngFor="let section of course.sections" class="section">
+      <h4>{{ section.title }}</h4>
+      <ul>
+        <li *ngFor="let lecture of section.lectures" 
+            (click)="selectLecture(lecture)"
+            [class.active]="lecture.id === selectedLecture?.id">
+          {{ lecture.title }}
+        </li>
+      </ul>
     </div>
-
-    <div class="header-right">
-      <div class="progress-indicator">
-        <span class="progress-text">Your progress</span>
-        <div class="progress-circle">
-          <span>{{ getProgressPercentage() }}%</span>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ================= Main ================= -->
-  <div class="main-content">
-    <!-- ================= Video Section ================= -->
-    <div class="video-section" [class.sidebar-open]="sidebarOpen">
-      <!-- Video -->
-      <div class="video-wrapper" *ngIf="selectedLecture?.videoUrl; else lockedVideo">
-        <video
-          #videoPlayer
-          class="video-player"
-          [src]="'https://localhost:7009' + selectedLecture?.videoUrl"
-          (timeupdate)="onTimeUpdate($event)"
-          (play)="isPlaying = true"
-          (pause)="isPlaying = false"
-          (loadedmetadata)="duration = $any($event.target).duration"
-        ></video>
-
-        <!-- Controls -->
-        <div class="video-controls">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            class="progress-bar"
-            [value]="getProgressPercentage()"
-            (input)="seekTo($event)"
-          />
-
-          <div class="controls-bottom">
-            <div class="controls-left">
-              <button class="control-btn" (click)="togglePlayPause()">
-                <i [class]="isPlaying ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
-              </button>
-
-              <span class="time-display">
-                {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
-              </span>
-            </div>
-
-            <div class="controls-right">
-              <button
-                class="control-btn"
-                *ngFor="let rate of [0.75, 1, 1.25, 1.5, 2]"
-                [class.active]="playbackRate === rate"
-                (click)="changePlaybackRate(rate)"
-              >
-                {{ rate }}x
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Locked Video -->
-      <ng-template #lockedVideo>
-        <div class="video-locked">
-          <i class="bi bi-lock-fill"></i>
-          <p>This lecture is locked</p>
-        </div>
-      </ng-template>
-
-      <!-- ================= Tabs ================= -->
-      <div class="tabs-section">
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link active">Overview</a>
-          </li>
-        </ul>
-
-        <div class="tab-content">
-          <h3>{{ selectedLecture?.title }}</h3>
-          <p>{{ course.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= Sidebar ================= -->
-    <aside class="sidebar" [class.open]="sidebarOpen">
-      <div class="sidebar-header">
-        <h3>Course content</h3>
-        <button class="btn-close-sidebar" (click)="toggleSidebar()">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-
-      <div class="sections-list">
-        <div class="section-item" *ngFor="let section of sections; let i = index">
-          <!-- Section Header -->
-          <div class="section-header" (click)="toggleSection(section)">
-            <div class="section-info">
-              <i
-                [class]="section.collapsed ? 'bi bi-chevron-right' : 'bi bi-chevron-down'"
-              ></i>
-              <span class="section-title">
-                Section {{ i + 1 }}: {{ section.title }}
-              </span>
-            </div>
-
-            <span class="section-meta">
-              {{ section.completedLectures }}/{{ section.totalLectures }}
-              | {{ section.totalDuration }}
-            </span>
-          </div>
-
-          <!-- Lectures -->
-          <div class="lectures-list" *ngIf="!section.collapsed">
-            <div
-              class="lecture-item"
-              *ngFor="let lec of section.lectures"
-              [class.active]="selectedLecture?.id === lec.id"
-              [class.completed]="lec.completed"
-              [class.disabled]="!lec.videoUrl"
-              (click)="selectLecture(lec)"
-            >
-              <div class="lecture-content">
-                <input
-                  type="checkbox"
-                  class="lecture-checkbox"
-                  [checked]="lec.completed"
-                  (click)="$event.stopPropagation()"
-                  (change)="toggleLectureCompletion(lec, $event)"
-                />
-
-                <i
-                  class="bi"
-                  [class.bi-play-circle]="lec.videoUrl"
-                  [class.bi-lock-fill]="!lec.videoUrl"
-                ></i>
-
-                <span class="lecture-title">{{ lec.title }}</span>
-              </div>
-
-              <span class="lecture-duration">
-                {{ formatTime(lec.duration) }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
   </div>
 </div>
 
-<!-- ================= Loading ================= -->
-<div class="loading-container" *ngIf="loading">
-  <div class="spinner-border text-primary"></div>
-</div>
+<ng-template #loadingTpl>
+  <div class="loading">Loading course content...</div>
+</ng-template>

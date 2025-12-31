@@ -1,487 +1,112 @@
-/* Variables */
-:root {
-  --udemy-purple: #5624d0;
-  --udemy-dark: #1c1d1f;
-  --udemy-gray: #6a6f73;
-  --udemy-light-gray: #f7f9fa;
-  --udemy-border: #d1d7dc;
-  --sidebar-width: 400px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.udemy-learn-container {
-  height: 100vh;
+.learn-container {
   display: flex;
-  flex-direction: column;
-  background: var(--udemy-dark);
-  overflow: hidden;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  flex-wrap: wrap; /* يجيب sidebar تحت الفيديو لو الشاشة صغيرة */
+   min-height: calc(100vh - 0px); /* أو خصم ارتفاع navbar لو ثابت */
 }
 
-/* Header */
-.udemy-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 24px;
-  height: 48px;
-  background: var(--udemy-dark);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  min-width: 0;
-}
-
-.course-title {
-  font-size: 15px;
-  font-weight: 700;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.btn-icon {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: opacity 0.2s;
-}
-
-.btn-icon:hover {
-  opacity: 0.8;
-}
-
-.progress-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.progress-text {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.progress-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--udemy-purple);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.btn-share {
-  background: none;
-  border: 1px solid white;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-  transition: background 0.2s;
-}
-
-.btn-share:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Main Content */
-.main-content {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Video Section */
+/* ===== Video Section ===== */
 .video-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: black;
-  transition: margin-right 0.3s ease;
-}
-
-.video-section.sidebar-open {
-  margin-right: var(--sidebar-width);
-}
-
-.video-wrapper {
-  position: relative;
-  background: black;
-  flex-shrink: 0;
+  flex: 3 1 600px; /* ينمو ويصغر حسب الشاشة */
+  min-width: 300px;
 }
 
 .video-player {
   width: 100%;
-  height: calc(100vh - 48px - 56px - 300px);
-  object-fit: contain;
-  display: block;
-}
-
-/* Video Controls */
-.video-controls {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  padding: 20px 16px 12px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.video-wrapper:hover .video-controls {
-  opacity: 1;
-}
-
-.progress-bar-container {
-  margin-bottom: 12px;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-  cursor: pointer;
-}
-
-.progress-bar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: white;
-  cursor: pointer;
-}
-
-.progress-bar::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: white;
-  cursor: pointer;
-  border: none;
-}
-
-.controls-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.controls-left,
-.controls-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.control-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 4px;
-  transition: transform 0.2s;
-}
-
-.control-btn:hover {
-  transform: scale(1.1);
-}
-
-.time-display {
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.playback-rate {
-  display: flex;
-  gap: 4px;
-}
-
-.playback-rate .control-btn {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.playback-rate .control-btn.active {
-  background: var(--udemy-purple);
-}
-
-/* Tabs Section */
-.tabs-section {
-  background: white;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.nav-tabs {
-  border-bottom: 1px solid var(--udemy-border);
-  padding: 0 24px;
-  display: flex;
-  gap: 8px;
-}
-
-.nav-item {
-  margin-bottom: -1px;
-}
-
-.nav-link {
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--udemy-gray);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 16px 8px;
-  transition: all 0.2s;
-  background: none;
-}
-
-.nav-link:hover {
-  color: var(--udemy-dark);
-}
-
-.nav-link.active {
-  color: var(--udemy-dark);
-  border-bottom-color: var(--udemy-dark);
-}
-
-.tab-content {
-  padding: 24px;
-}
-
-.overview-content h3 {
-  font-size: 19px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: var(--udemy-dark);
-}
-
-.overview-content p {
-  font-size: 14px;
-  color: var(--udemy-gray);
-  line-height: 1.6;
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  right: 0;
-  top: 48px;
-  width: var(--sidebar-width);
-  height: calc(100vh - 48px);
-  background: white;
-  border-left: 1px solid var(--udemy-border);
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index: 100;
-}
-
-.sidebar.open {
-  transform: translateX(0);
-}
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--udemy-border);
-}
-
-.sidebar-header h3 {
-  font-size: 17px;
-  font-weight: 700;
-  margin: 0;
-  color: var(--udemy-dark);
-}
-
-.btn-close-sidebar {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: var(--udemy-gray);
-  padding: 4px;
-}
-
-.sections-list {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.section-item {
-  border-bottom: 1px solid var(--udemy-border);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  cursor: pointer;
-  background: var(--udemy-light-gray);
-  transition: background 0.2s;
-}
-
-.section-header:hover {
-  background: #e8e9eb;
-}
-
-.section-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.section-info i {
-  font-size: 12px;
-  color: var(--udemy-gray);
-}
-
-.section-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--udemy-dark);
-}
-
-.section-meta {
-  font-size: 12px;
-  color: var(--udemy-gray);
-  white-space: nowrap;
-}
-
-.lectures-list {
-  background: white;
-}
-
-.lecture-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px 12px 52px;
-  cursor: pointer;
-  transition: background 0.2s;
-  border-left: 4px solid transparent;
-}
-
-.lecture-item:hover {
-  background: var(--udemy-light-gray);
-}
-
-.lecture-item.active {
-  background: #f7f8fa;
-  border-left-color: var(--udemy-purple);
-}
-
-.lecture-item.completed .lecture-title {
-  color: var(--udemy-gray);
-}
-
-.lecture-item.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.lecture-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.lecture-checkbox {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  accent-color: var(--udemy-purple);
-}
-
-.lecture-icon {
-  font-size: 16px;
-  color: var(--udemy-gray);
+  max-height: 500px; /* يمنع الفيديو من كسر الlayout */
+  border-radius: 8px;
+  background-color: #000;
 }
 
 .lecture-title {
-  font-size: 14px;
-  color: var(--udemy-dark);
-  font-weight: 400;
+  margin-top: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.lecture-duration {
-  font-size: 12px;
-  color: var(--udemy-gray);
-  white-space: nowrap;
+.course-description {
+  margin-top: 5px;
+  color: #555;
+  max-height: 80px; /* نحدد أقصى ارتفاع للوصف */
+  overflow: hidden; /* اخفاء الباقي */
 }
 
-/* Loading */
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: var(--udemy-dark);
+.course-description.show-full {
+  max-height: none; /* عند الضغط على Read more */
+  overflow: visible;
 }
 
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
-  border-width: 0.3rem;
+/* ===== Sidebar Sections ===== */
+.sidebar {
+  flex: 1 1 250px;
+  max-width: 300px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  max-height: 80vh; /* يحدد الارتفاع نسبي للشاشة */
+  overflow-y: auto; /* scrollbar فقط داخل الـ sidebar */
 }
 
-/* Responsive */
+.sidebar h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.section {
+  margin-bottom: 15px;
+}
+
+.section h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.section li {
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.section li:hover {
+  background-color: #e0e0e0;
+}
+
+.section li.active {
+  background-color: #0d6efd;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* ===== Loading Template ===== */
+.loading {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .learn-container {
+    flex-direction: column;
+  }
+
   .sidebar {
-    width: 100%;
+    max-width: 100%;
+    max-height: none;
   }
-  
-  .video-section.sidebar-open {
-    margin-right: 0;
-  }
-  
-  .course-title {
-    font-size: 13px;
-  }
-  
-  .header-right {
-    gap: 8px;
-  }
-  
-  .progress-indicator {
-    display: none;
+
+  .video-player {
+    max-height: 300px;
   }
 }
