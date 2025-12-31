@@ -20,17 +20,17 @@ import { ICourse } from '../../../../Models/icourse';
 })
 export class CompleteCreationCourse implements OnInit {
 
-course!:Course;
-editCourse!:ICourse;
-sectionss:Section[]=[];
-courseData!:CourseFormData;
-courseTitle:string |null='';
-courseDescription :string | null='';
-category:string | null='';
-courseId!:Number;
-isLoading:boolean=false;
-hasUnsavedChanges = false;
-///////edit
+  course!: Course;
+  editCourse!: ICourse;
+  sectionss: Section[] = [];
+  courseData!: CourseFormData;
+  courseTitle: string | null = '';
+  courseDescription: string | null = '';
+  category: string | null = '';
+  courseId!: Number;
+  isLoading: boolean = false;
+  hasUnsavedChanges = false;
+  ///////edit
   isSaving = false;
   originalCourseData: any = null
   /////////
@@ -87,6 +87,7 @@ hasUnsavedChanges = false;
   showLectureModal = false;
   showVideoUploadModal = false;
   showSuccessModal = false;
+  showRequirementsModal = false;
   isSubmitting = false;
   selectedLecture: any = null;
   newSectionTitle = '';
@@ -335,67 +336,67 @@ hasUnsavedChanges = false;
   }
 
 
-// ✅ Helper methods للـ requirements
-getTotalVideoMinutes(): number {
-  // هنا ممكن تحسب الوقت الفعلي للفيديوهات
-  // دلوقتي هنرجع 0 لحد ما تعمل الحساب الصحيح
-  return 0;
-}
+  // ✅ Helper methods للـ requirements
+  getTotalVideoMinutes(): number {
+    // هنا ممكن تحسب الوقت الفعلي للفيديوهات
+    // دلوقتي هنرجع 0 لحد ما تعمل الحساب الصحيح
+    return 0;
+  }
 
-allLecturesHaveContent(): boolean {
-  return this.sections.every(section =>
-    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0)
-  );
-}
+  allLecturesHaveContent(): boolean {
+    return this.sections.every(section =>
+      section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0)
+    );
+  }
 
-closeRequirementsModal(): void {
-  this.showRequirementsModal = false;
-}
+  closeRequirementsModal(): void {
+    this.showRequirementsModal = false;
+  }
 
-navigateToPageFromModal(pageName: string): void {
-  this.closeRequirementsModal();
+  navigateToPageFromModal(pageName: string): void {
+    this.closeRequirementsModal();
 
-  // Find the item and navigate
-  this.sidebarSections.forEach(section => {
-    section.items.forEach(item => {
-      if (item.page === pageName) {
-        this.navigateToPage(item);
-      }
+    // Find the item and navigate
+    this.sidebarSections.forEach(section => {
+      section.items.forEach(item => {
+        if (item.page === pageName) {
+          this.navigateToPage(item);
+        }
+      });
     });
-  });
-}
-
-
-
-
-
-
-
-
-
-onSubmitForReview(): void {
-  // ✅ 1. Validation
-  if (!this.canSubmitForReview()) {
-    this.showValidationMessages();
-    return;
   }
 
-  // ✅ 2. اخفي validation box لو كان ظاهر
-  this.isSubmitting = true;
 
-  // ✅ 3. املأ بيانات الكورس
-  this.course.title = this.courseTitle ?? '';
-  this.course.description = this.courseDescription ?? '';
-  this.course.language = this.language;
-  this.course.level = this.level;
-  this.course.category = this.category ?? '';
-  this.course.subcategory = this.subcategory ?? '';
-  this.course.shortTitle = this.courseSubtitle;
 
-  // ✅ 4. الصورة والفيديو - تأكد إنهم File objects
-  if (this.courseImage && this.courseImage instanceof File) {
-    this.course.Thumbnail = this.courseImage;
-  }
+
+
+
+
+
+
+  onSubmitForReview(): void {
+    // ✅ 1. Validation
+    if (!this.canSubmitForReview()) {
+      this.showValidationMessages();
+      return;
+    }
+
+    // ✅ 2. اخفي validation box لو كان ظاهر
+    this.isSubmitting = true;
+
+    // ✅ 3. املأ بيانات الكورس
+    this.course.title = this.courseTitle ?? '';
+    this.course.description = this.courseDescription ?? '';
+    this.course.language = this.language;
+    this.course.level = this.level;
+    this.course.category = this.category ?? '';
+    this.course.subcategory = this.subcategory ?? '';
+    this.course.shortTitle = this.courseSubtitle;
+
+    // ✅ 4. الصورة والفيديو - تأكد إنهم File objects
+    if (this.courseImage && this.courseImage instanceof File) {
+      this.course.Thumbnail = this.courseImage;
+    }
 
     if (this.promoVideo && this.promoVideo instanceof File) {
       this.course.PreviewVideo = this.promoVideo;
@@ -431,32 +432,32 @@ onSubmitForReview(): void {
     formData.append('Price', this.course.price.toString());
     formData.append('Description', this.course.description);
 
-  // ✅ 8. Primary Topic (لو موجود)
-  if (this.primaryTopic) {
-    formData.append('PrimaryTopic', this.primaryTopic);
-  }
+    // ✅ 8. Primary Topic (لو موجود)
+    if (this.primaryTopic) {
+      formData.append('PrimaryTopic', this.primaryTopic);
+    }
 
-  // ✅ 9. Course Thumbnail
-  if (this.course.Thumbnail) {
-    formData.append('Thumbnail', this.course.Thumbnail, this.course.Thumbnail.name);
-    console.log('✅ Thumbnail added:', this.course.Thumbnail.name);
-  } else {
-    console.warn('⚠️ No thumbnail file');
-  }
+    // ✅ 9. Course Thumbnail
+    if (this.course.Thumbnail) {
+      formData.append('Thumbnail', this.course.Thumbnail, this.course.Thumbnail.name);
+      console.log('✅ Thumbnail added:', this.course.Thumbnail.name);
+    } else {
+      console.warn('⚠️ No thumbnail file');
+    }
 
-  // ✅ 10. Preview Video
-  if (this.course.PreviewVideo) {
-    formData.append('PreviewVideo', this.course.PreviewVideo, this.course.PreviewVideo.name);
-    console.log('✅ Preview video added:', this.course.PreviewVideo.name);
-  } else {
-    console.warn('⚠️ No preview video file');
-  }
+    // ✅ 10. Preview Video
+    if (this.course.PreviewVideo) {
+      formData.append('PreviewVideo', this.course.PreviewVideo, this.course.PreviewVideo.name);
+      console.log('✅ Preview video added:', this.course.PreviewVideo.name);
+    } else {
+      console.warn('⚠️ No preview video file');
+    }
 
-  // ✅ 11. Sections & Lectures
-  this.sections.forEach((section, sectionIndex) => {
-    // Section Title
-    formData.append(`Sections[${sectionIndex}].Title`, section.title);
-   formData.append(`Sections[${sectionIndex}].orderIndex`, section.orderIndex.toString());
+    // ✅ 11. Sections & Lectures
+    this.sections.forEach((section, sectionIndex) => {
+      // Section Title
+      formData.append(`Sections[${sectionIndex}].Title`, section.title);
+      formData.append(`Sections[${sectionIndex}].orderIndex`, section.orderIndex.toString());
 
       console.log(`📚 Section ${sectionIndex}: ${section.title}`);
 
@@ -506,16 +507,16 @@ onSubmitForReview(): void {
     });
     console.log('====================');
 
-  // ✅ 14. إرسال البيانات للـ Backend
-  this.courseService.createCourse(formData).subscribe({
-    next: (response) => {
-      console.log('✅ Course created successfully!', response);
-      this.isSubmitting = false;
-      this.showSuccessModal = true;
-    },
-    error: (error) => {
-      console.error('❌ Error creating course:', error);
-      this.isSubmitting = false;
+    // ✅ 14. إرسال البيانات للـ Backend
+    this.courseService.createCourse(formData).subscribe({
+      next: (response) => {
+        console.log('✅ Course created successfully!', response);
+        this.isSubmitting = false;
+        this.showSuccessModal = true;
+      },
+      error: (error) => {
+        console.error('❌ Error creating course:', error);
+        this.isSubmitting = false;
 
         // ✅ عرض رسالة الخطأ للمستخدم
         let errorMessage = 'Failed to create course. ';
@@ -1089,7 +1090,7 @@ onSubmitForReview(): void {
       }
     });
   }
-// ✅ 8. CanDeactivate Guard - منع المغادرة بدون حفظ
+  // ✅ 8. CanDeactivate Guard - منع المغادرة بدون حفظ
   canDeactivate(): boolean {
     if (this.hasUnsavedChanges) {
       return confirm(
