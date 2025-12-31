@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../Services/auth-service';
@@ -25,6 +25,7 @@ export class EditInstructorProfile implements OnInit {
     lastName: new FormControl('', Validators.required),
     bio: new FormControl('')
   });
+  constructor(private cdr:ChangeDetectorRef){}
 
   ngOnInit(): void {
     this.auth.getInstructorProfile().subscribe({
@@ -80,6 +81,7 @@ export class EditInstructorProfile implements OnInit {
     this.auth.updateInstructorProfile(formData).subscribe({
       next: res => {
         this.loading = false;
+        console.log(res)
         this.successMessage = 'Profile saved successfully';
 
         if (res?.profileImageUrl) {
@@ -87,8 +89,10 @@ export class EditInstructorProfile implements OnInit {
           this.avatarPreview = img;
 
           // 🔥 update everywhere instantly
+          this.auth.setUser(res)
           this.auth.setProfileImage(img);
           this.auth.profileImage.next(img);
+         this.cdr.detectChanges()
         }
       },
       error: () => {

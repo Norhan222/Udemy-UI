@@ -7,6 +7,7 @@ import { IRegisterRequest } from '../Models/iregister-request';
 import { TokenApi } from '../Models/token-api';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginResponse } from '../Models/login-response';
+import { User } from '../Models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -188,19 +189,19 @@ setProfileImage(url: string | null) {
   ========================== */
 
   getStudentProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/student/profile`);
+    return this.http.get<any>(`${this.baseUrl}/profile/student`);
   }
 
   updateStudentProfile(formData: FormData): Observable<any> {
     return this.http.put<any>(
-      `${this.baseUrl}/student/profile`,
+      `${this.baseUrl}/profile`,
       formData
     );
   }
 
   changeStudentPassword(data: any): Observable<any> {
     return this.http.put<any>(
-      `${this.baseUrl}/student/profile/change-password`,
+      `${this.baseUrl}/profile/change-password`,
       data
     );
   }
@@ -296,13 +297,19 @@ export class AuthService {
   ========================== */
 
   getInstructorProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
+    return this.http.get<any>(`${this.baseUrl}/profile`);
   }
 
-  updateInstructorProfile(formData: FormData): Observable<any> {
-    return this.http.put<any>(
-      `${this.baseUrl}/instructor/profile`,
+  updateInstructorProfile(formData: FormData): Observable<LoginResponse['user']> {
+    return this.http.put<LoginResponse['user']>(
+      `${this.baseUrl}/profile`,
       formData
+    ).pipe( tap(res=>{
+
+        this.setUser(res)
+      }
+      )
+
     );
   }
   // Add this to your AuthService
@@ -313,9 +320,9 @@ export class AuthService {
 changePassword(passwordData: { currentPassword: string, newPassword: string, confirmNewPassword: string }): Observable<any> {
   // تأكد أن الـ URL يطابق الـ backend
   return this.http.put<any>(
-    `${this.baseUrl}/student/profile/change-password`,
+    `${this.baseUrl}/profile/change-password`,
     passwordData
   );
 }
-  
+
 }
