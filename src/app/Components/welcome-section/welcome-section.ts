@@ -3,29 +3,30 @@ import { AuthService } from '../../Services/auth-service';
 import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../../Pipes/capitalize-pipe';
 import { LoginResponse } from '../../Models/login-response';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-welcome-section',
-  imports: [CommonModule,CapitalizePipe],
+  imports: [CommonModule, CapitalizePipe, TranslateModule],
   templateUrl: './welcome-section.html',
   styleUrl: './welcome-section.css',
 })
-export class WelcomeSection implements  OnInit {
+export class WelcomeSection implements OnInit {
   isLoggedIn$;
   user$;
-  user!:LoginResponse['user']
-  ProfileImage:string|null=null
+  user!: LoginResponse['user']
+  ProfileImage: string | null = null
   // firstName:string=''
-    firstName$;
-     constructor(private auth:AuthService){
-        this.isLoggedIn$=auth.isLoggedIn$
-        this.firstName$=auth.firstName$
-        this.user$=auth.user$
-                }
-      ngOnInit(): void {
-        
-    
-    
-      }
-    
+  firstName$;
+  constructor(private auth: AuthService) {
+    this.isLoggedIn$ = auth.isLoggedIn$
+    this.firstName$ = auth.firstName$
+    this.user$ = auth.user$
+  }
+  ngOnInit(): void {
+
+
+
+  }
+
 }

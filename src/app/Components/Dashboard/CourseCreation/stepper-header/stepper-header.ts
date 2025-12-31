@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 import { StepperService } from '../../../../Services/stepper-service';
 import { Router } from '@angular/router';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-stepper-header',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './stepper-header.html',
   styleUrl: './stepper-header.css',
 })
 export class StepperHeader {
-currentStep = 1;
+  currentStep = 1;
   totalSteps = 4;
   progressPercentage = 0;
 
-  constructor(private stepperService: StepperService, private router: Router) {}
+  constructor(private stepperService: StepperService, private router: Router) { }
 
   ngOnInit(): void {
     this.stepperService.currentStep$.subscribe(step => {
@@ -26,7 +28,7 @@ currentStep = 1;
 
   onExit(): void {
 
-      this.stepperService.resetStepper();
+    this.stepperService.resetStepper();
     this.router.navigate(['/dashboard/courses']);
   }
 }

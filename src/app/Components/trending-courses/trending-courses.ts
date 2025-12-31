@@ -19,10 +19,11 @@ import { Tooltip } from 'primeng/tooltip';
 import { Popover } from 'primeng/popover';
 import { PopoverModule } from 'primeng/popover';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,PopoverModule, ButtonModule, CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, ButtonModule, CommonModule, TranslateModule],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })
@@ -35,38 +36,38 @@ export class TrendingCourses implements OnInit, OnDestroy, AfterViewInit {
   value: number = 3;
 
   ///
-   @ViewChild('op') op!: Popover;
+  @ViewChild('op') op!: Popover;
 
-    
-hoveredProduct: any = null;
-hideTimer: any;
 
-showPopover(event: MouseEvent, product: any, op: Popover) {
-  if (this.hideTimer) {
-    clearTimeout(this.hideTimer);
-    this.hideTimer = null;
+  hoveredProduct: any = null;
+  hideTimer: any;
+
+  showPopover(event: MouseEvent, product: any, op: Popover) {
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
+
+    this.hoveredProduct = product;
+
+    setTimeout(() => {
+      op.show(event);
+    });
   }
 
-  this.hoveredProduct = product;
-
-  setTimeout(() => {
-    op.show(event);
-  });
-}
-
-scheduleHide(op: Popover) {
-  this.hideTimer = setTimeout(() => {
-    op.hide();
-    this.hoveredProduct = null;
-  },);
-}
-
-cancelHide() {
-  if (this.hideTimer) {
-    clearTimeout(this.hideTimer);
-    this.hideTimer = null;
+  scheduleHide(op: Popover) {
+    this.hideTimer = setTimeout(() => {
+      op.hide();
+      this.hoveredProduct = null;
+    },);
   }
-}
+
+  cancelHide() {
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
+  }
 
 
   private cartService = inject(CartService);
@@ -78,7 +79,7 @@ cancelHide() {
   //////
 
 
-  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef) {}
+  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef) { }
   ngAfterViewInit(): void {
     throw new Error('Method not implemented.');
   }

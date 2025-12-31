@@ -20,19 +20,20 @@
       <div class="search-container">
         <form class="search-form" (submit)="onSearch($event)">
           <i class="fas fa-search search-icon"></i>
-          <input type="text" class="search-input" placeholder="Search for anything" name="q" [(ngModel)]="searchQuery">
+          <input type="text" class="search-input" [placeholder]="'HOME.SEARCH_PLACEHOLDER' | translate" name="q"
+            [(ngModel)]="searchQuery">
         </form>
       </div>
       <!-- Navigation Links -->
       <div class="nav-links">
-        <a href="#" class="nav-link-text">Plans & Pricing</a>
-        <a href="#" class="nav-link-text">Udemy Business</a>
+        <a href="#" class="nav-link-text">{{ 'NAV.PLANS_PRICING' | translate }}</a>
+        <a href="#" class="nav-link-text">{{ 'NAV.UDEMY_BUSINESS' | translate }}</a>
         @if(!(isLoggdIn$ |async)){
-        <a href="#" class="nav-link-text">Teach on Udemy</a>
+        <a href="#" class="nav-link-text">{{ 'NAV.TEACH_ON_UDEMY' | translate }}</a>
         }
         @if((isLoggdIn$ |async)){
-        <a routerLink="/dashboard/courses" class="nav-link-text">Instructor</a>
-        <a routerLink="/my-learning" class="nav-link-text">My learning</a>
+        <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
+        <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
         }
       </div>
 
@@ -61,10 +62,10 @@
 
       @if(!(isLoggdIn$ |async)){
       <!-- Login Button -->
-      <a class="btn-login" routerLink="Login">Log in</a>
+      <a class="btn-login" routerLink="Login">{{ 'HOME.LOG_IN' | translate }}</a>
 
       <!-- Sign up Button -->
-      <a class="btn-signup" routerLink="Register">Sign up</a>
+      <a class="btn-signup" routerLink="Register">{{ 'HOME.SIGN_UP' | translate }}</a>
 
       <!-- Language Icon -->
       <a href="#" class="lang-icon">

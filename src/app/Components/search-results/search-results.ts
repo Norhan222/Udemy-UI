@@ -7,9 +7,11 @@ import { FilterSidebar } from './filter-sidebar/filter-sidebar';
 import { CartService } from '../../Services/cart-service';
 import { AuthService } from '../../Services/auth-service';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-search-results',
-  imports: [CommonModule, FilterSidebar],
+  imports: [CommonModule, FilterSidebar, TranslateModule],
   templateUrl: './search-results.html',
   styleUrl: './search-results.css',
 })

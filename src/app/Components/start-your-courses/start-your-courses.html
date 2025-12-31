@@ -1,16 +1,18 @@
 <div style="display: flex; justify-content:space-between">
-  
-  <div ><h1 style="margin: 30px 0 30px 20px;">Let's start learning</h1></div>
+
+  <div>
+    <h1 style="margin: 30px 0 30px 20px;">{{ 'HOME.LETS_START_LEARNING' | translate }}</h1>
+  </div>
   <div style=" text-align: center;align-content: center;"><a href="#" style="color: blue;">learn more</a></div>
 </div>
 @if(courses == null)
 {
-  <div class="text-center text-primary">
+<div class="text-center text-primary">
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
- 
+
 }@else{
 <p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
   <ng-template let-product pTemplate="item">
@@ -35,13 +37,17 @@
 </p-carousel>
 }
 <section class="UdBus" style="margin-left:20px; ">
-<div>
-  <p style="color: white; font-size: 18px; flex-wrap:wrap">
-    Training 2 or more people?Get your team access to Udemy's top 30,000+ courses
-  </p>
-</div>
-<div>
-  <button type="button" class="buscont" style="border-color: white; padding: 10px; background-color: white; border-radius: 5px;">Get Udemy Business</button>
-  <button type="button" class="buscont" style="border-color: white; padding: 10px; background-color: black; color:white; border-radius: 5px;">Dismiss</button>
-</div>
+  <div>
+    <p style="color: white; font-size: 18px; flex-wrap:wrap">
+      {{ 'HOME_PAGE.BUSINESS_BANNER.TEXT' | translate }}
+    </p>
+  </div>
+  <div>
+    <button type="button" class="buscont"
+      style="border-color: white; padding: 10px; background-color: white; border-radius: 5px;">{{
+      'HOME_PAGE.BUSINESS_BANNER.BTN_GET_BUSINESS' | translate }}</button>
+    <button type="button" class="buscont"
+      style="border-color: white; padding: 10px; background-color: black; color:white; border-radius: 5px;">{{
+      'HOME_PAGE.BUSINESS_BANNER.BTN_DISMISS' | translate }}</button>
+  </div>
 </section>

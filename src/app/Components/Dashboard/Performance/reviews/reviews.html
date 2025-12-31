@@ -2,11 +2,11 @@
   <div class="max-w-7xl">
     <!-- Header -->
     <div class="header">
-      <h1>Reviews</h1>
+      <h1>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.TITLE' | translate }}</h1>
       <div class="course-select">
-        <select [(ngModel)]="selectedCourse"  (click)="onFilterChange()">
-          <option *ngFor="let course of courses"  [value]="course">
-            {{ course === 'all' ? 'All courses' : course }}
+        <select [(ngModel)]="selectedCourse" (click)="onFilterChange()">
+          <option *ngFor="let course of courses" [value]="course">
+            {{ course === 'all' ? ('INSTRUCTOR_PERFORMANCE.REVIEWS.ALL_COURSES' | translate) : course }}
           </option>
         </select>
       </div>
@@ -15,11 +15,11 @@
     <!-- Tabs -->
     <div class="tabs">
       <button [class.active]="activeTab === 'reviews'" (click)="activeTab = 'reviews'">
-        Reviews
+        {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.TAB_REVIEWS' | translate }}
       </button>
       <button [class.active]="activeTab === 'insights'" (click)="activeTab = 'insights'">
-        Insights
-        <span class="badge-new">New</span>
+        {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.TAB_INSIGHTS' | translate }}
+        <span class="badge-new">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.NEW' | translate }}</span>
       </button>
     </div>
 
@@ -28,39 +28,39 @@
       <div class="filters-row">
         <label class="checkbox-label">
           <input type="checkbox" [(ngModel)]="showNotAnswered" (change)="onFilterChange()">
-          <span>Not answered</span>
+          <span>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_NOT_ANSWERED' | translate }}</span>
         </label>
 
         <label class="checkbox-label">
           <input type="checkbox" [(ngModel)]="showWithComment" (change)="onFilterChange()">
-          <span>Has a comment</span>
+          <span>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_HAS_COMMENT' | translate }}</span>
         </label>
 
         <div class="filter-group">
-          <span>Rating:</span>
+          <span>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_RATING' | translate }}</span>
           <select [(ngModel)]="selectedRating" (change)="onFilterChange()">
-            <option value="all">All</option>
-            <option value="5">5 stars</option>
-            <option value="4">4 stars</option>
-            <option value="3">3 stars</option>
-            <option value="2">2 stars</option>
-            <option value="1">1 star</option>
+            <option value="all">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_ALL' | translate }}</option>
+            <option value="5">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_5_STARS' | translate }}</option>
+            <option value="4">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_4_STARS' | translate }}</option>
+            <option value="3">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_3_STARS' | translate }}</option>
+            <option value="2">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_2_STARS' | translate }}</option>
+            <option value="1">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_1_STAR' | translate }}</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <span>Sort by:</span>
+          <span>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_SORT_BY' | translate }}</span>
           <select [(ngModel)]="sortBy" (change)="onFilterChange()">
-            <option value="lowest">Lowest rating</option>
-            <option value="highest">Highest rating</option>
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
+            <option value="lowest">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SORT_LOWEST' | translate }}</option>
+            <option value="highest">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SORT_HIGHEST' | translate }}</option>
+            <option value="newest">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SORT_NEWEST' | translate }}</option>
+            <option value="oldest">{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SORT_OLDEST' | translate }}</option>
           </select>
         </div>
 
         <button class="export-btn" (click)="exportToCSV()">
           <span class="icon">↓</span>
-          Export to CSV...
+          {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.EXPORT_CSV' | translate }}
         </button>
       </div>
     </div>
@@ -68,12 +68,12 @@
     <!-- Info Banner -->
     <div class="info-banner">
       <div class="info-icon">i</div>
-      <p>It can take up to 48 hours for approved student ratings to show on your course landing page.</p>
+      <p>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.INFO_BANNER' | translate }}</p>
     </div>
 
     <!-- Reviews List -->
     <div *ngIf="filteredReviews.length === 0" class="no-reviews">
-      <p>No reviews found</p>
+      <p>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.NO_REVIEWS' | translate }}</p>
     </div>
 
     <div *ngIf="filteredReviews.length > 0" class="reviews-list">
@@ -93,7 +93,7 @@
               </span>
             </div>
             <span *ngIf="!review.answered" class="not-answered-badge">
-              Not answered
+              {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.FILTER_NOT_ANSWERED' | translate }}
             </span>
           </div>
         </div>
@@ -104,21 +104,22 @@
           <span class="date">{{ review.createdDate }}</span>
           <button *ngIf="!review.answered && replyingTo !== review.id" (click)="handleReply(review.id)"
             class="reply-btn">
-            Reply
+            {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.REPLY_BTN' | translate }}
           </button>
         </div>
 
         <!-- Reply Box -->
         <div *ngIf="replyingTo === review.id" class="reply-box">
-          <label>Your Reply</label>
-          <textarea [(ngModel)]="replyText" placeholder="Write your reply here..." rows="4">
+          <label>{{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.YOUR_REPLY' | translate }}</label>
+          <textarea [(ngModel)]="replyText"
+            [placeholder]="'INSTRUCTOR_PERFORMANCE.REVIEWS.PLACEHOLDER_REPLY' | translate" rows="4">
           </textarea>
           <div class="reply-actions">
             <button (click)="handleCancelReply()" class="cancel-btn">
-              Cancel
+              {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.CANCEL' | translate }}
             </button>
             <button (click)="handleSendReply(review.id)" [disabled]="!replyText.trim()" class="send-btn">
-              Send Reply
+              {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SEND_REPLY' | translate }}
             </button>
           </div>
         </div>
@@ -127,7 +128,9 @@
 
     <!-- Results Count -->
     <div *ngIf="filteredReviews.length > 0" class="results-count">
-      Showing {{ filteredReviews.length }} of {{ reviews.length }} reviews
+      {{ 'INSTRUCTOR_PERFORMANCE.REVIEWS.SHOWING' | translate }} {{ filteredReviews.length }} {{
+      'INSTRUCTOR_PERFORMANCE.REVIEWS.OF' | translate }} {{ reviews.length }} {{
+      'INSTRUCTOR_PERFORMANCE.REVIEWS.REVIEWS_COUNT' | translate }}
     </div>
   </div>
 </div>

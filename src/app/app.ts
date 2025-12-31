@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginResponse } from './Models/login-response';
 import { environment } from '../environments/environment';
 import { AuthService } from './Services/auth-service';
+import { LanguageService } from './Services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -16,19 +17,19 @@ import { AuthService } from './Services/auth-service';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App  implements OnInit{
+export class App implements OnInit {
 
-constructor(private http:HttpClient,private authService:AuthService){
-}
-  ngOnInit(): void {
-     if (localStorage.getItem('token')) {
-    this.http.get<LoginResponse['user']>(`${environment.apiUrl}/Account/me`)
-     // .subscribe(user => this.authService['userSubject']({
-     .subscribe({
-          next:user=>this.authService.setUser(user),
-          error:()=>this.authService.logout()
-      });
+  constructor(private http: HttpClient, private authService: AuthService, private languageService: LanguageService) {
   }
+  ngOnInit(): void {
+    if (localStorage.getItem('token')) {
+      this.http.get<LoginResponse['user']>(`${environment.apiUrl}/Account/me`)
+        // .subscribe(user => this.authService['userSubject']({
+        .subscribe({
+          next: user => this.authService.setUser(user),
+          error: () => this.authService.logout()
+        });
+    }
   }
   protected readonly title = signal('UdemyUI');
 }

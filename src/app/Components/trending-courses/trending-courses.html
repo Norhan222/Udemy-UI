@@ -1,56 +1,48 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">Trending courses</h2>
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">{{ 'HOME.TRENDING_COURSES' | translate }}</h2>
 @if(courses == null)
 {
-  <div class="text-center text-primary">
+<div class="text-center text-primary">
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
- 
+
 }@else{
 <section style="margin: 10px 0 50px 0;">
-  <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" 
-  [responsiveOptions]="responsiveOptions"
-  (onPage)="op?.hide()">
-  <ng-template let-product pTemplate="item" (onPage)="op?.hide()">
-    <div style="margin:10px; background-color: white; display:flex">
-      <button 
-         style="border: none; background: transparent;">
-        <button
-         [routerLink]="['/course', product.id]" 
-         style="border: none;background: transparent;"
-         (mouseenter)="showPopover($event, product, op)"
-         (mouseleave)="scheduleHide(op)">
-          <img [src]="product.thumbnailUrl" alt="Course" class="course-image" style="width:100%">
-          <div class="course-basic-info" style="text-align:start">
-            <h3 class="course-title">{{product.title}}</h3>
-            <p class="course-instructor">{{product.instructorName}}</p>
-            <div class="course-rating">
-              <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
-              <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+  <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions"
+    (onPage)="op.hide()">
+    <ng-template let-product pTemplate="item" (onPage)="op.hide()">
+      <div style="margin:10px; background-color: white; display:flex">
+        <button style="border: none; background: transparent;">
+          <button [routerLink]="['/course', product.id]" style="border: none;background: transparent;"
+            (mouseenter)="showPopover($event, product, op)" (mouseleave)="scheduleHide(op)">
+            <img [src]="product.thumbnailUrl" alt="Course" class="course-image" style="width:100%">
+            <div class="course-basic-info" style="text-align:start">
+              <h3 class="course-title">{{product.title}}</h3>
+              <p class="course-instructor">{{product.instructorName}}</p>
+              <div class="course-rating">
+                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating
+                  }}</span>
+                <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+              </div>
+              <div class="course-price">E&pound;{{product.price}}</div>
+              <button type="button"
+                style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+                <i class="bi bi-patch-check"></i> Premium
+              </button>
             </div>
-            <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
-              <i class="bi bi-patch-check"></i> Premium
-            </button>
-          </div>
+          </button>
         </button>
-      </button>
 
-      <!-- Popover -->
-      <p-popover #op
-           position="right"
-           appendTo="body"
-           [style]="{'z-index': 9999}">
+        <!-- Popover -->
+        <p-popover #op position="right" appendTo="body" [style]="{'z-index': 9999}">
 
-  <div *ngIf="hoveredProduct"
-       style="width:320px;padding:15px;background:white;
+          <div *ngIf="hoveredProduct" style="width:320px;padding:15px;background:white;
               border-radius:6px;
-              box-shadow:0 2px 10px rgba(0,0,0,.2)"
-       (mouseenter)="cancelHide()"
-       (mouseleave)="scheduleHide(op)">
-         <h3 class="hover-title">{{hoveredProduct.title}}</h3>
-            <button type="button" style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+              box-shadow:0 2px 10px rgba(0,0,0,.2)" (mouseenter)="cancelHide()" (mouseleave)="scheduleHide(op)">
+            <h3 class="hover-title">{{hoveredProduct.title}}</h3>
+            <button type="button"
+              style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
               <i class="bi bi-patch-check"></i> Premium
             </button>
             <p class="hover-description">
@@ -68,34 +60,32 @@
               <li>Learn the latest technologies</li>
               <li>Build a portfolio of websites</li>
             </ul>
-         <div class="hover-buttons">
-               <button type="button" class=" "
-                    [disabled]="isInCart(hoveredProduct.id)"
-                    (click)="addToCart(hoveredProduct.id)"
-                    style="background-color:#5f2eaf; color:white;
+            <div class="hover-buttons">
+              <button type="button" class=" " [disabled]="isInCart(hoveredProduct.id)"
+                (click)="addToCart(hoveredProduct.id)" style="background-color:#5f2eaf; color:white;
                            padding:15px 50px 15px 50px; font-weight:bold ;">
-                   <i class="bi bi-patch-check"></i>
-                       {{ isInCart(hoveredProduct.id) ? 'Added to Cart' : 'Add to Cart' }}
-                  </button>
-                  <button (click)="addToWishlist(hoveredProduct.id)" style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
-                        @if(isInWishlist(hoveredProduct.id))
-                        {
-                           <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
-                       }@else
-                      {
-                          <i class="bi bi-heart" style="color:#5f2eaf"></i>
-                      }
-                   </button>
+                <i class="bi bi-patch-check"></i>
+                {{ isInCart(hoveredProduct.id) ? 'Added to Cart' : 'Add to Cart' }}
+              </button>
+              <button (click)="addToWishlist(hoveredProduct.id)"
+                style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+                @if(isInWishlist(hoveredProduct.id))
+                {
+                <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
+                }@else
+                {
+                <i class="bi bi-heart" style="color:#5f2eaf"></i>
+                }
+              </button>
             </div>
-  </div>
-</p-popover>
+          </div>
+        </p-popover>
 
-    </div>
-  </ng-template>
-</p-carousel>
+      </div>
+    </ng-template>
+  </p-carousel>
 
 </section>
 
 
 }
-

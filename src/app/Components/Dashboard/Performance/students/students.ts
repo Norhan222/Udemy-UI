@@ -1,31 +1,32 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { InstructorService } from '../../../../Services/instructor-service';
 
 @Component({
   selector: 'app-students',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule, TranslateModule],
   templateUrl: './students.html',
   styleUrl: './students.css',
 })
 export class Students {
   students: Student[] = [];
- constructor(private instructorService: InstructorService,private cdr: ChangeDetectorRef
-) {
-    
- }
+  constructor(private instructorService: InstructorService, private cdr: ChangeDetectorRef
+  ) {
 
- 
+  }
+
+
 
   filteredStudents: Student[] = [];
   courses: string[] = [];
-  
+
   searchTerm: string = '';
   selectedCourse: string = 'all';
   expandedStudent: number | null = null;
   activeTab: string = 'all';
-  
+
   showMessageModal: boolean = false;
   showPerformanceModal: boolean = false;
   selectedStudentForAction: Student | null = null;
@@ -39,10 +40,10 @@ export class Students {
   ngOnInit() {
     this.instructorService.getInstructorStudents().subscribe(data => {
       this.students = data;
-       this.courses = this.getUniqueCourses();
-    this.calculateCounts();
-    this.filterStudents();
-    this.cdr.detectChanges();
+      this.courses = this.getUniqueCourses();
+      this.calculateCounts();
+      this.filterStudents();
+      this.cdr.detectChanges();
     });
     this.courses = this.getUniqueCourses();
     this.calculateCounts();
@@ -55,10 +56,10 @@ export class Students {
   }
 
   calculateCounts() {
-    this.inProgressCount = this.students.reduce((count, s) => 
+    this.inProgressCount = this.students.reduce((count, s) =>
       count + s.enrolledCourses.filter(c => c.progress > 0 && c.progress < 100).length, 0
     );
-    this.completedCount = this.students.reduce((count, s) => 
+    this.completedCount = this.students.reduce((count, s) =>
       count + s.enrolledCourses.filter(c => c.progress === 100).length, 0
     );
   }
@@ -68,7 +69,7 @@ export class Students {
 
     // Search filter
     if (this.searchTerm) {
-      filtered = filtered.filter(s => 
+      filtered = filtered.filter(s =>
         s.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         s.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         s.enrolledCourses.some(c => c.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
@@ -77,7 +78,7 @@ export class Students {
 
     // Course filter
     if (this.selectedCourse !== 'all') {
-      filtered = filtered.filter(s => 
+      filtered = filtered.filter(s =>
         s.enrolledCourses.some(c => c.title === this.selectedCourse)
       );
     }
@@ -105,7 +106,7 @@ export class Students {
 
   calculateStats() {
     const allCoursesFromFiltered = this.filteredStudents.flatMap(s => s.enrolledCourses);
-    
+
     this.stats = {
       totalStudents: this.filteredStudents.length,
       totalCourses: allCoursesFromFiltered.length,
@@ -178,7 +179,7 @@ export class Students {
     const avgRating = totalRatings > 0
       ? (student.enrolledCourses.reduce((sum, c) => sum + (c.rating || 0), 0) / totalRatings).toFixed(1)
       : 'N/A';
-    
+
     return { totalCourses, completedCourses, avgProgress, avgRating, totalRatings };
   }
 

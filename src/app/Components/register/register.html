@@ -1,110 +1,87 @@
 <div class="row">
-    <div class="col-12 col-lg-6">
-        <div class="login-image-container">
-            <img src="Login.webp" alt="Login Image" class="login-image">
-        </div>
+  <div class="col-12 col-lg-6">
+    <div class="login-image-container">
+      <img src="Login.webp" alt="Login Image" class="login-image">
     </div>
-    
-    <div class="col-12 col-lg-6">
+  </div>
+
+  <div class="col-12 col-lg-6">
     <div class="p-5">
-        <h1>Sign up with email</h1>
+      <h1>{{ 'AUTH.SIGNUP_TITLE' | translate }}</h1>
 
-       <form
-  id="loginForm"
-  [formGroup]="LoginForm"
-  (ngSubmit)="onSubmit()"
->
-  <!-- firstName -->
-  <div class="form-group">
-    <label for="firstName">firstName</label>
-    <input
-      type="firstName"
-      id="firstName"
-      placeholder="your first name"
-      autocomplete="email"
-      formControlName="firstName"
-      [class.is-invalid]="LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.invalid"
-    />
+      <form id="loginForm" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+        <!-- firstName -->
+        <div class="form-group">
+          <label for="firstName">{{ 'AUTH.FIRST_NAME' | translate }}</label>
+          <input type="firstName" id="firstName" [placeholder]="'AUTH.FIRST_NAME_PLACEHOLDER' | translate"
+            autocomplete="email" formControlName="firstName"
+            [class.is-invalid]="LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.invalid" />
 
-   @if(LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.errors) {
-      <div class="invalid-feedback p-1">
-        @if(LoginForm.get('firstName')?.errors?.['required']) {
-          firstName is required.
-        } @else if(LoginForm.get('firstName')?.errors?.['minlength']) {
-          firstName must be at least 3 characters long.
-        }
-      </div>
-    }
-  </div>
-    <!-- lastName -->
-    <div class="form-group">
-    <label for="lastName">lastName</label>
-    <input
-      type="lastName"
-      id="lastName"
-      placeholder="your last name"
-      formControlName="lastName"
-      [class.is-invalid]="LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.invalid"
-    />
+          @if(LoginForm.get('firstName')?.touched && LoginForm.get('firstName')?.errors) {
+          <div class="invalid-feedback p-1">
+            @if(LoginForm.get('firstName')?.errors?.['required']) {
+            {{ 'AUTH.FIRST_NAME_REQUIRED' | translate }}
+            } @else if(LoginForm.get('firstName')?.errors?.['minlength']) {
+            {{ 'AUTH.FIRST_NAME_MINLENGTH' | translate }}
+            }
+          </div>
+          }
+        </div>
+        <!-- lastName -->
+        <div class="form-group">
+          <label for="lastName">{{ 'AUTH.LAST_NAME' | translate }}</label>
+          <input type="lastName" id="lastName" [placeholder]="'AUTH.LAST_NAME_PLACEHOLDER' | translate"
+            formControlName="lastName"
+            [class.is-invalid]="LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.invalid" />
 
-   @if(LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.errors) {
-      <div class="invalid-feedback p-1">
-        @if(LoginForm.get('lastName')?.errors?.['required']) {
-          lastName is required.
-        } @else if(LoginForm.get('lastName')?.errors?.['minlength']) {
-          lastName must be at least 3 characters long.
-        }
-      </div>
-    }
-  </div>
-  <!-- Email -->
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      id="email"
-      placeholder="your@email.com"
-      autocomplete="email"
-      formControlName="email"
-      [class.is-invalid]="LoginForm.get('email')?.touched && LoginForm.get('email')?.invalid"
-    />
+          @if(LoginForm.get('lastName')?.touched && LoginForm.get('lastName')?.errors) {
+          <div class="invalid-feedback p-1">
+            @if(LoginForm.get('lastName')?.errors?.['required']) {
+            {{ 'AUTH.LAST_NAME_REQUIRED' | translate }}
+            } @else if(LoginForm.get('lastName')?.errors?.['minlength']) {
+            {{ 'AUTH.LAST_NAME_MINLENGTH' | translate }}
+            }
+          </div>
+          }
+        </div>
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">{{ 'AUTH.EMAIL' | translate }}</label>
+          <input type="email" id="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate" autocomplete="email"
+            formControlName="email"
+            [class.is-invalid]="LoginForm.get('email')?.touched && LoginForm.get('email')?.invalid" />
 
-   @if(LoginForm.get('email')?.touched && LoginForm.get('email')?.errors) {
-      <div class="invalid-feedback p-1">
-        @if(LoginForm.get('email')?.errors?.['required']) {
-          Email is required.
-        } @else if(LoginForm.get('email')?.errors?.['email']) {
-          Please enter a valid email address.
-        }
-      </div>
-    }
-  </div>
+          @if(LoginForm.get('email')?.touched && LoginForm.get('email')?.errors) {
+          <div class="invalid-feedback p-1">
+            @if(LoginForm.get('email')?.errors?.['required']) {
+            {{ 'AUTH.EMAIL_REQUIRED' | translate }}
+            } @else if(LoginForm.get('email')?.errors?.['email']) {
+            {{ 'AUTH.EMAIL_INVALID' | translate }}
+            }
+          </div>
+          }
+        </div>
 
-  <!-- Password -->
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="password"
-      autocomplete="current-password"
-      formControlName="password"
-      [class.is-invalid]="LoginForm.get('password')?.touched && LoginForm.get('password')?.invalid"
-    />
-    @if(LoginForm.get('password')?.touched && LoginForm.get('password')?.errors) {
-      <div class="invalid-feedback p-1">
-        @if(LoginForm.get('password')?.errors?.['required']) {
-          Password is required.
-        } @else if(LoginForm.get('password')?.errors?.['minlength']) {
-          Password must be at least 6 characters long.
-        } @else if(LoginForm.get('password')?.errors?.['pattern']) {
-          "Passwords must have at least one non alphanumeric character., Passwords must have at least one digit ('0'-'9')., Passwords must have at least one uppercase ('A'-'Z')."
-        }
-      </div>
-    }
-     
-  </div>
-   <!-- <div class="row align-items-center">
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">{{ 'AUTH.PASSWORD' | translate }}</label>
+          <input type="password" id="password" [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate"
+            autocomplete="current-password" formControlName="password"
+            [class.is-invalid]="LoginForm.get('password')?.touched && LoginForm.get('password')?.invalid" />
+          @if(LoginForm.get('password')?.touched && LoginForm.get('password')?.errors) {
+          <div class="invalid-feedback p-1">
+            @if(LoginForm.get('password')?.errors?.['required']) {
+            {{ 'AUTH.PASSWORD_REQUIRED' | translate }}
+            } @else if(LoginForm.get('password')?.errors?.['minlength']) {
+            {{ 'AUTH.PASSWORD_MINLENGTH' | translate }}
+            } @else if(LoginForm.get('password')?.errors?.['pattern']) {
+            {{ 'AUTH.PASSWORD_PATTERN' | translate }}
+            }
+          </div>
+          }
+
+        </div>
+        <!-- <div class="row align-items-center">
   <div class="col-auto">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="specialOffers" checked>
@@ -116,67 +93,76 @@
     </label>
   </div>
 </div> -->
-<div class="mb-3">
-  <label for="userType" class="form-label">I am a:</label>
-  <select id="userType" class="form-select" formControlName="userType">
-    <option value="student">Student</option>
-    <option value="instructor">Instructor</option>
-  </select>
-</div>
-
-  <button
-    type="submit"
-    class="continue-btn"
-    [disabled]="LoginForm.invalid"
-  >
-  Continue
-  @if(isLoading) {
- <div class="spinner-border text-primary" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
-}
-</button>
-
-
-</form>
-
-
-        <div class="divider">
-            <div class="divider-line"></div>
-            <span class="divider-text">Other sign up options</span>
-            <div class="divider-line"></div>
+        <div class="mb-3">
+          <label for="userType" class="form-label">{{ 'AUTH.I_AM_A' | translate }}</label>
+          <select id="userType" class="form-select" formControlName="userType">
+            <option value="student">{{ 'AUTH.STUDENT' | translate }}</option>
+            <option value="instructor">{{ 'AUTH.INSTRUCTOR' | translate }}</option>
+          </select>
         </div>
 
-        <div class="social-login">
-            <button class="social-btn" title="Continue with Google" onclick="handleSocialLogin('google')">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-            </button>
+        <button type="submit" class="continue-btn" [disabled]="LoginForm.invalid">
+          {{ 'AUTH.CONTINUE' | translate }}
+          @if(isLoading) {
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          }
+        </button>
 
-            <button class="social-btn" title="Continue with Facebook" onclick="handleSocialLogin('facebook')">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
-                </svg>
-            </button>
 
-            <button class="social-btn" title="Continue with Apple" onclick="handleSocialLogin('apple')">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.05 2.29.89 3.02.89.9 0 2.29-1.16 3.88-1.01 2.63.2 4.53 1.5 5.37 3.75-2.6 1.57-2.38 4.6.5 5.28 1.42.27 2.37.97 2.77 1.5-.57 1.41-2.11 3.07-3.54 3.06zm-2.1-14.45c-.37-.1-.74-.15-1.14-.15.08.59.26 1.15.59 1.65.42.7 1.2 1.15 2.07 1.25-.1-1.14-.67-2.14-1.52-2.75z" fill="#000"/>
-                </svg>
-            </button>
-        </div>
+      </form>
 
-        <div class="signup-section">
-            <span class="signup-text">
-                Already have an account? 
-                <a  class="signup-link" routerLink="/Login">Log in</a>
-            </span>
-        </div>
-  <!-- <div class="footer-text">
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">{{ 'AUTH.OTHER_SIGNUP_OPTIONS' | translate }}</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="social-login">
+        <button class="social-btn" [title]="'AUTH.CONTINUE_GOOGLE' | translate" onclick="handleSocialLogin('google')">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4" />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853" />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+              fill="#FBBC05" />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+              fill="#EA4335" />
+          </svg>
+        </button>
+
+        <button class="social-btn" [title]="'AUTH.CONTINUE_FACEBOOK' | translate"
+          onclick="handleSocialLogin('facebook')">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              fill="#1877F2" />
+          </svg>
+        </button>
+
+        <button class="social-btn" [title]="'AUTH.CONTINUE_APPLE' | translate" onclick="handleSocialLogin('apple')">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.05 2.29.89 3.02.89.9 0 2.29-1.16 3.88-1.01 2.63.2 4.53 1.5 5.37 3.75-2.6 1.57-2.38 4.6.5 5.28 1.42.27 2.37.97 2.77 1.5-.57 1.41-2.11 3.07-3.54 3.06zm-2.1-14.45c-.37-.1-.74-.15-1.14-.15.08.59.26 1.15.59 1.65.42.7 1.2 1.15 2.07 1.25-.1-1.14-.67-2.14-1.52-2.75z"
+              fill="#000" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="signup-section">
+        <span class="signup-text">
+          {{ 'AUTH.ALREADY_HAVE_ACCOUNT' | translate }}
+          <a class="signup-link" routerLink="/Login">{{ 'AUTH.LOG_IN_LINK' | translate }}</a>
+        </span>
+      </div>
+      <!-- <div class="footer-text">
             By signing up, you agree to our <a href="#terms">Terms of Use</a> and <a href="#privacy">Privacy Policy</a>.
     </div> -->
-</div>
+    </div>

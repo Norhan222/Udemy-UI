@@ -2,22 +2,28 @@
     <!-- Navigation Tabs -->
     <ul class="nav nav-tabs" id="learningTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="all-courses-tab" data-bs-toggle="tab" data-bs-target="#all-courses" type="button" role="tab">All courses</button>
+            <button class="nav-link active" id="all-courses-tab" data-bs-toggle="tab" data-bs-target="#all-courses"
+                type="button" role="tab">{{ 'MY_LEARNING.ALL_COURSES' | translate }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="my-lists-tab" data-bs-toggle="tab" data-bs-target="#my-lists" type="button" role="tab">My Lists</button>
+            <button class="nav-link" id="my-lists-tab" data-bs-toggle="tab" data-bs-target="#my-lists" type="button"
+                role="tab">{{ 'MY_LEARNING.MY_LISTS' | translate }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="wishlist-tab" data-bs-toggle="tab" data-bs-target="#wishlist" type="button" role="tab">Wishlist</button>
+            <button class="nav-link" id="wishlist-tab" data-bs-toggle="tab" data-bs-target="#wishlist" type="button"
+                role="tab">{{ 'MY_LEARNING.WISHLIST' | translate }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="certifications-tab" data-bs-toggle="tab" data-bs-target="#certifications" type="button" role="tab">Certifications</button>
+            <button class="nav-link" id="certifications-tab" data-bs-toggle="tab" data-bs-target="#certifications"
+                type="button" role="tab">{{ 'MY_LEARNING.CERTIFICATIONS' | translate }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">Archived</button>
+            <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button"
+                role="tab">{{ 'MY_LEARNING.ARCHIVED' | translate }}</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="learning-tools-tab" data-bs-toggle="tab" data-bs-target="#learning-tools" type="button" role="tab">Learning tools</button>
+            <button class="nav-link" id="learning-tools-tab" data-bs-toggle="tab" data-bs-target="#learning-tools"
+                type="button" role="tab">{{ 'MY_LEARNING.LEARNING_TOOLS' | translate }}</button>
         </li>
     </ul>
 
@@ -28,8 +34,8 @@
                 <!-- Streak Card -->
                 <div class="streak-card">
                     <div class="streak-left">
-                        <h2>Start a weekly streak</h2>
-                        <p>Let's chip away at your learning goals.</p>
+                        <h2>{{ 'MY_LEARNING.START_STREAK' | translate }}</h2>
+                        <p>{{ 'MY_LEARNING.STREAK_DESC' | translate }}</p>
                     </div>
 
                     <div class="streak-center">
@@ -37,8 +43,8 @@
                             <i class="fas fa-fire"></i>
                         </div>
                         <div class="streak-info">
-                            <div class="weeks">0 weeks</div>
-                            <div class="label">Current streak</div>
+                            <div class="weeks">0 {{ 'MY_LEARNING.WEEKS' | translate }}</div>
+                            <div class="label">{{ 'MY_LEARNING.CURRENT_STREAK' | translate }}</div>
                         </div>
                     </div>
 
@@ -49,11 +55,11 @@
                         <div class="goal-info">
                             <div class="item">
                                 <span class="dot"></span>
-                                <span>0/30 course min</span>
+                                <span>0/30 {{ 'MY_LEARNING.COURSE_MIN' | translate }}</span>
                             </div>
                             <div class="item">
                                 <span class="dot"></span>
-                                <span>1/1 visit</span>
+                                <span>1/1 {{ 'MY_LEARNING.VISIT' | translate }}</span>
                             </div>
                             <div class="date">Dec 21 - 27</div>
                         </div>
@@ -67,11 +73,11 @@
                         <i class="far fa-clock"></i>
                     </div>
                     <div class="schedule-content">
-                        <h2>Schedule learning time</h2>
-                        <p>Learning a little each day adds up. Research shows that students who make learning a habit are more likely to reach their goals. Set time aside to learn and get reminders using your learning scheduler.</p>
+                        <h2>{{ 'MY_LEARNING.SCHEDULE_LEARNING' | translate }}</h2>
+                        <p>{{ 'MY_LEARNING.SCHEDULE_DESC' | translate }}</p>
                         <div class="schedule-buttons">
-                            <button class="btn btn-primary">Get started</button>
-                            <button class="btn btn-secondary">Dismiss</button>
+                            <button class="btn btn-primary">{{ 'MY_LEARNING.GET_STARTED' | translate }}</button>
+                            <button class="btn btn-secondary">{{ 'MY_LEARNING.DISMISS' | translate }}</button>
                         </div>
                     </div>
                 </div>
@@ -79,99 +85,101 @@
 
             <!-- Loading Spinner -->
             @if (isLoadingCourses) {
-                <div class="loading-container">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-3 text-muted">Loading your courses...</p>
+            <div class="loading-container">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
+                <p class="mt-3 text-muted">{{ 'MY_LEARNING.LOADING_COURSES' | translate }}</p>
+            </div>
             }
 
             <!-- Course Grid -->
             @if (!isLoadingCourses) {
-                <div class="course-grid">
-                    @for(course of myCourses; track course.id) {
-                        <div class="course-card">
-                            <div style="position: relative;">
-                                <img [src]="course.thumbnailUrl" [alt]="course.title" class="course-image" loading="lazy">
-                                <div class="course-menu">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </div>
-                            </div>
-                            <div class="course-content">
-                                <h4 class="course-title">{{ course.title }}</h4>
-                                <p class="course-author">{{ course.instructorName }}</p>
-                                <div class="course-action">
-                                    <button class="btn-start" [routerLink]="['/learn', course.id]">
-                                        START COURSE
-                                    </button>
-                                </div>
-                            </div>
+            <div class="course-grid">
+                @for(course of myCourses; track course.id) {
+                <div class="course-card">
+                    <div style="position: relative;">
+                        <img [src]="course.thumbnailUrl" [alt]="course.title" class="course-image" loading="lazy">
+                        <div class="course-menu">
+                            <i class="fas fa-ellipsis-v"></i>
                         </div>
-                    } @empty {
-                        <div class="empty-state">
-                            <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
-                            <h3>No courses found</h3>
-                            <p class="text-muted">Start learning by enrolling in courses!</p>
+                    </div>
+                    <div class="course-content">
+                        <h4 class="course-title">{{ course.title }}</h4>
+                        <p class="course-author">{{ course.instructorName }}</p>
+                        <div class="course-action">
+                            <button class="btn-start" [routerLink]="['/learn', course.id]">
+                                {{ 'MY_LEARNING.START_COURSE' | translate }}
+                            </button>
                         </div>
-                    }
+                    </div>
                 </div>
+                } @empty {
+                <div class="empty-state">
+                    <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                    <h3>{{ 'MY_LEARNING.NO_COURSES' | translate }}</h3>
+                    <p class="text-muted">{{ 'MY_LEARNING.Start_Learning_Enroll' | translate }}</p>
+                </div>
+                }
+            </div>
             }
         </div>
 
         <!-- Wishlist Tab -->
         <div class="tab-pane fade" id="wishlist" role="tabpanel">
             @if (isLoadingWishlist) {
-                <div class="loading-container">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-3 text-muted">Loading your wishlist...</p>
+            <div class="loading-container">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
+                <p class="mt-3 text-muted">{{ 'MY_LEARNING.LOADING_WISHLIST' | translate }}</p>
+            </div>
             }
 
             @if (!isLoadingWishlist) {
-                <div class="course-grid">
-                    @for(item of wishlistItems; track item.courseId) {
-                        <div class="course-card">
-                            <div style="position: relative;">
-                                <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" [alt]="item.courseTitle" class="course-image" loading="lazy">
-                                <div class="course-menu">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </div>
-                            </div>
-                            <div class="course-content">
-                                <h4 class="course-title">{{ item.courseTitle }}</h4>
-                                <p class="course-author">{{ item.instructorName }}</p>
-                                <div class="course-action">
-                                    <button class="btn-start">START COURSE</button>
-                                    <button class="btn-remove mt-2" (click)="remove(item.courseId)">Remove</button>
-                                </div>
-                            </div>
+            <div class="course-grid">
+                @for(item of wishlistItems; track item.courseId) {
+                <div class="course-card">
+                    <div style="position: relative;">
+                        <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" [alt]="item.courseTitle"
+                            class="course-image" loading="lazy">
+                        <div class="course-menu">
+                            <i class="fas fa-ellipsis-v"></i>
                         </div>
-                    } @empty {
-                        <div class="empty-state">
-                            <i class="fas fa-heart fa-3x text-muted mb-3"></i>
-                            <h3>No wishlist items found</h3>
-                            <p class="text-muted">Add courses to your wishlist to save them for later!</p>
+                    </div>
+                    <div class="course-content">
+                        <h4 class="course-title">{{ item.courseTitle }}</h4>
+                        <p class="course-author">{{ item.instructorName }}</p>
+                        <div class="course-action">
+                            <button class="btn-start">{{ 'MY_LEARNING.START_COURSE' | translate }}</button>
+                            <button class="btn-remove mt-2" (click)="remove(item.courseId)">{{ 'MY_LEARNING.REMOVE' |
+                                translate }}</button>
                         </div>
-                    }
+                    </div>
                 </div>
+                } @empty {
+                <div class="empty-state">
+                    <i class="fas fa-heart fa-3x text-muted mb-3"></i>
+                    <h3>{{ 'MY_LEARNING.NO_WISHLIST' | translate }}</h3>
+                    <p class="text-muted">{{ 'MY_LEARNING.ADD_TO_WISHLIST' | translate }}</p>
+                </div>
+                }
+            </div>
             }
         </div>
 
         <!-- Other Tabs -->
         <div class="tab-pane fade" id="my-lists" role="tabpanel">
-            <p>My Lists content goes here.</p>
+            <p>{{ 'MY_LEARNING.MY_LISTS_CONTENT' | translate }}</p>
         </div>
         <div class="tab-pane fade" id="certifications" role="tabpanel">
-            <p>Certifications content goes here.</p>
+            <p>{{ 'MY_LEARNING.CERTIFICATIONS_CONTENT' | translate }}</p>
         </div>
         <div class="tab-pane fade" id="archived" role="tabpanel">
-            <p>Archived content goes here.</p>
+            <p>{{ 'MY_LEARNING.ARCHIVED_CONTENT' | translate }}</p>
         </div>
         <div class="tab-pane fade" id="learning-tools" role="tabpanel">
-            <p>Learning tools content goes here.</p>
+            <p>{{ 'MY_LEARNING.LEARNING_TOOLS_CONTENT' | translate }}</p>
         </div>
     </div>
 </div>

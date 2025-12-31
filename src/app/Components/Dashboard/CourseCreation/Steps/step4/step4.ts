@@ -3,20 +3,22 @@ import { StepperService } from '../../../../../Services/stepper-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-step4',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule, TranslateModule],
   templateUrl: './step4.html',
   styleUrl: './step4.css',
 })
 export class Step4 {
- description = '';
+  description = '';
 
-  constructor(private stepperService: StepperService) {}
+  constructor(private stepperService: StepperService) { }
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.description = data.description??'';
+      this.description = data.description ?? '';
     });
   }
 

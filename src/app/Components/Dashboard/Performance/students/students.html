@@ -4,13 +4,14 @@
     <div class="max-w-7xl">
       <div class="nav-content">
         <div>
-          <h1>Students</h1>
+          <h1>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.TITLE' | translate }}</h1>
           <p class="subtitle">
-            {{ stats.totalStudents }} student{{ stats.totalStudents !== 1 ? 's' : '' }} •
-            {{ stats.totalCourses }} enrollment{{ stats.totalCourses !== 1 ? 's' : '' }}
-            <ng-container *ngIf="activeTab === 'completed'"> • {{ stats.completedCourses }} completed</ng-container>
-            <ng-container *ngIf="activeTab === 'in-progress'"> • {{ stats.inProgressCourses }} in
-              progress</ng-container>
+            {{ stats.totalStudents }} {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.SUBTITLE_STUDENTS' | translate }} •
+            {{ stats.totalCourses }} {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.SUBTITLE_ENROLLMENTS' | translate }}
+            <ng-container *ngIf="activeTab === 'completed'"> • {{ stats.completedCourses }} {{
+              'INSTRUCTOR_PERFORMANCE.STUDENTS.SUBTITLE_COMPLETED' | translate }}</ng-container>
+            <ng-container *ngIf="activeTab === 'in-progress'"> • {{ stats.inProgressCourses }} {{
+              'INSTRUCTOR_PERFORMANCE.STUDENTS.SUBTITLE_IN_PROGRESS' | translate }}</ng-container>
           </p>
         </div>
       </div>
@@ -21,14 +22,14 @@
     <!-- Tabs -->
     <div class="tabs">
       <button [class.active]="activeTab === 'all'" (click)="activeTab = 'all'; onFilterChange()">
-        All students
+        {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.TAB_ALL' | translate }}
       </button>
       <button [class.active]="activeTab === 'in-progress'" (click)="activeTab = 'in-progress'; onFilterChange()">
-        In progress
+        {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.TAB_IN_PROGRESS' | translate }}
         <span class="badge">{{ inProgressCount }}</span>
       </button>
       <button [class.active]="activeTab === 'completed'" (click)="activeTab = 'completed'; onFilterChange()">
-        Completed
+        {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.TAB_COMPLETED' | translate }}
         <span class="badge">{{ completedCount }}</span>
       </button>
     </div>
@@ -37,13 +38,13 @@
     <div class="filters">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search by student or course..." [(ngModel)]="searchTerm"
-          (input)="onFilterChange()">
+        <input type="text" [placeholder]="'INSTRUCTOR_PERFORMANCE.STUDENTS.SEARCH_PLACEHOLDER' | translate"
+          [(ngModel)]="searchTerm" (input)="onFilterChange()">
       </div>
       <div class="select-wrapper">
         <select [(ngModel)]="selectedCourse" (change)="onFilterChange()">
           <option *ngFor="let course of courses" [value]="course">
-            {{ course === 'all' ? 'All courses' : course }}
+            {{ course === 'all' ? ('INSTRUCTOR_PERFORMANCE.REVIEWS.ALL_COURSES' | translate) : course }}
           </option>
         </select>
       </div>
@@ -67,11 +68,11 @@
           </div>
           <div class="student-stats">
             <div class="stat">
-              <p class="stat-label">Courses</p>
+              <p class="stat-label">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_COURSES' | translate }}</p>
               <p class="stat-value">{{ student.enrolledCourses.length }}</p>
             </div>
             <div class="stat">
-              <p class="stat-label">Watch time</p>
+              <p class="stat-label">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_WATCH_TIME' | translate }}</p>
               <p class="stat-value">{{ student.totalWatchTime }}</p>
             </div>
             <span class="chevron" [class.rotated]="expandedStudent === student.id">▼</span>
@@ -85,23 +86,26 @@
               <div class="course-info">
                 <h4>{{ course.title }}</h4>
                 <div class="course-meta">
-                  <span>📅 Enrolled {{ course.enrollDate }}</span>
+                  <span>📅 {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.ENROLLED_DATE' | translate }} {{ course.enrollDate
+                    }}</span>
                   <span>•</span>
-                  <span>Last accessed {{ course.lastAccessed }}</span>
+                  <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.LAST_ACCESSED' | translate }} {{ course.lastAccessed
+                    }}</span>
                 </div>
               </div>
               <div class="course-badges">
                 <div class="rating-box">
-                  <p class="rating-label">Rating</p>
+                  <p class="rating-label">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.RATING_LABEL' | translate }}</p>
                   <div *ngIf="course.rating" class="stars">
                     <span *ngFor="let star of getStarArray(course.rating)"
                       [class.filled]="star <= course.rating">★</span>
                   </div>
-                  <span *ngIf="!course.rating" class="no-rating">No rating yet</span>
+                  <span *ngIf="!course.rating" class="no-rating">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.NO_RATING' |
+                    translate }}</span>
                 </div>
                 <div *ngIf="course.progress === 100" class="completed-badge">
                   <span class="icon">🏆</span>
-                  <span>Completed</span>
+                  <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.COMPLETED_BADGE' | translate }}</span>
                 </div>
               </div>
             </div>
@@ -119,11 +123,11 @@
           <div class="action-buttons">
             <button (click)="openMessageModal(student)" class="btn-secondary">
               <span class="icon">💬</span>
-              Message student
+              {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.BTN_MESSAGE' | translate }}
             </button>
             <button (click)="openPerformanceModal(student)" class="btn-secondary">
               <span class="icon">📊</span>
-              View performance
+              {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.BTN_PERFORMANCE' | translate }}
             </button>
           </div>
         </div>
@@ -132,8 +136,8 @@
 
     <!-- No Results -->
     <div *ngIf="filteredStudents.length === 0" class="no-results">
-      <p class="no-results-title">No students found</p>
-      <p class="no-results-subtitle">Try adjusting your search or filters</p>
+      <p class="no-results-title">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.NO_RESULTS_TITLE' | translate }}</p>
+      <p class="no-results-subtitle">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.NO_RESULTS_SUBTITLE' | translate }}</p>
     </div>
   </div>
 
@@ -142,35 +146,40 @@
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <h2>Send Message</h2>
-          <p class="modal-subtitle">To: {{ selectedStudentForAction?.name }}</p>
+          <h2>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_SEND_MSG_TITLE' | translate }}</h2>
+          <p class="modal-subtitle">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_TO' | translate }} {{
+            selectedStudentForAction?.name }}</p>
         </div>
         <button class="close-btn" (click)="closeMessageModal()">✕</button>
       </div>
 
       <div class="modal-body">
         <div class="form-group">
-          <label>Subject</label>
-          <input type="text" [(ngModel)]="messageSubject" placeholder="Enter message subject..." class="form-input">
+          <label>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_SUBJECT' | translate }}</label>
+          <input type="text" [(ngModel)]="messageSubject"
+            [placeholder]="'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_SUBJECT' | translate" class="form-input">
         </div>
 
         <div class="form-group">
-          <label>Message</label>
-          <textarea [(ngModel)]="messageText" placeholder="Write your message here..." rows="8"
+          <label>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_MESSAGE' | translate }}</label>
+          <textarea [(ngModel)]="messageText"
+            [placeholder]="'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_MESSAGE' | translate" rows="8"
             class="form-textarea"></textarea>
         </div>
 
         <div class="info-box">
           <p>
-            <strong>Note:</strong> This message will be sent to {{ selectedStudentForAction?.email }}
+            <strong>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_NOTE' | translate }}</strong> {{
+            'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_MSG_SENT_TO' | translate }} {{ selectedStudentForAction?.email }}
           </p>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button (click)="closeMessageModal()" class="btn-cancel">Cancel</button>
+        <button (click)="closeMessageModal()" class="btn-cancel">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_BTN_CANCEL' |
+          translate }}</button>
         <button (click)="sendMessage()" [disabled]="!messageSubject.trim() || !messageText.trim()" class="btn-primary">
-          Send Message
+          {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.MODAL_BTN_SEND' | translate }}
         </button>
       </div>
     </div>
@@ -195,7 +204,7 @@
         <div class="stats-grid">
           <div class="stat-card stat-blue">
             <div class="stat-card-header">
-              <span>Total Courses</span>
+              <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_TOTAL_COURSES' | translate }}</span>
               <span class="icon">🎯</span>
             </div>
             <p class="stat-card-value">
@@ -205,7 +214,7 @@
 
           <div class="stat-card stat-green">
             <div class="stat-card-header">
-              <span>Completed</span>
+              <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.COMPLETED_BADGE' | translate }}</span>
               <span class="icon">🏆</span>
             </div>
             <p class="stat-card-value">
@@ -215,7 +224,7 @@
 
           <div class="stat-card stat-purple">
             <div class="stat-card-header">
-              <span>Avg Progress</span>
+              <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_AVG_PROGRESS' | translate }}</span>
               <span class="icon">📈</span>
             </div>
             <p class="stat-card-value">
@@ -225,7 +234,7 @@
 
           <div class="stat-card stat-yellow">
             <div class="stat-card-header">
-              <span>Avg Rating</span>
+              <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_AVG_RATING' | translate }}</span>
               <span class="icon">⭐</span>
             </div>
             <p class="stat-card-value">
@@ -237,18 +246,18 @@
         <!-- Additional Info -->
         <div class="info-grid">
           <div class="info-box-gray">
-            <h3>⏱️ Activity</h3>
+            <h3>⏱️ {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.ACTIVITY' | translate }}</h3>
             <div class="info-rows">
               <div class="info-row">
-                <span>Total watch time:</span>
+                <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_TOTAL_WATCH_TIME' | translate }}</span>
                 <span class="info-value">{{ selectedStudentForAction?.totalWatchTime }}</span>
               </div>
               <div class="info-row">
-                <span>Country:</span>
+                <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_COUNTRY' | translate }}</span>
                 <span class="info-value">{{ selectedStudentForAction?.country }}</span>
               </div>
               <div class="info-row">
-                <span>Total ratings given:</span>
+                <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.STAT_TOTAL_RATINGS' | translate }}</span>
                 <span class="info-value">
                   {{ calculateStudentStats(selectedStudentForAction!).totalRatings }}
                 </span>
@@ -257,39 +266,42 @@
           </div>
 
           <div class="info-box-gray">
-            <h3>Quick Actions</h3>
+            <h3>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.QUICK_ACTIONS' | translate }}</h3>
             <div class="quick-actions">
               <button (click)="openMessageFromPerformance()" class="btn-primary btn-block">
-                💬 Send Message
+                💬 {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.QUICK_ACTIONS_MSG' | translate }}
               </button>
-              <button class="btn-secondary btn-block">View All Reviews</button>
+              <button class="btn-secondary btn-block">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.VIEW_ALL_REVIEWS_BTN' |
+                translate }}</button>
             </div>
           </div>
         </div>
 
         <!-- Course Performance Details -->
         <div class="performance-details">
-          <h3 class="section-title">Course Performance</h3>
+          <h3 class="section-title">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.COURSE_PERFORMANCE' | translate }}</h3>
           <div class="courses-detail-list">
             <div *ngFor="let course of selectedStudentForAction?.enrolledCourses" class="course-detail-card">
               <div class="course-detail-header">
                 <div>
                   <h4>{{ course.title }}</h4>
                   <div class="course-detail-meta">
-                    <span>Enrolled: {{ course.enrollDate }}</span>
+                    <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.ENROLLED_DATE' | translate }} {{ course.enrollDate
+                      }}</span>
                     <span>•</span>
-                    <span>Last accessed: {{ course.lastAccessed }}</span>
+                    <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.LAST_ACCESSED' | translate }} {{ course.lastAccessed
+                      }}</span>
                   </div>
                 </div>
                 <div *ngIf="course.progress === 100" class="completed-badge-large">
                   <span class="icon">🏆</span>
-                  Completed
+                  {{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.COMPLETED_BADGE' | translate }}
                 </div>
               </div>
 
               <div class="course-detail-progress">
                 <div class="progress-info">
-                  <span>Progress</span>
+                  <span>{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.PROGRESS_LABEL' | translate }}</span>
                   <span class="progress-value">{{ course.progress }}%</span>
                 </div>
                 <div class="progress-bar-container">
@@ -300,12 +312,14 @@
 
               <div class="course-detail-footer">
                 <div>
-                  <span class="rating-label-small">Rating: </span>
+                  <span class="rating-label-small">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.RATING_LABEL' | translate }}:
+                  </span>
                   <span *ngIf="course.rating" class="stars-small">
                     <span *ngFor="let star of getStarArray(course.rating)"
                       [class.filled]="star <= course.rating">★</span>
                   </span>
-                  <span *ngIf="!course.rating" class="no-rating-small">No rating yet</span>
+                  <span *ngIf="!course.rating" class="no-rating-small">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.NO_RATING' |
+                    translate }}</span>
                 </div>
               </div>
             </div>
@@ -314,7 +328,8 @@
       </div>
 
       <div class="modal-footer">
-        <button (click)="closePerformanceModal()" class="btn-secondary">Close</button>
+        <button (click)="closePerformanceModal()" class="btn-secondary">{{ 'INSTRUCTOR_PERFORMANCE.STUDENTS.CLOSE' |
+          translate }}</button>
       </div>
     </div>
   </div>

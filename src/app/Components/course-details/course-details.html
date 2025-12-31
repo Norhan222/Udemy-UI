@@ -5,7 +5,8 @@
       <div class="header-content">
         <div class="header-info">
           <div class="breadcrumb">
-            <a href="#">Home</a> / <a href="#">{{ course!.category }}</a> / <span>{{ course!.title }}</span>
+            <a href="#">{{ 'COURSE_DETAILS.HEADER.HOME' | translate }}</a> / <a href="#">{{ course!.category }}</a> /
+            <span>{{ course!.title }}</span>
           </div>
           <h1 class="course-title">{{ course!.title }}</h1>
           <div class="course-meta-row">
@@ -21,9 +22,11 @@
             <span class="student-count">{{ formatNumber(course!.studentCount) }} students</span>
           </div>
           <div class="meta-info">
-            <span *ngIf="course!.instructors && course!.instructors.length > 0">Created by <strong>{{ course!.instructors[0].name }}</strong></span>
-            <span *ngIf="!(course!.instructors && course!.instructors.length > 0)">Created by <strong>Unknown</strong></span>
-            <span>Last updated {{ course!.lastUpdated }}</span>
+            <span *ngIf="course!.instructors && course!.instructors.length > 0">{{ 'COURSE_DETAILS.HEADER.CREATED_BY' |
+              translate }} <strong>{{ course!.instructors[0].name }}</strong></span>
+            <span *ngIf="!(course!.instructors && course!.instructors.length > 0)">{{ 'COURSE_DETAILS.HEADER.CREATED_BY'
+              | translate }} <strong>{{ 'COURSE_DETAILS.HEADER.UNKNOWN' | translate }}</strong></span>
+            <span>{{ 'COURSE_DETAILS.HEADER.LAST_UPDATED' | translate }} {{ course!.lastUpdated }}</span>
             <span>{{ course!.language }}</span>
           </div>
         </div>
@@ -53,7 +56,7 @@
     <div class="course-main">
       <!-- What You'll Learn -->
       <section class="learning-section" *ngIf="course!.whatYouWillLearn && course!.whatYouWillLearn.length">
-        <h2>What you'll learn</h2>
+        <h2>{{ 'COURSE_DETAILS.WHAT_YOU_WILL_LEARN.TITLE' | translate }}</h2>
         <div class="learning-grid">
           <div class="learning-item" *ngFor="let item of course!.whatYouWillLearn">
             <span class="checkmark">✓</span>
@@ -64,24 +67,23 @@
 
       <!-- Curriculum -->
       <section class="curriculum-section">
-        <h2>Course content</h2>
+        <h2>{{ 'COURSE_DETAILS.CURRICULUM.TITLE' | translate }}</h2>
         <div class="curriculum-header">
-          <span>{{ (course!.curriculum || []).length }} sections</span>
-          <span>{{ course!.duration }} total length</span>
+          <span>{{ (course!.curriculum || []).length }} {{ 'COURSE_DETAILS.CURRICULUM.SECTIONS' | translate }}</span>
+          <span>{{ course!.duration }} {{ 'COURSE_DETAILS.CURRICULUM.TOTAL_LENGTH' | translate }}</span>
         </div>
         <div class="curriculum-list">
-          <div *ngIf="!(course!.curriculum && course!.curriculum.length)">No curriculum available for this course.</div>
-          <div
-            class="curriculum-section-item"
-            *ngFor="let section of course!.curriculum"
-            [class.expanded]="isSectionExpanded(section.sectionId)"
-          >
+          <div *ngIf="!(course!.curriculum && course!.curriculum.length)">{{ 'COURSE_DETAILS.CURRICULUM.NO_CURRICULUM' |
+            translate }}</div>
+          <div class="curriculum-section-item" *ngFor="let section of course!.curriculum"
+            [class.expanded]="isSectionExpanded(section.sectionId)">
             <div class="section-header" (click)="toggleSection(section.sectionId)">
               <span class="section-title">
                 <i class="arrow">{{ isSectionExpanded(section.sectionId) ? '▼' : '▶' }}</i>
                 {{ section.sectionTitle }}
               </span>
-              <span class="lecture-count">{{ section.lectures.length }} lectures</span>
+              <span class="lecture-count">{{ section.lectures.length }} {{ 'COURSE_DETAILS.CURRICULUM.LECTURES' |
+                translate }}</span>
             </div>
             <div class="section-content" *ngIf="isSectionExpanded(section.sectionId)">
               <div class="lecture" *ngFor="let lecture of section.lectures">
@@ -92,7 +94,8 @@
                   <span class="lecture-title">{{ lecture.title }}</span>
                   <span class="lecture-duration">{{ lecture.duration }}</span>
                 </div>
-                <span class="free-badge" *ngIf="lecture.isFree">Free</span>
+                <span class="free-badge" *ngIf="lecture.isFree">{{ 'COURSE_DETAILS.CURRICULUM.FREE' | translate
+                  }}</span>
               </div>
             </div>
           </div>
@@ -101,7 +104,7 @@
 
       <!-- Requirements -->
       <section class="requirements-section" *ngIf="course!.requirements && course!.requirements.length">
-        <h2>Requirements</h2>
+        <h2>{{ 'COURSE_DETAILS.REQUIREMENTS.TITLE' | translate }}</h2>
         <ul class="requirements-list">
           <li *ngFor="let requirement of course!.requirements">{{ requirement }}</li>
         </ul>
@@ -109,7 +112,7 @@
 
       <!-- Instructors -->
       <section class="instructors-section">
-        <h2>Your instructors</h2>
+        <h2>{{ 'COURSE_DETAILS.INSTRUCTORS.TITLE' | translate }}</h2>
         <div class="instructors-list">
           <div class="instructor-card" *ngFor="let instructor of course!.instructors">
             <img [src]="instructor.image" [alt]="instructor.name" class="instructor-image" />
@@ -118,7 +121,8 @@
               <p class="instructor-title">{{ instructor.title }}</p>
               <div class="instructor-stats">
                 <span>{{ instructor.rating }} ★</span>
-                <span>{{ formatNumber(instructor.students) }} Students</span>
+                <span>{{ formatNumber(instructor.students) }} {{ 'COURSE_DETAILS.INSTRUCTORS.STUDENTS' | translate
+                  }}</span>
               </div>
               <p class="instructor-bio">{{ instructor.bio }}</p>
             </div>
@@ -128,12 +132,13 @@
 
       <!-- Reviews -->
       <section class="reviews-section">
-        <h2>Reviews</h2>
+        <h2>{{ 'COURSE_DETAILS.REVIEWS.TITLE' | translate }}</h2>
         <div class="reviews-header">
           <div class="overall-rating">
             <div class="rating-large">{{ course!.rating }}</div>
             <div class="stars-large">{{ getRatingStars(course!.rating) }}</div>
-            <div class="total-ratings">{{ formatNumber(course!.reviewCount) }} ratings</div>
+            <div class="total-ratings">{{ formatNumber(course!.reviewCount) }} {{ 'COURSE_DETAILS.REVIEWS.RATINGS' |
+              translate }}</div>
           </div>
         </div>
         <div class="reviews-list">
@@ -148,7 +153,8 @@
             </div>
             <h5 class="review-title">{{ review.title }}</h5>
             <p class="review-description">{{ review.description }}</p>
-            <button class="helpful-button">👍 Helpful ({{ review.helpful }})</button>
+            <button class="helpful-button">👍 {{ 'COURSE_DETAILS.REVIEWS.HELPFUL' | translate }} ({{ review.helpful
+              }})</button>
           </div>
         </div>
       </section>
@@ -158,13 +164,14 @@
     <aside class="course-sidebar">
       <div class="purchase-panel">
         <div class="coupon-banner" *ngIf="couponApplied">
-          {{ couponApplied }} is applied • <strong>Udemy coupon</strong>
+          {{ couponApplied }} {{ 'COURSE_DETAILS.SIDEBAR.COUPON_APPLIED' | translate }} • <strong>{{
+            'COURSE_DETAILS.SIDEBAR.UDEMY_COUPON' | translate }}</strong>
         </div>
-<!-- 
+        <!-- 
         <div class="panel-tabs">
           <button class="tab active">Full course</button>
           <button class="tab">Certificate</button> -->
-           <!-- In your sticky sidebar, after "Add to Cart" button -->
+        <!-- In your sticky sidebar, after "Add to Cart" button -->
         <!-- </div> -->
 
         <div class="price-amount">
@@ -172,54 +179,51 @@
             <div class="current-price">${{ course!.price }}</div>
             <div class="original-price">${{ course!.originalPrice }}</div>
           </div>
-          <div class="price-note">Includes access on mobile and TV • 30-day money-back guarantee</div>
+          <div class="price-note">{{ 'COURSE_DETAILS.SIDEBAR.INCLUDES_ACCESS' | translate }} • {{
+            'COURSE_DETAILS.SIDEBAR.MONEY_BACK' | translate }}</div>
         </div>
 
         <!-- <button class="primary-cta" (click)="addToCart(course?.id)">{{ cartAdded ? '✓ Added to Cart' : 'Add to cart' }}</button> -->
         <!-- <button class="primary-cta" (click)="addToCart(course?.id)"> Added to Cart</button> -->
-         <button 
-  class="primary-cta" 
-  [disabled]="isInCart(course?.id)" 
-  (click)="addToCart(course?.id)">
-  {{ isInCart(course?.id) ? 'Added to Cart' : 'Add to Cart' }}
-</button>
+        <button class="primary-cta" [disabled]="isInCart(course?.id)" (click)="addToCart(course?.id)">
+          {{ isInCart(course?.id) ? ('COURSE_DETAILS.SIDEBAR.ADDED_TO_CART' | translate) :
+          ('COURSE_DETAILS.SIDEBAR.ADD_TO_CART' | translate) }}
+        </button>
 
-<!-- Your button -->
-<!-- FOR TESTING - ALWAYS SHOW BUTTON -->
-<!-- Replace your existing wishlist button with this code -->
+        <!-- Your button -->
+        <!-- FOR TESTING - ALWAYS SHOW BUTTON -->
+        <!-- Replace your existing wishlist button with this code -->
 
-<button 
-  (click)="addWishlist(course!.id)" 
-  [disabled]="movingToWishlist || isInWishlist(course?.id)"
-  class="btn b-2 w-100 mt-2 secondary-cta">
-  
-  <span *ngIf="!movingToWishlist && !isInWishlist(course?.id)">
-    Move to Wishlist
-  </span>
-  
-  <span *ngIf="movingToWishlist">
-    <span class="spinner-border spinner-border-sm me-2"></span>
-    Moving...
-  </span>
-  
-  <span *ngIf="isInWishlist(course?.id)">
-    ✓ In Wishlist
-  </span>
-</button>
+        <button (click)="addWishlist(course!.id)" [disabled]="movingToWishlist || isInWishlist(course?.id)"
+          class="btn b-2 w-100 mt-2 secondary-cta">
 
-<button class="secondary-cta" (click)="buyNow()">Buy now</button>
+          <span *ngIf="!movingToWishlist && !isInWishlist(course?.id)">
+            {{ 'COURSE_DETAILS.SIDEBAR.MOVE_TO_WISHLIST' | translate }}
+          </span>
+
+          <span *ngIf="movingToWishlist">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            {{ 'COURSE_DETAILS.SIDEBAR.MOVING' | translate }}
+          </span>
+
+          <span *ngIf="isInWishlist(course?.id)">
+            ✓ {{ 'COURSE_DETAILS.SIDEBAR.IN_WISHLIST' | translate }}
+          </span>
+        </button>
+
+        <button class="secondary-cta" (click)="buyNow()">{{ 'COURSE_DETAILS.SIDEBAR.BUY_NOW' | translate }}</button>
         <div class="coupon-row">
-          <input class="coupon-input" placeholder="Coupon code" />
-          <button class="apply-coupon">Apply</button>
+          <input class="coupon-input" [placeholder]="'COURSE_DETAILS.SIDEBAR.COUPON_PLACEHOLDER' | translate" />
+          <button class="apply-coupon">{{ 'COURSE_DETAILS.SIDEBAR.APPLY' | translate }}</button>
         </div>
 
         <div class="money-back tiny-note">
-          30-day money-back guarantee
+          {{ 'COURSE_DETAILS.SIDEBAR.MONEY_BACK' | translate }}
         </div>
       </div>
 
       <div class="course-features">
-        <h3>This course includes:</h3>
+        <h3>{{ 'COURSE_DETAILS.SIDEBAR.THIS_COURSE_INCLUDES' | translate }}</h3>
         <ul class="features-list">
           <li *ngFor="let feature of course!.features">
             <span class="feature-icon">✓</span>
@@ -229,21 +233,21 @@
       </div>
 
       <div class="course-info-card">
-        <h3>Course Details</h3>
+        <h3>{{ 'COURSE_DETAILS.SIDEBAR.DETAILS_TITLE' | translate }}</h3>
         <div class="info-item">
-          <span class="label">Level:</span>
+          <span class="label">{{ 'COURSE_DETAILS.SIDEBAR.LEVEL' | translate }}</span>
           <span class="value">{{ course!.level }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Duration:</span>
+          <span class="label">{{ 'COURSE_DETAILS.SIDEBAR.DURATION' | translate }}</span>
           <span class="value">{{ course!.duration }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Language:</span>
+          <span class="label">{{ 'COURSE_DETAILS.SIDEBAR.LANGUAGE' | translate }}</span>
           <span class="value">{{ course!.language }}</span>
         </div>
         <div class="info-item">
-          <span class="label">Last updated:</span>
+          <span class="label">{{ 'COURSE_DETAILS.SIDEBAR.LAST_UPDATED' | translate }}</span>
           <span class="value">{{ course!.lastUpdated }}</span>
         </div>
       </div>

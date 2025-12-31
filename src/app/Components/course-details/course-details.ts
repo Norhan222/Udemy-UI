@@ -6,20 +6,22 @@ import { CartService } from '../../Services/cart-service';
 import { AuthService } from '../../Services/auth-service';
 import { WishlistService } from '../../Services/wishlist';
 
-interface Instructor { id:number; name:string; title:string; image:string; rating:number; students:number; bio:string; }
-interface Curriculum { sectionId:number; sectionTitle:string; lectures:{id:number; title:string; duration:string; isFree:boolean}[] }
-interface Review { id:number; userName:string; userImage:string; rating:number; date:string; title:string; description:string; helpful:number }
+interface Instructor { id: number; name: string; title: string; image: string; rating: number; students: number; bio: string; }
+interface Curriculum { sectionId: number; sectionTitle: string; lectures: { id: number; title: string; duration: string; isFree: boolean }[] }
+interface Review { id: number; userName: string; userImage: string; rating: number; date: string; title: string; description: string; helpful: number }
 interface CourseDetails {
-  id:number; title:string; description:string; category:string; price:number; originalPrice:number;
-  rating:number; reviewCount:number; studentCount:number; thumbnail:string; videoPreview:string;
-  instructors:Instructor[]; level:string; language:string; duration:string; lastUpdated:string;
-  whatYouWillLearn:string[]; requirements:string[]; curriculum:Curriculum[]; reviews:Review[]; features:string[];
+  id: number; title: string; description: string; category: string; price: number; originalPrice: number;
+  rating: number; reviewCount: number; studentCount: number; thumbnail: string; videoPreview: string;
+  instructors: Instructor[]; level: string; language: string; duration: string; lastUpdated: string;
+  whatYouWillLearn: string[]; requirements: string[]; curriculum: Curriculum[]; reviews: Review[]; features: string[];
 }
+
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-course-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './course-details.html',
   styleUrl: './course-details.css',
 })
@@ -35,15 +37,15 @@ export class CourseDetailsComponent implements OnInit {
   subTotal: number = 0;
   total: number = 0;
   movingToWishlist = false; // ✅ loading state for move to wishlist
-  wishlistItems: any[] = []; 
+  wishlistItems: any[] = [];
   wishlistLoaded = false;
 
   private wishlistService = inject(WishlistService);
   private auth = inject(AuthService);
   private router = inject(Router);
   private cartService = inject(CartService);
-  
-  cartItems: any[] = []; 
+
+  cartItems: any[] = [];
   cartLoaded = false;
 
   constructor(
@@ -51,10 +53,10 @@ export class CourseDetailsComponent implements OnInit {
     private courseService: CourseService,
     private cdr: ChangeDetectorRef,
     private zone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     // ✅ NEW: Fetch cart items
     this.cartService.getCart().subscribe({
       next: (res: any) => {
@@ -69,18 +71,18 @@ export class CourseDetailsComponent implements OnInit {
       }
     });
     // ✅ NEW: Fetch wishlist items
-  this.wishlistService.getWishlist().subscribe({
-    next: (res: any) => {
-      this.wishlistItems = res.data.items || res.data || [];
-      this.wishlistLoaded = true;
-      console.log('WISHLIST ITEMS:', this.wishlistItems);
-      this.cdr.detectChanges();
-    },
-    error: (er) => {
-      this.wishlistLoaded = true;
-      console.error('Error fetching wishlist items:', er);
-    }
-  });
+    this.wishlistService.getWishlist().subscribe({
+      next: (res: any) => {
+        this.wishlistItems = res.data.items || res.data || [];
+        this.wishlistLoaded = true;
+        console.log('WISHLIST ITEMS:', this.wishlistItems);
+        this.cdr.detectChanges();
+      },
+      error: (er) => {
+        this.wishlistLoaded = true;
+        console.error('Error fetching wishlist items:', er);
+      }
+    });
 
     // listen to route id changes
     this.route.paramMap.subscribe(params => {
@@ -96,23 +98,23 @@ export class CourseDetailsComponent implements OnInit {
     });
   }
   // ✅ NEW: Add method to check if course is in wishlist
-isInWishlist(courseId: number | null | undefined): boolean {
-  if (!courseId || !this.wishlistItems?.length) return false;
-  
-  console.log('Checking if course', courseId, 'is in wishlist:', this.wishlistItems);
-  
-  return this.wishlistItems.some(item => {
-    const itemId = item.courseId || item.id;
-    return Number(itemId) === Number(courseId);
-  });
-}
+  isInWishlist(courseId: number | null | undefined): boolean {
+    if (!courseId || !this.wishlistItems?.length) return false;
+
+    console.log('Checking if course', courseId, 'is in wishlist:', this.wishlistItems);
+
+    return this.wishlistItems.some(item => {
+      const itemId = item.courseId || item.id;
+      return Number(itemId) === Number(courseId);
+    });
+  }
 
   isInCart(courseId: number | null | undefined): boolean {
     if (!courseId || !this.cartItems?.length) return false;
-    
+
     // Log for debugging
     console.log('Checking if course', courseId, 'is in cart:', this.cartItems);
-    
+
     // Try both courseId and id properties, and convert to numbers for comparison
     return this.cartItems.some(item => {
       const itemId = item.courseId || item.id;
@@ -134,11 +136,11 @@ isInWishlist(courseId: number | null | undefined): boolean {
       next: (res) => {
         console.log('addCart', res);
         this.cartAdded = true;
-        this.cartItems.push({ courseId: id, ...res.data }); 
+        this.cartItems.push({ courseId: id, ...res.data });
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error("addCart",err);
+        console.error("addCart", err);
       }
     });
   }
@@ -169,14 +171,14 @@ isInWishlist(courseId: number | null | undefined): boolean {
     const instructors = Array.isArray(c.instructors) && c.instructors.length
       ? c.instructors
       : [{
-          id: c.instructorId || 1,
-          name: c.instructorName || 'Instructor',
-          title: c.instructorTitle || '',
-          image: c.instructorImage || 'https://via.placeholder.com/80',
-          rating: c.instructorRating || 0,
-          students: c.studentCount || 0,
-          bio: c.instructorBio || '',
-        }];
+        id: c.instructorId || 1,
+        name: c.instructorName || 'Instructor',
+        title: c.instructorTitle || '',
+        image: c.instructorImage || 'https://via.placeholder.com/80',
+        rating: c.instructorRating || 0,
+        students: c.studentCount || 0,
+        bio: c.instructorBio || '',
+      }];
 
     const whatYouWillLearn = c.whatYouWillLearn?.length
       ? c.whatYouWillLearn
@@ -234,41 +236,41 @@ isInWishlist(courseId: number | null | undefined): boolean {
     if (num >= 1_000) return (num / 1_000).toFixed(1) + 'K';
     return num.toString();
   }
-  
+
   // Update your addWishlist method to update the local wishlistItems:
-addWishlist(courseId: number) {
-  if (!this.auth.getToken()) {
-    this.router.navigate(['/Login'], {
-      queryParams: { returnUrl: `/course/${courseId}` }
-    });
-    return;
-  }
+  addWishlist(courseId: number) {
+    if (!this.auth.getToken()) {
+      this.router.navigate(['/Login'], {
+        queryParams: { returnUrl: `/course/${courseId}` }
+      });
+      return;
+    }
 
-  this.movingToWishlist = true;
+    this.movingToWishlist = true;
 
-  this.wishlistService.addToWishlist(courseId).subscribe({
-    next: (res) => {
-      console.log("Added to wishlist");
-      
-      // ✅ Add to local wishlist array
-      this.wishlistItems.push({ courseId: courseId, ...res.data });
-      this.wishlistAdded = true;
-      
-      // Remove from cart if present
-      if (this.isInCart(courseId)) {
-        this.removeItem(courseId);
-      } else {
+    this.wishlistService.addToWishlist(courseId).subscribe({
+      next: (res) => {
+        console.log("Added to wishlist");
+
+        // ✅ Add to local wishlist array
+        this.wishlistItems.push({ courseId: courseId, ...res.data });
+        this.wishlistAdded = true;
+
+        // Remove from cart if present
+        if (this.isInCart(courseId)) {
+          this.removeItem(courseId);
+        } else {
+          this.movingToWishlist = false;
+          this.cdr.detectChanges();
+        }
+      },
+      error: err => {
         this.movingToWishlist = false;
+        console.error("Not added to wishlist", err);
         this.cdr.detectChanges();
       }
-    },
-    error: err => {
-      this.movingToWishlist = false;
-      console.error("Not added to wishlist", err);
-      this.cdr.detectChanges();
-    }
-  });
-}
+    });
+  }
 
   // ✅ Remove from cart
   removeItem(courseId: number) {

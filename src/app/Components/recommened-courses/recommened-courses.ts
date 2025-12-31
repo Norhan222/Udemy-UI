@@ -16,10 +16,11 @@ import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-recommened-courses',
-  imports: [Carousel, ButtonModule, CardModule, CommonModule, FormsModule, OverlayModule, Rating, RouterLink, PopoverModule],
+  imports: [Carousel, ButtonModule, CardModule, CommonModule, FormsModule, OverlayModule, Rating, RouterLink, PopoverModule, TranslateModule],
   templateUrl: './recommened-courses.html',
   styleUrl: './recommened-courses.css',
 })

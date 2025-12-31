@@ -3,7 +3,7 @@
   text-decoration: none;
   font-size: 1rem;
   font-weight: 400;
-   padding: 8px 16px;
+  padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.2s;
   position: relative;
@@ -11,8 +11,8 @@
 
 .nav-link-explore:hover {
   color: #5624d0;
-          background-color: oklch(95.1% 0.02567 293.074);
-          }
+  background-color: oklch(95.1% 0.02567 293.074);
+}
 
 .nav-link-explore.active {
   color: #5624d0;
@@ -35,6 +35,7 @@
   /* margin-top: 20px; */
   display: flex;
 }
+
 .explore-dropdown::before {
   content: '';
   position: absolute;
@@ -72,14 +73,15 @@
   color: #414143;
   text-decoration: none;
   font-size: 1rem;
-    font-weight: 350;
+  font-weight: 350;
   transition: background-color 0.2s;
   cursor: pointer;
 }
 
 .explore-item:hover {
   color: #7544f0;
-          background-color: oklch(95.1% 0.02567 293.074);}
+  background-color: oklch(95.1% 0.02567 293.074);
+}
 
 .explore-item.active {
   color: #5624d0;
@@ -118,4 +120,24 @@
 .explore-topics {
   width: 300px;
   border-left: 1px solid #eee;
+}
+
+/* RTL Support - Position dropdown on left side when Arabic */
+[dir="rtl"] .explore-dropdown {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .explore-column {
+  border-right: none;
+  border-left: 1px solid #eee;
+}
+
+[dir="rtl"] .explore-topics {
+  border-left: none;
+  border-right: 1px solid #eee;
+}
+
+[dir="rtl"] .explore-item i {
+  transform: rotate(180deg);
 }

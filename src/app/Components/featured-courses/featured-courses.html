@@ -1,21 +1,19 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold; ">Featured Courses </h2>
-<div >
-    <p-tabs value="0" >
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold; ">{{ 'HOME.FEATURED_COURSES' | translate }} </h2>
+<div>
+    <p-tabs value="0">
         <p-tablist style="border:none">
             <p-tab style="border:none; margin: 0 10px 0 10px" value="0">Popular Courses</p-tab>
             <p-tab style="border:none; margin: 0 10px 0 10px;" value="1">Advancedv & Intermidate</p-tab>
         </p-tablist>
         <p-tabpanels>
-          <p-tabpanel value="0">
-              <p class="m-0"><app-most-popular></app-most-popular></p>
+            <p-tabpanel value="0">
+                <p class="m-0"><app-most-popular></app-most-popular></p>
             </p-tabpanel>
-           <p-tabpanel value="1">
-               <p class="m-0"><app-advanced-courses ></app-advanced-courses> </p> 
+            <p-tabpanel value="1">
+                <p class="m-0"><app-advanced-courses></app-advanced-courses> </p>
             </p-tabpanel>
-            
-           
+
+
         </p-tabpanels>
     </p-tabs>
 </div>
-
-

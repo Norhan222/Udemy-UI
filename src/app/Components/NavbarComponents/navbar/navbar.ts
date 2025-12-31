@@ -10,11 +10,12 @@ import { ExploreMenu } from '../explore-menu/explore-menu';
 import { AuthService } from '../../../Services/auth-service';
 import { UserMenu } from '../user-menu/user-menu';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, ExploreMenu, UserMenu, FormsModule],
+  imports: [CommonModule, RouterLink, ExploreMenu, UserMenu, FormsModule, TranslateModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
