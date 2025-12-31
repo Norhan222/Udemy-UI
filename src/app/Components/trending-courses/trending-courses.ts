@@ -1,8 +1,4 @@
 
-// ==========================================
-// trending-courses.ts - TypeScript المعدل
-// ==========================================
-
 import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, QueryList, ViewChildren, AfterViewInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
