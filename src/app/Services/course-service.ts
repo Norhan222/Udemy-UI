@@ -4,19 +4,42 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+// export interface Lecture {
+//   id: number;
+//   title: string;
+//   videoUrl: string | null;
+//   duration: number;
+//   orderIndex: number;
+// }
+
+// export interface Section {
+//   id: number;
+//   title: string;
+//   orderIndex: number;
+//   lectures: Lecture[];
+// }
+
+// export interface CourseContent {
+//   id: number;
+//   title: string;
+//   description: string;
+//   sections: Section[];
+// }
 export interface Lecture {
   id: number;
   title: string;
-  videoUrl: string | null;
-  duration: number;
-  orderIndex: number;
+  videoUrl: string;
+  duration?: string;
+  completed?: boolean;
+  order?: number;
 }
 
 export interface Section {
   id: number;
   title: string;
-  orderIndex: number;
   lectures: Lecture[];
+  expanded?: boolean;
+  order?: number;
 }
 
 export interface CourseContent {
@@ -24,6 +47,9 @@ export interface CourseContent {
   title: string;
   description: string;
   sections: Section[];
+  instructor?: string;
+  rating?: number;
+  studentsCount?: number;
 }
 
 
@@ -138,4 +164,14 @@ getAdvancedCourses(): Observable<ICourse[]> {
       `${this.baseUrl}/Course/${courseId}/content`
     );
   }
+  saveProgress(courseId: number, lectureId: number, progress: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/progress`, {
+      progress: progress
+    });
+  }
+
+  markLectureComplete(courseId: number, lectureId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/complete`, {});
+  }
 }
+
