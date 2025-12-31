@@ -201,6 +201,7 @@ interface Student {
   id: number;
   name: string;
   email: string;
+  profileImageUrl:string;
   enrolledCourses: Course[];
   country: string;
   totalWatchTime: string;

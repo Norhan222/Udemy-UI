@@ -386,10 +386,10 @@ onSubmitForReview(): void {
     return;
   }
 
-  // ✅ 2. اخفي validation box لو كان ظاهر
+  //  2. اخفي validation box لو كان ظاهر
   this.isSubmitting = true;
 
-  // ✅ 3. املأ بيانات الكورس
+  //  3. املأ بيانات الكورس
   this.course.title = this.courseTitle ?? '';
   this.course.description = this.courseDescription ?? '';
   this.course.language = this.language;
@@ -398,7 +398,7 @@ onSubmitForReview(): void {
   this.course.subcategory = this.subcategory ?? '';
   this.course.shortTitle = this.courseSubtitle;
 
-  // ✅ 4. الصورة والفيديو - تأكد إنهم File objects
+  //  4. الصورة والفيديو - تأكد إنهم File objects
   if (this.courseImage && this.courseImage instanceof File) {
     this.course.Thumbnail = this.courseImage;
   }
@@ -437,12 +437,12 @@ this.sections.forEach((s, i) => {
   formData.append('Price', this.course.price.toString());
   formData.append('Description', this.course.description);
 
-  // ✅ 8. Primary Topic (لو موجود)
+  //  8. Primary Topic (لو موجود)
   if (this.primaryTopic) {
     formData.append('PrimaryTopic', this.primaryTopic);
   }
 
-  // ✅ 9. Course Thumbnail
+  //  9. Course Thumbnail
   if (this.course.Thumbnail) {
     formData.append('Thumbnail', this.course.Thumbnail, this.course.Thumbnail.name);
     console.log('✅ Thumbnail added:', this.course.Thumbnail.name);
@@ -450,7 +450,7 @@ this.sections.forEach((s, i) => {
     console.warn('⚠️ No thumbnail file');
   }
 
-  // ✅ 10. Preview Video
+  //  10. Preview Video
   if (this.course.PreviewVideo) {
     formData.append('PreviewVideo', this.course.PreviewVideo, this.course.PreviewVideo.name);
     console.log('✅ Preview video added:', this.course.PreviewVideo.name);
@@ -458,7 +458,7 @@ this.sections.forEach((s, i) => {
     console.warn('⚠️ No preview video file');
   }
 
-  // ✅ 11. Sections & Lectures
+  //  11. Sections & Lectures
   this.sections.forEach((section, sectionIndex) => {
     // Section Title
     formData.append(`Sections[${sectionIndex}].Title`, section.title);
@@ -518,6 +518,8 @@ this.sections.forEach((s, i) => {
       console.log('✅ Course created successfully!', response);
       this.isSubmitting = false;
       this.showSuccessModal = true;
+      alert('Course created successfully! ');
+        this.router.navigateByUrl('dashboard/courses')
     },
     error: (error) => {
       console.error('❌ Error creating course:', error);
@@ -845,6 +847,7 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       this.closeVideoUploadModal();
 
       this.onCourseDataChange();
+      this.cdr.detectChanges()
     }
   }
 
@@ -1064,18 +1067,20 @@ private checkSectionsChanges(): boolean {
 
     console.log('💾 Saving course changes...');
 
-    // ✅ استدعي update endpoint
+    //  استدعي update endpoint
     this.courseService.updateInstructorCourse(this.courseId, formData).subscribe({
       next: (response) => {
-        console.log('✅ Course saved successfully!', response);
+        console.log(' Course saved successfully!', response);
         this.isSaving = false;
         this.hasUnsavedChanges = false;
 
-        // ✅ حدّث الداتا الأصلية
+        //  حدّث الداتا الأصلية
         this.saveOriginalData();
+        this.cdr.detectChanges()
 
         // عرض رسالة نجاح
-        alert('Course saved successfully! ✅');
+        alert('Course saved successfully! ');
+        this.router.navigateByUrl('dashboard/courses')
       },
       error: (error) => {
         console.error('❌ Error saving course:', error);
@@ -1092,7 +1097,7 @@ private checkSectionsChanges(): boolean {
       }
     });
   }
-// ✅ 8. CanDeactivate Guard - منع المغادرة بدون حفظ
+//  8. CanDeactivate Guard - منع المغادرة بدون حفظ
   canDeactivate(): boolean {
     if (this.hasUnsavedChanges) {
       return confirm(
@@ -1104,7 +1109,7 @@ private checkSectionsChanges(): boolean {
     return true;
   }
 
-  // ✅ 9. HostListener للتحذير عند إغلاق الصفحة
+  //  9. HostListener للتحذير عند إغلاق الصفحة
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.hasUnsavedChanges) {
@@ -1112,7 +1117,7 @@ private checkSectionsChanges(): boolean {
     }
   }
 
-  // ✅ 10. عند الضغط على "Back to courses"
+  //  10. عند الضغط على "Back to courses"
   onBackToCourses(): void {
     if (this.canDeactivate()) {
       this.router.navigate(['/dashboard/courses']);

@@ -55,7 +55,14 @@
         <!-- Student Header -->
         <div class="student-header" (click)="toggleExpand(student.id)">
           <div class="student-main">
+            @if(student.profileImageUrl){
+            <div >
+            <img class="avatarImg" src="{{student.profileImageUrl}}">
+            </div>
+          }
+          @else{
             <div class="avatar">{{ getInitials(student.name) }}</div>
+          }
             <div class="student-details">
               <div class="name-row">
                 <h3>{{ student.name }}</h3>
