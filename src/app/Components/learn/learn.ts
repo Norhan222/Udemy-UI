@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+  NgZone,
+} from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -16,13 +23,13 @@ import {
   styleUrl: './learn.css',
 })
 export class Learn implements OnInit {
-  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
+  @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
-  course!: CourseContent;
+  course: CourseContent | null = null;
   sections: Section[] = [];
-  selectedLecture?: Lecture;
+  selectedLecture: Lecture | null = null;
 
-  loading = false;
+  loading = true;
   sidebarOpen = true;
 
   // video state
@@ -33,7 +40,9 @@ export class Learn implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -48,50 +57,65 @@ export class Learn implements OnInit {
 
     this.courseService.getCourseContent(courseId).subscribe({
       next: res => {
-        this.course = res;
+        // نستخدم setTimeout لتجنب NG0100
+        setTimeout(() => {
+          this.course = res;
 
-        this.sections = res.sections.map(s => ({
-          ...s,
-          collapsed: true,
-          totalLectures: s.lectures.length,
-          completedLectures: 0,
-          totalDuration: this.calcSectionDuration(s.lectures),
-          lectures: s.lectures.map(l => ({
-            ...l,
-            completed: false,
-          })),
-        }));
+          this.sections = res.sections.map(s => ({
+            ...s,
+            collapsed: true,
+            totalLectures: s.lectures.length,
+            completedLectures: 0,
+            totalDuration: this.calcSectionDuration(s.lectures),
+            lectures: s.lectures.map(l => ({
+              ...l,
+              completed: false,
+            })),
+          }));
 
-        // افتح أول section
-        if (this.sections.length) {
-          this.sections[0].collapsed = false;
-        }
+          // افتح أول Section
+          if (this.sections.length) {
+            this.sections[0].collapsed = false;
+          }
 
-        // اختار أول lecture لو ليه فيديو
-        const firstLecture = this.sections[0]?.lectures.find(
-          l => l.videoUrl
-        );
-        if (firstLecture) {
-          this.selectLecture(firstLecture);
-        }
+          // اختار أول Lecture
+          const firstLecture =
+            this.sections[0]?.lectures.find(l => l.videoUrl) ?? null;
 
-        this.loading = false;
+          this.selectedLecture = firstLecture;
+          this.loading = false;
+
+          // شغل الفيديو بعد ما الـ view تجهز
+          if (firstLecture) {
+            setTimeout(() => this.loadVideo(), 0);
+          }
+
+          // تحديث Angular
+          this.cdr.detectChanges();
+        }, 0);
       },
       error: err => {
-        console.error(err);
+        console.error('course content error', err);
         this.loading = false;
       },
     });
   }
 
+  loadVideo(): void {
+    if (this.videoPlayer?.nativeElement) {
+      this.videoPlayer.nativeElement.load();
+    }
+  }
+
   selectLecture(lecture: Lecture): void {
     if (!lecture.videoUrl) return;
 
-    this.selectedLecture = lecture;
-
+    // تأجيل التغيير لتجنب NG0100
     setTimeout(() => {
-      this.videoPlayer?.nativeElement.load();
-    });
+      this.selectedLecture = lecture;
+      this.cdr.detectChanges();
+      this.loadVideo();
+    }, 0);
   }
 
   toggleLectureCompletion(lecture: Lecture, event: Event): void {
@@ -155,7 +179,9 @@ export class Learn implements OnInit {
 
   changePlaybackRate(rate: number): void {
     this.playbackRate = rate;
-    this.videoPlayer.nativeElement.playbackRate = rate;
+    if (this.videoPlayer?.nativeElement) {
+      this.videoPlayer.nativeElement.playbackRate = rate;
+    }
   }
 
   getProgressPercentage(): number {
