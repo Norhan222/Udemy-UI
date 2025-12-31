@@ -101,7 +101,7 @@
         <p *ngIf="review.comment" class="comment">{{ review.comment }}</p>
 
         <div class="review-footer">
-          <span class="date">{{ review.createdDate }}</span>
+          <span class="date">{{ review.createdDate| date:'short' }}</span>
           <button *ngIf="!review.answered && replyingTo !== review.id" (click)="handleReply(review.id)"
             class="reply-btn">
             Reply

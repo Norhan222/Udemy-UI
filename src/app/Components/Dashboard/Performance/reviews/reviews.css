@@ -234,7 +234,7 @@
 .avatar {
   width: 3rem;
   height: 3rem;
-  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  background: linear-gradient(135deg, #0f0f0f 0%, #646467 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;

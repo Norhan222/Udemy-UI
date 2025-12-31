@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Course } from '../Models/course';
+import { RevenueReport } from '../Models/revenue-report';
 
 export interface PerformanceData {
   totalRevenue: number;
@@ -38,7 +39,7 @@ export interface ApiPerformanceResponse {
   providedIn: 'root'
 })
 export class PerformanceService {
-  private apiUrl =environment.apiUrl; // ✅ غير الـ URL
+  private apiUrl =environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -154,5 +155,13 @@ export class PerformanceService {
     link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
+  }
+
+
+
+  getRevenueReport(timeframe: string): Observable<RevenueReport> {
+    return this.http.get<RevenueReport>(
+      `${this.apiUrl}/Performance/revenue-report?timeframe=${timeframe}`
+    );
   }
 }

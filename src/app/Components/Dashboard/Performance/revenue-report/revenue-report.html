@@ -1,0 +1,133 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Revenue Report</h1>
+
+    <!-- Notifications -->
+
+
+    <!-- Revenue Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Revenue All Time -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-gray-600 text-sm font-medium">Total Revenue (All Time)</div>
+          <svg class="text-green-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-1">
+          ${{ getTotalAllTimeRevenue() | number:'1.2-2' }}
+        </div>
+        <div class="text-sm text-gray-500">Since the beginning</div>
+      </div>
+
+      <!-- Revenue Period -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-gray-600 text-sm font-medium">Revenue (Period)</div>
+          <svg class="text-blue-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-1">
+          ${{ revenueData.total | number:'1.2-2' }}
+        </div>
+        <div class="text-sm text-gray-500">Last {{ revenueData.period }}</div>
+      </div>
+
+      <!-- Total Transactions -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-gray-600 text-sm font-medium">Total Transactions</div>
+          <svg class="text-orange-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-1">
+          {{ revenueData.transactions }}
+        </div>
+        <div class="text-sm text-gray-500">Last {{ revenueData.period }}</div>
+      </div>
+
+      <!-- Avg per Transaction -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-gray-600 text-sm font-medium">Avg per Transaction</div>
+          <svg class="text-purple-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <div class="text-3xl font-bold text-gray-900 mb-1">
+          ${{ revenueData.avgPerTransaction | number:'1.2-2' }}
+        </div>
+        <div class="text-sm text-gray-500">Last {{ revenueData.period }}</div>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold text-gray-900">Recent Transactions</h2>
+          <div class="flex items-center gap-4">
+            <select [(ngModel)]="timeframe" (change)="onTimeframeChange()"
+              class="border border-gray-300 rounded px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="7days">Last 7 days</option>
+              <option value="30days">Last 30 days</option>
+              <option value="90days">Last 90 days</option>
+              <option value="year">This year</option>
+            </select>
+            <button
+              class="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Date</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Course</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Amount</th>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr *ngFor="let transaction of filteredTransactions" class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 text-sm text-gray-700">{{transaction.date | date:'yyyy-MM-dd' }}</td>
+              <td class="px-6 py-4 text-sm text-gray-900">{{ transaction.course }}</td>
+              <td class="px-6 py-4 text-sm font-semibold text-gray-900">${{ transaction.amount }}</td>
+              <td class="px-6 py-4">
+                <span [ngClass]="{
+                    'bg-green-100 text-green-700': transaction.status === 'Completed',
+                    'bg-yellow-100 text-yellow-700': transaction.status === 'Pending'
+                  }" class="inline-flex px-3 py-1 rounded-full text-xs font-medium">
+                  {{ transaction.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { RevenueReport } from './Components/Dashboard/Performance/revenue-report/revenue-report';
 import { GuidelinePage } from './Components/Dashboard/guideline-page/guideline-page';
 import { Reviews } from './Components/Dashboard/Performance/reviews/reviews';
 import { Overview } from './Components/Dashboard/Performance/overview/overview';
@@ -137,6 +138,12 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./Components/Dashboard/Performance/students/students')
                 .then(m => m.Students)
+          },
+           {
+            path: 'revenue',
+            loadComponent: () =>
+              import('./Components/Dashboard/Performance/revenue-report/revenue-report')
+                .then(m => m.RevenueReport)
           }
         ]
       },

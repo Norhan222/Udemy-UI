@@ -30,5 +30,5 @@ constructor(private http:HttpClient,private authService:AuthService){
       });
   }
   }
-  protected readonly title = signal('UdemyUI');
+  protected readonly title = signal('Udemy');
 }

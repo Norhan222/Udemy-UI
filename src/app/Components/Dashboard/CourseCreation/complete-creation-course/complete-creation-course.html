@@ -44,11 +44,11 @@
           <span class="item-name">{{ item.name }}</span>
         </div>
       </div>
-      <button class="submit-btn" [disabled]="!canSubmitForReview()" [class.disabled]="!canSubmitForReview()"
-        (click)="canSubmitForReview() ? onSubmitForReview() : showValidationMessages()"
-        title="{{ canSubmitForReview() ? 'Submit for Review' : 'Please complete all required fields' }}">
+      <button class="submit-btn" (click)="onSubmitForReview()">
         Submit for Review
       </button>
+
+      <!-- احذف الـ Validation Info Box القديم -->
 
 
 
@@ -69,10 +69,10 @@
 
 
       <!-- Validation Info -->
-      <div *ngIf="!canSubmitForReview()" class="validation-info">
+      <!-- <div *ngIf="!canSubmitForReview()" class="validation-info">
         <span class="validation-icon">⚠️</span>
         <span class="validation-text">{{ getValidationMessages().length }} items remaining</span>
-      </div>
+      </div> -->
     </div>
 
     <!-- Content Area -->
@@ -136,7 +136,7 @@
                 <button class="toolbar-btn">☰</button>
                 <button class="toolbar-btn">≡</button>
               </div>
-              <textarea [(ngModel)]="courseDescription" 
+              <textarea [(ngModel)]="courseDescription"
                 (ngModelChange)="onCourseDataChange()"
               placeholder="Insert your course description."
                 class="form-textarea"></textarea>
@@ -161,7 +161,7 @@
               </select>
             </div>
             <div class="grid-2">
-              <select [(ngModel)]="category" 
+              <select [(ngModel)]="category"
               (ngModelChange)="onCourseDataChange()"
               class="form-select">
                 <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
@@ -647,11 +647,121 @@
         </p>
         <button class="success-btn" (click)="closeSuccessModal()">
           Got it, Thanks!
-        </button>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+
+
+
+<!-- Requirements Modal - ضيفه قبل نهاية الـ div الرئيسي -->
+<div *ngIf="showRequirementsModal" class="modal-overlay requirements-overlay" (click)="closeRequirementsModal()">
+  <div class="modal-content requirements-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Why can't I submit for review?</h3>
+      <button class="close-modal-btn" (click)="closeRequirementsModal()">×</button>
+    </div>
+    <div class="modal-body requirements-body">
+      <p class="requirements-intro">
+        You're almost ready to submit your course. Here are a few more items you need.
+      </p>
+
+      <!-- Intended Learners Section (لو عندك الصفحة دي) -->
+      <!-- <div class="requirement-section">
+        <p class="requirement-title">
+          On the <a href="#" class="link" (click)="navigateToPageFromModal('intended-learners')">intended learners</a> page, you must
+        </p>
+        <ul class="requirements-list">
+          <li>Specify any course requirements or prerequisites</li>
+          <li>Specify at least 4 of your course's learning objectives</li>
+          <li>Specify who this course if for</li>
+        </ul>
+      </div> -->
+
+      <!-- Curriculum Section -->
+      <div class="requirement-section">
+        <p class="requirement-title">
+          On the <a href="#" class="link" (click)="navigateToPageFromModal('curriculum')">Curriculum</a> page, you must
+        </p>
+        <ul class="requirements-list">
+          <li [class.completed]="getTotalVideoMinutes() >= 30">
+            <span class="requirement-icon">{{ getTotalVideoMinutes() >= 30 ? '✓' : '○' }}</span>
+            Have at least 30 minutes of video content
+          </li>
+          <li [class.completed]="getTotalLecturesCount() >= 5">
+            <span class="requirement-icon">{{ getTotalLecturesCount() >= 5 ? '✓' : '○' }}</span>
+            Have at least 5 lectures
+          </li>
+          <li [class.completed]="allLecturesHaveContent()">
+            <span class="requirement-icon">{{ allLecturesHaveContent() ? '✓' : '○' }}</span>
+            Have content for all lectures
+          </li>
+        </ul>
+      </div>
+
+      <!-- Course Landing Page Section -->
+      <div class="requirement-section">
+        <p class="requirement-title">
+          On the <a href="#" class="link" (click)="navigateToPageFromModal('course-landing')">Course landing page</a>
+          page, you must
+        </p>
+        <ul class="requirements-list">
+          <li [class.completed]="(courseDescription?.length ?? 0) >= 200">
+            <span class="requirement-icon">{{ (courseDescription?.length ?? 0) >= 200 ? '✓' : '○' }}</span>
+            Have a course description with at least 200 words
+          </li>
+          <li [class.completed]="courseSubtitle.trim().length > 0">
+            <span class="requirement-icon">{{ courseSubtitle.trim().length > 0 ? '✓' : '○' }}</span>
+            Have a course subtitle
+          </li>
+          <li [class.completed]="category && category.trim().length > 0">
+            <span class="requirement-icon">{{ category && category.trim().length > 0 ? '✓' : '○' }}</span>
+            Select the category of your course
+          </li>
+          <li [class.completed]="level && level.trim().length > 0">
+            <span class="requirement-icon">{{ level && level.trim().length > 0 ? '✓' : '○' }}</span>
+            Select the level of your course
+          </li>
+          <li [class.completed]="subcategory && subcategory.trim().length > 0">
+            <span class="requirement-icon">{{ subcategory && subcategory.trim().length > 0 ? '✓' : '○' }}</span>
+            Select the subcategory of your course
+          </li>
+          <li [class.completed]="primaryTopic && primaryTopic.trim().length > 0">
+            <span class="requirement-icon">{{ primaryTopic && primaryTopic.trim().length > 0 ? '✓' : '○' }}</span>
+            Select what is primarily taught in your course
+          </li>
+          <li [class.completed]="courseImagePreview !== null">
+            <span class="requirement-icon">{{ courseImagePreview !== null ? '✓' : '○' }}</span>
+            Upload a course image
+          </li>
+          <!-- <li [class.completed]="instructorImage !== null">
+            <span class="requirement-icon">{{ instructorImage !== null ? '✓' : '○' }}</span>
+            Upload an instructor image
+          </li> -->
+        </ul>
+      </div>
+
+      <!-- Pricing Section -->
+      <div class="requirement-section">
+        <p class="requirement-title">
+          On the <a href="#" class="link" (click)="navigateToPageFromModal('pricing')">Pricing</a> page, you must
+        </p>
+        <ul class="requirements-list">
+          <li [class.completed]="priceTier && priceTier.trim().length > 0">
+            <span class="requirement-icon">{{ priceTier && priceTier.trim().length > 0 ? '✓' : '○' }}</span>
+            Select a price tier
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="close-requirements-btn" (click)="closeRequirementsModal()">
+        Got it
+      </button>
     </div>
   </div>
 </div>
-      </div>
-    </div>
-  </div>
+</div>

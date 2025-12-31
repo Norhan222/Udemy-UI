@@ -1705,3 +1705,97 @@ body {
 
 
 
+
+
+
+
+
+
+
+
+/* Requirements Modal Styles */
+.requirements-modal {
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.requirements-body {
+  padding: 0 24px 24px;
+}
+
+.requirements-intro {
+  color: #2d2f31;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.requirement-section {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #d1d7dc;
+}
+
+.requirement-section:last-child {
+  border-bottom: none;
+}
+
+.requirement-title {
+  color: #2d2f31;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.requirements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirements-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  color: #2d2f31;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.requirements-list li.completed {
+  color: #1c1d1f;
+}
+
+.requirement-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #5624d0;
+  font-weight: bold;
+}
+
+.requirements-list li:not(.completed) .requirement-icon {
+  color: #d1d7dc;
+}
+
+.close-requirements-btn {
+  background-color: #a435f0;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-requirements-btn:hover {
+  background-color: #8710d8;
+}
