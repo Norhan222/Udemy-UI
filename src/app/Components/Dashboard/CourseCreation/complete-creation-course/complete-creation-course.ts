@@ -440,7 +440,7 @@ onSubmitForReview(): void {
     this.course.price = parseFloat(priceString) || 0;
   }
 
-  
+
 this.sections.forEach((s, i) => {
   s.orderIndex = i;
   s.lectures.forEach((l, j) => {
@@ -867,6 +867,8 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
 
       alert(`Video "${this.videoFileName}" uploaded successfully to lecture "${this.selectedLecture.lecture.title}"!`);
       this.closeVideoUploadModal();
+
+      this.onCourseDataChange();
     }
   }
 
@@ -936,12 +938,75 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       this.promoVideo !== null || // فيديو جديد
       JSON.stringify(this.sections) !== JSON.stringify(this.originalCourseData.sections);
 
-    this.hasUnsavedChanges = hasChanges;
+ const hasSectionsChanges = this.checkSectionsChanges();
+
+  this.hasUnsavedChanges = hasChanges || hasSectionsChanges;
 
     if (hasChanges) {
       console.log('⚠️ Unsaved changes detected');
     }
   }
+
+private checkSectionsChanges(): boolean {
+  const original = this.originalCourseData.sections;
+  const current = this.sections;
+
+  // Check if number of sections changed
+  if (original.length !== current.length) {
+    return true;
+  }
+
+  // Check each section
+  for (let i = 0; i < original.length; i++) {
+    const origSection = original[i];
+    const currSection = current[i];
+
+    // Check section title
+    if (origSection.title !== currSection.title) {
+      return true;
+    }
+
+    // Check number of lectures
+    if (origSection.lectures.length !== currSection.lectures.length) {
+      return true;
+    }
+
+    // Check each lecture
+    for (let j = 0; j < origSection.lectures.length; j++) {
+      const origLecture = origSection.lectures[j];
+      const currLecture = currSection.lectures[j];
+
+      if (
+        origLecture.title !== currLecture.title ||
+        origLecture.contentType !== currLecture.contentType ||
+        origLecture.orderIndex !== currLecture.orderIndex
+      ) {
+        return true;
+      }
+
+      // Check if video changed (new file or removed)
+      const hadVideo = origLecture.videoUrl !== null;
+      const hasVideo = currLecture.videoUrl !== null;
+
+      if (hadVideo !== hasVideo) {
+        return true;
+      }
+
+      // If both have videos, check if it's a new file (File object instead of URL string)
+      if (hasVideo && currLecture.videoUrl instanceof File) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+
+
+
+
+
   // ✅ 6. استدعي checkForChanges() عند أي تغيير
   onCourseDataChange(): void {
     this.checkForChanges();

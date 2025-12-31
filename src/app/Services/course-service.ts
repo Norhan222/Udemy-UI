@@ -85,7 +85,7 @@ getAdvancedCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/InstructorCourses`);
   }
   getMyCourses(): Observable<any> {
-    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);  
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);
   }
 
     // lern component test
@@ -109,6 +109,6 @@ getAdvancedCourses(): Observable<ICourse[]> {
 
 
  updateInstructorCourse(courseId: Number, formData: FormData): Observable<any> {
-    return this.http.put(`${this.baseUrl}/courses/${courseId}`, formData);
+    return this.http.put(`${this.baseUrl}/InstructorCourse/update/${courseId}`, formData);
   }
 }
