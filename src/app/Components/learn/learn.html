@@ -1,266 +1,126 @@
-<!-- Loader -->
-@if(loading) {
-  <div class="loading-container">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+<div class="learn-container" *ngIf="!loading && course; else loadingTpl">
+  <!-- ======= Left Side: Video + Content ======= -->
+  <div class="video-section">
+    <!-- Video Player -->
+    <div class="video-container">
+      <video 
+        #videoPlayer 
+        controls 
+        [src]="selectedLecture?.videoUrl" 
+        class="video-player"
+        (ended)="onVideoEnded()"
+        (timeupdate)="onTimeUpdate($event)">
+      </video>
     </div>
-    <p class="mt-3 text-muted">Loading course...</p>
-  </div>
-}
 
-<!-- Course Player Page -->
-@if(!loading && course) {
-  <div class="course-player-container">
-    <!-- Main Content -->
-    <div class="main-content" [class.sidebar-open]="sidebarOpen">
-      <!-- Video Player Section -->
-      <div class="video-player">
-        <div class="video-container">
-          @if(course.previewVideoUrl) {
-            <video 
-              #videoPlayer
-              [src]="course.previewVideoUrl"
-              (timeupdate)="currentTime = videoPlayer.currentTime; duration = videoPlayer.duration; progressPercent = (currentTime / duration) * 100"
-              (play)="isPlaying = true"
-              (pause)="isPlaying = false">
-            </video>
-          } @else {
-            <!-- Placeholder when no video -->
-            <div class="video-placeholder">
-              <div class="code-icon">
-                <div class="browser-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div class="code-symbols">
-                  <div class="code-line">
-                    <span class="code-text">&lt;/&gt;</span>
-                  </div>
-                  <div class="code-line short"></div>
-                  <div class="code-line"></div>
-                  <div class="code-line medium"></div>
-                </div>
-                <div class="play-button" (click)="togglePlay()">
-                  <i class="fas fa-play"></i>
-                </div>
-                <div class="keyboard-icon"></div>
-              </div>
-            </div>
-          }
-          
-          <!-- Video Controls -->
-          <div class="video-controls">
-            <div class="progress-bar">
-              <div class="progress-filled" [style.width.%]="progressPercent"></div>
-            </div>
-            <div class="controls-bottom">
-              <div class="controls-left">
-                <button class="control-btn play-btn" (click)="togglePlay()">
-                  <i class="fas" [class.fa-play]="!isPlaying" [class.fa-pause]="isPlaying"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-rotate-right"></i>
-                </button>
-                <span class="time">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
-                <button class="control-btn speed-control">1x</button>
-              </div>
-              <div class="controls-right">
-                <button class="control-btn">
-                  <i class="fas fa-volume-high"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-note-sticky"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-message"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-gear"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-expand"></i>
-                </button>
-                <button class="control-btn">
-                  <i class="fas fa-ellipsis"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Tabs Navigation -->
+    <div class="tabs-navigation">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <div class="tab-item active" (click)="activeTab = 'overview'">Overview</div>
+      <div class="tab-item" (click)="activeTab = 'qa'">Q&A</div>
+      <div class="tab-item" (click)="activeTab = 'notes'">Notes</div>
+      <div class="tab-item" (click)="activeTab = 'announcements'">Announcements</div>
+      <div class="tab-item" (click)="activeTab = 'reviews'">Reviews</div>
+      <div class="tab-item" (click)="activeTab = 'tools'">Learning tools</div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <h1 class="lecture-title">{{ selectedLecture?.title }}</h1>
+      
+      <div *ngIf="activeTab === 'overview'">
+        <p class="course-description" [class.show-full]="showFullDescription">
+          {{ showFullDescription ? course.description : (course.description | slice:0:200) }}
+          <span *ngIf="course.description.length > 200 && !showFullDescription">...</span>
+        </p>
         
-        <!-- Next Lecture Arrow -->
-        <button class="next-arrow" (click)="goToNextLecture()">
-          <i class="fas fa-chevron-right"></i>
+        <button 
+          *ngIf="course.description.length > 200" 
+          class="read-more-btn"
+          (click)="showFullDescription = !showFullDescription">
+          {{ showFullDescription ? 'Show less' : 'Show more' }}
         </button>
       </div>
-
-      <!-- Navigation Tabs -->
-      <div class="nav-tabs-container">
-        <button class="nav-tab search-btn">
-          <i class="fas fa-magnifying-glass"></i>
-        </button>
-        <button 
-          class="nav-tab" 
-          [class.active]="activeTab === 'overview'"
-          (click)="setTab('overview')">
-          Overview
-        </button>
-        <button 
-          class="nav-tab"
-          [class.active]="activeTab === 'qa'"
-          (click)="setTab('qa')">
-          Q&A
-        </button>
-        <button 
-          class="nav-tab"
-          [class.active]="activeTab === 'notes'"
-          (click)="setTab('notes')">
-          Notes
-        </button>
-        <button 
-          class="nav-tab"
-          [class.active]="activeTab === 'announcements'"
-          (click)="setTab('announcements')">
-          Announcements
-        </button>
-        <button 
-          class="nav-tab"
-          [class.active]="activeTab === 'reviews'"
-          (click)="setTab('reviews')">
-          Reviews
-        </button>
-        <button 
-          class="nav-tab"
-          [class.active]="activeTab === 'tools'"
-          (click)="setTab('tools')">
-          Learning tools
-        </button>
+      
+      <div *ngIf="activeTab === 'qa'">
+        <p class="course-description">Q&A section coming soon...</p>
       </div>
-
-      <!-- Course Description -->
-      <div class="course-description">
-        <h1>{{ course.title }}</h1>
-        <div class="course-meta">
-          <div class="rating">
-            <span class="rating-number">4.5</span>
-            <i class="fas fa-star"></i>
-            <span class="rating-count">1,453 ratings</span>
-          </div>
-          <div class="students">
-            <span class="student-count">20,540</span>
-            <span class="student-label">students</span>
-          </div>
-          <div class="duration">
-            <span class="duration-count">12 hours</span>
-            <span class="duration-label">Total</span>
-          </div>
-        </div>
-        <div class="last-updated">
-          <i class="far fa-clock"></i>
-          Last updated December 2025
-        </div>
-
-        <!-- Tab Content -->
-        <div class="tab-content-area mt-4">
-          @if(activeTab === 'overview') {
-            <div class="overview-content">
-              <h3>About this course</h3>
-              <p>{{ course.description }}</p>
-              
-              <h4 class="mt-4">What you'll learn</h4>
-              <ul class="learning-objectives">
-                <li>Build a complete eCommerce application with ASP.NET MVC</li>
-                <li>Master Entity Framework Core for database operations</li>
-                <li>Implement secure authentication and authorization</li>
-                <li>Create responsive user interfaces</li>
-              </ul>
-
-              <h4 class="mt-4">Requirements</h4>
-              <ul>
-                <li>Basic knowledge of C# programming</li>
-                <li>Understanding of web development concepts</li>
-                <li>Visual Studio or VS Code installed</li>
-              </ul>
-            </div>
-          }
-          
-          @if(activeTab === 'qa') {
-            <div class="qa-content">
-              <h3>Q&A</h3>
-              <p class="text-muted">Ask questions and get answers from instructors and students</p>
-            </div>
-          }
-          
-          @if(activeTab === 'notes') {
-            <div class="notes-content">
-              <h3>Notes</h3>
-              <p class="text-muted">Take notes while watching lectures</p>
-            </div>
-          }
-          
-          @if(activeTab === 'announcements') {
-            <div class="announcements-content">
-              <h3>Announcements</h3>
-              <p class="text-muted">Stay updated with course announcements</p>
-            </div>
-          }
-          
-          @if(activeTab === 'reviews') {
-            <div class="reviews-content">
-              <h3>Reviews</h3>
-              <p class="text-muted">See what other students are saying</p>
-            </div>
-          }
-          
-          @if(activeTab === 'tools') {
-            <div class="tools-content">
-              <h3>Learning Tools</h3>
-              <p class="text-muted">Additional resources and tools for learning</p>
-            </div>
-          }
-        </div>
+      
+      <div *ngIf="activeTab === 'notes'">
+        <p class="course-description">Your notes will appear here...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'announcements'">
+        <p class="course-description">Course announcements will be shown here...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'reviews'">
+        <p class="course-description">Course reviews...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'tools'">
+        <p class="course-description">Learning tools and resources...</p>
       </div>
     </div>
-
-    <!-- Sidebar -->
-    <aside class="sidebar" [class.open]="sidebarOpen">
-      <div class="sidebar-header">
-        <h2>Course content</h2>
-        <button class="close-btn" (click)="toggleSidebar()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <div class="course-sections">
-        <!-- Loop through sections -->
-        <div class="section" *ngFor="let section of sections" [class.collapsed]="section.collapsed">
-          <div class="section-header" (click)="toggleSection(section)">
-            <i class="fas" [class.fa-chevron-up]="!section.collapsed" [class.fa-chevron-down]="section.collapsed"></i>
-            <div class="section-info">
-              <h3>{{ section.title }}</h3>
-              <span class="section-meta">{{ section.completedLectures }} / {{ section.totalLectures }} | {{ section.totalDuration }}</span>
-            </div>
-          </div>
-          
-          <!-- Section Content - Lectures -->
-          <div class="section-content" *ngIf="!section.collapsed && section.lectures.length > 0">
-            <div class="lecture" *ngFor="let lecture of section.lectures">
-              <input 
-                type="checkbox" 
-                [id]="'lecture-' + lecture.id"
-                [checked]="lecture.completed"
-                (change)="toggleLectureCompletion(lecture)">
-              <label [for]="'lecture-' + lecture.id" (click)="selectLecture(lecture); $event.preventDefault()">
-                <span class="lecture-title">{{ lecture.title }}</span>
-                <span class="lecture-duration">
-                  <i class="far fa-circle-play"></i> {{ lecture.duration }}
-                </span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
   </div>
-}
+
+  <!-- ======= Right Side: Course Content Sidebar ======= -->
+  <div class="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <h3>Course content</h3>
+      <button class="close-btn" (click)="toggleSidebar()">×</button>
+    </div>
+
+    <!-- Sidebar Content (Scrollable) -->
+    <div class="sidebar-content">
+      <div *ngFor="let section of course.sections; let i = index" class="section">
+        <!-- Section Header -->
+        <div 
+          class="section-header" 
+          [class.expanded]="section.expanded"
+          (click)="toggleSection(section)">
+          <div class="section-title-wrapper">
+            <h4 class="section-title">Section {{ i + 1 }}: {{ section.title }}</h4>
+            <div class="section-meta">
+              {{ getCompletedLectures(section) }} / {{ section.lectures.length }} | 
+              {{ getSectionDuration(section) }}
+            </div>
+          </div>
+          <span class="section-toggle" [class.expanded]="section.expanded">▼</span>
+        </div>
+
+        <!-- Lectures List -->
+        <ul class="lectures-list" [class.collapsed]="!section.expanded">
+          <li 
+            *ngFor="let lecture of section.lectures; let j = index" 
+            class="lecture-item"
+            [class.active]="lecture.id === selectedLecture?.id"
+            (click)="selectLecture(lecture)">
+            
+            <div class="lecture-checkbox" [class.completed]="lecture.completed"></div>
+            
+            <div class="lecture-info">
+              <div class="lecture-name">{{ j + 1 }}. {{ lecture.title }}</div>
+              <div class="lecture-duration">
+                <svg class="video-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ lecture.duration || '7min' }}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">
+    <div>Loading course content...</div>
+  </div>
+</ng-template>

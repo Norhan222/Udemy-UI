@@ -159,13 +159,25 @@
 .avatar {
   width: 3rem;
   height: 3rem;
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  background: linear-gradient(135deg, #413e3e 0%, #3c363f 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: bold;
+}
+.avatarImg{
+     width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: #111827;
+    color: white;
+    object-fit: contain;
+    font-weight: bold;
 }
 
 .name-row {

@@ -4,6 +4,54 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+// export interface Lecture {
+//   id: number;
+//   title: string;
+//   videoUrl: string | null;
+//   duration: number;
+//   orderIndex: number;
+// }
+
+// export interface Section {
+//   id: number;
+//   title: string;
+//   orderIndex: number;
+//   lectures: Lecture[];
+// }
+
+// export interface CourseContent {
+//   id: number;
+//   title: string;
+//   description: string;
+//   sections: Section[];
+// }
+export interface Lecture {
+  id: number;
+  title: string;
+  videoUrl: string;
+  duration?: string;
+  completed?: boolean;
+  order?: number;
+}
+
+export interface Section {
+  id: number;
+  title: string;
+  lectures: Lecture[];
+  expanded?: boolean;
+  order?: number;
+}
+
+export interface CourseContent {
+  id: number;
+  title: string;
+  description: string;
+  sections: Section[];
+  instructor?: string;
+  rating?: number;
+  studentsCount?: number;
+}
+
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +67,7 @@ export class CourseService {
   getCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
-AdvancedCourses(): Observable<ICourse[]> {
+getAdvancedCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Advanced`);
   }
 
@@ -87,7 +135,6 @@ AdvancedCourses(): Observable<ICourse[]> {
   getMyCourses(): Observable<any> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);
   }
-
     // lern component test
   getCourseByIdtest(id: number, forceRefresh = false): Observable<ICourse> {
   if (!forceRefresh && this.courseCache.has(id)) {
@@ -111,4 +158,20 @@ AdvancedCourses(): Observable<ICourse[]> {
  updateInstructorCourse(courseId: Number, formData: FormData): Observable<any> {
     return this.http.put(`${this.baseUrl}/InstructorCourse/update/${courseId}`, formData);
   }
+ 
+  getCourseContent(courseId: number): Observable<CourseContent> {
+    return this.http.get<CourseContent>(
+      `${this.baseUrl}/Course/${courseId}/content`
+    );
+  }
+  saveProgress(courseId: number, lectureId: number, progress: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/progress`, {
+      progress: progress
+    });
+  }
+
+  markLectureComplete(courseId: number, lectureId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/complete`, {});
+  }
 }
+

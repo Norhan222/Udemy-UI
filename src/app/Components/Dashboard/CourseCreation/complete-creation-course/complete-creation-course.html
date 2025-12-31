@@ -47,9 +47,11 @@
       </div>
       <button class="submit-btn" [disabled]="!canSubmitForReview()" [class.disabled]="!canSubmitForReview()"
         (click)="canSubmitForReview() ? onSubmitForReview() : showValidationMessages()"
-        title="{{ canSubmitForReview() ? ('COURSE_CREATION.MANAGE.SUBMIT' | translate) : 'Please complete all required fields' }}">
-        {{ 'COURSE_CREATION.MANAGE.SUBMIT' | translate }}
+        title="{{ canSubmitForReview() ? 'Submit for Review' : 'Please complete all required fields' }}">
+        Submit for Review
       </button>
+
+      <!-- احذف الـ Validation Info Box القديم -->
 
 
 
@@ -70,10 +72,9 @@
 
 
       <!-- Validation Info -->
-      <div *ngIf="!canSubmitForReview()" class="validation-info">
+      <!-- <div *ngIf="!canSubmitForReview()" class="validation-info">
         <span class="validation-icon">⚠️</span>
-        <span class="validation-text">{{ getValidationMessages().length }} {{
-          'COURSE_CREATION.MANAGE.VALIDATION_REMAINING' | translate }}</span>
+        <span class="validation-text">{{ getValidationMessages().length }} items remaining</span>
       </div>
     </div>
 
@@ -130,8 +131,10 @@
                 <button class="toolbar-btn">☰</button>
                 <button class="toolbar-btn">≡</button>
               </div>
-              <textarea [(ngModel)]="courseDescription" (ngModelChange)="onCourseDataChange()"
-                placeholder="Insert your course description." class="form-textarea"></textarea>
+              <textarea [(ngModel)]="courseDescription"
+                (ngModelChange)="onCourseDataChange()"
+              placeholder="Insert your course description."
+                class="form-textarea"></textarea>
             </div>
             <span class="helper-text">Description should have minimum 200 words.</span>
           </div>
@@ -150,7 +153,9 @@
               </select>
             </div>
             <div class="grid-2">
-              <select [(ngModel)]="category" (ngModelChange)="onCourseDataChange()" class="form-select">
+              <select [(ngModel)]="category"
+              (ngModelChange)="onCourseDataChange()"
+              class="form-select">
                 <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
               </select>
               <select [(ngModel)]="subcategory" (ngModelChange)="onCourseDataChange()" class="form-select "
@@ -586,49 +591,50 @@
           </div>
         </div>
 
-        <!-- Success Modal -->
-        <div *ngIf="showSuccessModal" class="modal-overlay success-overlay" (click)="closeSuccessModal()">
-          <div class="modal-content success-modal" (click)="$event.stopPropagation()">
-            <div class="success-icon-container">
-              <div class="success-checkmark">
-                <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                  <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
-                  <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                </svg>
-              </div>
-            </div>
-            <div class="success-content">
-              <h2 class="success-title">{{ 'COURSE_CREATION.MANAGE.SUCCESS.TITLE' | translate }} 🎉</h2>
-              <p class="success-message">
-                {{ 'COURSE_CREATION.MANAGE.SUCCESS.MESSAGE' | translate: { title: courseTitle } }}
-              </p>
-              <div class="success-details">
-                <div class="detail-item">
-                  <span class="detail-icon">📚</span>
-                  <span class="detail-text">{{ sections.length }} Section(s)</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-icon">🎬</span>
-                  <span class="detail-text">{{ getTotalLecturesCount() }} Lecture(s)</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-icon">💰</span>
-                  <span class="detail-text">Price: {{ priceTier }}</span>
-                </div>
-              </div>
-              <p class="success-note">
-                <strong>What's next?</strong><br>
-                • Review team will check your content quality<br>
-                • You'll receive feedback if any changes are needed<br>
-                • Once approved, your course will go live!
-              </p>
-              <button class="success-btn" (click)="closeSuccessModal()">
-                {{ 'COURSE_CREATION.MANAGE.SUCCESS.BTN' | translate }}
-              </button>
-            </div>
+ <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay success-overlay" (click)="closeSuccessModal()">
+    <div class="modal-content success-modal" (click)="$event.stopPropagation()">
+      <div class="success-icon-container">
+        <div class="success-checkmark">
+          <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+      </div>
+      <div class="success-content">
+        <h2 class="success-title">Course Submitted Successfully! 🎉</h2>
+        <p class="success-message">
+          Your course "{{ courseTitle }}" has been submitted for review.
+          Our team will review it within 2-3 business days and notify you via email.
+        </p>
+        <div class="success-details">
+          <div class="detail-item">
+            <span class="detail-icon">📚</span>
+            <span class="detail-text">{{ sections.length }} Section(s)</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">🎬</span>
+            <span class="detail-text">{{ getTotalLecturesCount() }} Lecture(s)</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">💰</span>
+            <span class="detail-text">Price: {{ priceTier }}</span>
           </div>
         </div>
+        <p class="success-note">
+          <strong>What's next?</strong><br>
+          • Review team will check your content quality<br>
+          • You'll receive feedback if any changes are needed<br>
+          • Once approved, your course will go live!
+        </p>
+        <button class="success-btn" (click)="closeSuccessModal()">
+          Got it, Thanks!
+        </button>
       </div>
     </div>
   </div>
 </div>
+      </div>
+    </div>
+  </div>

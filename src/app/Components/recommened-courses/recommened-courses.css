@@ -288,3 +288,11 @@
 .wishlist-btn:hover {
   background-color: #e3e7ea;
 }
+
+::ng-deep .p-ripple > svg{
+background-color:#b6b7e0;
+border-radius:50% ;
+width:30px;
+height:30px;
+padding:10px
+}

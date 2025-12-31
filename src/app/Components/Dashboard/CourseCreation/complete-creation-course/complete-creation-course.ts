@@ -20,17 +20,17 @@ import { ICourse } from '../../../../Models/icourse';
 })
 export class CompleteCreationCourse implements OnInit {
 
-  course!: Course;
-  editCourse!: ICourse;
-  sectionss: Section[] = [];
-  courseData!: CourseFormData;
-  courseTitle: string | null = '';
-  courseDescription: string | null = '';
-  category: string | null = '';
-  courseId!: Number;
-  isLoading: boolean = false;
-  hasUnsavedChanges = false;
-  ///////edit
+course!:Course;
+editCourse!:ICourse;
+sectionss:Section[]=[];
+courseData!:CourseFormData;
+courseTitle:string |null='';
+courseDescription :string | null='';
+category:string | null='';
+courseId!:Number;
+isLoading:boolean=false;
+hasUnsavedChanges = false;
+///////edit
   isSaving = false;
   originalCourseData: any = null
   /////////
@@ -334,98 +334,98 @@ export class CompleteCreationCourse implements OnInit {
     );
   }
 
-  //   onSubmitForReview(): void {
-  //     if (!this.canSubmitForReview()) {
-  //       alert('Please complete all required fields before submitting for review.');
-  //       return;
-  //     }
-  //     this.course.title=this.courseTitle??''
-  //     this.course.description=this.courseDescription??''
-  //     this.course.language=this.language
-  //     this.course.level=this.level
-  //     this.course.category=this.category??''
-  //     this.course.subcategory=this.subcategory??''
-  //     this.course.Thumbnail=this.courseImage!
-  //     this.course.PreviewVideo=this.promoVideo!
-  //     this.course.shortTitle=this.courseSubtitle
+//   onSubmitForReview(): void {
+//     if (!this.canSubmitForReview()) {
+//       alert('Please complete all required fields before submitting for review.');
+//       return;
+//     }
+//     this.course.title=this.courseTitle??''
+//     this.course.description=this.courseDescription??''
+//     this.course.language=this.language
+//     this.course.level=this.level
+//     this.course.category=this.category??''
+//     this.course.subcategory=this.subcategory??''
+//     this.course.Thumbnail=this.courseImage!
+//     this.course.PreviewVideo=this.promoVideo!
+//     this.course.shortTitle=this.courseSubtitle
 
-  //    this.course.price=this.priceTier==='Free'?0:parseFloat( this.priceTier.replace('$',''))
-
-
+//    this.course.price=this.priceTier==='Free'?0:parseFloat( this.priceTier.replace('$',''))
 
 
-  //     const formData = new FormData();
 
-  // // course level
-  // formData.append('Title', this.course.title);
-  // formData.append('ShortTitle', this.course.shortTitle);
-  // formData.append('Category', this.course.category);
-  // formData.append('Subcategory', this.course.subcategory);
-  // formData.append('Level', this.course.level);
-  // formData.append('Language', this.course.language);
-  // formData.append('Price', this.course.price.toString());
-  // formData.append('Description', this.course.description);
-  // formData.append('Thumbnail', this.course.Thumbnail);
-  // formData.append('PreviewVideo',this.course.PreviewVideo);
 
-  // // sections
-  //  this.sections.forEach((section, i) => {
-  //   formData.append(`Sections[${i}].title`, section.title);
+//     const formData = new FormData();
 
-  //  section.lectures.forEach((lecture, j) => {
-  //    formData.append(
-  //      `Sections[${i}].Lectures[${j}].title`,
-  //      lecture.title
-  //    );
-  //    if(lecture.videoUrl){
-  //     formData.append(`Sections[${i}].Lectures[${j}].video`, lecture.videoUrl)
-  //    }
+// // course level
+// formData.append('Title', this.course.title);
+// formData.append('ShortTitle', this.course.shortTitle);
+// formData.append('Category', this.course.category);
+// formData.append('Subcategory', this.course.subcategory);
+// formData.append('Level', this.course.level);
+// formData.append('Language', this.course.language);
+// formData.append('Price', this.course.price.toString());
+// formData.append('Description', this.course.description);
+// formData.append('Thumbnail', this.course.Thumbnail);
+// formData.append('PreviewVideo',this.course.PreviewVideo);
 
-  //    });
-  // });
-  // this.courseService.createCourse(formData).subscribe({
-  //   next: (courseId) => {
-  //     console.log('Course created with ID:', courseId);
-  //   },
-  //   error: (error) => {
-  //     console.error('Error creating course:', error);
-  //   }
-  // });
+// // sections
+//  this.sections.forEach((section, i) => {
+//   formData.append(`Sections[${i}].title`, section.title);
 
-  //     this.isSubmitting = true;
+//  section.lectures.forEach((lecture, j) => {
+//    formData.append(
+//      `Sections[${i}].Lectures[${j}].title`,
+//      lecture.title
+//    );
+//    if(lecture.videoUrl){
+//     formData.append(`Sections[${i}].Lectures[${j}].video`, lecture.videoUrl)
+//    }
 
-  //  setTimeout(() => {
-  //       this.isSubmitting = false;
-  //       this.showSuccessModal = true;
-  //       console.log('Course submitted for review successfully!');
-  //     }, 2000);
+//    });
+// });
+// this.courseService.createCourse(formData).subscribe({
+//   next: (courseId) => {
+//     console.log('Course created with ID:', courseId);
+//   },
+//   error: (error) => {
+//     console.error('Error creating course:', error);
+//   }
+// });
 
-  //    console.log('Submitting course for review...', this.course);
-  //   }
+//     this.isSubmitting = true;
 
-  onSubmitForReview(): void {
-    // ✅ 1. Validation
-    if (!this.canSubmitForReview()) {
-      this.showValidationMessages();
-      return;
-    }
+//  setTimeout(() => {
+//       this.isSubmitting = false;
+//       this.showSuccessModal = true;
+//       console.log('Course submitted for review successfully!');
+//     }, 2000);
 
-    // ✅ 2. اخفي validation box لو كان ظاهر
-    this.isSubmitting = true;
+//    console.log('Submitting course for review...', this.course);
+//   }
 
-    // ✅ 3. املأ بيانات الكورس
-    this.course.title = this.courseTitle ?? '';
-    this.course.description = this.courseDescription ?? '';
-    this.course.language = this.language;
-    this.course.level = this.level;
-    this.course.category = this.category ?? '';
-    this.course.subcategory = this.subcategory ?? '';
-    this.course.shortTitle = this.courseSubtitle;
+onSubmitForReview(): void {
+  // ✅ 1. Validation
+  if (!this.canSubmitForReview()) {
+    this.showValidationMessages();
+    return;
+  }
 
-    // ✅ 4. الصورة والفيديو - تأكد إنهم File objects
-    if (this.courseImage && this.courseImage instanceof File) {
-      this.course.Thumbnail = this.courseImage;
-    }
+  // ✅ 2. اخفي validation box لو كان ظاهر
+  this.isSubmitting = true;
+
+  // ✅ 3. املأ بيانات الكورس
+  this.course.title = this.courseTitle ?? '';
+  this.course.description = this.courseDescription ?? '';
+  this.course.language = this.language;
+  this.course.level = this.level;
+  this.course.category = this.category ?? '';
+  this.course.subcategory = this.subcategory ?? '';
+  this.course.shortTitle = this.courseSubtitle;
+
+  // ✅ 4. الصورة والفيديو - تأكد إنهم File objects
+  if (this.courseImage && this.courseImage instanceof File) {
+    this.course.Thumbnail = this.courseImage;
+  }
 
     if (this.promoVideo && this.promoVideo instanceof File) {
       this.course.PreviewVideo = this.promoVideo;
@@ -461,32 +461,32 @@ export class CompleteCreationCourse implements OnInit {
     formData.append('Price', this.course.price.toString());
     formData.append('Description', this.course.description);
 
-    // ✅ 8. Primary Topic (لو موجود)
-    if (this.primaryTopic) {
-      formData.append('PrimaryTopic', this.primaryTopic);
-    }
+  // ✅ 8. Primary Topic (لو موجود)
+  if (this.primaryTopic) {
+    formData.append('PrimaryTopic', this.primaryTopic);
+  }
 
-    // ✅ 9. Course Thumbnail
-    if (this.course.Thumbnail) {
-      formData.append('Thumbnail', this.course.Thumbnail, this.course.Thumbnail.name);
-      console.log('✅ Thumbnail added:', this.course.Thumbnail.name);
-    } else {
-      console.warn('⚠️ No thumbnail file');
-    }
+  // ✅ 9. Course Thumbnail
+  if (this.course.Thumbnail) {
+    formData.append('Thumbnail', this.course.Thumbnail, this.course.Thumbnail.name);
+    console.log('✅ Thumbnail added:', this.course.Thumbnail.name);
+  } else {
+    console.warn('⚠️ No thumbnail file');
+  }
 
-    // ✅ 10. Preview Video
-    if (this.course.PreviewVideo) {
-      formData.append('PreviewVideo', this.course.PreviewVideo, this.course.PreviewVideo.name);
-      console.log('✅ Preview video added:', this.course.PreviewVideo.name);
-    } else {
-      console.warn('⚠️ No preview video file');
-    }
+  // ✅ 10. Preview Video
+  if (this.course.PreviewVideo) {
+    formData.append('PreviewVideo', this.course.PreviewVideo, this.course.PreviewVideo.name);
+    console.log('✅ Preview video added:', this.course.PreviewVideo.name);
+  } else {
+    console.warn('⚠️ No preview video file');
+  }
 
-    // ✅ 11. Sections & Lectures
-    this.sections.forEach((section, sectionIndex) => {
-      // Section Title
-      formData.append(`Sections[${sectionIndex}].Title`, section.title);
-      formData.append(`Sections[${sectionIndex}].orderIndex`, section.orderIndex.toString());
+  // ✅ 11. Sections & Lectures
+  this.sections.forEach((section, sectionIndex) => {
+    // Section Title
+    formData.append(`Sections[${sectionIndex}].Title`, section.title);
+   formData.append(`Sections[${sectionIndex}].orderIndex`, section.orderIndex.toString());
 
       console.log(`📚 Section ${sectionIndex}: ${section.title}`);
 
@@ -536,16 +536,16 @@ export class CompleteCreationCourse implements OnInit {
     });
     console.log('====================');
 
-    // ✅ 14. إرسال البيانات للـ Backend
-    this.courseService.createCourse(formData).subscribe({
-      next: (response) => {
-        console.log('✅ Course created successfully!', response);
-        this.isSubmitting = false;
-        this.showSuccessModal = true;
-      },
-      error: (error) => {
-        console.error('❌ Error creating course:', error);
-        this.isSubmitting = false;
+  // ✅ 14. إرسال البيانات للـ Backend
+  this.courseService.createCourse(formData).subscribe({
+    next: (response) => {
+      console.log('✅ Course created successfully!', response);
+      this.isSubmitting = false;
+      this.showSuccessModal = true;
+    },
+    error: (error) => {
+      console.error('❌ Error creating course:', error);
+      this.isSubmitting = false;
 
         // ✅ عرض رسالة الخطأ للمستخدم
         let errorMessage = 'Failed to create course. ';
@@ -869,6 +869,7 @@ export class CompleteCreationCourse implements OnInit {
       this.closeVideoUploadModal();
 
       this.onCourseDataChange();
+      this.cdr.detectChanges()
     }
   }
 
@@ -1088,18 +1089,20 @@ export class CompleteCreationCourse implements OnInit {
 
     console.log('💾 Saving course changes...');
 
-    // ✅ استدعي update endpoint
+    //  استدعي update endpoint
     this.courseService.updateInstructorCourse(this.courseId, formData).subscribe({
       next: (response) => {
-        console.log('✅ Course saved successfully!', response);
+        console.log(' Course saved successfully!', response);
         this.isSaving = false;
         this.hasUnsavedChanges = false;
 
-        // ✅ حدّث الداتا الأصلية
+        //  حدّث الداتا الأصلية
         this.saveOriginalData();
+        this.cdr.detectChanges()
 
         // عرض رسالة نجاح
-        alert('Course saved successfully! ✅');
+        alert('Course saved successfully! ');
+        this.router.navigateByUrl('dashboard/courses')
       },
       error: (error) => {
         console.error('❌ Error saving course:', error);
@@ -1116,7 +1119,7 @@ export class CompleteCreationCourse implements OnInit {
       }
     });
   }
-  // ✅ 8. CanDeactivate Guard - منع المغادرة بدون حفظ
+// ✅ 8. CanDeactivate Guard - منع المغادرة بدون حفظ
   canDeactivate(): boolean {
     if (this.hasUnsavedChanges) {
       return confirm(
@@ -1128,7 +1131,7 @@ export class CompleteCreationCourse implements OnInit {
     return true;
   }
 
-  // ✅ 9. HostListener للتحذير عند إغلاق الصفحة
+  //  9. HostListener للتحذير عند إغلاق الصفحة
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.hasUnsavedChanges) {
@@ -1136,7 +1139,7 @@ export class CompleteCreationCourse implements OnInit {
     }
   }
 
-  // ✅ 10. عند الضغط على "Back to courses"
+  //  10. عند الضغط على "Back to courses"
   onBackToCourses(): void {
     if (this.canDeactivate()) {
       this.router.navigate(['/dashboard/courses']);

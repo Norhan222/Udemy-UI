@@ -31,5 +31,5 @@ export class App implements OnInit {
         });
     }
   }
-  protected readonly title = signal('UdemyUI');
+  protected readonly title = signal('Udemy');
 }
