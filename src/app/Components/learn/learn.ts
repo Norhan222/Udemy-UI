@@ -1,198 +1,141 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  ChangeDetectorRef,
-  NgZone,
-} from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {
-  CourseContent,
-  CourseService,
-  Lecture,
-  Section,
-} from '../../Services/course-service';
+import { CourseService, CourseContent, Section, Lecture } from '../../Services/course-service';
 
 @Component({
   selector: 'app-learn',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [CommonModule],
   templateUrl: './learn.html',
-  styleUrl: './learn.css',
+  styleUrls: ['./learn.css']
 })
 export class Learn implements OnInit {
+  courseId!: number;
+  course: CourseContent | null = null;
+  selectedLecture: Lecture | null = null;
+  loading = true;
+  showFullDescription = false;
+  activeTab = 'overview';
+  sidebarVisible = true;
+
   @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
-  course: CourseContent | null = null;
-  sections: Section[] = [];
-  selectedLecture: Lecture | null = null;
-
-  loading = true;
-  sidebarOpen = true;
-
-  // video state
-  isPlaying = false;
-  currentTime = 0;
-  duration = 0;
-  playbackRate = 1;
-
   constructor(
-    private route: ActivatedRoute,
-    private courseService: CourseService,
-    private cdr: ChangeDetectorRef,
-    private zone: NgZone
+    private courseService: CourseService, 
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    const courseId = Number(this.route.snapshot.paramMap.get('id'));
-    if (courseId) {
-      this.loadCourseContent(courseId);
-    }
+    this.courseId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadCourse();
   }
 
-  loadCourseContent(courseId: number): void {
-    this.loading = true;
-
-    this.courseService.getCourseContent(courseId).subscribe({
-      next: res => {
-        // نستخدم setTimeout لتجنب NG0100
-        setTimeout(() => {
-          this.course = res;
-
-          this.sections = res.sections.map(s => ({
-            ...s,
-            collapsed: true,
-            totalLectures: s.lectures.length,
-            completedLectures: 0,
-            totalDuration: this.calcSectionDuration(s.lectures),
-            lectures: s.lectures.map(l => ({
-              ...l,
-              completed: false,
-            })),
-          }));
-
-          // افتح أول Section
-          if (this.sections.length) {
-            this.sections[0].collapsed = false;
+  loadCourse() {
+    this.courseService.getCourseContent(115).subscribe({
+      next: (data) => {
+        this.course = data;
+        console.log("content", data);
+        
+        // Expand first section by default
+        if (data.sections.length) {
+          data.sections[0].expanded = true;
+          
+          if (data.sections[0].lectures.length) {
+            this.selectLecture(data.sections[0].lectures[0]);
           }
-
-          // اختار أول Lecture
-          const firstLecture =
-            this.sections[0]?.lectures.find(l => l.videoUrl) ?? null;
-
-          this.selectedLecture = firstLecture;
-          this.loading = false;
-
-          // شغل الفيديو بعد ما الـ view تجهز
-          if (firstLecture) {
-            setTimeout(() => this.loadVideo(), 0);
-          }
-
-          // تحديث Angular
-          this.cdr.detectChanges();
-        }, 0);
-      },
-      error: err => {
-        console.error('course content error', err);
+        }
+        
         this.loading = false;
       },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
     });
   }
 
-  loadVideo(): void {
+  selectLecture(lecture: Lecture) {
+    this.selectedLecture = lecture;
+    
+    // Mark as completed
+    if (lecture) {
+      lecture.completed = true;
+    }
+    
     if (this.videoPlayer?.nativeElement) {
       this.videoPlayer.nativeElement.load();
+      this.videoPlayer.nativeElement.play();
+    }
+
+    // Scroll to top of content area
+    const contentArea = document.querySelector('.content-area');
+    if (contentArea) {
+      contentArea.scrollTop = 0;
     }
   }
 
-  selectLecture(lecture: Lecture): void {
-    if (!lecture.videoUrl) return;
-
-    // تأجيل التغيير لتجنب NG0100
-    setTimeout(() => {
-      this.selectedLecture = lecture;
-      this.cdr.detectChanges();
-      this.loadVideo();
-    }, 0);
+  toggleSection(section: Section) {
+    section.expanded = !section.expanded;
   }
 
-  toggleLectureCompletion(lecture: Lecture, event: Event): void {
-    event.stopPropagation();
-    lecture.completed = !lecture.completed;
-    this.updateProgress();
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
+    // You can implement hiding/showing sidebar logic here
   }
 
-  updateProgress(): void {
-    this.sections.forEach(section => {
-      section.completedLectures = section.lectures.filter(
-        l => l.completed
-      ).length;
-    });
+  getCompletedLectures(section: Section): number {
+    return section.lectures.filter(l => l.completed).length;
   }
 
-  calcSectionDuration(lectures: Lecture[]): string {
-    const totalSeconds = lectures.reduce(
-      (sum, l) => sum + (l.duration ?? 0),
-      0
-    );
-    const mins = Math.floor(totalSeconds / 60);
-    return `${mins}m`;
+  getSectionDuration(section: Section): string {
+    // Calculate total duration
+    // This is a simple example - you'll need to parse actual durations
+    const totalMinutes = section.lectures.length * 7; // Assuming 7min per lecture
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    
+    if (hours > 0) {
+      return `${hours}hr ${minutes}min`;
+    }
+    return `${minutes}min`;
   }
 
-  toggleSection(section: Section): void {
-    section.collapsed = !section.collapsed;
+  onVideoEnded() {
+    // Auto-play next lecture
+    if (this.course && this.selectedLecture) {
+      const nextLecture = this.findNextLecture();
+      if (nextLecture) {
+        this.selectLecture(nextLecture);
+      }
+    }
   }
 
-  toggleSidebar(): void {
-    this.sidebarOpen = !this.sidebarOpen;
-  }
-
-  togglePlayPause(): void {
-    const video = this.videoPlayer?.nativeElement;
-    if (!video) return;
-
-    video.paused ? video.play() : video.pause();
-  }
-
-  onTimeUpdate(event: Event): void {
+  onTimeUpdate(event: Event) {
+    // Track video progress if needed
     const video = event.target as HTMLVideoElement;
-    this.currentTime = video.currentTime;
-    this.duration = video.duration;
+    const progress = (video.currentTime / video.duration) * 100;
+    
+    // You can save progress to backend here
+    // this.courseService.saveProgress(this.courseId, this.selectedLecture.id, progress);
   }
 
-  formatTime(seconds: number): string {
-    if (!seconds || isNaN(seconds)) return '0:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  }
+  private findNextLecture(): Lecture | null {
+    if (!this.course || !this.selectedLecture) return null;
 
-  seekTo(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const video = this.videoPlayer?.nativeElement;
-    if (video) {
-      video.currentTime = (+input.value / 100) * video.duration;
+    let foundCurrent = false;
+    
+    for (const section of this.course.sections) {
+      for (const lecture of section.lectures) {
+        if (foundCurrent) {
+          return lecture;
+        }
+        if (lecture.id === this.selectedLecture.id) {
+          foundCurrent = true;
+        }
+      }
     }
-  }
-
-  changePlaybackRate(rate: number): void {
-    this.playbackRate = rate;
-    if (this.videoPlayer?.nativeElement) {
-      this.videoPlayer.nativeElement.playbackRate = rate;
-    }
-  }
-
-  getProgressPercentage(): number {
-    const total = this.sections.reduce(
-      (sum, s) => sum + (s.totalLectures ?? 0),
-      0
-    );
-    const done = this.sections.reduce(
-      (sum, s) => sum + (s.completedLectures ?? 0),
-      0
-    );
-    return total ? Math.round((done / total) * 100) : 0;
+    
+    return null;
   }
 }
