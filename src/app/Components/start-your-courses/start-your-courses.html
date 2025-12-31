@@ -5,12 +5,16 @@
 </div>
 @if(courses == null)
 {
-  <div class="text-center text-primary">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
+  <div class="courses-list" >
+                <div *ngFor="let item of [1,2,3,]" class="skeleton-card row" style="width:400px; height:100px; margin:10px;">
+                    <div class="skeleton-image col-4" style="width:20%;height:100%; margin-right:10px"></div>
+                    <div class="skeleton-details col-8" style="height:100px; ">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line subtitle"></div>
+                    </div>
+                </div>
+                
   </div>
-</div>
- 
 }@else{
 <p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
   <ng-template let-product pTemplate="item">

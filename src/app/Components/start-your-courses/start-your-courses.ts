@@ -5,9 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-start-your-courses',
-  imports: [Carousel, ButtonModule],
+  imports: [Carousel, ButtonModule,CommonModule],
   templateUrl: './start-your-courses.html',
   styleUrl: './start-your-courses.css',
 })

@@ -1,14 +1,27 @@
 <section style="margin:30px; background-color: #f7f9fb; padding:30px; border-radius:20px;">
   <h2>Skills to transform your career and life</h2>
   <p>From critical skills to technical topics, Udemy supports your professional development.</p>
-  
+  @if(courses == null)
+{
+  <div class="courses-list" >
+                <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="width:250px; margin:10px">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-details">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line subtitle"></div>
+                        <div class="skeleton-line meta"></div>
+                        <div class="skeleton-line price"></div>
+                    </div>
+                </div>
+            </div>
+}@else{
   <div style="margin-top:20px;background-color: #f7f9fb;" *ngIf="courses.length">
 
-    <p-tabs [value]="courses[0]?.id" style=" background-color: #f7f9fb; margin: 0 10px">
+    <p-tabs [value]="courses[0]?.id" style=" background-color: #f7f9fb; margin: 30px; padding:30px">
 
       <!-- Tabs Header -->
-      <p-tablist style=" margin: 0 10px">
-        <p-tab 
+      <p-tablist style=" margin: 0px 10px 0px 10px">
+        <p-tab
           *ngFor="let topic of courses; trackBy: trackByTopicId"
           [value]="topic.id"
           style=" margin: 0 10px 0 10px; border-bottom: 2px solid #000;">
@@ -17,86 +30,80 @@
       </p-tablist>
       <!-- Tabs Content -->
       <p-tabpanels style="border:none; background-color: #f7f9fb; margin: 0 10px">
-        <p-tabpanel 
+        <p-tabpanel
           *ngFor="let topic of courses; trackBy: trackByTopicId"
           [value]="topic.id">
-
-          <p-carousel
-            [value]="topic.courses"
-            [numVisible]="4"
-            [numScroll]="1"
-            [responsiveOptions]="responsiveOptions">
-
-            <ng-template pTemplate="item" let-product>
-
-              <div class="course-card-wrapper">
-        <div class="course-card"  style="height:320px">
-          <div [routerLink]="['/course', product.id]">
-            <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
-            <div class="course-basic-info">
-               <h3 class="course-title">{{product.title}}</h3>
-                <p class="course-instructor">{{product.instructorName}}</p>
-                <div class="course-rating">
-                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
-                <p-rating [(ngModel)]="value"  [readonly]="true"></p-rating>
-              </div>
+       
+<section style="margin: 10px 0 50px 0;">
+  <p-carousel [value]="topic.courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product pTemplate="item">
+      <div style="margin:10px; background-color: white; " class="lex justify-center course-card-wrapper"
+        (mouseenter)="showPopoverDetails($event, product)" (mouseleave)="hidePopoverDetails()">
+        <button [routerLink]="['/course', product.id]"
+          style="border: none;background: transparent; width: 100%; text-align: left;">
+          <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
+          <div class="course-basic-info">
+            <h3 class="course-title">{{product.title}}</h3>
+            <p class="course-instructor"> {{product.instructorName}}</p>
+            <div class="course-rating">
+              <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
+              <p-rating value ="4.7" [readonly]="true"></p-rating>
+            </div>
             <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
+            <button type="button"
+              style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+              <i class="bi bi-patch-check"></i> Premium</button>
           </div>
-         </div>
-          <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
-          <div class="course-hover-card">
-            <h3 class="hover-title">{{product.title}}</h3>
-            <button type="button" class="" 
-                    style="background-color:#6d28d2;margin-top:10px ;
-                          color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
-              Updated in {{product.lastUpdatedDate}}
-            </p>
-            <div class="hover-stats">
-              <span>62 total hours</span>
-              <span>•</span>
-              <span>All Levels</span>
-              <span>•</span>
-              <span>Subtitles</span>
-            </div>
-            <ul class="hover-list">
-              <li>Build 16 web development projects</li>
-              <li>Learn the latest technologies</li>
-              <li>Build a portfolio of websites</li>
-            </ul>
-            <div class="hover-buttons">
-                 <button type="button" class=" " 
-                    [disabled]="true" 
-                    style="background-color:#5f2eaf; color:white; 
-                           padding:15px 50px 15px 50px; font-weight:bold ;">
-                   <i class="bi bi-patch-check"></i>  
-                       {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
-                  </button>
-                  <button [disabled]="true"  style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
-                        
-                           <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
-                       
-                      
-                   </button>
-            </div>
-          </div>
-        </div>
+        </button>
+      </div>
+    </ng-template>
+  </p-carousel>
+
+  <!-- Global Custom Popover -->
+  <div *ngIf="showPopover && hoveredCourse" class="custom-course-popover" [style.top]="popoverStyle.top"
+    [style.left]="popoverStyle.left" (mouseenter)="onPopoverMouseEnter()" (mouseleave)="onPopoverMouseLeave()">
+
+    <!-- Arrow Element -->
+    <div class="popover-arrow" [class.arrow-right]="popoverStyle.arrowPosition === 'right'"
+      [class.arrow-left]="popoverStyle.arrowPosition === 'left'"></div>
+
+    <div class="popover-content">
+      <h3 class="hover-title">{{hoveredCourse.title}}</h3>
+
+      <div class="badges">
+        <span class="badge-premium">Premium</span>
+        <span class="updated-date">Updated {{hoveredCourse.lastUpdatedDate | date:'MMMM yyyy'}}</span>
       </div>
 
-               
-            </ng-template>
+      <div class="hover-stats">
+        <span>{{hoveredCourse.duration || 'Total Hours'}} total hours</span>
+        <span>•</span>
+        <span>{{hoveredCourse.level || 'All Levels'}}</span>
+        <span>•</span>
+        <span>Subtitles</span>
+      </div>
 
-          </p-carousel>
+      <p class="hover-description">
+        {{hoveredCourse.categoryName || 'Learn key skills in this course.'}}
+      </p>
+
+      <div class="hover-list-container">
+        <!-- Using hardcoded items as per user request/screenshot context, ideally these come from API -->
+        <ul class="hover-list">
+          <li><i class="bi bi-check"></i> <span>Build 16 web development projects</span></li>
+          <li><i class="bi bi-check"></i> <span>Learn the latest technologies</span></li>
+          <li><i class="bi bi-check"></i> <span>Build a portfolio of websites</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         </p-tabpanel>
       </p-tabpanels>
 
     </p-tabs>
   </div>
+}
 </section>

@@ -1,38 +1,126 @@
 <div class="learn-container" *ngIf="!loading && course; else loadingTpl">
-  <!-- ======= Video Player ======= -->
+  <!-- ======= Left Side: Video + Content ======= -->
   <div class="video-section">
-    <video #videoPlayer controls [src]="selectedLecture?.videoUrl" class="video-player"></video>
-    <h2 class="lecture-title">{{ selectedLecture?.title }}</h2>
-   <p class="course-description">
-  {{ course.description | slice:0:200 }}
-  <span *ngIf="course.description.length > 200">... 
-    <a href="#" (click)="showFullDescription = !showFullDescription; $event.preventDefault()">
-      {{ showFullDescription ? 'Show less' : 'Read more' }}
-    </a>
-  </span>
-</p>
+    <!-- Video Player -->
+    <div class="video-container">
+      <video 
+        #videoPlayer 
+        controls 
+        [src]="selectedLecture?.videoUrl" 
+        class="video-player"
+        (ended)="onVideoEnded()"
+        (timeupdate)="onTimeUpdate($event)">
+      </video>
+    </div>
 
-<!-- Full description عند الضغط -->
-<p *ngIf="showFullDescription">{{ course.description }}</p>
+    <!-- Tabs Navigation -->
+    <div class="tabs-navigation">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <div class="tab-item active" (click)="activeTab = 'overview'">Overview</div>
+      <div class="tab-item" (click)="activeTab = 'qa'">Q&A</div>
+      <div class="tab-item" (click)="activeTab = 'notes'">Notes</div>
+      <div class="tab-item" (click)="activeTab = 'announcements'">Announcements</div>
+      <div class="tab-item" (click)="activeTab = 'reviews'">Reviews</div>
+      <div class="tab-item" (click)="activeTab = 'tools'">Learning tools</div>
+    </div>
 
+    <!-- Content Area -->
+    <div class="content-area">
+      <h1 class="lecture-title">{{ selectedLecture?.title }}</h1>
+      
+      <div *ngIf="activeTab === 'overview'">
+        <p class="course-description" [class.show-full]="showFullDescription">
+          {{ showFullDescription ? course.description : (course.description | slice:0:200) }}
+          <span *ngIf="course.description.length > 200 && !showFullDescription">...</span>
+        </p>
+        
+        <button 
+          *ngIf="course.description.length > 200" 
+          class="read-more-btn"
+          (click)="showFullDescription = !showFullDescription">
+          {{ showFullDescription ? 'Show less' : 'Show more' }}
+        </button>
+      </div>
+      
+      <div *ngIf="activeTab === 'qa'">
+        <p class="course-description">Q&A section coming soon...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'notes'">
+        <p class="course-description">Your notes will appear here...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'announcements'">
+        <p class="course-description">Course announcements will be shown here...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'reviews'">
+        <p class="course-description">Course reviews...</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'tools'">
+        <p class="course-description">Learning tools and resources...</p>
+      </div>
+    </div>
   </div>
 
-  <!-- ======= Sidebar Sections ======= -->
+  <!-- ======= Right Side: Course Content Sidebar ======= -->
   <div class="sidebar">
-    <h3>{{ course.title }} Sections</h3>
-    <div *ngFor="let section of course.sections" class="section">
-      <h4>{{ section.title }}</h4>
-      <ul>
-        <li *ngFor="let lecture of section.lectures" 
-            (click)="selectLecture(lecture)"
-            [class.active]="lecture.id === selectedLecture?.id">
-          {{ lecture.title }}
-        </li>
-      </ul>
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <h3>Course content</h3>
+      <button class="close-btn" (click)="toggleSidebar()">×</button>
+    </div>
+
+    <!-- Sidebar Content (Scrollable) -->
+    <div class="sidebar-content">
+      <div *ngFor="let section of course.sections; let i = index" class="section">
+        <!-- Section Header -->
+        <div 
+          class="section-header" 
+          [class.expanded]="section.expanded"
+          (click)="toggleSection(section)">
+          <div class="section-title-wrapper">
+            <h4 class="section-title">Section {{ i + 1 }}: {{ section.title }}</h4>
+            <div class="section-meta">
+              {{ getCompletedLectures(section) }} / {{ section.lectures.length }} | 
+              {{ getSectionDuration(section) }}
+            </div>
+          </div>
+          <span class="section-toggle" [class.expanded]="section.expanded">▼</span>
+        </div>
+
+        <!-- Lectures List -->
+        <ul class="lectures-list" [class.collapsed]="!section.expanded">
+          <li 
+            *ngFor="let lecture of section.lectures; let j = index" 
+            class="lecture-item"
+            [class.active]="lecture.id === selectedLecture?.id"
+            (click)="selectLecture(lecture)">
+            
+            <div class="lecture-checkbox" [class.completed]="lecture.isCompleted"></div>
+            
+            <div class="lecture-info">
+              <div class="lecture-name">{{ j + 1 }}. {{ lecture.title }}</div>
+              <div class="lecture-duration">
+                <svg class="video-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ lecture.duration || '7min' }}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
 <ng-template #loadingTpl>
-  <div class="loading">Loading course content...</div>
+  <div class="loading">
+    <div>Loading course content...</div>
+  </div>
 </ng-template>
