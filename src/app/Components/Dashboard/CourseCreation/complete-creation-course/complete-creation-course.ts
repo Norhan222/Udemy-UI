@@ -350,8 +350,9 @@ getTotalVideoMinutes(): number {
 
 allLecturesHaveContent(): boolean {
   return this.sections.every(section =>
-    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0)
-  );
+    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0))||
+    this.editSections.every(section =>
+    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0));
 }
 
 closeRequirementsModal(): void {
