@@ -4,6 +4,39 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+// course-content.model.ts
+export interface CourseContent {
+  id: number;
+  title: string;
+  description: string;
+  sections: Section[];
+}
+
+export interface Section {
+  id: number;
+  title: string;
+  orderIndex: number;
+  lectures: Lecture[];
+
+  // UI ONLY
+  collapsed?: boolean;
+  completedLectures?: number;
+  totalLectures?: number;
+  totalDuration?: string;
+}
+
+export interface Lecture {
+  id: number;
+  title: string;
+  videoUrl: string | null;
+  duration: number;
+  orderIndex: number;
+  isFree: boolean;
+
+  // UI ONLY
+  completed?: boolean;
+}
+
 
 @Injectable({
   providedIn: 'root',
@@ -110,5 +143,9 @@ getAdvancedCourses(): Observable<ICourse[]> {
 
  updateInstructorCourse(courseId: Number, formData: FormData): Observable<any> {
     return this.http.put(`${this.baseUrl}/InstructorCourse/update/${courseId}`, formData);
+  }
+ 
+   getCourseContent(courseId: number): Observable<CourseContent> {
+    return this.http.get<CourseContent>(`${this.baseUrl}/Course/${courseId}/Content`);
   }
 }
