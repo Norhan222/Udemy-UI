@@ -32,7 +32,7 @@ export class Learn implements OnInit {
   }
 
   loadCourse() {
-    this.courseService.getCourseContent(115).subscribe({
+    this.courseService.getCourseContent(116).subscribe({
       next: (data) => {
         this.course = data;
         console.log("content", data);
