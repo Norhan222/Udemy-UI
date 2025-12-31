@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,PopoverModule, ButtonModule, ],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,PopoverModule, ButtonModule, CommonModule],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })
@@ -37,23 +37,37 @@ export class TrendingCourses implements OnInit, OnDestroy, AfterViewInit {
   ///
    @ViewChild('op') op!: Popover;
 
-    selectedMember = null;
+    
+hoveredProduct: any = null;
+hideTimer: any;
 
-    members = [
-        { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
-        { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
-        { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' },
-    ];
+showPopover(event: MouseEvent, product: any, op: Popover) {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
 
-    toggle(event: any) {
-        this.op.show(event);
-    }
+  this.hoveredProduct = product;
 
-    selectMember(member: any) {
-        this.selectedMember = member;
-        this.op.hide();
-    }
-  ///
+  setTimeout(() => {
+    op.show(event);
+  });
+}
+
+scheduleHide(op: Popover) {
+  this.hideTimer = setTimeout(() => {
+    op.hide();
+    this.hoveredProduct = null;
+  },);
+}
+
+cancelHide() {
+  if (this.hideTimer) {
+    clearTimeout(this.hideTimer);
+    this.hideTimer = null;
+  }
+}
+
 
   private cartService = inject(CartService);
   private wihshList = inject(WishlistService);

@@ -19,7 +19,9 @@ export class CourseService {
   getCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/GetAll`);
   }
-
+AdvancedCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(`${this.baseUrl}/Course/Advanced`);
+  }
 
   getStudentCourses(): Observable<ICourse[]> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);

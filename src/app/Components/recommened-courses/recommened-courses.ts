@@ -8,7 +8,7 @@ import { Rating } from 'primeng/rating';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CardDialog } from '../card-dialog/card-dialog';
 import { CourseShowDialog } from '../../Directives/course-show-dialog';
 import { CommonModule } from '@angular/common';
@@ -19,165 +19,209 @@ import { Popover, PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-recommened-courses',
-  imports: [Carousel, ButtonModule,CardModule,CommonModule,FormsModule,OverlayModule, Rating, RouterLink,PopoverModule ],
+  imports: [Carousel, ButtonModule, CardModule, CommonModule, FormsModule, OverlayModule, Rating, RouterLink, PopoverModule],
   templateUrl: './recommened-courses.html',
   styleUrl: './recommened-courses.css',
 })
 export class RecommenedCourses implements OnInit, OnDestroy {
   responsiveOptions: any[] | undefined;
 
-    courses!:ICourse [] ;
-    topPickCourse!: ICourse;
-    dataResponse!: Subscription;
-    cartAdded = false;
-    wihshListAdded =false;
-    value: number = 3;
+  courses!: ICourse[];
+  topPickCourse!: ICourse;
+  dataResponse!: Subscription;
+  cartAdded = false;
+  wihshListAdded = false;
+  value: number = 3;
 
-    @ViewChild('op') op!: Popover;
+  // Popover State
+  hoveredCourse: any = null;
+  popoverStyle: any = {};
+  showPopover: boolean = false;
+  private hideTimeout: any;
 
-        selectedMember = null;
+  private cartService = inject(CartService);
+  private wihshList = inject(WishlistService);
 
-       
-        toggle(event: any) {
-            this.op.show(event);
-        }
+  cartItems: any[] = [];
+  wishlistItems: any[] = [];
+  cartLoaded = false;
 
-        selectMember(member: any) {
-            this.selectedMember = member;
-            this.op.hide();
-        }
-      // selectedCourse: any;
-      // @ViewChild('op') OP!:OverlayPanel;
+  constructor(
+    public courseService: CourseService,
+    public cdn: ChangeDetectorRef,
+    private router: Router
+  ) { }
 
-      constructor(public courseService: CourseService ,
-        public cdn:ChangeDetectorRef) {}
-         private cartService = inject(CartService);
-        private wihshList =inject(WishlistService);
-                       cartItems: any[] = [];
-                        wishlistItems: any[] = [];
-                       cartLoaded = false;
-
-      ngOnInit() {
-
-        this.dataResponse = this.courseService.getRecommendedCourses().subscribe((data:any)=>{
-              this.courses = data.data;
-              this.topPickCourse = this.courses[0];
-              this.cdn.detectChanges();
-           })
-
-         this.responsiveOptions = [
-              {
-                  breakpoint: '1400px',
-                  numVisible: 2,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '1199px',
-                  numVisible: 3,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '767px',
-                  numVisible: 2,
-                  numScroll: 1,
-              },
-              {
-                  breakpoint: '575px',
-                  numVisible: 1,
-                  numScroll: 1,
-              }
-          ];
-       //add to cart
-
-         this.cartService.getCart().subscribe({
-             next: (res: any) => {
-             this.cartItems = res.data.items;
-             this.cartLoaded = true;
-
-            console.log('CART ITEMS:', this.cartItems);
-            this.cdn.detectChanges();
-          },
-          error: (er) => {
-              this.cartLoaded = true;
-             console.error('Error fetching cart items:', er);
-         }
-        });
-
-        this.wihshList.getWishlist().subscribe({
-          next: (res: any) => {
-          this.wishlistItems = res.data;
-          this.wihshListAdded = true;
-          console.log('WISHLIST ITEMS:', this.wishlistItems);
-          this.cdn.detectChanges();
-        },
-        error: (er) => {
-         console.error('Error fetching wishlist items:', er);
-       }
-      });
-
-
-
-
-          //
- }
-
-      // getSeverity(status: string) {
-      //     switch (status) {
-      //         case 'INSTOCK':
-      //             return 'success';
-      //         case 'LOWSTOCK':
-      //             return 'warn';
-      //         case 'OUTOFSTOCK':
-      //             return 'danger';
-      //     }
-      // }
-
-
-
-
-
-        isInCart(courseId: number | null | undefined): boolean {
-          if (!courseId || !this.cartItems?.length) return false;
-          return this.cartItems.some(item => item.courseId === courseId);
-        }
-
-      isInWishlist(courseId: number | null | undefined): boolean {
-        if (!courseId || !this.wishlistItems?.length) return false;
-        return this.wishlistItems.some(item => item.courseId === courseId);
-      }
-
-        addToCart(id: any): void {
-         this.cartService.addToCart(id).subscribe({
-          next: (res) => {
-          console.log('addCart', res);
-          this.cartAdded = true;
-          this.cartItems.push({ courseId: id, ...res.data });
-         this.cdn.detectChanges(); // force update
-         },
-         error: (err) => {
-         console.error(err);
-        }
-       });
+  showPopoverDetails(event: MouseEvent, course: any) {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
     }
 
-      addToWishlist(id: any): void {
-       this.wihshList.addToWishlist(id).subscribe({
-        next: (res) => {
-        console.log('addWishlist', res);
-        this.wihshListAdded = true;
-        this.wishlistItems.push({ courseId: id, ...res.data });
-        this.cdn.detectChanges(); // force update
-        },
-        error: (err) => {
-        console.error(err);
-        }
-        });
+    this.hoveredCourse = course;
+    this.showPopover = true;
+    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
+  }
+
+  hidePopoverDetails() {
+    this.hideTimeout = setTimeout(() => {
+      this.showPopover = false;
+      this.hoveredCourse = null;
+      this.cdn.detectChanges(); // Ensure Angular updates the view
+    }, 200);
+  }
+
+  onPopoverMouseEnter() {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+  }
+
+  onPopoverMouseLeave() {
+    this.hidePopoverDetails();
+  }
+
+  calculatePopoverPosition(target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const popoverWidth = 360; // Match CSS
+    const spacing = 15;
+
+    let left = rect.right + spacing;
+    let top = rect.top + scrollTop - 20;
+
+    let arrowPosition = 'left';
+
+    if (rect.right + popoverWidth + spacing > window.innerWidth) {
+      left = rect.left - popoverWidth - spacing;
+      arrowPosition = 'right';
     }
 
+    if (left < 0) {
+      left = rect.right + spacing;
+      arrowPosition = 'left';
+    }
 
-  ngOnDestroy(): void {
-    this.dataResponse.unsubscribe(); //end request
+    this.popoverStyle = {
+      top: `${top}px`,
+      left: `${left}px`,
+      arrowPosition: arrowPosition,
+      display: 'block'
+    };
   }
 
 
+  ngOnInit() {
+    this.dataResponse = this.courseService.getRecommendedCourses().subscribe((data: any) => {
+      this.courses = data.data;
+      if (this.courses && this.courses.length > 0) {
+        this.topPickCourse = this.courses[0];
+      }
+      this.cdn.detectChanges();
+    });
+
+    this.responsiveOptions = [
+      {
+        breakpoint: '1400px',
+        numVisible: 2,
+        numScroll: 1,
+      },
+      {
+        breakpoint: '1199px',
+        numVisible: 3,
+        numScroll: 1,
+      },
+      {
+        breakpoint: '767px',
+        numVisible: 2,
+        numScroll: 1,
+      },
+      {
+        breakpoint: '575px',
+        numVisible: 1,
+        numScroll: 1,
+      }
+    ];
+
+    // Load Cart
+    this.cartService.getCart().subscribe({
+      next: (res: any) => {
+        if (res.data && res.data.items) {
+          this.cartItems = res.data.items;
+        }
+        this.cartLoaded = true;
+        this.cdn.detectChanges();
+      },
+      error: (er) => {
+        this.cartLoaded = true;
+        console.error('Error fetching cart items:', er);
+      }
+    });
+
+    // Load Wishlist
+    this.wihshList.getWishlist().subscribe({
+      next: (res: any) => {
+        if (res.data) {
+          this.wishlistItems = res.data;
+        }
+        this.wihshListAdded = true;
+        this.cdn.detectChanges();
+      },
+      error: (er) => {
+        console.error('Error fetching wishlist items:', er);
+      }
+    });
+  }
+
+  isInCart(courseId: number | null | undefined): boolean {
+    if (!courseId || !this.cartItems?.length) return false;
+    return this.cartItems.some(item => item.courseId === courseId);
+  }
+
+  isInWishlist(courseId: number | null | undefined): boolean {
+    if (!courseId || !this.wishlistItems?.length) return false;
+    return this.wishlistItems.some(item => item.courseId === courseId);
+  }
+
+  addToCart(id: any): void {
+    if (this.isInCart(id)) {
+      this.router.navigate(['/cart']);
+      return;
+    }
+
+    this.cartService.addToCart(id).subscribe({
+      next: (res) => {
+        console.log('addCart', res);
+        this.cartAdded = true;
+        // Optimization: Immediately update local state or wait for refresh
+        this.cartItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  addToWishlist(id: any): void {
+    this.wihshList.addToWishlist(id).subscribe({
+      next: (res) => {
+        console.log('addWishlist', res);
+        this.wihshListAdded = true;
+        this.wishlistItems.push({ courseId: id, ...res.data });
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataResponse) {
+      this.dataResponse.unsubscribe();
+    }
+  }
 }
