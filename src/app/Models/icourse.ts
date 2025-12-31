@@ -1,3 +1,4 @@
+import { SubCategory } from './sub-category';
 import { Section } from "./section"
 
 export interface ICourse {
@@ -14,6 +15,9 @@ export interface ICourse {
     instructorId: string,
     lastUpdatedDate: string,
     rating: number,
+    category:string|null,
+    subCategory:string|null,
+    primaryTopic:string|null
     topicName: string,
     instructorName: string,
     sections:Section[]

@@ -105,6 +105,7 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   videoFileName = 'No file selected';
   promoVideo: File | null = null;
   promoVideoPreview: string | null = null;
+  approvalStatus:string|null=''
 
 
 
@@ -210,6 +211,7 @@ populateCourseData(): void {
     this.language = this.editCourse.language || 'English (US)';
     this.level = this.editCourse.level || '';
     this.primaryTopic = '';
+    this.approvalStatus=this.editCourse.approvalStatus
 
     // ✅ Pricing
     if (this.editCourse.price === 0) {
@@ -1019,6 +1021,8 @@ private checkSectionsChanges(): boolean {
     formData.append('Level', this.level);
     formData.append('Language', this.language);
     formData.append('Description', this.courseDescription ?? '');
+
+    formData.append('ApprovalStatus', this.approvalStatus ?? '');
 
     // Primary Topic
     if (this.primaryTopic) {
