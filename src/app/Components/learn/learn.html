@@ -100,7 +100,7 @@
             [class.active]="lecture.id === selectedLecture?.id"
             (click)="selectLecture(lecture)">
             
-            <div class="lecture-checkbox" [class.completed]="lecture.completed"></div>
+            <div class="lecture-checkbox" [class.completed]="lecture.isCompleted"></div>
             
             <div class="lecture-info">
               <div class="lecture-name">{{ j + 1 }}. {{ lecture.title }}</div>
