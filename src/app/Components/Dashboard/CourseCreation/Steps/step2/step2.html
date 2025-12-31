@@ -1,17 +1,17 @@
 <div class="form-container">
   <h1 class="form-title">
-    How about a working title?
+    {{ 'COURSE_CREATION.STEPS.STEP2.TITLE' | translate }}
   </h1>
   <p class="form-subtitle">
-    It's ok if you can't think of a good title now. You can change it later.
+    {{ 'COURSE_CREATION.STEPS.STEP2.SUBTITLE' | translate }}
   </p>
 
   <div class="form-group">
     <label class="form-label">
-      Course Title
+      {{ 'COURSE_CREATION.STEPS.STEP2.LABEL' | translate }}
     </label>
     <input type="text" [(ngModel)]="courseTitle" (ngModelChange)="onTitleChange($event)"
-      placeholder="e.g. Learn Photoshop CS6 from Scratch" maxlength="60" class="form-input" />
+      placeholder="{{ 'COURSE_CREATION.STEPS.STEP2.PLACEHOLDER' | translate }}" maxlength="60" class="form-input" />
     <div class="character-count">
       {{ courseTitle.length }}/60
     </div>

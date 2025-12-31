@@ -4,93 +4,126 @@ import { CategoryService } from '../../../Services/category-service';
 import { Category } from '../../../Models/category';
 import { SubCategory } from '../../../Models/sub-category';
 import { Topic } from '../../../Models/topic';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-explore-menu',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './explore-menu.html',
   styleUrl: './explore-menu.css',
 })
-export class ExploreMenu implements OnInit , OnChanges{
+export class ExploreMenu implements OnInit, OnChanges {
   isOpen = false;
-  categories: Category[]=[];
-  subCategories!: SubCategory[]|null;
-  topics: Topic[]=[] ;
+  categories: Category[] = [];
+  subCategories!: SubCategory[] | null;
+  topics: Topic[] = [];
   activeCategoryId: number | null = null;
   activeSubCategoryId: number | null = null;
 
-  activeMenuStatic:string |null=null;
-  activeSubMenuStatic:string |null=null;
+  activeMenuStatic: string | null = null;
+  activeSubMenuStatic: string | null = null;
 
 
 
-  constructor(private catService:CategoryService  ,private cdr: ChangeDetectorRef){
+  constructor(private catService: CategoryService, private cdr: ChangeDetectorRef) {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-     this.catService.getCategories().subscribe((data)=>{
-      this.categories=data
+    this.catService.getCategories().subscribe((data) => {
+      this.categories = data
     });
   }
   ngOnInit(): void {
-    this.catService.getCategories().subscribe((data)=>{
-      this.categories=data
+    this.catService.getCategories().subscribe((data) => {
+      this.categories = data
     });
+
+    // Apply RTL positioning if needed
+    this.applyRTLPositioning();
+  }
+
+  applyRTLPositioning(): void {
+    const isRTL = document.documentElement.dir === 'rtl';
+    if (isRTL) {
+      // Force RTL positioning via JavaScript
+      setTimeout(() => {
+        const dropdown = document.querySelector('.explore-dropdown') as HTMLElement;
+        if (dropdown) {
+          dropdown.style.left = 'auto';
+          dropdown.style.right = '0';
+        }
+      }, 100);
+    }
   }
 
 
- subMenusStatic:any = {
-  ai: [
-    { key: 'aifun', label: 'AI Fundementals' },
-    { key: 'aipro', label: 'AI Professionals' },
-    { key: 'aidev', label: 'AI For Developers' },
-    { key: 'aicreat', label: 'AI For Creatives' }
+  subMenusStatic: any = {
+    ai: [
+      { key: 'aifun', label: 'EXPLORE.SUB_MENU.AI_FUNDAMENTALS' },
+      { key: 'aipro', label: 'EXPLORE.SUB_MENU.AI_PROFESSIONALS' },
+      { key: 'aidev', label: 'EXPLORE.SUB_MENU.AI_FOR_DEVS' },
+      { key: 'aicreat', label: 'EXPLORE.SUB_MENU.AI_FOR_CREATIVES' }
+    ],
+    career: [
+      { key: 'management', label: 'EXPLORE.SUB_MENU.MANAGEMENT' },
+      { key: 'sales', label: 'EXPLORE.SUB_MENU.SALES' }
+    ],
+    certificate: [
+      { key: 'security', label: 'EXPLORE.SUB_MENU.CYBER_SECURITY' },
+      { key: 'network', label: 'EXPLORE.SUB_MENU.NETWORKING' }
+    ]
+  };
+  topicsStatics: any = {
+    aifun: ['EXPLORE.TOPICS.PROMPT_ENG', 'EXPLORE.TOPICS.LLM', 'EXPLORE.TOPICS.GEN_AI', 'EXPLORE.TOPICS.AI_AGENTS'],
+    aipro: ['EXPLORE.TOPICS.CHATGPT', 'EXPLORE.TOPICS.COPILOT', 'EXPLORE.TOPICS.GEMINI', 'EXPLORE.TOPICS.CLAUDE', 'EXPLORE.TOPICS.AI_CONTENT', 'EXPLORE.TOPICS.PERPLEXITY', 'EXPLORE.TOPICS.AGENTFORCE', 'EXPLORE.TOPICS.DEEPSEEK', 'EXPLORE.TOPICS.MLOPS', 'EXPLORE.TOPICS.TENSORFLOW', 'EXPLORE.TOPICS.PYTORCH'],
+    aidev: ['EXPLORE.TOPICS.OPENAI_API', 'EXPLORE.TOPICS.GITHUB_COPILOT', 'EXPLORE.TOPICS.AZURE_ML', 'EXPLORE.TOPICS.RAG', 'EXPLORE.TOPICS.LANGCHAIN', 'EXPLORE.TOPICS.MLOPS', 'EXPLORE.TOPICS.TENSORFLOW', 'EXPLORE.TOPICS.PYTORCH'],
+    aicreat: ['EXPLORE.TOPICS.DALLE', 'EXPLORE.TOPICS.MIDJOURNEY', 'EXPLORE.TOPICS.STABLE_DIFFUSION', 'EXPLORE.TOPICS.LEONARDO', 'EXPLORE.TOPICS.AI_ART'],
+    sales: ['EXPLORE.TOPICS.B2B_SALES', 'EXPLORE.TOPICS.NEGOTIATION'],
+    security: ['EXPLORE.TOPICS.ETHICAL_HACKING', 'EXPLORE.TOPICS.PEN_TESTING'],
+    network: ['EXPLORE.TOPICS.CCNA', 'EXPLORE.TOPICS.ROUTING_SWITCHING']
+  };
 
 
-  ],
-  career: [
-    { key: 'management', label: 'Management' },
-    { key: 'sales', label: 'Sales' }
-  ],
-  certificate: [
-    { key: 'security', label: 'Cyber Security' },
-    { key: 'network', label: 'Networking' }
-  ]
-};
-topicsStatics:any = {
-  aifun: ['Prompt Engineering', 'Larg Language Models(LLM)', 'Generative AI(GenAI)', 'AI Agents & Agentic AI'],
-  aipro: ['ChatGPT', 'Microsoft Copilot', 'Google Gemini (Bard)','Claude AI','AI Content Generation','Perplexity AI','Agentforce','DeepSeek','MLOps','TensorFlow','PyTorch'],
-  aidev: ['OpenAI API', 'GitHub Copilot','Azure Machine Learning','Retrieval Augmented Generation','LangChain','MLOps','TensortFlow','PyTorch'],
-  aicreat: ['DALLE', 'Midjourney','Stable Diffusion','Leonardo.Ai','AI Art Generation'],
-  sales: ['B2B Sales', 'Negotiation'],
-  security: ['Ethical Hacking', 'Pen Testing'],
-  network: ['CCNA', 'Routing & Switching']
-};
+  setActiveStatic(menu: string) {
+    this.activeMenuStatic = menu;
+    this.activeSubMenuStatic = null;
+    this.subCategories = null;
+  }
+  setSubActiveStatic(menu: string) {
+    this.activeSubMenuStatic = menu;
+    //this.subCategories=null;
+  }
 
+  openMenu() {
+    this.isOpen = true;
+  }
 
-setActiveStatic(menu: string) {
-  this.activeMenuStatic = menu;
-  this.activeSubMenuStatic = null;
-  this.subCategories=null;
-}
-setSubActiveStatic(menu: string) {
-  this.activeSubMenuStatic = menu;
-//this.subCategories=null;
-}
+  closeMenu() {
+    this.isOpen = false;
+    // Reset all states when closing
+    this.activeMenuStatic = null;
+    this.activeSubMenuStatic = null;
+    this.activeCategoryId = null;
+    this.activeSubCategoryId = null;
+    this.subCategories = null;
+    this.topics = [];
+  }
 
-openMenu() {
-  this.isOpen = true;
-}
+  getDropdownStyle() {
+    const isRTL = document.documentElement.dir === 'rtl';
+    if (isRTL) {
+      return {
+        'left': 'auto',
+        'right': '0'
+      };
+    }
+    return {};
+  }
 
-closeMenu() {
-  this.isOpen = false;
-
-}
-
-onCategoryHover(categoryId: number) {
-if (this.activeCategoryId === categoryId) return;
-    this.activeMenuStatic=null
-    this.activeSubMenuStatic=null
+  onCategoryHover(categoryId: number) {
+    if (this.activeCategoryId === categoryId) return;
+    this.activeMenuStatic = null
+    this.activeSubMenuStatic = null
     this.activeCategoryId = categoryId;
     this.activeSubCategoryId = null;
     this.topics = [];
@@ -101,8 +134,8 @@ if (this.activeCategoryId === categoryId) return;
         console.log(this.subCategories)
       });
   }
-  onleave(){
-    this.subCategories=null
+  onleave() {
+    this.subCategories = null
   }
 
   onSubCategoryHover(subId: number) {

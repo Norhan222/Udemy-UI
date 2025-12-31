@@ -2,15 +2,16 @@ import { ReviewService } from './../../../../Services/review-service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { Review } from '../../../../Models/review';
 
 @Component({
   selector: 'app-reviews',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './reviews.html',
   styleUrl: './reviews.css',
 })
-export class Reviews implements  OnInit {
+export class Reviews implements OnInit {
 
   reviews: Review[] = [
     // { id: 1, studentName: 'أحمد محمد', courseTitle: 'Web Development', rating: 2, comment: 'المحتوى جيد لكن يحتاج تحسين', answered: false, createdDate: '2025-01-15' },
@@ -25,31 +26,31 @@ export class Reviews implements  OnInit {
 
   filteredReviews: Review[] = [];
   courses: string[] = [];
-  
+
   activeTab: string = 'reviews';
   showNotAnswered: boolean = false;
   showWithComment: boolean = false;
   selectedRating: string = 'all';
   sortBy: string = 'lowest';
   selectedCourse: string = 'all';
-  
+
   replyingTo: number | null = null;
   replyText: string = '';
-  constructor(private ReviewService: ReviewService, private cdr:ChangeDetectorRef) {
-       
+  constructor(private ReviewService: ReviewService, private cdr: ChangeDetectorRef) {
+
     // this.filterReviews();
 
   }
 
   ngOnInit() {
     this.ReviewService.getReviews().subscribe(reviews => {
-      this.reviews=reviews
-     this.courses = ['all',...new Set(this.reviews.map(r => r.courseTitle))];
-         this.filterReviews();
-    this.cdr.detectChanges()
+      this.reviews = reviews
+      this.courses = ['all', ...new Set(this.reviews.map(r => r.courseTitle))];
+      this.filterReviews();
+      this.cdr.detectChanges()
     });
-   
-    this.courses = ['all',...new Set(this.reviews.map(r => r.courseTitle))];
+
+    this.courses = ['all', ...new Set(this.reviews.map(r => r.courseTitle))];
   }
 
   filterReviews() {

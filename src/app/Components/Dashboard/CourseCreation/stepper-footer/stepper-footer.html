@@ -2,12 +2,13 @@
   <div class="footer-container">
     <button (click)="onPrevious()" [disabled]="currentStep === 1" [class.disabled]="currentStep === 1"
       class="btn btn-secondary">
-      Previous
+      {{ 'COURSE_CREATION.STEPPER.PREVIOUS' | translate }}
     </button>
 
     <button (click)="onContinue()" [disabled]="!isCurrentStepValid" [class.disabled]="!isCurrentStepValid"
       class="btn btn-primary">
-      <span>{{ currentStep === totalSteps ? 'Create Course' : 'Continue' }}</span>
+      <span>{{ currentStep === totalSteps ? ('COURSE_CREATION.STEPPER.CREATE_COURSE' | translate) :
+        ('COURSE_CREATION.STEPPER.CONTINUE' | translate) }}</span>
       <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>

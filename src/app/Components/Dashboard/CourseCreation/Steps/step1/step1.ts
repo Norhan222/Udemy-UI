@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { StepperService } from '../../../../../Services/stepper-service';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-step1',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './step1.html',
   styleUrl: './step1.css',
 })
 export class Step1 implements OnInit {
-selectedType = '';
+  selectedType = '';
 
-  constructor(private stepperService: StepperService) {}
+  constructor(private stepperService: StepperService) { }
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.selectedType = data.courseType??'';
+      this.selectedType = data.courseType ?? '';
     });
   }
 

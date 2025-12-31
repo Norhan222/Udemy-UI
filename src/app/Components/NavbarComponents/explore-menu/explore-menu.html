@@ -1,28 +1,22 @@
 <div class="explore-wrapper" style="position: relative;" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
-  <a href="#" class="nav-link-explore" id="exploreLink">Explore</a>
-  <div class="explore-dropdown" id="exploreDropdown" *ngIf="isOpen">
+  <a href="#" class="nav-link-explore" id="exploreLink">{{ 'EXPLORE.EXPLORE' | translate }}</a>
+  <div class="explore-dropdown" id="exploreDropdown" *ngIf="isOpen" [ngStyle]="getDropdownStyle()">
     <!-- Column 1: Explore by Goal -->
     <div class="explore-column">
-      <div class="explore-column-header">Explore by Goal</div>
-      <a href="#" class="explore-item"
-      (mouseenter)="setActiveStatic('ai')"
-       [class.active]="activeMenuStatic === 'ai'">
-        Learn AI <i class="bi bi-chevron-right"></i>
+      <div class="explore-column-header">{{ 'EXPLORE.EXPLORE_BY_GOAL' | translate }}</div>
+      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('ai')" [class.active]="activeMenuStatic === 'ai'">
+        {{ 'EXPLORE.LEARN_AI' | translate }} <i class="bi bi-chevron-right"></i>
       </a>
-      <a href="#" class="explore-item"
-      (mouseenter)="setActiveStatic('career')"
-       [class.active]="activeMenuStatic === 'career'"
-      >
-        Launch a new career <i class="bi bi-chevron-right"></i>
+      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('career')"
+        [class.active]="activeMenuStatic === 'career'">
+        {{ 'EXPLORE.LAUNCH_CAREER' | translate }} <i class="bi bi-chevron-right"></i>
       </a>
-      <a href="#" class="explore-item"
-       (mouseenter)="setActiveStatic('certificate')"
-       [class.active]="activeMenuStatic === 'certificate'"
-      >
-        Prepare for a certification <i class="bi bi-chevron-right"></i>
+      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('certificate')"
+        [class.active]="activeMenuStatic === 'certificate'">
+        {{ 'EXPLORE.PREPARE_CERTIFICATION' | translate }} <i class="bi bi-chevron-right"></i>
       </a>
       <a href="#" class="explore-item" (mouseenter)="setActiveStatic('null')">
-        Practice with Role Play
+        {{ 'EXPLORE.PRACTICE_ROLE_PLAY' | translate }}
       </a>
       <hr>
       @for(item of categories; track item.id){
@@ -31,44 +25,43 @@
       </a>
       }
     </div>
-      <!-- //sub category static -->
-       @if(activeMenuStatic && subMenusStatic[activeMenuStatic]){
-       <div class="explore-submenu">
-         @for(item of subMenusStatic[activeMenuStatic] ;track item.key){
-        <a class="explore-item"
-        (mouseenter)="setSubActiveStatic(item.key)"
+    <!-- //sub category static -->
+    @if(activeMenuStatic && subMenusStatic[activeMenuStatic]){
+    <div class="explore-submenu">
+      @for(item of subMenusStatic[activeMenuStatic] ;track item.key){
+      <a class="explore-item" (mouseenter)="setSubActiveStatic(item.key)"
         [class.active]=" activeSubMenuStatic===item.key">
-          {{ item.label }} <i class="bi bi-chevron-right"></i>
-        </a>
-        }
-      </div>
+        {{ item.label | translate }} <i class="bi bi-chevron-right"></i>
+      </a>
+      }
+    </div>
     }
 
     <!-- //topics static -->
     @if( activeSubMenuStatic&& topicsStatics[activeSubMenuStatic]){
     <div class="explore-topics">
-       <div class="explore-column-header">Popular Topics</div>
+      <div class="explore-column-header">{{ 'EXPLORE.POPULAR_TOPICS' | translate }}</div>
       @for(item of topicsStatics[activeSubMenuStatic] ;track item){
       <a class="explore-item">
-        {{ item}}
+        {{ item | translate }}
       </a>
       }
     </div>
     }
 
     @if(subCategories){
-    <div class="explore-submenu" >
+    <div class="explore-submenu">
       @for(item of subCategories;track item.id){
-      <a class="explore-item" (mouseenter)="onSubCategoryHover(item.id)" >
+      <a class="explore-item" (mouseenter)="onSubCategoryHover(item.id)">
         {{ item.name }} <i class="bi bi-chevron-right"></i>
       </a>
       }
     </div>
-  }
+    }
 
 
     <div class="explore-topics" *ngIf="topics!.length">
-      <div class="explore-column-header">Popular Topics</div>
+      <div class="explore-column-header">{{ 'EXPLORE.POPULAR_TOPICS' | translate }}</div>
 
       <a class="explore-item" *ngFor="let topic of topics">
         {{ topic }}

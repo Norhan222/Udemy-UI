@@ -9,42 +9,43 @@ import { Rating } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CardModule } from 'primeng/card';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-topics-recommended',
-  imports: [Carousel, ButtonModule,CommonModule],
+  imports: [Carousel, ButtonModule, CommonModule, TranslateModule],
   templateUrl: './topics-recommended.html',
   styleUrl: './topics-recommended.css',
 })
 export class TopicsRecommended implements OnInit, OnDestroy {
-    
-    topics!:Topic [] ;
-    dataResponse!: Subscription;
-    topicGroups: string[][] = [];
-  
-      constructor(private topicService: TopicService, public cdn:ChangeDetectorRef) {}
-      ngOnInit() {
 
-          this.dataResponse = this.topicService.getRecommended().subscribe((data: any)=>{
-          this.topics = data.data;
-          this.topicGroups = [];
-         for (let i = 0; i < this.topics.length; i += 2) {
-             this.topicGroups.push([
-                this.topics[i].name,
-                this.topics[i + 1]?.name
-                
-             ]);
-         }
-         console.log('kkk',this.topicGroups);
-         console.log('kkk',this.topics);
-        this.cdn.detectChanges();
-       })
-         
-          
+  topics!: Topic[];
+  dataResponse!: Subscription;
+  topicGroups: string[][] = [];
+
+  constructor(private topicService: TopicService, public cdn: ChangeDetectorRef) { }
+  ngOnInit() {
+
+    this.dataResponse = this.topicService.getRecommended().subscribe((data: any) => {
+      this.topics = data.data;
+      this.topicGroups = [];
+      for (let i = 0; i < this.topics.length; i += 2) {
+        this.topicGroups.push([
+          this.topics[i].name,
+          this.topics[i + 1]?.name
+
+        ]);
       }
-      ngOnDestroy(): void {
-          this.dataResponse.unsubscribe(); //end request
-        }
-       
+      console.log('kkk', this.topicGroups);
+      console.log('kkk', this.topics);
+      this.cdn.detectChanges();
+    })
+
+
+  }
+  ngOnDestroy(): void {
+    this.dataResponse.unsubscribe(); //end request
+  }
+
 
 }

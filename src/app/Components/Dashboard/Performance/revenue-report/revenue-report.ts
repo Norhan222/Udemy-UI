@@ -4,15 +4,17 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Transaction } from '../../../../Models/revenue-report';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-revenue-report',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './revenue-report.html',
   styleUrl: './revenue-report.css',
 })
 export class RevenueReport {
 
-  constructor( private performanceService:PerformanceService, private cdr:ChangeDetectorRef){
+  constructor(private performanceService: PerformanceService, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -34,11 +36,11 @@ export class RevenueReport {
             avgPerTransaction: res.avgPerTransaction,
             period: res.period
           };
-                this.cdr.detectChanges()
+          this.cdr.detectChanges()
 
 
           this.filteredTransactions = res.transactionsList;
-                this.cdr.detectChanges()
+          this.cdr.detectChanges()
 
         },
         error: () => {

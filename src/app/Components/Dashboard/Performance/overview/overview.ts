@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChartData, PerformanceService } from '../../../../Services/performance-service';
 
 
 @Component({
   selector: 'app-overview',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './overview.html',
   styleUrl: './overview.css',
 })
-export class Overview implements OnInit  {
-selectedRange = 'Last 12 months';
+export class Overview implements OnInit {
+  selectedRange = 'Last 12 months';
   selectedCourse = 'All courses';
   isLoading = false;
 
@@ -35,7 +36,7 @@ selectedRange = 'Last 12 months';
   ];
 
   // ✅ Inject الـ Service
-  constructor(private performanceService: PerformanceService,private cdr:ChangeDetectorRef) {}
+  constructor(private performanceService: PerformanceService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     console.log('🚀 Overview component initialized');
@@ -112,7 +113,7 @@ selectedRange = 'Last 12 months';
 
   generateMockChartData(): ChartData[] {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months.map(month => ({
       month,
       revenue: Math.floor(Math.random() * 1000) + 200,
@@ -182,14 +183,14 @@ selectedRange = 'Last 12 months';
   // ✅ Check if there's data to display
   hasData(): boolean {
     const result = this.performanceData.totalRevenue > 0 ||
-                   this.performanceData.totalEnrollments > 0;
+      this.performanceData.totalEnrollments > 0;
     return result;
   }
 
   // ✅ حساب ارتفاع الـ bar بشكل ديناميكي
   getBarHeight(revenue: number): number {
     if (!this.performanceData.chartData ||
-        this.performanceData.chartData.length === 0) {
+      this.performanceData.chartData.length === 0) {
       return 0;
     }
 

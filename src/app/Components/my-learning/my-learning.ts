@@ -3,10 +3,11 @@ import { WishlistService } from '../../Services/wishlist';
 import { CourseService } from '../../Services/course-service';
 import { RouterLink } from "@angular/router";
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-learning',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, TranslateModule],
   templateUrl: './my-learning.html',
   styleUrl: './my-learning.css',
 })
@@ -14,14 +15,14 @@ export class MyLearning implements OnInit {
   private wishlistService = inject(WishlistService);
   private courseService = inject(CourseService);
   private cd = inject(ChangeDetectorRef);
-  
+
   wishlistItems: any[] = [];
   myCourses: any[] = [];
-  
+
   // Loading states
   isLoadingCourses = false;
   isLoadingWishlist = false;
-  
+
   ngOnInit(): void {
     this.loadCourses();
     this.loadWishlist();

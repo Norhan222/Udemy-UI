@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { StepperService } from '../../../../Services/stepper-service';
 import { Router } from '@angular/router';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-stepper-footer',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './stepper-footer.html',
   styleUrl: './stepper-footer.css',
 })
@@ -14,7 +16,7 @@ export class StepperFooter implements OnInit {
   totalSteps = 4;
   isCurrentStepValid = false;
 
-  constructor(private stepperService: StepperService ,private router: Router) {}
+  constructor(private stepperService: StepperService, private router: Router) { }
 
   ngOnInit(): void {
     this.stepperService.currentStep$.subscribe(step => {

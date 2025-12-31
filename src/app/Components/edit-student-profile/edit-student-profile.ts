@@ -2,17 +2,19 @@ import { Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../Services/auth-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-student-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './edit-student-profile.html',
   styleUrl: './edit-student-profile.css'
 })
 export class EditStudentProfile implements OnInit {
 
   private authService = inject(AuthService);
+  private translate = inject(TranslateService);
 
   activeSection: 'profile' | 'password' = 'profile';
 
@@ -106,11 +108,11 @@ export class EditStudentProfile implements OnInit {
     this.authService.updateStudentProfile(formData).subscribe({
       next: () => {
         this.isLoading = false;
-        this.successMessage = 'Profile updated successfully';
+        this.successMessage = this.translate.instant('PROFILE.PROFILE_UPDATED');
       },
       error: () => {
         this.isLoading = false;
-        this.errorMessage = 'Failed to update profile';
+        this.errorMessage = this.translate.instant('PROFILE.UPDATE_FAILED');
       }
     });
   }
@@ -122,22 +124,22 @@ export class EditStudentProfile implements OnInit {
     this.passwordErrorMessage = '';
     this.passwordSuccessMessage = '';
 
-   const payload = {
-  currentPassword: this.passwordForm.value.currentPassword!,
-  newPassword: this.passwordForm.value.newPassword!,
-  confirmNewPassword: this.passwordForm.value.confirmNewPassword!
-};
+    const payload = {
+      currentPassword: this.passwordForm.value.currentPassword!,
+      newPassword: this.passwordForm.value.newPassword!,
+      confirmNewPassword: this.passwordForm.value.confirmNewPassword!
+    };
 
 
     this.authService.changePassword(payload).subscribe({
       next: () => {
         this.isPasswordLoading = false;
-        this.passwordSuccessMessage = 'Password changed successfully';
+        this.passwordSuccessMessage = this.translate.instant('PROFILE.PASSWORD_CHANGED');
         this.passwordForm.reset();
       },
       error: (err) => {
         this.isPasswordLoading = false;
-        this.passwordErrorMessage = err.error?.message || 'Current password is incorrect';
+        this.passwordErrorMessage = err.error?.message || this.translate.instant('PROFILE.CURRENT_PASSWORD_INCORRECT');
       }
     });
   }

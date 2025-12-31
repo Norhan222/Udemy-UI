@@ -1,29 +1,30 @@
 <nav class="top-navbar d-flex align-items-center justify-content-end px-4">
   <!-- Role -->
-  <span class="role me-4" (click)="navigateToHome()">Home</span>
+  <span class="role me-4" (click)="navigateToHome()">{{ 'INSTRUCTOR_DASHBOARD.NAVBAR.HOME' | translate }}</span>
 
   <!-- Notification -->
   <!-- <i class="bi bi-bell notification me-4"(pointerenter)="toggleNotifications()"></i> -->
-<div class="notification-wrapper me-4" (mouseenter)="onNotificationMouseEnter()" (mouseleave)="onNotificationMouseLeave()">
+  <div class="notification-wrapper me-4" (mouseenter)="onNotificationMouseEnter()"
+    (mouseleave)="onNotificationMouseLeave()">
 
-  <div class="notification-trigger" >
-    <i class="bi bi-bell notification"></i>
+    <div class="notification-trigger">
+      <i class="bi bi-bell notification"></i>
 
-    <!-- Badge للـ unread count -->
-    @if (getUnreadCount() > 0) {
+      <!-- Badge للـ unread count -->
+      @if (getUnreadCount() > 0) {
       <span class="notification-badge-nav">
         {{ getUnreadCount() }}
       </span>
-    }
+      }
 
-    <!-- Notifications Panel -->
-    <app-instructor-notification >
-    </app-instructor-notification>
+      <!-- Notifications Panel -->
+      <app-instructor-notification>
+      </app-instructor-notification>
+    </div>
   </div>
-</div>
 
   <!-- Avatar -->
-   <app-user-menu></app-user-menu>
+  <app-user-menu></app-user-menu>
   <!-- <div class="avatar">
     {{ initials }}
   </div> -->

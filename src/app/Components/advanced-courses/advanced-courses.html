@@ -1,43 +1,50 @@
-@if(courses == null)
+@if(isLoading)
 {
-  <div class="courses-list" >
-                <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="width:250px; margin:10px">
-                    <div class="skeleton-image"></div>
-                    <div class="skeleton-details">
-                        <div class="skeleton-line title"></div>
-                        <div class="skeleton-line subtitle"></div>
-                        <div class="skeleton-line meta"></div>
-                        <div class="skeleton-line price"></div>
-                    </div>
-                </div>
-            </div>
+<div class="courses-list" style="display: flex; gap: 16px; overflow: hidden; margin: 10px 0;">
+  <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="min-width: 250px; flex: 1;">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-details">
+      <div class="skeleton-line title"></div>
+      <div class="skeleton-line subtitle"></div>
+      <div class="skeleton-line meta"></div>
+      <div class="skeleton-line price"></div>
+    </div>
+  </div>
+</div>
+
 }@else{
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
-      <div style="margin:10px; background-color: white; " class="lex justify-center course-card-wrapper"
+      <!-- Course Card Wrapper -->
+      <div style="margin:10px; background-color: white; " class="course-card-wrapper"
         (mouseenter)="showPopoverDetails($event, product)" (mouseleave)="hidePopoverDetails()">
-        <button [routerLink]="['/course', product.id]"
-          style="border: none;background: transparent; width: 100%; text-align: left;">
-          <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
-          <div class="course-basic-info">
-            <h3 class="course-title">{{product.title}}</h3>
-            <p class="course-instructor"> {{product.instructorName}}</p>
-            <div class="course-rating">
-              <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
-              <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+
+        <button style="border: none; background: transparent; width: 100%; text-align: left; padding: 0;">
+          <button [routerLink]="['/course', product.id]"
+            style="border: none;background: transparent; width: 100%; text-align: left; padding: 0;">
+            <img [src]="product.thumbnailUrl" alt="Course" class="course-image" style="width:100%">
+            <div class="course-basic-info" style="text-align:start">
+              <h3 class="course-title">{{product.title}}</h3>
+              <p class="course-instructor"> {{product.instructorName}}</p>
+              <div class="course-rating">
+                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating
+                  }}</span>
+                <p-rating [(ngModel)]="product.rating" [readonly]="true"></p-rating>
+              </div>
+              <div class="course-price">E&pound;{{product.price}}</div>
+              <button type="button"
+                style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+                <i class="bi bi-patch-check"></i> {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_BTN_PREMIUM' | translate }}
+              </button>
             </div>
-            <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button"
-              style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
-              <i class="bi bi-patch-check"></i> Premium</button>
-          </div>
+          </button>
         </button>
       </div>
     </ng-template>
   </p-carousel>
 
-  <!-- Global Custom Popover -->
+  <!-- Global Custom Popover (Moved outside loop) -->
   <div *ngIf="showPopover && hoveredCourse" class="custom-course-popover" [style.top]="popoverStyle.top"
     [style.left]="popoverStyle.left" (mouseenter)="onPopoverMouseEnter()" (mouseleave)="onPopoverMouseLeave()">
 
@@ -49,47 +56,53 @@
       <h3 class="hover-title">{{hoveredCourse.title}}</h3>
 
       <div class="badges">
-        <span class="badge-premium">Premium</span>
-        <span class="updated-date">Updated {{hoveredCourse.lastUpdatedDate | date:'MMMM yyyy'}}</span>
+        <span class="badge-premium">{{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_BTN_PREMIUM' | translate }}</span>
+        <span class="updated-date">{{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_UPDATED' | translate }}
+          {{hoveredCourse.lastUpdatedDate | date:'MMMM yyyy'}}</span>
       </div>
 
       <div class="hover-stats">
-        <span>{{hoveredCourse.duration || 'Total Hours'}} total hours</span>
+        <span>{{hoveredCourse.duration || 'Total Hours'}} {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_TOTAL_HOURS' | translate
+          }}</span>
         <span>•</span>
         <span>{{hoveredCourse.level || 'All Levels'}}</span>
         <span>•</span>
-        <span>Subtitles</span>
+        <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_SUBTITLES' | translate }}</span>
       </div>
 
       <p class="hover-description">
-        {{hoveredCourse.categoryName || 'Learn key skills in this course.'}}
+        {{hoveredCourse.categoryName || ('HOME_PAGE.RECOMMENDED.LEARN_SKILLS' | translate)}}
       </p>
 
       <div class="hover-list-container">
-        <!-- Using hardcoded items as per user request/screenshot context, ideally these come from API -->
         <ul class="hover-list">
-          <li><i class="bi bi-check"></i> <span>Build 16 web development projects</span></li>
-          <li><i class="bi bi-check"></i> <span>Learn the latest technologies</span></li>
-          <li><i class="bi bi-check"></i> <span>Build a portfolio of websites</span></li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.BUILD_WEB' | translate }}</span>
+          </li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.LEARN_LATEST' | translate }}</span>
+          </li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.BUILD_PORTFOLIO' | translate
+              }}</span></li>
         </ul>
       </div>
 
       <div class="hover-buttons">
         <button type="button" class="add-cart-btn" [class.added]="isInCart(hoveredCourse?.id)"
           (click)="addToCart(hoveredCourse?.id); $event.stopPropagation()">
-          {{ isInCart(hoveredCourse?.id) ? 'Added to Cart' : 'Add to cart' }}
+          {{ isInCart(hoveredCourse?.id) ? ('HOME_PAGE.TECHNICAL_TOPICS.BTN_ADDED_TO_CART' | translate) :
+          ('HOME_PAGE.TECHNICAL_TOPICS.BTN_ADD_TO_CART' | translate) }}
         </button>
         <button (click)="addToWishlist(hoveredCourse?.id); $event.stopPropagation()" class="wishlist-btn">
           @if(isInWishlist(hoveredCourse?.id))
           {
-          <i class="bi bi-heart-fill" style="color:#5624d0"></i> <!-- Udemy Purple -->
+          <i class="bi bi-heart-fill" style="color:#5624d0"></i>
           }@else
           {
-          <i class="bi bi-heart" style="color:#1c1d1f"></i> <!-- Black outline initially -->
+          <i class="bi bi-heart" style="color:#1c1d1f"></i>
           }
         </button>
       </div>
     </div>
   </div>
+
 </section>
 }

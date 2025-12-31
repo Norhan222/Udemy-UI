@@ -23,8 +23,8 @@
 }
 
 
-:host ::ng-deep .p-carousel{
-  z-index:-100
+:host ::ng-deep .p-carousel {
+  z-index: -100
 }
 
 /* ===================================
@@ -289,10 +289,75 @@
   background-color: #e3e7ea;
 }
 
-::ng-deep .p-ripple > svg{
-background-color:#b6b7e0;
-border-radius:50% ;
-width:30px;
-height:30px;
-padding:10px
+::ng-deep .p-ripple>svg {
+  background-color: #b6b7e0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 10px
+}
+
+/* Skeleton Loader */
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d1d7dc;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 300px;
+  /* Adjusted height */
+  background: white;
+}
+
+.skeleton-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #e0e0e0;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-details {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-line.title {
+  width: 90%;
+  height: 20px;
+}
+
+.skeleton-line.subtitle {
+  width: 60%;
+}
+
+.skeleton-line.meta {
+  width: 40%;
+}
+
+.skeleton-line.price {
+  width: 30%;
+  height: 24px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
 }

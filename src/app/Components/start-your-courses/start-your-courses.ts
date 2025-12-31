@@ -5,34 +5,34 @@ import { ButtonModule } from 'primeng/button';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
-import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
-  selector: 'app-start-your-courses',
-  imports: [Carousel, ButtonModule,CommonModule],
-  templateUrl: './start-your-courses.html',
-  styleUrl: './start-your-courses.css',
+    selector: 'app-start-your-courses',
+    imports: [Carousel, ButtonModule, TranslateModule],
+    templateUrl: './start-your-courses.html',
+    styleUrl: './start-your-courses.css',
 })
 export class StartYourCourses {
 
 
-   responsiveOptions: any[] | undefined;
-    courses!:ICourse [] ;
-       topPickCourse!: ICourse;
-       dataResponse!: Subscription;
-       cartAdded = false;
-       value: number = 3;
-         // selectedCourse: any;
-         // @ViewChild('op') OP!:OverlayPanel;
-   
-         constructor(public courseService: CourseService , 
-           public cdn:ChangeDetectorRef) {} ///private productService: ProductService) {}
+    responsiveOptions: any[] | undefined;
+    courses!: ICourse[];
+    topPickCourse!: ICourse;
+    dataResponse!: Subscription;
+    cartAdded = false;
+    value: number = 3;
+    // selectedCourse: any;
+    // @ViewChild('op') OP!:OverlayPanel;
+
+    constructor(public courseService: CourseService,
+        public cdn: ChangeDetectorRef) { } ///private productService: ProductService) {}
 
     ngOnInit() {
-       this.dataResponse = this.courseService.getStudentCourses().subscribe((data:any)=>{
-              this.courses = data.data;
-              this.topPickCourse = this.courses[0];
-              this.cdn.detectChanges();
-           })
+        this.dataResponse = this.courseService.getStudentCourses().subscribe((data: any) => {
+            this.courses = data.data;
+            this.topPickCourse = this.courses[0];
+            this.cdn.detectChanges();
+        })
 
         this.responsiveOptions = [
             {
@@ -82,8 +82,8 @@ export class StartYourCourses {
         ];
     }
 
-ngOnDestroy(): void {
-    this.dataResponse.unsubscribe(); //end request
-  }
+    ngOnDestroy(): void {
+        this.dataResponse.unsubscribe(); //end request
+    }
 
 }
