@@ -334,74 +334,44 @@ hasUnsavedChanges = false;
     );
   }
 
-//   onSubmitForReview(): void {
-//     if (!this.canSubmitForReview()) {
-//       alert('Please complete all required fields before submitting for review.');
-//       return;
-//     }
-//     this.course.title=this.courseTitle??''
-//     this.course.description=this.courseDescription??''
-//     this.course.language=this.language
-//     this.course.level=this.level
-//     this.course.category=this.category??''
-//     this.course.subcategory=this.subcategory??''
-//     this.course.Thumbnail=this.courseImage!
-//     this.course.PreviewVideo=this.promoVideo!
-//     this.course.shortTitle=this.courseSubtitle
 
-//    this.course.price=this.priceTier==='Free'?0:parseFloat( this.priceTier.replace('$',''))
+// ✅ Helper methods للـ requirements
+getTotalVideoMinutes(): number {
+  // هنا ممكن تحسب الوقت الفعلي للفيديوهات
+  // دلوقتي هنرجع 0 لحد ما تعمل الحساب الصحيح
+  return 0;
+}
+
+allLecturesHaveContent(): boolean {
+  return this.sections.every(section =>
+    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0)
+  );
+}
+
+closeRequirementsModal(): void {
+  this.showRequirementsModal = false;
+}
+
+navigateToPageFromModal(pageName: string): void {
+  this.closeRequirementsModal();
+
+  // Find the item and navigate
+  this.sidebarSections.forEach(section => {
+    section.items.forEach(item => {
+      if (item.page === pageName) {
+        this.navigateToPage(item);
+      }
+    });
+  });
+}
 
 
 
 
-//     const formData = new FormData();
 
-// // course level
-// formData.append('Title', this.course.title);
-// formData.append('ShortTitle', this.course.shortTitle);
-// formData.append('Category', this.course.category);
-// formData.append('Subcategory', this.course.subcategory);
-// formData.append('Level', this.course.level);
-// formData.append('Language', this.course.language);
-// formData.append('Price', this.course.price.toString());
-// formData.append('Description', this.course.description);
-// formData.append('Thumbnail', this.course.Thumbnail);
-// formData.append('PreviewVideo',this.course.PreviewVideo);
 
-// // sections
-//  this.sections.forEach((section, i) => {
-//   formData.append(`Sections[${i}].title`, section.title);
 
-//  section.lectures.forEach((lecture, j) => {
-//    formData.append(
-//      `Sections[${i}].Lectures[${j}].title`,
-//      lecture.title
-//    );
-//    if(lecture.videoUrl){
-//     formData.append(`Sections[${i}].Lectures[${j}].video`, lecture.videoUrl)
-//    }
 
-//    });
-// });
-// this.courseService.createCourse(formData).subscribe({
-//   next: (courseId) => {
-//     console.log('Course created with ID:', courseId);
-//   },
-//   error: (error) => {
-//     console.error('Error creating course:', error);
-//   }
-// });
-
-//     this.isSubmitting = true;
-
-//  setTimeout(() => {
-//       this.isSubmitting = false;
-//       this.showSuccessModal = true;
-//       console.log('Course submitted for review successfully!');
-//     }, 2000);
-
-//    console.log('Submitting course for review...', this.course);
-//   }
 
 onSubmitForReview(): void {
   // ✅ 1. Validation
