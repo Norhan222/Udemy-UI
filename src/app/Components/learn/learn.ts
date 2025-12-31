@@ -58,11 +58,6 @@ export class Learn implements OnInit {
   selectLecture(lecture: Lecture) {
     this.selectedLecture = lecture;
     
-    // Mark as completed
-    if (lecture) {
-      lecture.completed = true;
-    }
-    
     if (this.videoPlayer?.nativeElement) {
       this.videoPlayer.nativeElement.load();
       this.videoPlayer.nativeElement.play();
@@ -85,7 +80,7 @@ export class Learn implements OnInit {
   }
 
   getCompletedLectures(section: Section): number {
-    return section.lectures.filter(l => l.completed).length;
+    return section.lectures.filter(l => l.isCompleted).length;
   }
 
   getSectionDuration(section: Section): string {
@@ -102,22 +97,80 @@ export class Learn implements OnInit {
   }
 
   onVideoEnded() {
+    // Mark current lecture as complete
+    if (this.selectedLecture && this.course) {
+      this.markLectureAsComplete();
+    }
+
     // Auto-play next lecture
-    if (this.course && this.selectedLecture) {
-      const nextLecture = this.findNextLecture();
-      if (nextLecture) {
+    const nextLecture = this.findNextLecture();
+    if (nextLecture) {
+      setTimeout(() => {
         this.selectLecture(nextLecture);
-      }
+      }, 1000); // Wait 1 second before playing next
     }
   }
 
-  onTimeUpdate(event: Event) {
-    // Track video progress if needed
-    const video = event.target as HTMLVideoElement;
-    const progress = (video.currentTime / video.duration) * 100;
-    
-    // You can save progress to backend here
-    // this.courseService.saveProgress(this.courseId, this.selectedLecture.id, progress);
+ private lastSavedProgress = 0;
+
+onTimeUpdate(event: Event) {
+  const video = event.target as HTMLVideoElement;
+  if (!video.duration || !this.selectedLecture) return;
+
+  const progressInSeconds = Math.floor(video.currentTime);
+
+  // ابعت كل 5 ثواني أو لما يكون فرق عن آخر حفظ
+  if (progressInSeconds - this.lastSavedProgress >= 5) {
+    this.saveVideoProgress(progressInSeconds);
+    this.lastSavedProgress = progressInSeconds;
+  }
+
+  // Auto-mark as complete عند 90%
+  if (!this.selectedLecture.isCompleted && video.currentTime / video.duration >= 0.9) {
+    this.markLectureAsComplete();
+  }
+}
+
+
+  private saveVideoProgress(progress: number) {
+    if (!this.selectedLecture || !this.course) return;
+
+    this.courseService.saveProgress(
+      this.course.id,
+      this.selectedLecture.id,
+      progress
+    ).subscribe({
+      next: () => {
+        console.log(`Progress saved: ${progress}%`);
+      },
+      error: (err) => {
+        console.error('Error saving progress:', err);
+      }
+    });
+  }
+
+  private markLectureAsComplete() {
+    if (!this.selectedLecture || !this.course) return;
+
+    // Update UI immediately
+    this.selectedLecture.isCompleted = true;
+
+    // Save to backend
+    this.courseService.markLectureComplete(
+      this.course.id,
+      this.selectedLecture.id
+    ).subscribe({
+      next: () => {
+        console.log('Lecture marked as complete');
+      },
+      error: (err) => {
+        console.error('Error marking lecture complete:', err);
+        // Revert UI if API fails
+        if (this.selectedLecture) {
+          this.selectedLecture.isCompleted = false;
+        }
+      }
+    });
   }
 
   private findNextLecture(): Lecture | null {
