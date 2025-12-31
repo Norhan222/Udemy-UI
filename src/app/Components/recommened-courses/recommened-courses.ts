@@ -33,6 +33,7 @@ export class RecommenedCourses implements OnInit, OnDestroy {
   cartAdded = false;
   wihshListAdded = false;
   value: number = 3;
+  isLoading = true;
 
   // Popover State
   hoveredCourse: any = null;
@@ -115,12 +116,20 @@ export class RecommenedCourses implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.dataResponse = this.courseService.getRecommendedCourses().subscribe((data: any) => {
-      this.courses = data.data;
-      if (this.courses && this.courses.length > 0) {
-        this.topPickCourse = this.courses[0];
+    this.isLoading = true;
+    this.dataResponse = this.courseService.getRecommendedCourses().subscribe({
+      next: (data: any) => {
+        this.courses = data.data;
+        if (this.courses && this.courses.length > 0) {
+          this.topPickCourse = this.courses[0];
+        }
+        this.isLoading = false;
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching recommended courses:', err);
+        this.isLoading = false;
       }
-      this.cdn.detectChanges();
     });
 
     this.responsiveOptions = [

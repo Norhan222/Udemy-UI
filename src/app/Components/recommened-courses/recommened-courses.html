@@ -1,6 +1,23 @@
 <h2 style="margin: 50px 0 20px 20px; font-weight: bold;">{{ 'HOME_PAGE.WHAT_TO_LEARN_NEXT' | translate }}</h2>
 <h4 style="margin: 0 0 20px 20px; font-weight: bold;">{{ 'HOME_PAGE.RECOMMENDED_FOR_YOU' | translate }}</h4>
 <section style="margin: 10px 0 50px 0;">
+  @if(isLoading)
+  {
+  <!-- Loading State (Skeleton) -->
+  <div class="courses-list" style="display: flex; gap: 16px; overflow: hidden; margin: 10px 0;">
+    <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="min-width: 250px; flex: 1;">
+      <div class="skeleton-image"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line subtitle"></div>
+        <div class="skeleton-line meta"></div>
+        <div class="skeleton-line price"></div>
+      </div>
+    </div>
+  </div>
+  }
+  @else
+  {
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
       <div style="margin:10px; background-color: white; " class="lex justify-center course-card-wrapper"
@@ -24,6 +41,7 @@
       </div>
     </ng-template>
   </p-carousel>
+  }
 
   <!-- Global Custom Popover -->
   <div *ngIf="showPopover && hoveredCourse" class="custom-course-popover" [style.top]="popoverStyle.top"
