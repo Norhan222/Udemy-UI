@@ -1,5 +1,14 @@
 <h2 style="margin: 50px 0 20px 20px; font-weight: bold;">What to learn next</h2>
 <h4 style="margin: 0 0 20px 20px; font-weight: bold;">Recommended for you</h4>
+@if(courses == null)
+{
+  <div class="text-center text-primary">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+ 
+}@else{
 <section style="margin: 10px 0 50px 0;">
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
@@ -80,3 +89,4 @@
     </div>
   </div>
 </section>
+}
