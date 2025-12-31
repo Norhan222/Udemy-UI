@@ -167,7 +167,7 @@ export const routes: Routes = [
     canDeactivate: [componentDeactivateGuard]
   },
   {
-    path: 'messageDetails',
+    path: 'messageDetails/:id',
     loadComponent: () => import('./Components/Dashboard/guideline-page/guideline-page')
       .then(m => m.GuidelinePage)
   },
