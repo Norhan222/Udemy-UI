@@ -17,9 +17,11 @@ import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-most-popular',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, CommonModule, TranslateModule],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
 })
@@ -32,10 +34,12 @@ export class MostPopular implements OnInit, OnDestroy {
   cartAdded = false;
   wihshListAdded = false;
   value: number = 3;
+  isLoading = true; // Add loading state
 
-  // Popover State
-  // Popover State
-  hoveredProduct: any = null;
+  // Custom Popover State
+  hoveredCourse: any = null;
+  popoverStyle: any = {};
+  showPopover: boolean = false;
   private hideTimeout: any;
 
   private cartService = inject(CartService);
@@ -51,34 +55,83 @@ export class MostPopular implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
-  showPopover(event: MouseEvent, course: any, op: Popover) {
-    this.cancelHide();
-    this.hoveredProduct = course;
-    this.cdn.detectChanges();
-    op.show(event);
+  // Popover Methods
+  showPopoverDetails(event: MouseEvent, course: any) {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+
+    this.hoveredCourse = course;
+    this.showPopover = true;
+    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
   }
 
-  scheduleHide(op: Popover) {
+  hidePopoverDetails() {
     this.hideTimeout = setTimeout(() => {
-      op.hide();
+      this.showPopover = false;
+      this.hoveredCourse = null;
+      this.cdn.detectChanges();
     }, 200);
   }
 
-  cancelHide() {
+  onPopoverMouseEnter() {
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
       this.hideTimeout = null;
     }
   }
 
+  onPopoverMouseLeave() {
+    this.hidePopoverDetails();
+  }
+
+  calculatePopoverPosition(target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const popoverWidth = 360; // Match CSS
+    const spacing = 15;
+
+    let left = rect.right + spacing;
+    let top = rect.top + scrollTop - 20;
+
+    let arrowPosition = 'left';
+
+    if (rect.right + popoverWidth + spacing > window.innerWidth) {
+      left = rect.left - popoverWidth - spacing;
+      arrowPosition = 'right';
+    }
+
+    if (left < 0) {
+      left = rect.right + spacing;
+      arrowPosition = 'left';
+    }
+
+    this.popoverStyle = {
+      top: `${top}px`,
+      left: `${left}px`,
+      arrowPosition: arrowPosition,
+      display: 'block'
+    };
+  }
+
 
   ngOnInit() {
-    this.dataResponse = this.courseService.getPopularCourses().subscribe((data: any) => {
-      this.courses = data.data;
-      if (this.courses && this.courses.length > 0) {
-        this.topPickCourse = this.courses[0];
+    this.isLoading = true;
+    this.dataResponse = this.courseService.getPopularCourses().subscribe({
+      next: (data: any) => {
+        this.courses = data.data;
+        if (this.courses && this.courses.length > 0) {
+          this.topPickCourse = this.courses[0];
+        }
+        this.isLoading = false;
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching popular courses:', err);
+        this.isLoading = false;
       }
-      this.cdn.detectChanges();
     });
 
     this.responsiveOptions = [
