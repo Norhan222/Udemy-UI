@@ -5,11 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
-  selector: 'app-start-your-courses',
-  imports: [Carousel, ButtonModule],
-  templateUrl: './start-your-courses.html',
-  styleUrl: './start-your-courses.css',
+    selector: 'app-start-your-courses',
+    imports: [Carousel, ButtonModule, TranslateModule],
+    templateUrl: './start-your-courses.html',
+    styleUrl: './start-your-courses.css',
 })
 export class StartYourCourses {
 

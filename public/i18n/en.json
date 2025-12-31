@@ -140,6 +140,58 @@
         "STUDENT": "Student",
         "INSTRUCTOR": "Instructor"
     },
+    "EXPLORE": {
+        "EXPLORE": "Explore",
+        "EXPLORE_BY_GOAL": "Explore by goal",
+        "LEARN_AI": "Learn AI",
+        "LAUNCH_CAREER": "Start a new career",
+        "PREPARE_CERTIFICATION": "Prep for a certification",
+        "PRACTICE_ROLE_PLAY": "Practice with Role Play",
+        "POPULAR_TOPICS": "Popular Topics",
+        "SUB_MENU": {
+            "AI_FUNDAMENTALS": "AI Fundamentals",
+            "AI_PROFESSIONALS": "AI Professionals",
+            "AI_FOR_DEVS": "AI For Developers",
+            "AI_FOR_CREATIVES": "AI For Creatives",
+            "MANAGEMENT": "Management",
+            "SALES": "Sales",
+            "CYBER_SECURITY": "Cyber Security",
+            "NETWORKING": "Networking"
+        },
+        "TOPICS": {
+            "PROMPT_ENG": "Prompt Engineering",
+            "LLM": "Large Language Models (LLM)",
+            "GEN_AI": "Generative AI (GenAI)",
+            "AI_AGENTS": "AI Agents & Agentic AI",
+            "CHATGPT": "ChatGPT",
+            "COPILOT": "Microsoft Copilot",
+            "GEMINI": "Google Gemini (Bard)",
+            "CLAUDE": "Claude AI",
+            "AI_CONTENT": "AI Content Generation",
+            "PERPLEXITY": "Perplexity AI",
+            "AGENTFORCE": "Agentforce",
+            "DEEPSEEK": "DeepSeek",
+            "MLOPS": "MLOps",
+            "TENSORFLOW": "TensorFlow",
+            "PYTORCH": "PyTorch",
+            "OPENAI_API": "OpenAI API",
+            "GITHUB_COPILOT": "GitHub Copilot",
+            "AZURE_ML": "Azure Machine Learning",
+            "RAG": "Retrieval Augmented Generation",
+            "LANGCHAIN": "LangChain",
+            "DALLE": "DALLE",
+            "MIDJOURNEY": "Midjourney",
+            "STABLE_DIFFUSION": "Stable Diffusion",
+            "LEONARDO": "Leonardo.Ai",
+            "AI_ART": "AI Art Generation",
+            "B2B_SALES": "B2B Sales",
+            "NEGOTIATION": "Negotiation",
+            "ETHICAL_HACKING": "Ethical Hacking",
+            "PEN_TESTING": "Pen Testing",
+            "CCNA": "CCNA",
+            "ROUTING_SWITCHING": "Routing & Switching"
+        }
+    },
     "USER_MENU": {
         "LOGOUT": "Log out",
         "MY_LEARNING": "My learning",
@@ -393,9 +445,33 @@
             "VIEW_ALL_REVIEWS": "View All Reviews",
             "COURSE_PERFORMANCE": "Course Performance",
             "CLOSE": "Close"
+        },
+        "REVENUE_REPORT": {
+            "TITLE": "Revenue Report",
+            "TOTAL_REVENUE_ALL_TIME": "Total Revenue (All Time)",
+            "REVENUE_PERIOD": "Revenue (Period)",
+            "TOTAL_TRANSACTIONS": "Total Transactions",
+            "AVG_TRANSACTION": "Avg per Transaction",
+            "SINCE_BEGINNING": "Since the beginning",
+            "LAST": "Last",
+            "RECENT_TRANSACTIONS": "Recent Transactions",
+            "DATE": "Date",
+            "COURSE": "Course",
+            "AMOUNT": "Amount",
+            "STATUS": "Status",
+            "EXPORT": "Export",
+            "LAST_7_DAYS": "Last 7 days",
+            "LAST_30_DAYS": "Last 30 days",
+            "LAST_90_DAYS": "Last 90 days",
+            "THIS_YEAR": "This year",
+            "COMPLETED": "Completed",
+            "PENDING": "Pending"
         }
     },
     "HOME_PAGE": {
+        "WHAT_TO_LEARN_NEXT": "What to learn next",
+        "RECOMMENDED_FOR_YOU": "Recommended for you",
+        "TOPICS_RECOMMENDED": "Topics recommended for you",
         "TOPICS_CAROUSEL": {
             "DEAL_TITLE": "12 Deal Days of December",
             "DEAL_TEXT": "Today’s deal: Buy 3 or more courses, get up to 15% extra savings on discounted courses with code 15BONUSDEC25.",
@@ -419,7 +495,12 @@
             "COURSE_LEVEL": "All Levels",
             "COURSE_SUBTITLES": "Subtitles",
             "BTN_ADD_TO_CART": "Add to Cart",
-            "BTN_ADDED_TO_CART": "Added to Cart"
+            "BTN_ADDED_TO_CART": "Added to Cart",
+            "LIST": {
+                "BUILD_WEB": "Build 16 web development projects",
+                "LEARN_LATEST": "Learn the latest technologies",
+                "BUILD_PORTFOLIO": "Build a portfolio of websites"
+            }
         },
         "BUSINESS_BANNER": {
             "TEXT": "Training 2 or more people? Get your team access to Udemy's top 30,000+ courses",
@@ -462,7 +543,15 @@
         },
         "NO_COURSES": "You have no courses yet.",
         "BROWSE_CATALOG_DESC": "Browse our course catalog to find courses that interest you and start learning today!",
-        "BROWSE_COURSES_BTN": "Browse Courses"
+        "BROWSE_COURSES_BTN": "Browse Courses",
+        "RECOMMENDED": {
+            "LEARN_SKILLS": "Learn key skills in this course.",
+            "BUILD_PROJECTS": "Build 16 web development projects",
+            "LEARN_TECH": "Learn the latest technologies",
+            "BUILD_PORTFOLIO": "Build a portfolio of websites",
+            "ADD_TO_CART": "Add to cart",
+            "ADDED_TO_CART": "Added to Cart"
+        }
     },
     "COURSE_DETAILS": {
         "HEADER": {

@@ -31,7 +31,7 @@
       @for(item of subMenusStatic[activeMenuStatic] ;track item.key){
       <a class="explore-item" (mouseenter)="setSubActiveStatic(item.key)"
         [class.active]=" activeSubMenuStatic===item.key">
-        {{ item.label }} <i class="bi bi-chevron-right"></i>
+        {{ item.label | translate }} <i class="bi bi-chevron-right"></i>
       </a>
       }
     </div>
@@ -43,7 +43,7 @@
       <div class="explore-column-header">{{ 'EXPLORE.POPULAR_TOPICS' | translate }}</div>
       @for(item of topicsStatics[activeSubMenuStatic] ;track item){
       <a class="explore-item">
-        {{ item}}
+        {{ item | translate }}
       </a>
       }
     </div>

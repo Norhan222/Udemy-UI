@@ -1,6 +1,6 @@
 <section style="margin:30px; background-color: #f7f9fb; padding:30px; border-radius:20px;">
-  <h2>Skills to transform your career and life</h2>
-  <p>From critical skills to technical topics, Udemy supports your professional development.</p>
+  <h2>{{ 'HOME_PAGE.TECHNICAL_TOPICS.TITLE' | translate }}</h2>
+  <p>{{ 'HOME_PAGE.TECHNICAL_TOPICS.SUBTITLE' | translate }}</p>
 
   <div style="margin-top:20px;background-color: #f7f9fb;" *ngIf="courses.length">
 
@@ -8,86 +8,79 @@
 
       <!-- Tabs Header -->
       <p-tablist style=" margin: 0 10px">
-        <p-tab
-          *ngFor="let topic of courses; trackBy: trackByTopicId"
-          [value]="topic.id"
+        <p-tab *ngFor="let topic of courses; trackBy: trackByTopicId" [value]="topic.id"
           style=" margin: 0 10px 0 10px; border-bottom: 2px solid #000;">
           {{ topic.name }}
         </p-tab>
       </p-tablist>
       <!-- Tabs Content -->
       <p-tabpanels style="border:none; background-color: #f7f9fb; margin: 0 10px">
-        <p-tabpanel
-          *ngFor="let topic of courses; trackBy: trackByTopicId"
-          [value]="topic.id">
+        <p-tabpanel *ngFor="let topic of courses; trackBy: trackByTopicId" [value]="topic.id">
 
-          <p-carousel
-            [value]="topic.courses"
-            [numVisible]="4"
-            [numScroll]="1"
-            [responsiveOptions]="responsiveOptions">
+          <p-carousel [value]="topic.courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
             <ng-template pTemplate="item" let-product>
 
               <div class="course-card-wrapper">
-        <div class="course-card"  style="height:320px">
-          <div [routerLink]="['/course', product.id]">
-            <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
-            <div class="course-basic-info">
-               <h3 class="course-title">{{product.title}}</h3>
-                <p class="course-instructor">{{product.instructorName}}</p>
-                <div class="course-rating">
-                <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
-                <p-rating [(ngModel)]="value"  [readonly]="true"></p-rating>
-              </div>
-            <div class="course-price">E&pound;{{product.price}}</div>
-            <button type="button" class=""
-                    style="background-color:#6d28d2;margin-top:10px ;
+                <div class="course-card" style="height:320px">
+                  <div [routerLink]="['/course', product.id]">
+                    <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
+                    <div class="course-basic-info">
+                      <h3 class="course-title">{{product.title}}</h3>
+                      <p class="course-instructor">{{product.instructorName}}</p>
+                      <div class="course-rating">
+                        <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating
+                          }}</span>
+                        <p-rating [(ngModel)]="value" [readonly]="true"></p-rating>
+                      </div>
+                      <div class="course-price">E&pound;{{product.price}}</div>
+                      <button type="button" class="" style="background-color:#6d28d2;margin-top:10px ;
                           color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
-          </div>
-         </div>
-          <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
-          <div class="course-hover-card">
-            <h3 class="hover-title">{{product.title}}</h3>
-            <button type="button" class=""
-                    style="background-color:#6d28d2;margin-top:10px ;
+                        <i class="bi bi-patch-check"></i> {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_BTN_PREMIUM' | translate
+                        }}</button>
+                      <p class="hover-description">
+                    </div>
+                  </div>
+                  <!-- الكارد التفصيلي - لازم يكون جوا الكارد الأساسي -->
+                  <div class="course-hover-card">
+                    <h3 class="hover-title">{{product.title}}</h3>
+                    <button type="button" class="" style="background-color:#6d28d2;margin-top:10px ;
                           color:white; border-radius: 2px; padding:2px">
-                <i class="bi bi-patch-check"></i> Premium</button>
-            <p class="hover-description">
-              Updated in {{product.lastUpdatedDate}}
-            </p>
-            <div class="hover-stats">
-              <span>62 total hours</span>
-              <span>•</span>
-              <span>All Levels</span>
-              <span>•</span>
-              <span>Subtitles</span>
-            </div>
-            <ul class="hover-list">
-              <li>Build 16 web development projects</li>
-              <li>Learn the latest technologies</li>
-              <li>Build a portfolio of websites</li>
-            </ul>
-            <div class="hover-buttons">
-                 <button type="button" class=" "
-                    [disabled]="true"
-                    style="background-color:#5f2eaf; color:white;
+                      <i class="bi bi-patch-check"></i> {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_BTN_PREMIUM' | translate
+                      }}</button>
+                    <p class="hover-description">
+                      {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_UPDATED' | translate }} {{product.lastUpdatedDate}}
+                    </p>
+                    <div class="hover-stats">
+                      <span>62 {{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_TOTAL_HOURS' | translate }}</span>
+                      <span>•</span>
+                      <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_LEVEL' | translate }}</span>
+                      <span>•</span>
+                      <span>{{ 'HOME_PAGE.TECHNICAL_TOPICS.COURSE_SUBTITLES' | translate }}</span>
+                    </div>
+                    <ul class="hover-list">
+                      <li>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.BUILD_WEB' | translate }}</li>
+                      <li>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.LEARN_LATEST' | translate }}</li>
+                      <li>{{ 'HOME_PAGE.TECHNICAL_TOPICS.LIST.BUILD_PORTFOLIO' | translate }}</li>
+                    </ul>
+                    <div class="hover-buttons">
+                      <button type="button" class=" " [disabled]="true" style="background-color:#5f2eaf; color:white;
                            padding:15px 50px 15px 50px; font-weight:bold ;">
-                   <i class="bi bi-patch-check"></i>
-                       {{ isInCart(product?.id) ? 'Added to Cart' : 'Add to Cart' }}
-                  </button>
-                  <button [disabled]="true"  style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
+                        <i class="bi bi-patch-check"></i>
+                        {{ isInCart(product?.id) ? ('HOME_PAGE.TECHNICAL_TOPICS.BTN_ADDED_TO_CART' | translate) :
+                        ('HOME_PAGE.TECHNICAL_TOPICS.BTN_ADD_TO_CART' | translate) }}
+                      </button>
+                      <button [disabled]="true"
+                        style="border-radius: 50%; border:1px solid #5f2eaf; padding:10px; margin-left:15px; background-color:white">
 
-                           <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
+                        <i class="bi bi-heart-fill" style="color:#5f2eaf"></i>
 
 
-                   </button>
-            </div>
-          </div>
-        </div>
-      </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
             </ng-template>
@@ -99,5 +92,5 @@
 
     </p-tabs>
   </div>
-}
+
 </section>

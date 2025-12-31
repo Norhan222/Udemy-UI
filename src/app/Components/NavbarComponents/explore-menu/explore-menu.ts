@@ -59,30 +59,28 @@ export class ExploreMenu implements OnInit, OnChanges {
 
   subMenusStatic: any = {
     ai: [
-      { key: 'aifun', label: 'AI Fundementals' },
-      { key: 'aipro', label: 'AI Professionals' },
-      { key: 'aidev', label: 'AI For Developers' },
-      { key: 'aicreat', label: 'AI For Creatives' }
-
-
+      { key: 'aifun', label: 'EXPLORE.SUB_MENU.AI_FUNDAMENTALS' },
+      { key: 'aipro', label: 'EXPLORE.SUB_MENU.AI_PROFESSIONALS' },
+      { key: 'aidev', label: 'EXPLORE.SUB_MENU.AI_FOR_DEVS' },
+      { key: 'aicreat', label: 'EXPLORE.SUB_MENU.AI_FOR_CREATIVES' }
     ],
     career: [
-      { key: 'management', label: 'Management' },
-      { key: 'sales', label: 'Sales' }
+      { key: 'management', label: 'EXPLORE.SUB_MENU.MANAGEMENT' },
+      { key: 'sales', label: 'EXPLORE.SUB_MENU.SALES' }
     ],
     certificate: [
-      { key: 'security', label: 'Cyber Security' },
-      { key: 'network', label: 'Networking' }
+      { key: 'security', label: 'EXPLORE.SUB_MENU.CYBER_SECURITY' },
+      { key: 'network', label: 'EXPLORE.SUB_MENU.NETWORKING' }
     ]
   };
   topicsStatics: any = {
-    aifun: ['Prompt Engineering', 'Larg Language Models(LLM)', 'Generative AI(GenAI)', 'AI Agents & Agentic AI'],
-    aipro: ['ChatGPT', 'Microsoft Copilot', 'Google Gemini (Bard)', 'Claude AI', 'AI Content Generation', 'Perplexity AI', 'Agentforce', 'DeepSeek', 'MLOps', 'TensorFlow', 'PyTorch'],
-    aidev: ['OpenAI API', 'GitHub Copilot', 'Azure Machine Learning', 'Retrieval Augmented Generation', 'LangChain', 'MLOps', 'TensortFlow', 'PyTorch'],
-    aicreat: ['DALLE', 'Midjourney', 'Stable Diffusion', 'Leonardo.Ai', 'AI Art Generation'],
-    sales: ['B2B Sales', 'Negotiation'],
-    security: ['Ethical Hacking', 'Pen Testing'],
-    network: ['CCNA', 'Routing & Switching']
+    aifun: ['EXPLORE.TOPICS.PROMPT_ENG', 'EXPLORE.TOPICS.LLM', 'EXPLORE.TOPICS.GEN_AI', 'EXPLORE.TOPICS.AI_AGENTS'],
+    aipro: ['EXPLORE.TOPICS.CHATGPT', 'EXPLORE.TOPICS.COPILOT', 'EXPLORE.TOPICS.GEMINI', 'EXPLORE.TOPICS.CLAUDE', 'EXPLORE.TOPICS.AI_CONTENT', 'EXPLORE.TOPICS.PERPLEXITY', 'EXPLORE.TOPICS.AGENTFORCE', 'EXPLORE.TOPICS.DEEPSEEK', 'EXPLORE.TOPICS.MLOPS', 'EXPLORE.TOPICS.TENSORFLOW', 'EXPLORE.TOPICS.PYTORCH'],
+    aidev: ['EXPLORE.TOPICS.OPENAI_API', 'EXPLORE.TOPICS.GITHUB_COPILOT', 'EXPLORE.TOPICS.AZURE_ML', 'EXPLORE.TOPICS.RAG', 'EXPLORE.TOPICS.LANGCHAIN', 'EXPLORE.TOPICS.MLOPS', 'EXPLORE.TOPICS.TENSORFLOW', 'EXPLORE.TOPICS.PYTORCH'],
+    aicreat: ['EXPLORE.TOPICS.DALLE', 'EXPLORE.TOPICS.MIDJOURNEY', 'EXPLORE.TOPICS.STABLE_DIFFUSION', 'EXPLORE.TOPICS.LEONARDO', 'EXPLORE.TOPICS.AI_ART'],
+    sales: ['EXPLORE.TOPICS.B2B_SALES', 'EXPLORE.TOPICS.NEGOTIATION'],
+    security: ['EXPLORE.TOPICS.ETHICAL_HACKING', 'EXPLORE.TOPICS.PEN_TESTING'],
+    network: ['EXPLORE.TOPICS.CCNA', 'EXPLORE.TOPICS.ROUTING_SWITCHING']
   };
 
 

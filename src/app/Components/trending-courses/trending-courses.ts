@@ -35,38 +35,38 @@ export class TrendingCourses implements OnInit, OnDestroy {
   value: number = 3;
 
   ///
-   @ViewChild('op') op!: Popover;
+  @ViewChild('op') op!: Popover;
 
 
-hoveredProduct: any = null;
-hideTimer: any;
+  hoveredProduct: any = null;
+  hideTimer: any;
 
-showPopover(event: MouseEvent, product: any, op: Popover) {
-  if (this.hideTimer) {
-    clearTimeout(this.hideTimer);
-    this.hideTimer = null;
+  showPopover(event: MouseEvent, product: any, op: Popover) {
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
+
+    this.hoveredProduct = product;
+
+    setTimeout(() => {
+      op.show(event);
+    });
   }
 
-  this.hoveredProduct = product;
-
-  setTimeout(() => {
-    op.show(event);
-  });
-}
-
-scheduleHide(op: Popover) {
-  this.hideTimer = setTimeout(() => {
-    op.hide();
-    this.hoveredProduct = null;
-  },);
-}
-
-cancelHide() {
-  if (this.hideTimer) {
-    clearTimeout(this.hideTimer);
-    this.hideTimer = null;
+  scheduleHide(op: Popover) {
+    this.hideTimer = setTimeout(() => {
+      op.hide();
+      this.hoveredProduct = null;
+    },);
   }
-}
+
+  cancelHide() {
+    if (this.hideTimer) {
+      clearTimeout(this.hideTimer);
+      this.hideTimer = null;
+    }
+  }
 
 
   private cartService = inject(CartService);
@@ -79,10 +79,8 @@ cancelHide() {
   //////
 
 
-  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef) {}
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef, private router: Router) { }
+
 
   ngOnInit() {
     this.dataResponse = this.courseService.getPopularCourses().subscribe((data: any) => {

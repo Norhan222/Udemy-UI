@@ -140,6 +140,58 @@
         "STUDENT": "طالب",
         "INSTRUCTOR": "مدرب"
     },
+    "EXPLORE": {
+        "EXPLORE": "تصفح",
+        "EXPLORE_BY_GOAL": "تصفح حسب الهدف",
+        "LEARN_AI": "تعلم الذكاء الاصطناعي",
+        "LAUNCH_CAREER": "ابدأ مسيرة مهنية جديدة",
+        "PREPARE_CERTIFICATION": "استعد للحصول على شهادة",
+        "PRACTICE_ROLE_PLAY": "تدرب مع لعب الأدوار",
+        "POPULAR_TOPICS": "مواضيع شائعة",
+        "SUB_MENU": {
+            "AI_FUNDAMENTALS": "أساسيات الذكاء الاصطناعي",
+            "AI_PROFESSIONALS": "محترفو الذكاء الاصطناعي",
+            "AI_FOR_DEVS": "الذكاء الاصطناعي للمطورين",
+            "AI_FOR_CREATIVES": "الذكاء الاصطناعي للمبدعين",
+            "MANAGEMENT": "الإدارة",
+            "SALES": "المبيعات",
+            "CYBER_SECURITY": "الأمن السيبراني",
+            "NETWORKING": "الشبكات"
+        },
+        "TOPICS": {
+            "PROMPT_ENG": "هندسة الأوامر",
+            "LLM": "نماذج اللغة الكبيرة (LLM)",
+            "GEN_AI": "الذكاء الاصطناعي التوليدي (GenAI)",
+            "AI_AGENTS": "وكلاء الذكاء الاصطناعي",
+            "CHATGPT": "ChatGPT",
+            "COPILOT": "Microsoft Copilot",
+            "GEMINI": "Google Gemini (Bard)",
+            "CLAUDE": "Claude AI",
+            "AI_CONTENT": "توليد المحتوى بالذكاء الاصطناعي",
+            "PERPLEXITY": "Perplexity AI",
+            "AGENTFORCE": "Agentforce",
+            "DEEPSEEK": "DeepSeek",
+            "MLOPS": "MLOps",
+            "TENSORFLOW": "TensorFlow",
+            "PYTORCH": "PyTorch",
+            "OPENAI_API": "واجهة برمجة تطبيقات OpenAI",
+            "GITHUB_COPILOT": "GitHub Copilot",
+            "AZURE_ML": "تعلم الآلة من Azure",
+            "RAG": "توليد الاسترجاع المعزز (RAG)",
+            "LANGCHAIN": "LangChain",
+            "DALLE": "DALL-E",
+            "MIDJOURNEY": "Midjourney",
+            "STABLE_DIFFUSION": "Stable Diffusion",
+            "LEONARDO": "Leonardo.Ai",
+            "AI_ART": "توليد الفن بالذكاء الاصطناعي",
+            "B2B_SALES": "مبيعات B2B",
+            "NEGOTIATION": "التفاوض",
+            "ETHICAL_HACKING": "القرصنة الأخلاقية",
+            "PEN_TESTING": "اختبار الاختراق",
+            "CCNA": "CCNA",
+            "ROUTING_SWITCHING": "التوجيه والتبديل"
+        }
+    },
     "USER_MENU": {
         "LOGOUT": "تسجيل الخروج",
         "MY_LEARNING": "تعلمي",
@@ -393,9 +445,33 @@
             "VIEW_ALL_REVIEWS": "عرض كل التقييمات",
             "COURSE_PERFORMANCE": "أداء الدورة",
             "CLOSE": "إغلاق"
+        },
+        "REVENUE_REPORT": {
+            "TITLE": "تقرير الأرباح",
+            "TOTAL_REVENUE_ALL_TIME": "إجمالي الأرباح (طوال الوقت)",
+            "REVENUE_PERIOD": "الأرباح (الفترة)",
+            "TOTAL_TRANSACTIONS": "إجمالي المعاملات",
+            "AVG_TRANSACTION": "متوسط المعاملة",
+            "SINCE_BEGINNING": "منذ البداية",
+            "LAST": "آخر",
+            "RECENT_TRANSACTIONS": "المعاملات الأخيرة",
+            "DATE": "التاريخ",
+            "COURSE": "الدورة",
+            "AMOUNT": "المبلغ",
+            "STATUS": "الحالة",
+            "EXPORT": "تصدير",
+            "LAST_7_DAYS": "آخر 7 أيام",
+            "LAST_30_DAYS": "آخر 30 يومًا",
+            "LAST_90_DAYS": "آخر 90 يومًا",
+            "THIS_YEAR": "هذا العام",
+            "COMPLETED": "مكتمل",
+            "PENDING": "قيد الانتظار"
         }
     },
     "HOME_PAGE": {
+        "WHAT_TO_LEARN_NEXT": "ماذا تتعلم تاليًا",
+        "RECOMMENDED_FOR_YOU": "موصى به لك",
+        "TOPICS_RECOMMENDED": "مواضيع موصى بها لك",
         "TOPICS_CAROUSEL": {
             "DEAL_TITLE": "12 يومًا من عروض ديسمبر",
             "DEAL_TEXT": "عرض اليوم: اشتر 3 دورات أو أكثر، واحصل على خصم إضافي يصل إلى 15% مع الكود 15BONUSDEC25.",
@@ -419,7 +495,12 @@
             "COURSE_LEVEL": "كل المستويات",
             "COURSE_SUBTITLES": "ترجمة",
             "BTN_ADD_TO_CART": "أضف إلى السلة",
-            "BTN_ADDED_TO_CART": "تمت الإضافة للسلة"
+            "BTN_ADDED_TO_CART": "تمت الإضافة للسلة",
+            "LIST": {
+                "BUILD_WEB": "ابنِ 16 مشروع تطوير ويب",
+                "LEARN_LATEST": "تعلم أحدث التقنيات",
+                "BUILD_PORTFOLIO": "ابنِ معرض أعمال للمواقع"
+            }
         },
         "BUSINESS_BANNER": {
             "TEXT": "هل تدرب شخصين أو أكثر؟ احصل لفريقك على وصول لأكثر من 30,000 دورة متميزة في يوديمي",
@@ -462,7 +543,15 @@
         },
         "NO_COURSES": "ليس لديك أي دورات بعد.",
         "BROWSE_CATALOG_DESC": "تصفح كتالوج دوراتنا للعثور على الدورات التي تهمك وابدأ التعلم اليوم!",
-        "BROWSE_COURSES_BTN": "تصفح الدورات"
+        "BROWSE_COURSES_BTN": "تصفح الدورات",
+        "RECOMMENDED": {
+            "LEARN_SKILLS": "تعلم المهارات الأساسية في هذه الدورة.",
+            "BUILD_PROJECTS": "ابنِ 16 مشروع تطوير ويب",
+            "LEARN_TECH": "تعلم أحدث التقنيات",
+            "BUILD_PORTFOLIO": "ابنِ معرض أعمال للمواقع",
+            "ADD_TO_CART": "أضف إلى السلة",
+            "ADDED_TO_CART": "تمت الإضافة للسلة"
+        }
     },
     "COURSE_DETAILS": {
         "HEADER": {

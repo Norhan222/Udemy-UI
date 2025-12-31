@@ -18,7 +18,7 @@ import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule,CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, CommonModule],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })
@@ -33,9 +33,8 @@ export class AdvancedCourses implements OnInit, OnDestroy {
   value: number = 3;
 
   // Popover State
-  hoveredCourse: any = null;
-  popoverStyle: any = {};
-  showPopover: boolean = false;
+  // Popover State
+  hoveredProduct: any = null;
   private hideTimeout: any;
 
   private cartService = inject(CartService);
@@ -51,64 +50,24 @@ export class AdvancedCourses implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
-  showPopoverDetails(event: MouseEvent, course: any) {
-    if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = null;
-    }
-
-    this.hoveredCourse = course;
-    this.showPopover = true;
-    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
+  showPopover(event: MouseEvent, course: any, op: Popover) {
+    this.cancelHide();
+    this.hoveredProduct = course;
+    this.cdn.detectChanges();
+    op.show(event);
   }
 
-  hidePopoverDetails() {
+  scheduleHide(op: Popover) {
     this.hideTimeout = setTimeout(() => {
-      this.showPopover = false;
-      this.hoveredCourse = null;
-      this.cdn.detectChanges(); // Ensure Angular updates the view
+      op.hide();
     }, 200);
   }
 
-  onPopoverMouseEnter() {
+  cancelHide() {
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
       this.hideTimeout = null;
     }
-  }
-
-  onPopoverMouseLeave() {
-    this.hidePopoverDetails();
-  }
-
-  calculatePopoverPosition(target: HTMLElement) {
-    const rect = target.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    const popoverWidth = 360; // Match CSS
-    const spacing = 15;
-
-    let left = rect.right + spacing;
-    let top = rect.top + scrollTop - 20;
-
-    let arrowPosition = 'left';
-
-    if (rect.right + popoverWidth + spacing > window.innerWidth) {
-      left = rect.left - popoverWidth - spacing;
-      arrowPosition = 'right';
-    }
-
-    if (left < 0) {
-      left = rect.right + spacing;
-      arrowPosition = 'left';
-    }
-
-    this.popoverStyle = {
-      top: `${top}px`,
-      left: `${left}px`,
-      arrowPosition: arrowPosition,
-      display: 'block'
-    };
   }
 
 
