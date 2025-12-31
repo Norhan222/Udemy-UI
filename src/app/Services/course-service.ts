@@ -120,7 +120,6 @@ getAdvancedCourses(): Observable<ICourse[]> {
   getMyCourses(): Observable<any> {
     return this.http.get<ICourse[]>(`${this.baseUrl}/Course/MyCoursesdd`);
   }
-
     // lern component test
   getCourseByIdtest(id: number, forceRefresh = false): Observable<ICourse> {
   if (!forceRefresh && this.courseCache.has(id)) {
