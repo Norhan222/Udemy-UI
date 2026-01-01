@@ -5,7 +5,7 @@ import { AuthService } from '../../Services/auth-service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-edit-student-profile',
+  selector: 'app-edit-profile',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './update-profile.html',
