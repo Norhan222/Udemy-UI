@@ -20,7 +20,7 @@ import { HomeBeforSignIn } from './Components/homeBeforRegister/home-befor-sign-
 
 import { componentDeactivateGuard } from './Guard/component-deactivate-guard';
 import { Learn } from './Components/learn/learn';
-import { EditInstructorProfile } from './Components/edit-instructor-profile/edit-instructor-profile';
+import { UpdateProfileComponent } from './Components/update-profile/update-profile';
 
 
 export const routes: Routes = [
@@ -87,9 +87,9 @@ export const routes: Routes = [
       { path: 'Login', component: Login, title: 'Login' },
       { path: 'Register', component: Register, title: 'Register' },
       // Profile edit (student)
-      { path: 'Profile/Edit', loadComponent: () => import('./Components/edit-student-profile/edit-student-profile').then(m => m.EditStudentProfile), title: 'Edit Profile' },
+      { path: 'Profile/Edit', loadComponent: () => import('./Components/update-profile/update-profile').then(m => m.UpdateProfileComponent), title: 'Edit Profile' },
       // Instructor profile edit
-      { path: 'Instructor/Profile/Edit', loadComponent: () => import('./Components/edit-instructor-profile/edit-instructor-profile').then(m => m.EditInstructorProfile), title: 'Edit Instructor Profile' },
+      { path: 'Profile/Edit', loadComponent: () => import('./Components/update-profile/update-profile').then(m => m.UpdateProfileComponent), title: 'Edit Instructor Profile' },
       { path: 'course/:id', component: CourseDetailsComponent, title: 'Course Details' },
       { path: 'Cart', component: CartComponent, title: 'Cart' },
       { path: 'logout', component: HomeBeforSignIn, title: 'Cart' },
