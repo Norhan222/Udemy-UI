@@ -6,11 +6,11 @@ import { AdvancedCourses } from '../../advanced-courses/advanced-courses';
 import { Subscription } from 'rxjs';
 import { TopicService } from '../../../Services/topic-service';
 import { TopicWithCourses } from '../../../Models/topic-with-courses';
-import { Carousel } from 'primeng/carousel';
+import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
-import { Rating } from 'primeng/rating';
+import { RatingModule } from 'primeng/rating';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../../../Services/cart-service';
@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-technical-topics',
-  imports: [CommonModule, TabsModule, Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, TranslateModule],
+  imports: [CommonModule, TabsModule, CarouselModule, ButtonModule, CardModule, FormsModule, RatingModule, RouterLink, TranslateModule],
   templateUrl: './technical-topics.html',
   styleUrl: './technical-topics.css',
 })
@@ -33,6 +33,73 @@ export class TechnicalTopics implements OnInit, OnDestroy {
   value: number = 3.7;
   // selectedCourse: any;
   // @ViewChild('op') OP!:OverlayPanel;
+
+  // Popover State
+  hoveredCourse: any = null;
+  popoverStyle: any = {};
+  showPopover: boolean = false;
+  private hideTimeout: any;
+
+  showPopoverDetails(event: MouseEvent, course: any) {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+
+    this.hoveredCourse = course;
+    this.showPopover = true;
+    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
+  }
+
+  hidePopoverDetails() {
+    this.hideTimeout = setTimeout(() => {
+      this.showPopover = false;
+      this.hoveredCourse = null;
+      this.cdn.detectChanges(); // Ensure Angular updates the view
+    }, 200);
+  }
+
+  onPopoverMouseEnter() {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+  }
+
+  onPopoverMouseLeave() {
+    this.hidePopoverDetails();
+  }
+
+  calculatePopoverPosition(target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const popoverWidth = 360; // Match CSS
+    const spacing = 15;
+
+    let left = rect.right + spacing;
+    let top = rect.top + scrollTop - 20;
+
+    let arrowPosition = 'left';
+
+    if (rect.right + popoverWidth + spacing > window.innerWidth) {
+      left = rect.left - popoverWidth - spacing;
+      arrowPosition = 'right';
+    }
+
+    if (left < 0) {
+      left = rect.right + spacing;
+      arrowPosition = 'left';
+    }
+
+    this.popoverStyle = {
+      top: `${top}px`,
+      left: `${left}px`,
+      arrowPosition: arrowPosition,
+      display: 'block'
+    };
+  }
+
 
   constructor(public topicService: TopicService, public cdn: ChangeDetectorRef) { }//private topicService: TopicService) {}
   private cartService = inject(CartService);
