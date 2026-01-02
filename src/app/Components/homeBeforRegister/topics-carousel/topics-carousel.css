@@ -27,3 +27,27 @@
   position:relative;
   /* transform: translate(10%,-150%); */
 }
+@media (max-width: 768px) {
+  .car-cont{
+    padding-left: 20px;
+    height: 300px;
+    padding-top: 50px;
+  }
+  .ca_p{
+    width: 80%;
+    padding:20px 10px 20px 10px; ;
+    margin-top: 300px;
+    /* transform: translate(1%,-160%); */
+  }
+  .curs{
+    margin-top:600px;
+    position: relative;
+  }
+  .clear{
+    height:200px
+  }
+ .active{
+  height: 600px;
+ }
+
+}

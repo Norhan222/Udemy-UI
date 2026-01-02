@@ -631,10 +631,7 @@
 }
 
 ::ng-deep .p-ripple > svg{
-background-color:#b6b7e0;
+background-color:#dedee0;
 border-radius:50% ;
-width:30px;
-height:30px;
-padding:10px;
-margin:10px;
+padding:10px
 }
