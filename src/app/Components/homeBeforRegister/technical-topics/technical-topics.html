@@ -4,7 +4,7 @@
 
   <div style="margin-top:20px;background-color: #f7f9fb;" *ngIf="courses.length">
 
-    <p-tabs [value]="courses[0]?.id" style=" background-color: #f7f9fb; margin: 30px; padding:30px">
+    <p-tabs [value]="courses[0]?.id" style=" background-color: #f7f9fb;">
 
       <!-- Tabs Header -->
       <p-tablist style=" margin: 0 10px">
@@ -81,6 +81,74 @@
                   </div>
                 </div>
               </div>
+        <p-tabpanel
+          *ngFor="let topic of courses; trackBy: trackByTopicId"
+          [value]="topic.id">
+
+<section style="margin: 10px 0 50px 0;">
+  <p-carousel [value]="topic.courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product pTemplate="item">
+      <div style="margin:10px; background-color: white; " class="lex justify-center course-card-wrapper"
+        (mouseenter)="showPopoverDetails($event, product)" (mouseleave)="hidePopoverDetails()">
+        <button [routerLink]="['/course', product.id]"
+          style="border: none;background: transparent; width: 100%; text-align: left;">
+          <img [src]="product.thumbnailUrl" alt="Course" class="course-image">
+          <div class="course-basic-info">
+            <h3 class="course-title">{{product.title}}</h3>
+            <p class="course-instructor"> {{product.instructorName}}</p>
+            <div class="course-rating">
+              <span class="rating-value" style="color:rgb(173, 114, 4); font-weight: bold;">{{ product.rating }}</span>
+              <p-rating value ="4.7" [readonly]="true"></p-rating>
+            </div>
+            <div class="course-price">E&pound;{{product.price}}</div>
+            <button type="button"
+              style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
+              <i class="bi bi-patch-check"></i> Premium</button>
+          </div>
+        </button>
+      </div>
+    </ng-template>
+  </p-carousel>
+
+  <!-- Global Custom Popover -->
+  <div *ngIf="showPopover && hoveredCourse" class="custom-course-popover" [style.top]="popoverStyle.top"
+    [style.left]="popoverStyle.left" (mouseenter)="onPopoverMouseEnter()" (mouseleave)="onPopoverMouseLeave()">
+
+    <!-- Arrow Element -->
+    <div class="popover-arrow" [class.arrow-right]="popoverStyle.arrowPosition === 'right'"
+      [class.arrow-left]="popoverStyle.arrowPosition === 'left'"></div>
+
+    <div class="popover-content">
+      <h3 class="hover-title">{{hoveredCourse.title}}</h3>
+
+      <div class="badges">
+        <span class="badge-premium">Premium</span>
+        <span class="updated-date">Updated {{hoveredCourse.lastUpdatedDate | date:'MMMM yyyy'}}</span>
+      </div>
+
+      <div class="hover-stats">
+        <span>{{hoveredCourse.duration || 'Total Hours'}} total hours</span>
+        <span>•</span>
+        <span>{{hoveredCourse.level || 'All Levels'}}</span>
+        <span>•</span>
+        <span>Subtitles</span>
+      </div>
+
+      <p class="hover-description">
+        {{hoveredCourse.categoryName || 'Learn key skills in this course.'}}
+      </p>
+
+      <div class="hover-list-container">
+        <!-- Using hardcoded items as per user request/screenshot context, ideally these come from API -->
+        <ul class="hover-list">
+          <li><i class="bi bi-check"></i> <span>Build 16 web development projects</span></li>
+          <li><i class="bi bi-check"></i> <span>Learn the latest technologies</span></li>
+          <li><i class="bi bi-check"></i> <span>Build a portfolio of websites</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 
             </ng-template>
