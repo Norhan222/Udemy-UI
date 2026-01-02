@@ -8,3 +8,10 @@ export interface Review {
   createdDate: string;
 
 }
+
+export interface CorseRevie
+{
+  courseId: number;
+  rating: number;
+  comment: string;
+}

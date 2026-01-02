@@ -8,7 +8,6 @@ import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
 import { Rating } from 'primeng/rating';
 import { TopicService } from '../../../Services/topic-service';
-
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
