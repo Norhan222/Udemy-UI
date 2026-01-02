@@ -3,14 +3,16 @@ import { StepperService } from '../../../../../Services/stepper-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-step3',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule, TranslateModule],
   templateUrl: './step3.html',
   styleUrl: './step3.css',
 })
 export class Step3 {
-category = '';
+  category = '';
 
   categories = [
     { value: 'development', label: 'Development' },
@@ -27,11 +29,11 @@ category = '';
     { value: 'teaching', label: 'Teaching & Academics' }
   ];
 
-  constructor(private stepperService: StepperService) {}
+  constructor(private stepperService: StepperService) { }
 
   ngOnInit(): void {
     this.stepperService.formData$.subscribe(data => {
-      this.category = data.category??'';
+      this.category = data.category ?? '';
     });
   }
 

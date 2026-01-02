@@ -17,13 +17,15 @@ import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-most-popular',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule,CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, CommonModule, TranslateModule],
   templateUrl: './most-popular.html',
   styleUrl: './most-popular.css',
 })
-export class MostPopular implements OnInit, OnDestroy{
+export class MostPopular implements OnInit, OnDestroy {
   responsiveOptions: any[] | undefined;
 
   courses!: ICourse[];
@@ -32,8 +34,9 @@ export class MostPopular implements OnInit, OnDestroy{
   cartAdded = false;
   wihshListAdded = false;
   value: number = 3;
+  isLoading = true; // Add loading state
 
-  // Popover State
+  // Custom Popover State
   hoveredCourse: any = null;
   popoverStyle: any = {};
   showPopover: boolean = false;
@@ -52,6 +55,7 @@ export class MostPopular implements OnInit, OnDestroy{
     private router: Router
   ) { }
 
+  // Popover Methods
   showPopoverDetails(event: MouseEvent, course: any) {
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
@@ -67,7 +71,7 @@ export class MostPopular implements OnInit, OnDestroy{
     this.hideTimeout = setTimeout(() => {
       this.showPopover = false;
       this.hoveredCourse = null;
-      this.cdn.detectChanges(); // Ensure Angular updates the view
+      this.cdn.detectChanges();
     }, 200);
   }
 
@@ -114,12 +118,20 @@ export class MostPopular implements OnInit, OnDestroy{
 
 
   ngOnInit() {
-    this.dataResponse = this.courseService.getPopularCourses().subscribe((data: any) => {
-      this.courses = data.data;
-      if (this.courses && this.courses.length > 0) {
-        this.topPickCourse = this.courses[0];
+    this.isLoading = true;
+    this.dataResponse = this.courseService.getPopularCourses().subscribe({
+      next: (data: any) => {
+        this.courses = data.data;
+        if (this.courses && this.courses.length > 0) {
+          this.topPickCourse = this.courses[0];
+        }
+        this.isLoading = false;
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching popular courses:', err);
+        this.isLoading = false;
       }
-      this.cdn.detectChanges();
     });
 
     this.responsiveOptions = [

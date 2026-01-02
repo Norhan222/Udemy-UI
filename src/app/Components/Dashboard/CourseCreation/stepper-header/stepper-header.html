@@ -9,11 +9,12 @@
         <text x="25" y="24" class="logo-text" fill="#1c1d1f">udemy</text>
       </svg>
       <span class="step-indicator">
-        Step {{ currentStep }} of {{ totalSteps }}
+        {{ 'COURSE_CREATION.STEPPER.STEP' | translate }} {{ currentStep }} {{ 'COURSE_CREATION.STEPPER.OF' | translate
+        }} {{ totalSteps }}
       </span>
     </div>
     <button class="exit-btn" (click)="onExit()">
-      Exit
+      {{ 'COURSE_CREATION.STEPPER.EXIT' | translate }}
     </button>
   </div>
 </header>

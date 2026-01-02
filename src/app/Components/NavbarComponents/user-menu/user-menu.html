@@ -1,6 +1,4 @@
-<div class="profile-wrapper"
-     (pointerenter)="openMenu()"
-     (pointerleave)="closeMenu()">
+<div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
 
   <!-- Avatar -->
   <!-- <div class="avatar">
@@ -13,20 +11,20 @@
   </div> -->
   @if(userData$ |async; as userr){
   @if(userr.profileImageUrl){
-    <img class="profileImage" [src]="userr.profileImageUrl"/>
+  <img class="profileImage" [src]="userr.profileImageUrl" />
   }
 
   @else{
   <div class="avatar">
-        {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
-    </div>
+    {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+  </div>
   }
 
 
   <span class="notification-badge"></span>
 
   <!-- Dropdown -->
-  <div class="dropdown" *ngIf="isOpen">
+  <div class="dropdown" *ngIf="isOpen" [class.rtl-dropdown]="isRtl">
 
     <!-- User Info -->
     <div class="user-info">
@@ -35,16 +33,16 @@
       }
 
       @else{
-              <div class="avatar big">
+      <div class="avatar big">
 
-      <div class="avatar">
-        {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+        <div class="avatar">
+          {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+        </div>
       </div>
-            </div>
 
       }
 
-        <!-- <img  *ngIf="user.profileImageUrl; else initialsBig"
+      <!-- <img  *ngIf="user.profileImageUrl; else initialsBig"
              [src]="user.profileImageUrl" />
         <ng-template #initialsBig>
           {{ (user.firstName + ' ' + user.lastName) | intiials }}
@@ -54,37 +52,38 @@
         <h5>{{ (userr.firstName + ' ' + userr.lastName) | capitalize }}</h5>
         <p>{{ userr.email }}</p>
         <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
-          Logout
+          {{ 'USER_MENU.LOGOUT' | translate }}
         </a>
       </div>
     </div>
 
     <hr />
     <!-- Links -->
-    <a routerLink="/my-learning" routerLinkActive="active">My learning</a>
-    <a routerLink="/Cart" routerLinkActive="active">My cart</a>
-    <a  >Wishlist</a>
+      @if(user.role==='Student'){
+    <a routerLink="/my-learning" routerLinkActive="active">{{ 'USER_MENU.MY_LEARNING' | translate }}</a>
+      }
+    <a routerLink="/Cart" routerLinkActive="active">{{ 'USER_MENU.MY_CART' | translate }}</a>
+    <a>{{ 'USER_MENU.WISHLIST' | translate }}</a>
     @if(user.role==='Instructor'){
-    <a (click)="navigateToInstructorDashboard()">Instructor dashboard</a>
+    <a (click)="navigateToInstructorDashboard()">{{ 'USER_MENU.INSTRUCTOR_DASHBOARD' | translate }}</a>
     }
     <hr />
-
-    <a>Notifications</a>
+    <a>{{ 'USER_MENU.NOTIFICATIONS' | translate }}</a>
     <a>
-      Messages
+      {{ 'USER_MENU.MESSAGES' | translate }}
       <span class="badge">2</span>
     </a>
 
     <hr />
 
-    <a (click)="navigateToProfile()" style="cursor:pointer">Account settings</a>
-    <a>Payment methods</a>
-    <a>Subscriptions</a>
-    <a>Purchase history</a>
+    <a (click)="navigateToProfile()" style="cursor:pointer">{{ 'USER_MENU.ACCOUNT_SETTINGS' | translate }}</a>
+    <a>{{ 'USER_MENU.PAYMENT_METHODS' | translate }}</a>
+    <a>{{ 'USER_MENU.SUBSCRIPTIONS' | translate }}</a>
+    <a>{{ 'USER_MENU.PURCHASE_HISTORY' | translate }}</a>
 
     <hr />
 
-    <a class="logout" (click)="logout()">Log out</a>
+    <a class="logout" (click)="logout()">{{ 'USER_MENU.LOGOUT' | translate }}</a>
   </div>
 
   }

@@ -1,5 +1,6 @@
 import { CourseService } from './../../../Services/course-service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChangeDetectorRef, Component, model, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
@@ -7,7 +8,7 @@ import { ICourse } from '../../../Models/icourse';
 
 @Component({
   selector: 'app-instructor-courses',
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './instructor-courses.html',
   styleUrl: './instructor-courses.css',
 })
@@ -17,7 +18,7 @@ export class InstructorCourses implements OnInit {
   searchTerm: string = '';
   sortOrder: string = 'newest';
   activeTab: string = 'courses';
-  courses:ICourse[] = [];
+  courses: ICourse[] = [];
   // courses: Course[] = [
 
   //   {
@@ -51,18 +52,18 @@ export class InstructorCourses implements OnInit {
   // ];
   filteredCourses: ICourse[] = [];
 
-  constructor(private router: Router, private courseService: CourseService ,private cdr:ChangeDetectorRef) {
-  
+  constructor(private router: Router, private courseService: CourseService, private cdr: ChangeDetectorRef) {
+
   }
   ngOnInit(): void {
     this.courseService.getInstructorCourses().subscribe(courses => {
       console.log('Instructor courses fetched:', courses);
       this.courses = courses
-    this.filteredCourses = [...this.courses];
-    
-    this.cdr.detectChanges()
-  })
-};
+      this.filteredCourses = [...this.courses];
+
+      this.cdr.detectChanges()
+    })
+  };
 
   dismissEmailBanner(): void {
     this.showEmailBanner = false;

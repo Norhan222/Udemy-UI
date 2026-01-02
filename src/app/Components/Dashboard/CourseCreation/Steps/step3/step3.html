@@ -1,17 +1,17 @@
 <div class="form-container">
   <h1 class="form-title">
-    What category best fits the knowledge you'll share?
+    {{ 'COURSE_CREATION.STEPS.STEP3.TITLE' | translate }}
   </h1>
   <p class="form-subtitle">
-    If you're not sure about the right category, you can change it later.
+    {{ 'COURSE_CREATION.STEPS.STEP3.SUBTITLE' | translate }}
   </p>
 
   <div class="form-group">
     <label class="form-label">
-      Course Category
+      {{ 'COURSE_CREATION.STEPS.STEP3.LABEL' | translate }}
     </label>
     <select [(ngModel)]="category" (ngModelChange)="onCategoryChange($event)" class="form-select">
-      <option value="">Choose a category</option>
+      <option value="">{{ 'COURSE_CREATION.STEPS.STEP3.CHOOSE_CATEGORY' | translate }}</option>
       <option *ngFor="let cat of categories" [value]="cat.value">
         {{ cat.label }}
       </option>

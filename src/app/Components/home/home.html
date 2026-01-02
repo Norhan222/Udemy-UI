@@ -1,24 +1,25 @@
 <app-welcome-section></app-welcome-section>
 <app-header></app-header>
 @if(!isEmpty){
- <app-start-your-courses></app-start-your-courses>
- <app-recommened-courses></app-recommened-courses>
- <app-trending-courses></app-trending-courses>
- <app-featured-courses></app-featured-courses>
- <app-topics-recommended></app-topics-recommended>
+<app-start-your-courses></app-start-your-courses>
+<app-recommened-courses></app-recommened-courses>
+<app-trending-courses></app-trending-courses>
+<app-featured-courses></app-featured-courses>
+<app-topics-recommended></app-topics-recommended>
 
- }@else{
-   <div style="text-align: center; margin-top: 100px; margin-bottom: 100px;">
-      <h2>You have no courses yet.</h2>
-      <p>Browse our course catalog to find courses that interest you and start learning today!</p>
-      <a routerLink="/courses" style="text-decoration: none;">
-        <button style="background-color:#5f2eaf; color:white; 
+}@else{
+<div style="text-align: center; margin-top: 100px; margin-bottom: 100px;">
+  <h2>{{ 'HOME_PAGE.NO_COURSES' | translate }}</h2>
+  <p>{{ 'HOME_PAGE.BROWSE_CATALOG_DESC' | translate }}</p>
+  <a routerLink="/courses" style="text-decoration: none;">
+    <button
+      style="background-color:#5f2eaf; color:white; 
                        padding:15px 50px 15px 50px; font-weight:bold ; border:none; border-radius:5px; cursor:pointer;">
-          Browse Courses
-        </button>
-      </a>
-   </div>
-   <app-trending-courses></app-trending-courses>
-   <app-featured-courses></app-featured-courses>
-   <app-topics-recommended></app-topics-recommended>
- }
+      {{ 'HOME_PAGE.BROWSE_COURSES_BTN' | translate }}
+    </button>
+  </a>
+</div>
+<app-trending-courses></app-trending-courses>
+<app-featured-courses></app-featured-courses>
+<app-topics-recommended></app-topics-recommended>
+}

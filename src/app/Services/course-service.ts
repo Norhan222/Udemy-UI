@@ -30,8 +30,9 @@ export interface Lecture {
   title: string;
   videoUrl: string;
   duration?: string;
-  completed?: boolean;
   order?: number;
+   lastWatchedPosition?: number; // هنا بنجيب آخر نقطة
+  isCompleted?: boolean;
 }
 
 export interface Section {
@@ -164,14 +165,19 @@ getAdvancedCourses(): Observable<ICourse[]> {
       `${this.baseUrl}/Course/${courseId}/content`
     );
   }
-  saveProgress(courseId: number, lectureId: number, progress: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/progress`, {
-      progress: progress
-    });
-  }
+private baseUrl2 = environment.apiUrl + '/LectureProgress';
 
-  markLectureComplete(courseId: number, lectureId: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/courses/${courseId}/lectures/${lectureId}/complete`, {});
-  }
+saveProgress(courseId: number, lectureId: number, lastWatchedPosition: number): Observable<any> {
+  return this.http.post(`${this.baseUrl2}/${courseId}/lectures/${lectureId}/progress`, { lastWatchedPosition });
+}
+
+markLectureComplete(courseId: number, lectureId: number): Observable<any> {
+  return this.http.post(`${this.baseUrl2}/${courseId}/lectures/${lectureId}/complete`, {});
+}
+
+getUserProgress(courseId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl2}/${courseId}/progress`);
+}
+
 }
 

@@ -10,14 +10,14 @@
   <!-- Header -->
   <div class="mb-4">
     <h2 class="fw-bold mb-1">
-      Overview
+      {{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.TITLE' | translate }}
       <select [(ngModel)]="selectedCourse" (ngModelChange)="onCourseChange()" class="course-select text-purple">
         <option *ngFor="let course of courses" [value]="course">
           {{ course }}
         </option>
       </select>
     </h2>
-    <p class="text-muted">Get top insights about your performance</p>
+    <p class="text-muted">{{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.SUBTITLE' | translate }}</p>
   </div>
 
   <!-- Stats -->
@@ -36,14 +36,14 @@
 
     <!-- Empty State -->
     <div *ngIf="metrics.length === 0" class="text-center py-5">
-      <p class="text-muted mt-3">No performance data available</p>
+      <p class="text-muted mt-3">{{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.NO_DATA' | translate }}</p>
     </div>
   </div>
 
   <!-- Chart section -->
   <div class="card chart-card">
     <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
-      <span class="me-2">Date range:</span>
+      <span class="me-2">{{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.DATE_RANGE' | translate }}</span>
 
       <select [(ngModel)]="selectedRange" (ngModelChange)="onDateRangeChange()"
         class="form-select date-select w-auto me-2">
@@ -53,7 +53,7 @@
       </select>
 
       <button class="btn btn-purple" (click)="onExport()">
-        Export <i class="bi bi-chevron-down"></i>
+        {{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.EXPORT' | translate }} <i class="bi bi-chevron-down"></i>
       </button>
     </div>
 
@@ -75,13 +75,13 @@
       </div>
 
       <div *ngIf="!hasData()" class="chart-empty">
-        <p class="text-muted">No data to display</p>
+        <p class="text-muted">{{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.CHART_NO_DATA' | translate }}</p>
       </div>
     </div>
 
     <div class="text-end mt-3">
       <a href="#" class="text-purple fw-semibold text-decoration-none">
-        Revenue Report →
+        {{ 'INSTRUCTOR_PERFORMANCE.OVERVIEW.REVENUE_REPORT' | translate }} →
       </a>
     </div>
   </div>

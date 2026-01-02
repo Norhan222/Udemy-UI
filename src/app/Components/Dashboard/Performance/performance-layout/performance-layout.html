@@ -1,26 +1,28 @@
-
 <div class="performance-layout">
 
-<aside class="performance-sidebar">
-  <h5 class="title">Performance</h5>
+  <aside class="performance-sidebar">
+    <h5 class="title">{{ 'INSTRUCTOR_PERFORMANCE.SIDEBAR.TITLE' | translate }}</h5>
 
-  <a routerLink="/dashboard/performance/overview" routerLinkActive="active">Overview</a>
-  <a routerLink="/dashboard/performance/revenue" routerLinkActive="active">Revenue</a>
-  <a routerLink="/dashboard/performance/students" routerLinkActive="active">Students</a>
+    <a routerLink="/dashboard/performance/overview" routerLinkActive="active">{{
+      'INSTRUCTOR_PERFORMANCE.SIDEBAR.OVERVIEW' | translate }}</a>
+    <a routerLink="/dashboard/performance/revenue" routerLinkActive="active">{{ 'INSTRUCTOR_PERFORMANCE.SIDEBAR.REVENUE'
+      | translate }}</a>
+    <a routerLink="/dashboard/performance/students" routerLinkActive="active">{{
+      'INSTRUCTOR_PERFORMANCE.SIDEBAR.STUDENTS' | translate }}</a>
 
-  <a routerLink="reviews" routerLinkActive="active">Reviews</a>
+    <a routerLink="reviews" routerLinkActive="active">{{ 'INSTRUCTOR_PERFORMANCE.SIDEBAR.REVIEWS' | translate }}</a>
 
-  <a routerLink="engagement" routerLinkActive="active">Engagement</a>
+    <a routerLink="engagement" routerLinkActive="active">{{ 'INSTRUCTOR_PERFORMANCE.SIDEBAR.ENGAGEMENT' | translate
+      }}</a>
 
-  <a routerLink="traffic" routerLinkActive="active">
-    Traffic & conversion
-  </a>
-</aside>
-<main class="performance-content">
-  <!-- <app-overview></app-overview> -->
-   <!-- <app-reviews></app-reviews> -->
-  <router-outlet></router-outlet>
-</main>
+    <a routerLink="traffic" routerLinkActive="active">
+      {{ 'INSTRUCTOR_PERFORMANCE.SIDEBAR.TRAFFIC' | translate }}
+    </a>
+  </aside>
+  <main class="performance-content">
+    <!-- <app-overview></app-overview> -->
+    <!-- <app-reviews></app-reviews> -->
+    <router-outlet></router-outlet>
+  </main>
 
 </div>
-

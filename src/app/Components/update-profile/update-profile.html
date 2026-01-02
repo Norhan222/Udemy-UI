@@ -1,0 +1,197 @@
+<div class="profile-page">
+  <div class="profile-container">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="profile-sidebar">
+      <div class="profile-preview">
+        <div class="avatar-circle">
+          <img *ngIf="imagePreview" [src]="imagePreview" alt="Profile">
+          <div *ngIf="!imagePreview" class="avatar-fallback">
+            {{ profileForm.value.firstName?.charAt(0) || 'U' }}
+          </div>
+        </div>
+
+        <label class="change-photo">
+          {{ 'PROFILE.CHANGE_PHOTO' | translate }}
+          <input type="file" hidden (change)="onFileChange($event)">
+        </label>
+
+        <h3 class="profile-name">
+          {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}
+        </h3>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a
+          class="nav-item"
+          [class.active]="activeSection === 'profile'"
+          (click)="scrollTo('profile')">
+          {{ 'PROFILE.EDIT_PROFILE' | translate }}
+        </a>
+
+        <a
+          class="nav-item"
+          [class.active]="activeSection === 'password'"
+          (click)="scrollTo('password')">
+          {{ 'PROFILE.CHANGE_PASSWORD' | translate }}
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="profile-content">
+
+      <!-- ========== EDIT PROFILE ========== -->
+      <section id="profile" class="content-card">
+        <h2 class="card-title">{{ 'PROFILE.EDIT_PROFILE' | translate }}</h2>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+          <!-- First Name -->
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="text"
+                formControlName="firstName"
+                class="form-input"
+                [placeholder]="'PROFILE.FIRST_NAME' | translate"
+                [class.input-error]="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+              <small
+                *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched"
+                class="error-text">
+                {{ 'PROFILE.FIRST_NAME_ERROR' | translate }}
+              </small>
+            </div>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="text"
+                formControlName="lastName"
+                class="form-input"
+                [placeholder]="'PROFILE.LAST_NAME' | translate"
+                [class.input-error]="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+              <small
+                *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
+                class="error-text">
+                {{ 'PROFILE.LAST_NAME_ERROR' | translate }}
+              </small>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="email"
+                formControlName="email"
+                class="form-input"
+                placeholder="Email"
+                [class.input-error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="text"
+                formControlName="phoneNumber"
+                class="form-input"
+                placeholder="Phone Number"
+                [class.input-error]="profileForm.get('phoneNumber')?.invalid && profileForm.get('phoneNumber')?.touched">
+              <small
+                *ngIf="profileForm.get('phoneNumber')?.invalid && profileForm.get('phoneNumber')?.touched"
+                class="error-text">
+                Enter a valid Egyptian phone number
+              </small>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="isLoading || profileForm.invalid">
+              {{ isLoading ? 'Saving...' : 'Save' }}
+            </button>
+          </div>
+
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+
+          <div *ngIf="errorMessage" class="alert alert-error">
+            {{ errorMessage }}
+          </div>
+
+        </form>
+      </section>
+
+      <!-- ========== CHANGE PASSWORD ========== -->
+      <section id="password" class="content-card">
+        <h2 class="card-title">{{ 'PROFILE.CHANGE_PASSWORD' | translate }}</h2>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="password"
+                formControlName="currentPassword"
+                class="form-input"
+                [placeholder]="'PROFILE.CURRENT_PASSWORD' | translate">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="password"
+                formControlName="newPassword"
+                class="form-input"
+                [placeholder]="'PROFILE.NEW_PASSWORD' | translate">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <input
+                type="password"
+                formControlName="confirmNewPassword"
+                class="form-input"
+                [placeholder]="'PROFILE.CONFIRM_NEW_PASSWORD' | translate"
+                [class.input-error]="passwordForm.errors?.['passwordMismatch']">
+              <small
+                *ngIf="passwordForm.errors?.['passwordMismatch']"
+                class="error-text">
+                {{ 'PROFILE.PASSWORD_MISMATCH' | translate }}
+              </small>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="isPasswordLoading || passwordForm.invalid">
+              {{ isPasswordLoading ? ('PROFILE.CHANGING' | translate) : ('PROFILE.CHANGE_PASSWORD' | translate) }}
+            </button>
+          </div>
+
+          <div *ngIf="passwordSuccessMessage" class="alert alert-success">
+            {{ passwordSuccessMessage }}
+          </div>
+
+          <div *ngIf="passwordErrorMessage" class="alert alert-error">
+            {{ passwordErrorMessage }}
+          </div>
+
+        </form>
+      </section>
+
+    </main>
+  </div>
+</div>

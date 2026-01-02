@@ -1,25 +1,24 @@
-
 <div class="form-container">
   <h1 class="form-title">
-    How about a brief description?
+    {{ 'COURSE_CREATION.STEPS.STEP4.TITLE' | translate }}
   </h1>
   <p class="form-subtitle">
-    Description should have minimum 200 characters.
+    {{ 'COURSE_CREATION.STEPS.STEP4.SUBTITLE' | translate }}
   </p>
 
   <div class="form-group">
     <label class="form-label">
-      Course Description
+      {{ 'COURSE_CREATION.STEPS.STEP4.LABEL' | translate }}
     </label>
     <textarea [(ngModel)]="description" (ngModelChange)="onDescriptionChange($event)"
-      placeholder="Tell students what they will learn in your course..." rows="8" class="form-textarea">
+      placeholder="{{ 'COURSE_CREATION.STEPS.STEP4.PLACEHOLDER' | translate }}" rows="8" class="form-textarea">
         </textarea>
     <div class="character-count">
-      {{ description.length }} characters
+      {{ description.length }} {{ 'COURSE_CREATION.STEPS.STEP4.CHARACTERS' | translate }}
     </div>
   </div>
 
   <div *ngIf="description.length >= 200" class="success-message">
-    <p>✓ Great! Your course is ready to be created.</p>
+    <p>{{ 'COURSE_CREATION.STEPS.STEP4.SUCCESS' | translate }}</p>
   </div>
 </div>

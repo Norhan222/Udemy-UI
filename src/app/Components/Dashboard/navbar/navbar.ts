@@ -2,34 +2,35 @@ import { Component } from '@angular/core';
 import { UserMenu } from '../../NavbarComponents/user-menu/user-menu';
 import { NotificatonService } from '../../../Services/notificaton-service';
 import { InstructorNotification } from '../instructor-notification/instructor-notification';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
-  imports: [UserMenu,InstructorNotification],
+  imports: [UserMenu, InstructorNotification, TranslateModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
- role = 'Student';
-   private hideTimeout: any;
+  role = 'Student';
+  private hideTimeout: any;
 
- constructor(public notificationsService:NotificatonService){
+  constructor(public notificationsService: NotificatonService) {
 
- }
-  navigateToHome(){
+  }
+  navigateToHome() {
     window.location.href = '/';
   }
 
-   onNotificationMouseEnter() {
-  
+  onNotificationMouseEnter() {
+
     this.notificationsService.toggleNotifications();
   }
- onNotificationMouseLeave() {
-      this.notificationsService.hideNotifications();
+  onNotificationMouseLeave() {
+    this.notificationsService.hideNotifications();
   }
 
   getUnreadCount(): number {
     return this.notificationsService.getUnreadCount();
 
-}
+  }
 }

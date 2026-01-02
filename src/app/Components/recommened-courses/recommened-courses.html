@@ -1,20 +1,23 @@
-<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">What to learn next</h2>
-<h4 style="margin: 0 0 20px 20px; font-weight: bold;">Recommended for you</h4>
-@if(courses == null)
-{
-  <div class="courses-list" >
-                <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="width:250px; margin:10px">
-                    <div class="skeleton-image"></div>
-                    <div class="skeleton-details">
-                        <div class="skeleton-line title"></div>
-                        <div class="skeleton-line subtitle"></div>
-                        <div class="skeleton-line meta"></div>
-                        <div class="skeleton-line price"></div>
-                    </div>
-                </div>
-            </div>
-}@else{
+<h2 style="margin: 50px 0 20px 20px; font-weight: bold;">{{ 'HOME_PAGE.WHAT_TO_LEARN_NEXT' | translate }}</h2>
+<h4 style="margin: 0 0 20px 20px; font-weight: bold;">{{ 'HOME_PAGE.RECOMMENDED_FOR_YOU' | translate }}</h4>
 <section style="margin: 10px 0 50px 0;">
+  @if(isLoading)
+  {
+  <!-- Loading State (Skeleton) -->
+  <div class="courses-list" style="display: flex; gap: 16px; overflow: hidden; margin: 10px 0;">
+    <div *ngFor="let item of [1,2,3,4,5]" class="skeleton-card" style="min-width: 250px; flex: 1;">
+      <div class="skeleton-image"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line subtitle"></div>
+        <div class="skeleton-line meta"></div>
+        <div class="skeleton-line price"></div>
+      </div>
+    </div>
+  </div>
+  }
+  @else
+  {
   <p-carousel [value]="courses" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
     <ng-template let-product pTemplate="item">
       <div style="margin:10px; background-color: white; " class="lex justify-center course-card-wrapper"
@@ -32,12 +35,13 @@
             <div class="course-price">E&pound;{{product.price}}</div>
             <button type="button"
               style="background-color:#6d28d2;margin-top:10px;color:white;border-radius:2px;padding:2px">
-              <i class="bi bi-patch-check"></i> Premium</button>
+              <i class="bi bi-patch-check"></i> {{ 'CART.PREMIUM' | translate }}</button>
           </div>
         </button>
       </div>
     </ng-template>
   </p-carousel>
+  }
 
   <!-- Global Custom Popover -->
   <div *ngIf="showPopover && hoveredCourse" class="custom-course-popover" [style.top]="popoverStyle.top"
@@ -51,7 +55,7 @@
       <h3 class="hover-title">{{hoveredCourse.title}}</h3>
 
       <div class="badges">
-        <span class="badge-premium">Premium</span>
+        <span class="badge-premium">{{ 'CART.PREMIUM' | translate }}</span>
         <span class="updated-date">Updated {{hoveredCourse.lastUpdatedDate | date:'MMMM yyyy'}}</span>
       </div>
 
@@ -64,22 +68,23 @@
       </div>
 
       <p class="hover-description">
-        {{hoveredCourse.categoryName || 'Learn key skills in this course.'}}
+        {{hoveredCourse.categoryName || ('HOME_PAGE.RECOMMENDED.LEARN_SKILLS' | translate)}}
       </p>
 
       <div class="hover-list-container">
         <!-- Using hardcoded items as per user request/screenshot context, ideally these come from API -->
         <ul class="hover-list">
-          <li><i class="bi bi-check"></i> <span>Build 16 web development projects</span></li>
-          <li><i class="bi bi-check"></i> <span>Learn the latest technologies</span></li>
-          <li><i class="bi bi-check"></i> <span>Build a portfolio of websites</span></li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.RECOMMENDED.BUILD_PROJECTS' | translate }}</span></li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.RECOMMENDED.LEARN_TECH' | translate }}</span></li>
+          <li><i class="bi bi-check"></i> <span>{{ 'HOME_PAGE.RECOMMENDED.BUILD_PORTFOLIO' | translate }}</span></li>
         </ul>
       </div>
 
       <div class="hover-buttons">
         <button type="button" class="add-cart-btn" [class.added]="isInCart(hoveredCourse?.id)"
           (click)="addToCart(hoveredCourse?.id); $event.stopPropagation()">
-          {{ isInCart(hoveredCourse?.id) ? 'Added to Cart' : 'Add to cart' }}
+          {{ isInCart(hoveredCourse?.id) ? ('HOME_PAGE.RECOMMENDED.ADDED_TO_CART' | translate) :
+          ('HOME_PAGE.RECOMMENDED.ADD_TO_CART' | translate) }}
         </button>
         <button (click)="addToWishlist(hoveredCourse?.id); $event.stopPropagation()" class="wishlist-btn">
           @if(isInWishlist(hoveredCourse?.id))
@@ -94,4 +99,3 @@
     </div>
   </div>
 </section>
-}

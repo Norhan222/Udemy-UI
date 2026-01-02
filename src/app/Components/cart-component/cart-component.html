@@ -1,39 +1,40 @@
 @if(cartItems.length > 0) {
 <div class="container">
-    <h1>Shopping Cart</h1>
-    <p class="sub-title">{{ cartItems.length }} Courses in Cart</p>
+    <h1>{{ 'CART.SHOPPING_CART' | translate }}</h1>
+    <p class="sub-title">{{ cartItems.length }} {{ 'CART.COURSES_IN_CART' | translate }}</p>
 
     <div class="content">
         <!-- LEFT -->
         <div class="cart-items">
 
-           
+
             @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
-                <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" class="course-img" alt="{{ item.courseTitle }}">
+                <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" class="course-img"
+                    alt="{{ item.courseTitle }}">
 
                 <div class="course-info">
                     <h3>{{ item.courseTitle }}</h3>
-                    <p class="author">By {{ item.instructorName }}</p>
+                    <p class="author">{{ 'CART.BY' | translate }} {{ item.instructorName }}</p>
 
                     <div class="rating">
                         <span class="rate">{{ item.courseRating }}</span>
                         ⭐⭐⭐⭐☆
-                        <span class="count">({{ item.totalStudents }} ratings)</span>
+                        <span class="count">({{ item.totalStudents }} {{ 'CART.RATINGS' | translate }})</span>
                     </div>
 
                     <p class="details">{{ item.courseDescription }}</p>
-                    <span class="badge">Premium</span>
+                    <span class="badge">{{ 'CART.PREMIUM' | translate }}</span>
                 </div>
 
                 <div class="course-actions">
                     <button type="button" class="btn btn-link p-0 text-decoration-none"
                         (click)="removeItem(item.courseId)">
-                        Remove
+                        {{ 'CART.REMOVE' | translate }}
                     </button>
                     <button type="button" class="btn btn-link p-0 text-decoration-none"
                         (click)="addWishlist(item.courseId)">
-                        Move to Wishlist
+                        {{ 'CART.MOVE_TO_WISHLIST' | translate }}
                     </button>
                     <!-- <a href="#">Save for Later</a> -->
                     <!-- <button type="button" class="btn btn-link p-0 text-decoration-none"
@@ -59,37 +60,35 @@
                 </div>
             </div>
             }
-            
+
         </div>
 
         <!-- RIGHT -->
         <div class="summary">
-            <p class="label">Total:</p>
+            <p class="label">{{ 'CART.TOTAL' | translate }}</p>
             <h2>E£{{ total }}</h2>
             <p class="old-total">E£{{ subTotal}}</p>
-            <p class="discount">0% off</p>
+            <p class="discount">0% {{ 'CART.OFF' | translate }}</p>
 
             <!-- <button class="checkout">Proceed to Checkout →</button> -->
-             <button
-  class="btn btn-success w-100 mt-3"
-  (click)="payNow()">
-  Pay Now
-  @if(loading) {
-   <div class="spinner-border text-primary" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-  }
-</button>
+            <button class="btn btn-success w-100 mt-3" (click)="payNow()">
+                {{ 'CART.PAY_NOW' | translate }}
+                @if(loading) {
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                }
+            </button>
 
-            <p class="note">You won't be charged yet</p>
+            <p class="note">{{ 'CART.NOTE' | translate }}</p>
 
-            <button class="coupon">Apply Coupon</button>
+            <button class="coupon">{{ 'CART.APPLY_COUPON' | translate }}</button>
         </div>
     </div>
 </div>
 } @else {
 <div class="container text-center empty-cart">
     <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
-    <h2>Your cart is empty</h2>
+    <h2>{{ 'CART.EMPTY_CART' | translate }}</h2>
 </div>
 }

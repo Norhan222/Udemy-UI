@@ -1,58 +1,92 @@
 <section class="" style="margin: 50px 30px 50px 30px;">
-  <div class="car-cont" style="background-image: url('home.jpg'); background-size: 100% 100%; background-repeat: no-repeat;"  >
-        <div class="ca_p" >
-          <h3>12 Deal Days of December</h3>
-          <P>Today’s deal: Buy 3 or more courses, get up to 15% extra savings on discounted courses with code 15BONUSDEC25.
-        </P>
-         </div>
-      </div>
+  <div class="car-cont"
+    style="background-image: url('home.jpg'); background-size: 100% 100%; background-repeat: no-repeat;">
+    <div class="ca_p">
+      <h3>{{ 'HOME_PAGE.TOPICS_CAROUSEL.DEAL_TITLE' | translate }}</h3>
+      <P>{{ 'HOME_PAGE.TOPICS_CAROUSEL.DEAL_TEXT' | translate }}
+      </P>
+    </div>
+  </div>
 </section>
 <div class="clear" style="clear: both;"></div>
 <section class="curs" style="margin: 50px 10px 50px 10px;">
   <div style="display: flex;">
-  <div class="col-3 " style=" align-content: center; margin-right:20px ;">
-     <h3> Learn essential career and life skills </h3>
-     <p>
-      Udemy helps you build in-demand skills fast and advance your career in a changing job market.
+    <div class="col-3 " style=" align-content: center; margin-right:20px ;">
+      <h3> {{ 'HOME_PAGE.TOPICS_CAROUSEL.HEADER_TITLE' | translate }} </h3>
+      <p>
+        {{ 'HOME_PAGE.TOPICS_CAROUSEL.HEADER_TEXT' | translate }}
       </p>
-  </div>
-  <div class="col-9">
-  <p-carousel [value]="courses"  [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-    <ng-template let-product pTemplate="item" >
-       <div class="card" style="background-image: url('topic3.jpg'); height: 400px; width: 90%;border-radius:20px;">
-         <div style="height: 300px;"></div>
-         <div>
-          <a >
-            <div style="padding: 20px; background-color:white; margin: 20px;border-radius:10px;">
-              <span style="border:1px solid rgb(185, 180, 180);padding: 2px; color:rgb(58, 57, 57);border-radius: 5px;"><i class="bi bi-people-fill" style="padding:5px"></i>769M+</span>
-              <h6 style="margin-top: 20px;">{{product.name}}</h6>
+    </div>
+    <div class="col-9">
+      <p-carousel [value]="courses" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+        <ng-template let-product pTemplate="item">
+          <div class="card" style="background-image: url('topic3.jpg'); height: 400px; width: 90%;border-radius:20px;">
+            <div style="height: 300px;"></div>
+            <div>
+              <a>
+                <div style="padding: 20px; background-color:white; margin: 20px;border-radius:10px;">
+                  <span
+                    style="border:1px solid rgb(185, 180, 180);padding: 2px; color:rgb(58, 57, 57);border-radius: 5px;"><i
+                      class="bi bi-people-fill" style="padding:5px"></i>769M+</span>
+                  <h6 style="margin-top: 20px;">{{product.name}}</h6>
+                </div>
+              </a>
             </div>
-          </a>
-         </div>
-        </div>
-    </ng-template>
-  </p-carousel>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
   </div>
-</div>
 </section>
-<section class="row" style="margin-top:50px ;align-items: center; background-color: #2a2b3f;border-radius: 30px; margin:20px; color:white;padding:20px">
+<section class="row"
+  style="margin-top:50px ;align-items: center; background-color: #2a2b3f;border-radius: 30px; margin:20px; color:white;padding:20px">
   <div class="col-5">
-    <h2>Reimagine your career in the AI era</h2>
-    <p>Future-proof your skills with Personal Plan. Get access to a variety of fresh content from real-world experts.</p>
+    <h2>{{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_TITLE' | translate }}</h2>
+    <p>{{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_TEXT' | translate }}</p>
     <div style="margin-top:40px;">
+      <div class="row">
+        <div class="col col-icon">
+          <span class="icon" style=" background-color: rgb(206, 170, 247);">
+            <i class="bi bi-stars"></i>
+          </span>
+          <p style="font-size: 19px;">{{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_ICON_AI' | translate }}</p>
+
+        </div>
+        <div class="col col-icon">
+          <span class="icon" style=" background-color: rgb(144, 250, 197);">
+            <i class="bi bi-trophy"></i>
+          </span>
+
+          <p style="font-size: 19px;">{{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_ICON_PREP' | translate }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-icon">
+          <span class="icon" style=" background-color: rgb(250, 219, 153);">
+            <i class="bi bi-chat-right-text"></i>
+          </span>
+          <p style="font-size: 19px;"> {{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_ICON_PRACTICE' | translate }} </p>
+        </div>
+        <div class="col col-icon">
+          <span class="icon" style=" background-color:  rgb(173, 229, 247);">
+            <i class="bi bi-lightbulb"></i>
+          </span>
+          <p style="font-size: 19px;"> {{ 'HOME_PAGE.TOPICS_CAROUSEL.BANNER_ICON_ADVANCE' | translate }} </p>
+        </div>
+      </div>
        <div class="row" style="margin-bottom: 10px;">
            <div class="col col-icon">
             <span class="icon" style=" background-color: rgb(206, 170, 247);">
               <i class="bi bi-stars"></i>
             </span>
              <p style="font-size: 19px;">Learn AI and more</p>
-             
+
           </div>
           <div class="col col-icon">
              <span class="icon" style=" background-color: rgb(144, 250, 197);">
               <i class="bi bi-trophy"></i>
              </span>
-             
+
              <p style="font-size: 19px;">Prep for a certification </p>
           </div>
         </div>
@@ -71,8 +105,10 @@
           </div>
         </div>
     </div>
-    <button class="btn btn-light" style="padding: 10px; width: 40%; color:black;margin: 20px 0 10px 0 ;font-weight: 600;">Learn More</button>
-    <p>Starting at E£204.00/month</p>
+    <button class="btn btn-light"
+      style="padding: 10px; width: 40%; color:black;margin: 20px 0 10px 0 ;font-weight: 600;">{{
+      'HOME_PAGE.TOPICS_CAROUSEL.BTN_LEARN_MORE' | translate }}</button>
+    <p>{{ 'HOME_PAGE.TOPICS_CAROUSEL.PRICE_TEXT' | translate }}</p>
   </div>
   <div class="col-7">
     <img src="dow.webp" alt="AI Plan" style=" width:100%; border-radius: 10px; ">

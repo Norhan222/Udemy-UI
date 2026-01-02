@@ -16,9 +16,11 @@ import { OverlayModule } from 'primeng/overlay';
 import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Popover, PopoverModule } from 'primeng/popover';
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-advanced-courses',
-  imports: [Carousel, ButtonModule,CardModule,FormsModule, Rating, RouterLink,PopoverModule,CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, CommonModule, TranslateModule],
   templateUrl: './advanced-courses.html',
   styleUrl: './advanced-courses.css',
 })
@@ -31,8 +33,9 @@ export class AdvancedCourses implements OnInit, OnDestroy {
   cartAdded = false;
   wihshListAdded = false;
   value: number = 3;
+  isLoading = true; // Add loading state
 
-  // Popover State
+  // Custom Popover State
   hoveredCourse: any = null;
   popoverStyle: any = {};
   showPopover: boolean = false;
@@ -51,6 +54,7 @@ export class AdvancedCourses implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
+  // Popover Methods
   showPopoverDetails(event: MouseEvent, course: any) {
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
@@ -66,7 +70,7 @@ export class AdvancedCourses implements OnInit, OnDestroy {
     this.hideTimeout = setTimeout(() => {
       this.showPopover = false;
       this.hoveredCourse = null;
-      this.cdn.detectChanges(); // Ensure Angular updates the view
+      this.cdn.detectChanges();
     }, 200);
   }
 
@@ -113,12 +117,20 @@ export class AdvancedCourses implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.dataResponse = this.courseService.getAdvancedCourses().subscribe((data: any) => {
-      this.courses = data.data;
-      if (this.courses && this.courses.length > 0) {
-        this.topPickCourse = this.courses[0];
+    this.isLoading = true;
+    this.dataResponse = this.courseService.getAdvancedCourses().subscribe({
+      next: (data: any) => {
+        this.courses = data.data;
+        if (this.courses && this.courses.length > 0) {
+          this.topPickCourse = this.courses[0];
+        }
+        this.isLoading = false;
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching advanced courses:', err);
+        this.isLoading = false;
       }
-      this.cdn.detectChanges();
     });
 
     this.responsiveOptions = [

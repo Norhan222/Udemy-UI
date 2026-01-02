@@ -3,6 +3,9 @@ import { CartService } from '../../Services/cart-service';
 import { WishlistService } from '../../Services/wishlist';
 import { Payment } from '../../Services/payment';
 import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -10,7 +13,7 @@ import { interval, Subscription, switchMap, takeWhile } from 'rxjs';
 @Component({
   selector: 'app-cart-component',
   templateUrl: './cart-component.html',
-  imports: [],
+  imports: [TranslateModule, CommonModule, FormsModule],
   styleUrls: ['./cart-component.css'],
 })
 export class CartComponent implements OnInit, OnDestroy {

@@ -16,10 +16,11 @@ import { Popover } from 'primeng/popover';
 
 import { PopoverModule } from 'primeng/popover';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-trending-courses',
-  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink,PopoverModule, ButtonModule, CommonModule],
+  imports: [Carousel, ButtonModule, CardModule, FormsModule, Rating, RouterLink, PopoverModule, ButtonModule, CommonModule, TranslateModule],
   templateUrl: './trending-courses.html',
   styleUrl: './trending-courses.css',
 })
@@ -32,8 +33,9 @@ export class TrendingCourses implements OnInit, OnDestroy {
   cartAdded = false;
   wihshListAdded = false;
   value: number = 3;
+  isLoading = true; // Add loading state
 
-  // Popover State
+  // Custom Popover State
   hoveredCourse: any = null;
   popoverStyle: any = {};
   showPopover: boolean = false;
@@ -46,80 +48,24 @@ export class TrendingCourses implements OnInit, OnDestroy {
   wishlistItems: any[] = [];
   cartLoaded = false;
 
-  constructor(
-    public courseService: CourseService,
-    public cdn: ChangeDetectorRef,
-    private router: Router
-  ) { }
-
-  showPopoverDetails(event: MouseEvent, course: any) {
-    if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = null;
-    }
-
-    this.hoveredCourse = course;
-    this.showPopover = true;
-    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
-  }
-
-  hidePopoverDetails() {
-    this.hideTimeout = setTimeout(() => {
-      this.showPopover = false;
-      this.hoveredCourse = null;
-      this.cdn.detectChanges(); // Ensure Angular updates the view
-    }, 200);
-  }
-
-  onPopoverMouseEnter() {
-    if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = null;
-    }
-  }
-
-  onPopoverMouseLeave() {
-    this.hidePopoverDetails();
-  }
-
-  calculatePopoverPosition(target: HTMLElement) {
-    const rect = target.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    const popoverWidth = 360; // Match CSS
-    const spacing = 15;
-
-    let left = rect.right + spacing;
-    let top = rect.top + scrollTop - 20;
-
-    let arrowPosition = 'left';
-
-    if (rect.right + popoverWidth + spacing > window.innerWidth) {
-      left = rect.left - popoverWidth - spacing;
-      arrowPosition = 'right';
-    }
-
-    if (left < 0) {
-      left = rect.right + spacing;
-      arrowPosition = 'left';
-    }
-
-    this.popoverStyle = {
-      top: `${top}px`,
-      left: `${left}px`,
-      arrowPosition: arrowPosition,
-      display: 'block'
-    };
-  }
+  constructor(public courseService: CourseService, public cdn: ChangeDetectorRef, private router: Router) { }
 
 
   ngOnInit() {
-    this.dataResponse = this.courseService.getPopularCourses().subscribe((data: any) => {
-      this.courses = data.data;
-      if (this.courses && this.courses.length > 0) {
-        this.topPickCourse = this.courses[0];
+    this.isLoading = true;
+    this.dataResponse = this.courseService.getPopularCourses().subscribe({
+      next: (data: any) => {
+        this.courses = data.data;
+        if (this.courses && this.courses.length > 0) {
+          this.topPickCourse = this.courses[0];
+        }
+        this.isLoading = false; // Stop loading
+        this.cdn.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching trending courses:', err);
+        this.isLoading = false; // Stop loading on error
       }
-      this.cdn.detectChanges();
     });
 
     this.responsiveOptions = [
@@ -173,6 +119,67 @@ export class TrendingCourses implements OnInit, OnDestroy {
         console.error('Error fetching wishlist items:', er);
       }
     });
+  }
+
+  // Popover Methods
+  showPopoverDetails(event: MouseEvent, course: any) {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+
+    this.hoveredCourse = course;
+    this.showPopover = true;
+    this.calculatePopoverPosition(event.currentTarget as HTMLElement);
+  }
+
+  hidePopoverDetails() {
+    this.hideTimeout = setTimeout(() => {
+      this.showPopover = false;
+      this.hoveredCourse = null;
+      this.cdn.detectChanges();
+    }, 200);
+  }
+
+  onPopoverMouseEnter() {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+  }
+
+  onPopoverMouseLeave() {
+    this.hidePopoverDetails();
+  }
+
+  calculatePopoverPosition(target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const popoverWidth = 360; // Match CSS
+    const spacing = 15;
+
+    let left = rect.right + spacing;
+    let top = rect.top + scrollTop - 20;
+
+    let arrowPosition = 'left';
+
+    if (rect.right + popoverWidth + spacing > window.innerWidth) {
+      left = rect.left - popoverWidth - spacing;
+      arrowPosition = 'right';
+    }
+
+    if (left < 0) {
+      left = rect.right + spacing;
+      arrowPosition = 'left';
+    }
+
+    this.popoverStyle = {
+      top: `${top}px`,
+      left: `${left}px`,
+      arrowPosition: arrowPosition,
+      display: 'block'
+    };
   }
 
   isInCart(courseId: number | null | undefined): boolean {

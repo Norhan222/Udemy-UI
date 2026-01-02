@@ -2,10 +2,10 @@
     <!-- Header with Filter Button -->
     <div class="search-header">
         <button class="filter-toggle-btn" (click)="toggleFilterSidebar()">
-            <i class="fas fa-filter"></i> Filters
+            <i class="fas fa-filter"></i> {{ 'SEARCH_RESULTS.HEADER.FILTERS' | translate }}
         </button>
         <div class="search-info">
-            <h1>{{ totalCount }} courses in "{{ searchQuery }}"</h1>
+            <h1>{{ totalCount }} {{ 'SEARCH_RESULTS.HEADER.COURSES_IN' | translate }} "{{ searchQuery }}"</h1>
         </div>
     </div>
 
@@ -51,14 +51,16 @@
 
                         <div class="course-footer">
                             <div class="course-price">
-                                <span *ngIf="course.price === 0" class="free">Free</span>
+                                <span *ngIf="course.price === 0" class="free">{{ 'SEARCH_RESULTS.CARD.FREE' | translate
+                                    }}</span>
                                 <span *ngIf="course.price > 0" class="paid">E£{{ course.price }}</span>
                             </div>
 
                             <button class="add-to-cart-btn" [class.added]="isInCart(course.id)"
                                 (click)="addToCart(course.id); $event.stopPropagation()">
                                 <i *ngIf="!isInCart(course.id)" class="fas fa-shopping-cart"></i>
-                                {{ isInCart(course.id) ? 'Added to cart' : 'Add to cart' }}
+                                {{ isInCart(course.id) ? ('SEARCH_RESULTS.CARD.ADDED_TO_CART' | translate) :
+                                ('SEARCH_RESULTS.CARD.ADD_TO_CART' | translate) }}
                             </button>
                         </div>
                     </div>
@@ -68,20 +70,21 @@
             <!-- No Results -->
             <div *ngIf="!isLoading && courses.length === 0" class="no-results">
                 <i class="fas fa-search"></i>
-                <h2>No courses found</h2>
-                <p>Try adjusting your search or filters</p>
+                <h2>{{ 'SEARCH_RESULTS.HEADER.NO_RESULTS' | translate }}</h2>
+                <p>{{ 'SEARCH_RESULTS.HEADER.TRY_ADJUSTING' | translate }}</p>
             </div>
 
             <!-- Pagination -->
             <div *ngIf="!isLoading && courses.length > 0 && totalPages > 1" class="pagination">
                 <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
-                    Previous
+                    {{ 'SEARCH_RESULTS.PAGINATION.PREVIOUS' | translate }}
                 </button>
 
-                <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+                <span class="page-info">{{ 'SEARCH_RESULTS.PAGINATION.PAGE' | translate }} {{ currentPage }} {{
+                    'SEARCH_RESULTS.PAGINATION.OF' | translate }} {{ totalPages }}</span>
 
                 <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
-                    Next
+                    {{ 'SEARCH_RESULTS.PAGINATION.NEXT' | translate }}
                 </button>
             </div>
         </div>
