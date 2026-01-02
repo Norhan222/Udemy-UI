@@ -45,9 +45,7 @@
           <span class="item-name">{{ item.name | translate }}</span>
         </div>
       </div>
-      <button class="submit-btn" [disabled]="!canSubmitForReview()" [class.disabled]="!canSubmitForReview()"
-        (click)="canSubmitForReview() ? onSubmitForReview() : showValidationMessages()"
-        title="{{ canSubmitForReview() ? 'Submit for Review' : 'Please complete all required fields' }}">
+      <button class="submit-btn" (click)="onSubmitForReview()">
         Submit for Review
       </button>
 
