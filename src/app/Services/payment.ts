@@ -13,7 +13,6 @@ export class Payment {
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Create Payment
 createPayment(data: any) {
   return this.http.post<CreatePaymentResponse>(
     `${this.baseUrl}/create-payment`,
@@ -22,7 +21,6 @@ createPayment(data: any) {
 }
 
 
-  // 🔹 Get Payment Status
   getPaymentStatus(transactionId: string): Observable<any> {
     return this.http.get(
       `${this.baseUrl}/status/${transactionId}`
