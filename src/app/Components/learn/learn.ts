@@ -77,7 +77,7 @@ export class Learn implements OnInit {
       next: (data) => {
         this.course = data;
         this.loading = false;
-        // this.cd.detectChanges();
+        this.cd.detectChanges();
         console.log("content", data);
 
         // Expand first section by default
