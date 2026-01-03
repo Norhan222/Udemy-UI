@@ -49,27 +49,7 @@
         Submit for Review
       </button>
 
-      <!-- احذف الـ Validation Info Box القديم -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <!-- Validation Info -->
     </div>
 
     <!-- Content Area -->
@@ -136,6 +116,7 @@
             <label class="form-label">{{ 'COURSE_CREATION.MANAGE.LANDING.BASIC_INFO' | translate }}</label>
             <div class="grid-2">
               <select [(ngModel)]="language" (ngModelChange)="onCourseDataChange()" class="form-select">
+                <option value="" disabled selected>-- Select Language --</option>
                 <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
               </select>
               <select [(ngModel)]="level" (ngModelChange)="onCourseDataChange()" class="form-select "
@@ -145,13 +126,14 @@
               </select>
             </div>
             <div class="grid-2">
-              <select [(ngModel)]="category" (ngModelChange)="onCourseDataChange()" class="form-select">
-                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+              <select [(ngModel)]="topicId" (ngModelChange)="onCourseDataChange()" class="form-select">
+                <option value="" disabled selected>-- Select Topic --</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
               </select>
-              <select [(ngModel)]="subcategory" (ngModelChange)="onCourseDataChange()" class="form-select "
-                [class.error]="subcategory.length === 0">
-                <option value="" disabled selected>-- Select Subcategory --</option>
-                <option *ngFor="let sub of subcategories" [value]="sub">{{ sub.nameEN }}</option>
+              <select [(ngModel)]="subcategory" (ngModelChange)="onCourseDataChange()"  (ngModelChange)="onsubcat($event)" class="form-select "
+                [class.error]="subcategory=== 0">
+                <option [ngValue]="null" disabled selected>-- Select Subcategory --</option>
+                <option *ngFor="let sub of subcategories" [ngValue]="sub.id">{{ sub.nameEN }}</option>
               </select>
             </div>
           </div>
@@ -658,13 +640,13 @@
           On the <a href="#" class="link" (click)="navigateToPageFromModal('curriculum')">Curriculum</a> page, you must
         </p>
         <ul class="requirements-list">
-          <li [class.completed]="getTotalVideoMinutes() >= 30">
-            <span class="requirement-icon">{{ getTotalVideoMinutes() >= 30 ? '✓' : '○' }}</span>
+          <li [class.completed]="getTotalVideoMinutes() >= 0">
+            <span class="requirement-icon">{{ getTotalVideoMinutes() >= 0 ? '✓' : '○' }}</span>
             Have at least 30 minutes of video content
           </li>
-          <li [class.completed]="getTotalLecturesCount() >= 5">
-            <span class="requirement-icon">{{ getTotalLecturesCount() >= 5 ? '✓' : '○' }}</span>
-            Have at least 5 lectures
+          <li [class.completed]="getTotalLecturesCount() >= 1">
+            <span class="requirement-icon">{{ getTotalLecturesCount() >= 2 ? '✓' : '○' }}</span>
+            Have at least 1 lectures
           </li>
           <li [class.completed]="allLecturesHaveContent()">
             <span class="requirement-icon">{{ allLecturesHaveContent() ? '✓' : '○' }}</span>
@@ -696,17 +678,21 @@
             <span class="requirement-icon">{{ level && level.trim().length > 0 ? '✓' : '○' }}</span>
             Select the level of your course
           </li>
-          <li [class.completed]="subcategory && subcategory.trim().length > 0">
-            <span class="requirement-icon">{{ subcategory && subcategory.trim().length > 0 ? '✓' : '○' }}</span>
+          <li [class.completed]="subcategory && subcategory> 0">
+            <span class="requirement-icon">{{ subcategory && subcategory > 0 ? '✓' : '○' }}</span>
             Select the subcategory of your course
           </li>
-          <li [class.completed]="primaryTopic && primaryTopic.trim().length > 0">
-            <span class="requirement-icon">{{ primaryTopic && primaryTopic.trim().length > 0 ? '✓' : '○' }}</span>
-            Select what is primarily taught in your course
+          <li [class.completed]="courseTitle && courseTitle.trim().length > 0">
+            <span class="requirement-icon">{{courseTitle && courseTitle.trim().length > 0 ? '✓' : '○' }}</span>
+            Select Title of your course
           </li>
           <li [class.completed]="courseImagePreview !== null">
             <span class="requirement-icon">{{ courseImagePreview !== null ? '✓' : '○' }}</span>
             Upload a course image
+          </li>
+          <li [class.completed]="promoVideoPreview !== null">
+            <span class="requirement-icon">{{ promoVideoPreview !== null ? '✓' : '○' }}</span>
+            Upload a course Video
           </li>
           <!-- <li [class.completed]="instructorImage !== null">
             <span class="requirement-icon">{{ instructorImage !== null ? '✓' : '○' }}</span>
