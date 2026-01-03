@@ -14,7 +14,6 @@ import { RatingModule } from 'primeng/rating';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../../../Services/cart-service';
-
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

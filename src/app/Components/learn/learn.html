@@ -56,8 +56,34 @@
         <p class="course-description">Course announcements will be shown here...</p>
       </div>
       
-      <div *ngIf="activeTab === 'reviews'">
+      <div *ngIf="activeTab === 'reviews'" style="height: auto;">
         <p class="course-description">Course reviews...</p>
+         <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="p-fluid">
+            <!-- Rating -->
+            <label class="mb-2" style="display: block;font-weight: bold;">your ratiin Rating for this Course</label>
+            <p-rating
+               formControlName="rating"
+               [stars]="5">
+           </p-rating>
+           <!-- Comment -->
+           <label class="mt-3 mb-2" style="display: block; font-weight: bold;"> Enter yor comment on this Course</label>
+           <textarea
+              style="width: 100%;"
+              height="100px;"
+              pInputTextarea
+              formControlName="comment"
+              rows="4"
+              placeholder="your comment here...">
+           </textarea>
+           <!-- Button -->
+           <button style="background-color: #9704aa; height: 40px; width: 100px; color: white; border: none; border-radius: 4px; margin-top: 10px;"
+              pButton
+              type="submit"
+              label="Send Review"
+              class="mt-3"
+              [disabled]="reviewForm.invalid">Send Review
+            </button>
+        </form>
       </div>
       
       <div *ngIf="activeTab === 'tools'">

@@ -16,15 +16,6 @@
         "GET_UDEMY_BUSINESS": "احصل على يوديمي للأعمال",
         "DISMISS": "إغلاق"
     },
-    "EXPLORE": {
-        "EXPLORE": "استكشاف",
-        "EXPLORE_BY_GOAL": "استكشف حسب الهدف",
-        "LEARN_AI": "تعلم الذكاء الاصطناعي",
-        "LAUNCH_CAREER": "ابدأ مسيرة مهنية جديدة",
-        "PREPARE_CERTIFICATION": "استعد للحصول على شهادة",
-        "PRACTICE_ROLE_PLAY": "تدرب مع لعب الأدوار",
-        "POPULAR_TOPICS": "المواضيع الشائعة"
-    },
     "NAV": {
         "PLANS_PRICING": "الخطط والأسعار",
         "UDEMY_BUSINESS": "يوديمي للأعمال",
@@ -610,6 +601,29 @@
             "COURSES_IN": "دورات في",
             "NO_RESULTS": "لم يتم العثور على دورات",
             "TRY_ADJUSTING": "جرب تعديل بحثك أو المرشحات"
+        },
+        "FILTERS": {
+            "FILTERS": "المرشحات",
+            "RATINGS": "التقييمات",
+            "LANGUAGE": "اللغة",
+            "LEVEL": "المستوى",
+            "PRICE": "السعر",
+            "CLEAR": "مسح جميع المرشحات",
+            "UP": "فأكثر",
+            "OPTIONS": {
+                "ENGLISH": "إنجليزية",
+                "ARABIC": "عربية",
+                "SPANISH": "إسبانية",
+                "ENGLISH_US": "إنجليزية (الولايات المتحدة)",
+                "FRENCH": "فرنسية",
+                "BEGINNER": "مبتدئ",
+                "INTERMEDIATE": "متوسط",
+                "ADVANCED": "متقدم",
+                "PAID": "مدفوع",
+                "FREE": "مجاني",
+                "ALL_LEVELS": "كل المستويات",
+                "3": "3"
+            }
         },
         "CARD": {
             "FREE": "مجاني",

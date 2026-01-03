@@ -1,6 +1,5 @@
 export interface SubCategory {
-  id:number;
-  nameEN:string;
-  nameAR:string;
-
+  id: number;
+  nameEN: string;
+  nameAR: string;
 }

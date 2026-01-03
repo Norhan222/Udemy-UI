@@ -2,10 +2,11 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchFacetsDto } from '../../../Models/search.models';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-filter-sidebar',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './filter-sidebar.html',
   styleUrl: './filter-sidebar.css',
 })
@@ -115,5 +116,15 @@ export class FilterSidebar implements OnInit {
 
   get ratings() {
     return this.facets?.ratings || [];
+  }
+  getTranslationKey(prefix: string, value: string): string {
+    // Normalize value: "English (US)" -> "ENGLISH_US", "4.5 & up" -> "4_5_UP" (handled differently usually but for options)
+    if (!value) return '';
+    const normalized = value.toUpperCase()
+      .replace(/\s+/g, '_')   // Replace spaces with underscores
+      .replace(/[()]/g, '')   // Remove parentheses
+      .replace(/&/g, 'AND');  // Replace & with AND
+
+    return `${prefix}.${normalized}`;
   }
 }
