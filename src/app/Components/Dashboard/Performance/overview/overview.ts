@@ -125,29 +125,39 @@ export class Overview implements OnInit {
   updateMetrics(): void {
     console.log('🔄 Updating metrics...');
 
+    const periodLabel = this.getPeriodLabel();
+
     this.metrics = [
       {
-        label: 'This month so far',
-        value: `$${this.performanceData.monthRevenue.toFixed(2)}`,
-        subtitle: `$${this.performanceData.totalRevenue.toFixed(2)} total revenue`,
+        label: periodLabel,
+        value: `$${this.performanceData.totalRevenue.toFixed(2)}`,
+        subtitle: `Revenue`,
         hasInfo: false
       },
       {
-        label: 'This month so far',
-        value: this.performanceData.monthEnrollments,
-        subtitle: `${this.performanceData.totalEnrollments} total enrollments`,
+        label: periodLabel,
+        value: this.performanceData.totalEnrollments,
+        subtitle: `Enrollments`,
         hasInfo: true
       },
       {
-        label: 'This month so far',
+        label: periodLabel,
         value: this.performanceData.averageRating.toFixed(2),
-        subtitle: `${this.performanceData.averageRating.toFixed(2)} average rating`,
+        subtitle: `Average rating`,
         hasInfo: true
       }
     ];
     this.cdr.detectChanges();
 
     console.log('✅ Metrics updated:', this.metrics);
+  }
+
+  getPeriodLabel(): string {
+    if (this.selectedRange === 'All time') {
+      return 'All time';
+    }
+    // "Last 7 days" -> "This 7 days"
+    return this.selectedRange.replace('Last', 'This');
   }
 
   // ✅ عند تغيير الكورس
