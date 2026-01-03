@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, inject, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseService, CourseContent, Section, Lecture } from '../../Services/course-service';
@@ -15,8 +15,8 @@ import { Rating } from 'primeng/rating';
 })
 export class Learn implements OnInit {
   courseId!: number;
-  course: CourseContent | null = null;
-  selectedLecture: Lecture | null = null;
+  course?: CourseContent;
+  selectedLecture?: Lecture;
   loading = true;
   showFullDescription = false;
   activeTab = 'overview';
@@ -24,12 +24,20 @@ export class Learn implements OnInit {
   reviewForm!: FormGroup;
   @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
+<<<<<<< HEAD
+  private courseService=inject(CourseService);
+  private route=inject(ActivatedRoute);
+  private cd=inject(ChangeDetectorRef);
+
+
+=======
   constructor(
     private courseService: CourseService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private reviewService: ReviewService,
   ) {}
+>>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
 
   ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('id'));
@@ -39,6 +47,9 @@ export class Learn implements OnInit {
       comment: ['', Validators.required]
     });
   }
+<<<<<<< HEAD
+  
+=======
 
   submitReview() {
     if (this.reviewForm.valid && this.course) {
@@ -63,10 +74,13 @@ export class Learn implements OnInit {
   }
 
 
+>>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
   loadCourse() {
     this.courseService.getCourseContent(this.courseId).subscribe({
       next: (data) => {
         this.course = data;
+        this.loading = false;
+        this.cd.detectChanges();
         console.log("content", data);
 
         // Expand first section by default
@@ -77,12 +91,17 @@ export class Learn implements OnInit {
             this.selectLecture(data.sections[0].lectures[0]);
           }
         }
+<<<<<<< HEAD
+        
+=======
 
         this.loading = false;
+>>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cd.detectChanges();
       }
     });
   }
