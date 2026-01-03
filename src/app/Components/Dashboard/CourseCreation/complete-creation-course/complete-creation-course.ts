@@ -11,6 +11,8 @@ import { CourseService } from '../../../../Services/course-service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ICourse } from '../../../../Models/icourse';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CategoryService } from '../../../../Services/category-service';
+import { SubCategory } from '../../../../Models/sub-category';
 
 @Component({
   selector: 'app-complete-creation-course',
@@ -26,7 +28,7 @@ sectionss:Section[]=[];
 courseData!:CourseFormData;
 courseTitle:string |null='';
 courseDescription :string | null='';
-category:string | null='';
+category:number=0;
 courseId!:Number;
 isLoading:boolean=false;
 hasUnsavedChanges = false;
@@ -64,11 +66,21 @@ editSections:Section[]=[];
   // Pricing Page Data
   currency = 'USD';
   priceTier = '';
-constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,private router:Router,private cdr:ChangeDetectorRef){
+constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,
+  private router:Router,private cdr:ChangeDetectorRef
+  ,private cat:CategoryService
+){
   this.course=new Course();
 
 }
   ngOnInit(): void {
+
+
+  this.cat.getSubCategories(this.category).subscribe(data=>{
+    this.subcategories=data
+    console.log("ssssssssssss",data)
+    this.cdr.detectChanges()
+  })
  this.route.paramMap.subscribe(params => {
       const Id = params.get('id');
       if (Id) {
@@ -138,7 +150,7 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
   languages = ['English (US)', 'Arabic', 'Spanish', 'French', 'German'];
   levels = ['Beginner', 'Intermediate', 'Advanced', 'All Levels'];
   categories = ['Design', 'Development', 'Business', 'Marketing'];
-  subcategories = ['Web Design', 'Graphic Design', 'UI/UX', 'Game Design'];
+  subcategories :SubCategory[]=[] //= ['Web Design', 'Graphic Design', 'UI/UX', 'Game Design'];
   currencies = ['USD', 'EUR', 'GBP', 'EGP'];
   priceTiers = ['Free', '$19.99', '$29.99', '$49.99', '$99.99', '$199.99'];
 
@@ -146,8 +158,8 @@ initializeNewCourse(): void {
     this.courseData = this.StepperService.getFormData();
     this.courseTitle = this.courseData?.courseTitle || '';
     this.courseDescription = this.courseData?.description || '';
-    this.category = this.courseData?.category || 'Design';
-
+    this.category = this.courseData?.category
+    console.log("ccccccccccccccccccccccccccccccccc",this.courseData.category)
     this.sections = [
       {
         id: 1,
@@ -206,7 +218,6 @@ populateCourseData(): void {
     this.courseTitle = this.editCourse.title || '';
     this.courseDescription = this.editCourse.description || '';
     this.courseSubtitle = this.editCourse.shortDescription || '';
-    this.category = 'Design';
     this.subcategory ='';
     this.language = this.editCourse.language || 'English (US)';
     this.level = this.editCourse.level || '';
@@ -461,7 +472,7 @@ private prepareFormData(): FormData {
 
   formData.append('Title', this.courseTitle ?? '');
   formData.append('ShortTitle', this.courseSubtitle);
-  formData.append('Category', this.category ?? '');
+  // formData.append('Category', this.category ?? '');
   formData.append('Subcategory', this.subcategory ?? '');
   formData.append('Level', this.level);
   formData.append('Language', this.language);
@@ -574,7 +585,7 @@ canSubmitForReview(): boolean {
   const hasSubtitle = (this.courseSubtitle?.trim().length ?? 0) > 0;
   const hasDescription = (this.courseDescription?.trim().length ?? 0) >= 200;
   const hasLevel = (this.level?.trim().length ?? 0) > 0;
-  const hasCategory = (this.category?.trim().length ?? 0) > 0;
+  const hasCategory = (this.category > 0);
   const hasSubcategory = (this.subcategory?.trim().length ?? 0) > 0;
   const hasPrimaryTopic = this.primaryTopic.trim().length > 0;
   const hasPriceTier = this.priceTier.trim().length > 0;
@@ -685,7 +696,7 @@ debugFormData(formData: FormData): void {
   console.table(entries);
 }
 
- 
+
 
   getValidationMessages(): string[] {
     const messages: string[] = [];
@@ -1099,7 +1110,7 @@ private checkSectionsChanges(): boolean {
     formData.append('Id', this.courseId.toString());
     formData.append('Title', this.courseTitle ?? '');
     formData.append('ShortTitle', this.courseSubtitle);
-    formData.append('Category', this.category ?? '');
+    // formData.append('Category', this.category ?? '');
     formData.append('Subcategory', this.subcategory ?? '');
     formData.append('Level', this.level);
     formData.append('Language', this.language);

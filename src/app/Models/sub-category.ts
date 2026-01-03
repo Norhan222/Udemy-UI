@@ -1,4 +1,6 @@
 export interface SubCategory {
   id:number;
-  name:string;
+  nameEN:string;
+  nameAR:string;
+
 }
