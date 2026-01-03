@@ -116,6 +116,7 @@
             <label class="form-label">{{ 'COURSE_CREATION.MANAGE.LANDING.BASIC_INFO' | translate }}</label>
             <div class="grid-2">
               <select [(ngModel)]="language" (ngModelChange)="onCourseDataChange()" class="form-select">
+                                [class.error]="language.toString().trim().length === 0">
                 <option value="" disabled selected>-- Select Language --</option>
                 <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
               </select>
@@ -127,12 +128,12 @@
             </div>
             <div class="grid-2">
               <select [(ngModel)]="topicId" (ngModelChange)="onCourseDataChange()" class="form-select">
-                <option value="" disabled selected>-- Select Topic --</option>
-                <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                <option [ngValue]="0" >-- Select Topic --</option>
+                <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
               </select>
-              <select [(ngModel)]="subcategory" (ngModelChange)="onCourseDataChange()"  (ngModelChange)="onsubcat($event)" class="form-select "
+              <select [(ngModel)]="subcategory"   (ngModelChange)="onsubcat($event)" class="form-select "
                 [class.error]="subcategory=== 0">
-                <option [ngValue]="null" disabled selected>-- Select Subcategory --</option>
+                <option [ngValue]="0">-- Select Subcategory --</option>
                 <option *ngFor="let sub of subcategories" [ngValue]="sub.id">{{ sub.nameEN }}</option>
               </select>
             </div>
@@ -644,8 +645,8 @@
             <span class="requirement-icon">{{ getTotalVideoMinutes() >= 0 ? '✓' : '○' }}</span>
             Have at least 30 minutes of video content
           </li>
-          <li [class.completed]="getTotalLecturesCount() >= 1">
-            <span class="requirement-icon">{{ getTotalLecturesCount() >= 2 ? '✓' : '○' }}</span>
+          <li [class.completed]="getTotalLecturesCount()">
+            <span class="requirement-icon">{{ getTotalLecturesCount()? '✓' : '○' }}</span>
             Have at least 1 lectures
           </li>
           <li [class.completed]="allLecturesHaveContent()">

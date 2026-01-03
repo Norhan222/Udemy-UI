@@ -4,8 +4,8 @@ export class Course {
   title!: string;
   shortTitle!: string;
   categoryId!: number;
-  subcategoryId!: number;
-  tpoicId!:number;
+  subCategoryId!: number;
+  topicId!:number;
   level!: string;
   description!: string;
   language!: string;
