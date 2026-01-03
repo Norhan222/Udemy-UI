@@ -51,7 +51,7 @@ export class Login implements OnDestroy {
         if (res.user.role === 'Instructor') {
           this.router.navigate(['/dashboard/courses']);
         }
-        if (res.user.role === 'Student' || res.user.role === 'Instructor') {
+        if (res.user.role === 'Student') {
           this.router.navigate(['/Home']);
         }
       },

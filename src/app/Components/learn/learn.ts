@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, inject, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CourseService, CourseContent, Section, Lecture } from '../../Services/course-service';
@@ -12,8 +12,8 @@ import { CourseService, CourseContent, Section, Lecture } from '../../Services/c
 })
 export class Learn implements OnInit {
   courseId!: number;
-  course: CourseContent | null = null;
-  selectedLecture: Lecture | null = null;
+  course?: CourseContent;
+  selectedLecture?: Lecture;
   loading = true;
   showFullDescription = false;
   activeTab = 'overview';
@@ -21,20 +21,23 @@ export class Learn implements OnInit {
 
   @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
-  constructor(
-    private courseService: CourseService, 
-    private route: ActivatedRoute
-  ) {}
+  private courseService=inject(CourseService);
+  private route=inject(ActivatedRoute);
+  private cd=inject(ChangeDetectorRef);
+
+
 
   ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadCourse();
   }
-
+  
   loadCourse() {
     this.courseService.getCourseContent(116).subscribe({
       next: (data) => {
         this.course = data;
+        this.loading = false;
+        this.cd.detectChanges();
         console.log("content", data);
         
         // Expand first section by default
@@ -46,11 +49,11 @@ export class Learn implements OnInit {
           }
         }
         
-        this.loading = false;
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cd.detectChanges();
       }
     });
   }
