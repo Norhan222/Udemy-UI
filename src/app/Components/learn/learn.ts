@@ -64,7 +64,7 @@ export class Learn implements OnInit {
 
 
   loadCourse() {
-    this.courseService.getCourseContent(116).subscribe({
+    this.courseService.getCourseContent(this.courseId).subscribe({
       next: (data) => {
         this.course = data;
         console.log("content", data);
