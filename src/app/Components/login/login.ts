@@ -38,12 +38,7 @@ export class Login implements OnDestroy {
     this.isLoading = true;
     this.getTokenSub = this.authService.Login(this.LoginForm.value).subscribe({
       next: (res) => {
-
-        // console.log("Login response:",res.role);
         this.isLoading = false;
-        // this.authService.storeToken(res.jwtToken)
-        // this.authService.storeRefreshToken(res.refreshToken)
-        // this.authService.profileImage.next(res.profileImageUrl)
         this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
         if (res.user.role === 'Admin') {
           window.open('https://udmeyadmindashboard.runasp.net/', '_blank');
