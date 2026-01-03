@@ -171,7 +171,9 @@ payNow() {
   this.createPymentSub = this.paymentService.createPayment(data).subscribe({
     next: (res) => {
       console.log('Payment Response:', res);
-      window.location.href = res.redirectUrl;
+      // window.location.href = res.redirectUrl;
+      window.open(res.redirectUrl, '_blank');
+
     },
     error: (err) => {
       console.error('Payment Error:', err);
