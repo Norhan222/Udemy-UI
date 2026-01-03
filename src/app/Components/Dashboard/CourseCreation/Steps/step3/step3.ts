@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { StepperService } from '../../../../../Services/stepper-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -33,7 +33,7 @@ export class Step3 {
 categories:Category[]=[]
 
 
-  constructor(private stepperService: StepperService,private cat:CategoryService) {
+  constructor(private stepperService: StepperService,private cat:CategoryService,private cdr:ChangeDetectorRef) {
 
 
    }
@@ -42,6 +42,7 @@ categories:Category[]=[]
 
     this.cat.getCategories().subscribe(data=>{
         this.categories=data
+        this.cdr.detectChanges()
    })
     this.stepperService.formData$.subscribe(data => {
       this.category = data.category ?? '';
