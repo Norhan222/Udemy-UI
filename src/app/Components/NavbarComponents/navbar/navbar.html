@@ -32,8 +32,12 @@
         <a href="#" class="nav-link-text">{{ 'NAV.TEACH_ON_UDEMY' | translate }}</a>
         }
         @if((isLoggdIn$ |async)){
-        <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
-        <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
+          @if(user.role==='Instructor'){
+            <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
+          }
+          @if(user.role==='Student'){
+            <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
+          }
         }
       </div>
 
