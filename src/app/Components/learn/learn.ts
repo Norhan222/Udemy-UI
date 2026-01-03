@@ -55,11 +55,18 @@ export class Learn implements OnInit {
           this.reviewForm.reset();
         },
         error: (err) => {
-          console.error('Error submitting review:', err);
-          alert('Failed to submit review. Please try again later.');
+          if(err.error)
+          {
+            alert(err.error.message)
+            console.log(err.error)
+          }else
+          {
+            alert("UnException Eror")
+          }
         }
       });
     }
+  
   }
 
   loadCourse() {
