@@ -10,10 +10,11 @@ import { LoginResponse } from './Models/login-response';
 import { environment } from '../environments/environment';
 import { AuthService } from './Services/auth-service';
 import { LanguageService } from './Services/language.service';
+import { Chatbot } from './Components/chatbot/chatbot';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgxSpinnerComponent],
+  imports: [RouterOutlet, NgxSpinnerComponent,Chatbot],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

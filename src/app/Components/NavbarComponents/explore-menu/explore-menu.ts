@@ -4,7 +4,8 @@ import { CategoryService } from '../../../Services/category-service';
 import { Category } from '../../../Models/category';
 import { SubCategory } from '../../../Models/sub-category';
 import { Topic } from '../../../Models/topic';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TopicService } from '../../../Services/topic-service';
 
 @Component({
   selector: 'app-explore-menu',
@@ -25,7 +26,10 @@ export class ExploreMenu implements OnInit, OnChanges {
 
 
 
-  constructor(private catService: CategoryService, private cdr: ChangeDetectorRef) {
+  constructor(private catService: CategoryService, private cdr: ChangeDetectorRef,
+     private translate: TranslateService
+     ,private topicService:TopicService
+    ) {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,12 +92,12 @@ export class ExploreMenu implements OnInit, OnChanges {
     this.activeMenuStatic = menu;
     this.activeSubMenuStatic = null;
     this.subCategories = null;
+    this.topics=[]
   }
   setSubActiveStatic(menu: string) {
     this.activeSubMenuStatic = menu;
     //this.subCategories=null;
   }
-
   openMenu() {
     this.isOpen = true;
   }
@@ -142,10 +146,18 @@ export class ExploreMenu implements OnInit, OnChanges {
     if (this.activeSubCategoryId === subId) return;
 
     this.activeSubCategoryId = subId;
+    this.topicService.getTopicsBySubCategory(subId)
+      .subscribe((data) => {
+        this.topics = data;
+      });
+  }
+  getName(item: any): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    return lang === 'ar' ? (item.nameAR || item.nameEN) : (item.nameEN || item.nameAR);
+  }
 
-    // this.catService.getSubCategories(subId)
-    //   .subscribe((data) => {
-    //     this.topics = data;
-    //   });
+  getArrowIcon(): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    return lang === 'ar' ? 'bi bi-chevron-left' : 'bi bi-chevron-right';
   }
 }

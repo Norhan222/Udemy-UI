@@ -11,6 +11,7 @@ import { AuthService } from '../../../Services/auth-service';
 import { UserMenu } from '../user-menu/user-menu';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { User } from '../../../Models/user';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class Navbar implements OnInit {
   isLoggdIn$;
   searchQuery: string = '';
+   user: User = new User();
   constructor(private auth: AuthService, private router: Router) {
     this.isLoggdIn$ = auth.isLoggedIn$
   }
@@ -29,7 +31,13 @@ export class Navbar implements OnInit {
     if (this.auth.getToken()) {
       this.auth.setLoginState(true)
       this.auth.firstName.next(this.auth.getUserClaims()?.name.split(' ')[0])
+      
     }
+     const claims = this.auth.getUserClaims();
+    if (claims) {
+      this.user.role = claims.role;
+    }
+
 
   }
   goToCart() {

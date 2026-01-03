@@ -18,10 +18,7 @@
         </span>
       </button>
       <button [class.active]="activeTab === 'student'" (click)="switchTab('student')" class="tab-btn">
-        Student
-        <span *ngIf="notifications.student.length > 0" class="tab-badge">
-          {{ notifications.student.length }}
-        </span>
+       
       </button>
     </div>
 

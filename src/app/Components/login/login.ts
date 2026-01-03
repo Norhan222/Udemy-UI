@@ -46,12 +46,12 @@ export class Login implements OnDestroy {
         // this.authService.profileImage.next(res.profileImageUrl)
         this.authService.firstName.next(this.authService.getUserClaims()?.name.split(' ')[0])
         if (res.user.role === 'Admin') {
-          window.open('https://localhost:7288/', '_blank');
+          window.open('http://udmeyfpadmindashboard.runasp.net/', '_blank');
         }
         if (res.user.role === 'Instructor') {
           this.router.navigate(['/dashboard/courses']);
         }
-        if (res.user.role === 'Student' || res.user.role === 'Instructor') {
+        if (res.user.role === 'Student') {
           this.router.navigate(['/Home']);
         }
       },
