@@ -45,9 +45,7 @@
           <span class="item-name">{{ item.name | translate }}</span>
         </div>
       </div>
-      <button class="submit-btn" [disabled]="!canSubmitForReview()" [class.disabled]="!canSubmitForReview()"
-        (click)="canSubmitForReview() ? onSubmitForReview() : showValidationMessages()"
-        title="{{ canSubmitForReview() ? 'Submit for Review' : 'Please complete all required fields' }}">
+      <button class="submit-btn" (click)="onSubmitForReview()">
         Submit for Review
       </button>
 
@@ -151,9 +149,9 @@
                 <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
               </select>
               <select [(ngModel)]="subcategory" (ngModelChange)="onCourseDataChange()" class="form-select "
-                [class.error]="subcategory.trim().length === 0">
+                [class.error]="subcategory.length === 0">
                 <option value="" disabled selected>-- Select Subcategory --</option>
-                <option *ngFor="let sub of subcategories" [value]="sub">{{ sub }}</option>
+                <option *ngFor="let sub of subcategories" [value]="sub">{{ sub.nameEN }}</option>
               </select>
             </div>
           </div>
@@ -690,8 +688,8 @@
             <span class="requirement-icon">{{ courseSubtitle.trim().length > 0 ? '✓' : '○' }}</span>
             Have a course subtitle
           </li>
-          <li [class.completed]="category && category.trim().length > 0">
-            <span class="requirement-icon">{{ category && category.trim().length > 0 ? '✓' : '○' }}</span>
+          <li [class.completed]="category && category> 0">
+            <span class="requirement-icon">{{ category && category > 0 ? '✓' : '○' }}</span>
             Select the category of your course
           </li>
           <li [class.completed]="level && level.trim().length > 0">

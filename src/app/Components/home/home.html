@@ -7,13 +7,14 @@
 <app-featured-courses></app-featured-courses>
 <app-topics-recommended></app-topics-recommended>
 
+
 }@else{
 <div style="text-align: center; margin-top: 100px; margin-bottom: 100px;">
   <h2>{{ 'HOME_PAGE.NO_COURSES' | translate }}</h2>
   <p>{{ 'HOME_PAGE.BROWSE_CATALOG_DESC' | translate }}</p>
   <a routerLink="/courses" style="text-decoration: none;">
     <button
-      style="background-color:#5f2eaf; color:white; 
+      style="background-color:#5f2eaf; color:white;
                        padding:15px 50px 15px 50px; font-weight:bold ; border:none; border-radius:5px; cursor:pointer;">
       {{ 'HOME_PAGE.BROWSE_COURSES_BTN' | translate }}
     </button>

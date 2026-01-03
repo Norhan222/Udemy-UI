@@ -16,15 +16,6 @@
         "GET_UDEMY_BUSINESS": "Get Udemy Business",
         "DISMISS": "Dismiss"
     },
-    "EXPLORE": {
-        "EXPLORE": "Explore",
-        "EXPLORE_BY_GOAL": "Explore by Goal",
-        "LEARN_AI": "Learn AI",
-        "LAUNCH_CAREER": "Launch a new career",
-        "PREPARE_CERTIFICATION": "Prepare for a certification",
-        "PRACTICE_ROLE_PLAY": "Practice with Role Play",
-        "POPULAR_TOPICS": "Popular Topics"
-    },
     "NAV": {
         "PLANS_PRICING": "Plans & Pricing",
         "UDEMY_BUSINESS": "Udemy Business",
@@ -610,6 +601,29 @@
             "COURSES_IN": "courses in",
             "NO_RESULTS": "No courses found",
             "TRY_ADJUSTING": "Try adjusting your search or filters"
+        },
+        "FILTERS": {
+            "FILTERS": "Filters",
+            "RATINGS": "Ratings",
+            "LANGUAGE": "Language",
+            "LEVEL": "Level",
+            "PRICE": "Price",
+            "CLEAR": "Clear All Filter",
+            "UP": "& up",
+            "OPTIONS": {
+                "ENGLISH": "English",
+                "ARABIC": "Arabic",
+                "SPANISH": "Spanish",
+                "ENGLISH_US": "English (US)",
+                "FRENCH": "French",
+                "BEGINNER": "Beginner",
+                "INTERMEDIATE": "Intermediate",
+                "ADVANCED": "Advanced",
+                "PAID": "Paid",
+                "FREE": "Free",
+                "ALL_LEVELS": "All Levels",
+                "3": "3"
+            }
         },
         "CARD": {
             "FREE": "Free",

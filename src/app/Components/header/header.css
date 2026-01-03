@@ -1,62 +1,43 @@
-.car-cont{
-   color: aliceblue;
-   padding-top: 150px;
-   padding-left: 150px;
-   height: 700px;
-   width: 100%;
-   position:absolute;
+.car-cont {
+  color: aliceblue;
+  padding-top: 150px;
+  padding-left: 150px;
+  height: 700px;
+  width: 100%;
+  position: absolute;
 }
-.ca_p{
+
+.ca_p {
   background-color: white;
-  color:rgb(39, 35, 35) ;
+  color: rgb(39, 35, 35);
   width: 40%;
-  padding:30px 20px 30px 20px;
-  position:relative;
+  padding: 30px 20px 30px 20px;
+  position: relative;
   /* transform: translate(10%,-150%); */
 }
- .carousel-control-next
-{
 
-}
-.carousel-control-prev{
-}
+.carousel-control-next {}
+
+.carousel-control-prev {}
 
 
 @media (max-width: 768px) {
-  .car-cont{
+  .car-cont {
     padding-left: 20px;
     height: 300px;
     padding-top: 50px;
   }
-  .ca_p{
+
+  .ca_p {
     width: 80%;
-    padding:20px 10px 20px 10px; ;
+    padding: 20px 10px 20px 10px;
+    ;
     margin-top: 300px;
     /* transform: translate(1%,-160%); */
   }
- .active{
-  height: 600px;
- }
+
+  .active {
+    height: 600px;
+  }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

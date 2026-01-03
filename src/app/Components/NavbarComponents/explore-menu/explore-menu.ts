@@ -4,7 +4,7 @@ import { CategoryService } from '../../../Services/category-service';
 import { Category } from '../../../Models/category';
 import { SubCategory } from '../../../Models/sub-category';
 import { Topic } from '../../../Models/topic';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-explore-menu',
@@ -25,7 +25,7 @@ export class ExploreMenu implements OnInit, OnChanges {
 
 
 
-  constructor(private catService: CategoryService, private cdr: ChangeDetectorRef) {
+  constructor(private catService: CategoryService, private cdr: ChangeDetectorRef, private translate: TranslateService) {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -147,5 +147,14 @@ export class ExploreMenu implements OnInit, OnChanges {
     //   .subscribe((data) => {
     //     this.topics = data;
     //   });
+  }
+  getName(item: any): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    return lang === 'ar' ? (item.nameAR || item.nameEN) : (item.nameEN || item.nameAR);
+  }
+
+  getArrowIcon(): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    return lang === 'ar' ? 'bi bi-chevron-left' : 'bi bi-chevron-right';
   }
 }

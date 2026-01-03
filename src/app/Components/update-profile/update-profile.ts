@@ -5,13 +5,13 @@ import { AuthService } from '../../Services/auth-service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-edit-student-profile',
+  selector: 'app-edit-profile',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
-  templateUrl: './edit-student-profile.html',
-  styleUrl: './edit-student-profile.css'
+  templateUrl: './update-profile.html',
+  styleUrl: './update-profile.css'
 })
-export class EditStudentProfile implements OnInit {
+export class UpdateProfileComponent implements OnInit {
 
   private authService = inject(AuthService);
   private translate = inject(TranslateService);
@@ -30,12 +30,14 @@ export class EditStudentProfile implements OnInit {
   selectedFile: File | null = null;
 
   profileForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    headline: new FormControl('', Validators.maxLength(60)),
-    biography: new FormControl('', Validators.maxLength(1000)),
-    language: new FormControl('English (US)')
-  });
+  firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+  lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+  email: new FormControl('', [Validators.required, Validators.email]),
+  phoneNumber: new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(01)[0-9]{9}$/) // مصري
+  ])
+});
 
   passwordForm = new FormGroup(
     {
@@ -70,11 +72,21 @@ export class EditStudentProfile implements OnInit {
   }
 
   loadProfile() {
-    this.authService.getStudentProfile().subscribe(res => {
-      this.profileForm.patchValue(res);
-      this.imagePreview = res.profileImageUrl;
+  this.authService.getProfile().subscribe(res => {
+
+    this.profileForm.patchValue({
+      firstName: res.firstName,
+      lastName: res.lastName,
+      email: res.email,
+      phoneNumber: res.phoneNumber
     });
-  }
+
+    if (res.profileImageUrl) {
+      this.imagePreview = res.profileImageUrl;
+      this.authService.setProfileImage(res.profileImageUrl);
+    }
+  });
+}
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -87,35 +99,43 @@ export class EditStudentProfile implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onSubmit() {
-    if (this.profileForm.invalid) return;
+ onSubmit() {
+  if (this.profileForm.invalid) return;
 
-    this.isLoading = true;
-    this.successMessage = '';
-    this.errorMessage = '';
+  this.isLoading = true;
+  this.successMessage = '';
+  this.errorMessage = '';
 
-    const formData = new FormData();
-    formData.append('FirstName', this.profileForm.value.firstName!);
-    formData.append('LastName', this.profileForm.value.lastName!);
-    formData.append('Headline', this.profileForm.value.headline || '');
-    formData.append('Biography', this.profileForm.value.biography || '');
-    formData.append('Language', this.profileForm.value.language!);
+  const formData = new FormData();
+  formData.append('FirstName', this.profileForm.value.firstName!);
+  formData.append('LastName', this.profileForm.value.lastName!);
+  formData.append('Email', this.profileForm.value.email!);
+  formData.append('PhoneNumber', this.profileForm.value.phoneNumber!);
 
-    if (this.selectedFile) {
-      formData.append('ProfileImage', this.selectedFile);
-    }
-
-    this.authService.updateStudentProfile(formData).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.successMessage = this.translate.instant('PROFILE.PROFILE_UPDATED');
-      },
-      error: () => {
-        this.isLoading = false;
-        this.errorMessage = this.translate.instant('PROFILE.UPDATE_FAILED');
-      }
-    });
+  if (this.selectedFile) {
+    formData.append('ProfileImage', this.selectedFile);
   }
+
+  this.authService.updateProfile(formData).subscribe({
+    next: (res) => {
+      this.isLoading = false;
+      this.successMessage = 'Profile updated successfully';
+
+      if (res?.profileImageUrl) {
+        const img = `${res.profileImageUrl}?v=${Date.now()}`;
+        this.imagePreview = img;
+        this.authService.setProfileImage(img);
+      }
+
+      this.authService.setFirstName(this.profileForm.value.firstName!);
+    },
+    error: () => {
+      this.isLoading = false;
+      this.errorMessage = 'Failed to update profile';
+    }
+  });
+}
+
 
   onPasswordSubmit() {
     if (this.passwordForm.invalid) return;

@@ -7,6 +7,7 @@ import { IRegisterRequest } from '../Models/iregister-request';
 import { TokenApi } from '../Models/token-api';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginResponse } from '../Models/login-response';
+import { User } from '../Models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -142,7 +143,7 @@ profileImage$ = this.profileImage.asObservable();
     localStorage.setItem('firstName', name);
     this.firstName.next(name);
   }
-setProfileImage(url: string | null) {
+  setProfileImage(url: string | null) {
   if (url) {
     localStorage.setItem('profileImage', url);
     this.profileImage.next(url); // 🔥 REQUIRED
@@ -184,138 +185,29 @@ setProfileImage(url: string | null) {
   }
 
   /* =========================
-     STUDENT PROFILE
+     update PROFILE
   ========================== */
 
-  getStudentProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/student/profile`);
-  }
-
-  updateStudentProfile(formData: FormData): Observable<any> {
-    return this.http.put<any>(
-      `${this.baseUrl}/student/profile`,
-      formData
-    );
-  }
-
-  changeStudentPassword(data: any): Observable<any> {
-    return this.http.put<any>(
-      `${this.baseUrl}/student/profile/change-password`,
-      data
-    );
-  }
-
-  /* =========================
-     INSTRUCTOR PROFILE// auth-service.ts
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { JwtHelperService } from '@auth0/angular-jwt';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
-  baseUrl = environment.apiUrl;
-  private jwtHelper = new JwtHelperService();
-
-  // ===== GLOBAL USER STATE =====
-  fullName$ = new BehaviorSubject<string>('');
-  profileImage$ = new BehaviorSubject<string>('');
-
-  constructor(private http: HttpClient) {}
-
-  // ===== AUTH =====
-  Login(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Account/login`, data);
-  }
-
-  Signout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshtoken');
-    this.fullName$.next('');
-    this.profileImage$.next('');
-  }
-
-  storeToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  // ===== JWT =====
-  decodeToken(): any | null {
-    const token = this.getToken();
-    if (!token) return null;
-    return this.jwtHelper.decodeToken(token);
-  }
-
-  getUserClaims() {
-    const decoded = this.decodeToken();
-    if (!decoded) return null;
-
-    return {
-      id: decoded.sub,
-      name: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-      email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-      role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-    };
-  }
-
-  // ===== PROFILE HELPERS =====
-  setFullName(name: string) {
-    this.fullName$.next(name);
-  }
-
-  setProfileImage(url: string) {
-    this.profileImage$.next(url);
-  }
-
-  // ===== STUDENT =====
-  getStudentProfile() {
-    return this.http.get<any>(`${this.baseUrl}/student/profile`);
-  }
-
-  updateStudentProfile(formData: FormData) {
-    return this.http.put<any>(`${this.baseUrl}/student/profile`, formData);
-  }
-
-  // ===== INSTRUCTOR =====
-  getInstructorProfile() {
-    return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
-  }
-
-  updateInstructorProfile(formData: FormData) {
-    return this.http.put<any>(`${this.baseUrl}/instructor/profile`, formData);
-  }
+ getProfile(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/Profile`);
 }
 
+updateProfile(formData: FormData): Observable<any> {
+  return this.http.put(`${this.baseUrl}/Profile`, formData);
+}
+
+changePassword(data: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/Profile/change-password`, data);
+}
+
+
+  /* =========================
+
   ========================== */
 
-  getInstructorProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/instructor/profile`);
-  }
-
-  updateInstructorProfile(formData: FormData): Observable<any> {
-    return this.http.put<any>(
-      `${this.baseUrl}/instructor/profile`,
-      formData
-    );
-  }
   // Add this to your AuthService
 // Add this method to your auth-service.ts file
 
 // In your auth-service.ts file
 
-changePassword(passwordData: { currentPassword: string, newPassword: string, confirmNewPassword: string }): Observable<any> {
-  // تأكد أن الـ URL يطابق الـ backend
-  return this.http.put<any>(
-    `${this.baseUrl}/student/profile/change-password`,
-    passwordData
-  );
-}
-  
 }
