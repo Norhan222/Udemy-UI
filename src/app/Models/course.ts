@@ -3,10 +3,9 @@ import { Section } from "./section";
 export class Course {
   title!: string;
   shortTitle!: string;
-  // categoryId: number;
-  // subcategoryId: number;
-  category!: string;
-  subcategory!: string;
+  categoryId!: number;
+  subcategoryId!: number;
+  tpoicId!:number;
   level!: string;
   description!: string;
   language!: string;

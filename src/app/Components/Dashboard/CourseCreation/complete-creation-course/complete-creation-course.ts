@@ -11,6 +11,10 @@ import { CourseService } from '../../../../Services/course-service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ICourse } from '../../../../Models/icourse';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CategoryService } from '../../../../Services/category-service';
+import { SubCategory } from '../../../../Models/sub-category';
+import { TopicService } from '../../../../Services/topic-service';
+import { Topic } from '../../../../Models/topic';
 
 @Component({
   selector: 'app-complete-creation-course',
@@ -26,11 +30,11 @@ sectionss:Section[]=[];
 courseData!:CourseFormData;
 courseTitle:string |null='';
 courseDescription :string | null='';
-category:string | null='';
+category:number=0;
 courseId!:Number;
 isLoading:boolean=false;
 hasUnsavedChanges = false;
-
+approvalStatus:string=''
 showRequirementsModal = false;
 
 
@@ -58,17 +62,24 @@ editSections:Section[]=[];
   courseSubtitle = '';
   language = this.editCourse?.language;
   level = '';
-  subcategory = '';
+  topicId:number=0;
+  subcategory:number =0;
   primaryTopic = '';
 
   // Pricing Page Data
   currency = 'USD';
   priceTier = '';
-constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,private router:Router,private cdr:ChangeDetectorRef){
+constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,
+  private router:Router,private cdr:ChangeDetectorRef
+  ,private cat:CategoryService
+  ,private  topic:TopicService
+){
   this.course=new Course();
 
 }
   ngOnInit(): void {
+
+
  this.route.paramMap.subscribe(params => {
       const Id = params.get('id');
       if (Id) {
@@ -118,7 +129,7 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
     {
       title: 'Create your content',
       items: [
-        { name: 'Film & edit', completed: true, page: 'film-edit' },
+        { name: 'Film & edit', completed: false, page: 'film-edit' },
         { name: 'Curriculum', completed: false, page: 'curriculum' },
         { name: 'Captions (optional)', completed: false, page: 'captions' },
         { name: 'Accessibility (optional)', completed: false, page: 'accessibility' }
@@ -129,7 +140,7 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
       items: [
         { name: 'Course landing page', completed: false, active: true, page: 'course-landing' },
         { name: 'Pricing', completed: false, page: 'pricing' },
-        { name: 'Promotions', completed: true, page: 'promotions' },
+        { name: 'Promotions', completed: false, page: 'promotions' },
         { name: 'Course messages', completed: false, page: 'messages' }
       ]
     }
@@ -137,8 +148,8 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
 
   languages = ['English (US)', 'Arabic', 'Spanish', 'French', 'German'];
   levels = ['Beginner', 'Intermediate', 'Advanced', 'All Levels'];
-  categories = ['Design', 'Development', 'Business', 'Marketing'];
-  subcategories = ['Web Design', 'Graphic Design', 'UI/UX', 'Game Design'];
+  categories:Topic[] =[] //['Design', 'Development', 'Business', 'Marketing'];
+  subcategories :SubCategory[]=[] //= ['Web Design', 'Graphic Design', 'UI/UX', 'Game Design'];
   currencies = ['USD', 'EUR', 'GBP', 'EGP'];
   priceTiers = ['Free', '$19.99', '$29.99', '$49.99', '$99.99', '$199.99'];
 
@@ -146,8 +157,11 @@ initializeNewCourse(): void {
     this.courseData = this.StepperService.getFormData();
     this.courseTitle = this.courseData?.courseTitle || '';
     this.courseDescription = this.courseData?.description || '';
-    this.category = this.courseData?.category || 'Design';
-
+    this.category = this.courseData?.category
+    this.cat.getSubCategories(this.category).subscribe(data=>{
+    this.subcategories=data
+    this.cdr.detectChanges()
+  })
     this.sections = [
       {
         id: 1,
@@ -206,11 +220,16 @@ populateCourseData(): void {
     this.courseTitle = this.editCourse.title || '';
     this.courseDescription = this.editCourse.description || '';
     this.courseSubtitle = this.editCourse.shortDescription || '';
-    this.category = 'Design';
-    this.subcategory ='';
+    this.subcategory =this.editCourse.subcategoryId;
+    this.topicId=this.editCourse.tpoicId;
+    this.category=this.editCourse.categoryId;
     this.language = this.editCourse.language || 'English (US)';
     this.level = this.editCourse.level || '';
     this.primaryTopic = '';
+    this.approvalStatus=this.editCourse.approvalStatus
+    this.cat.getSubCategories(this.category).subscribe(data=>{
+      this.subcategories=data
+    })
 
     // ✅ Pricing
     if (this.editCourse.price === 0) {
@@ -461,8 +480,9 @@ private prepareFormData(): FormData {
 
   formData.append('Title', this.courseTitle ?? '');
   formData.append('ShortTitle', this.courseSubtitle);
-  formData.append('Category', this.category ?? '');
-  formData.append('Subcategory', this.subcategory ?? '');
+   formData.append('TopicId', this.topicId.toString());
+  formData.append('SubCategoryId', this.subcategory.toString());
+  formData.append('CategoryId', this.category.toString());
   formData.append('Level', this.level);
   formData.append('Language', this.language);
   formData.append('Price', this.getPriceValue().toString());
@@ -570,44 +590,63 @@ private handleSubmitError(error: any): void {
 
 // ✅ حدّث دالة canSubmitForReview لتشمل التحقق من الفيديوهات بشكل صحيح
 canSubmitForReview(): boolean {
-  const hasTitle = (this.courseTitle?.trim().length ?? 0) > 0;
-  const hasSubtitle = (this.courseSubtitle?.trim().length ?? 0) > 0;
-  const hasDescription = (this.courseDescription?.trim().length ?? 0) >= 200;
-  const hasLevel = (this.level?.trim().length ?? 0) > 0;
-  const hasCategory = (this.category?.trim().length ?? 0) > 0;
-  const hasSubcategory = (this.subcategory?.trim().length ?? 0) > 0;
-  const hasPrimaryTopic = this.primaryTopic.trim().length > 0;
-  const hasPriceTier = this.priceTier.trim().length > 0;
-  const hasSections = this.sections.length > 0;
-  const hasLectures = this.sections.some(section => section.lectures.length > 0);
+    const hasTitle = (this.courseTitle?.trim().length ?? 0) > 0;
+    const hasSubtitle = (this.courseSubtitle?.trim().length ?? 0) > 0;
+    const hasDescription = (this.courseDescription?.trim().length ?? 0) >= 200;
+    const hasLevel = (this.level?.trim().length ?? 0) > 0;
+    const hasCategory = this.topicId > 0;
+    const hasSubcategory = this.subcategory > 0;
+    // const hasPrimaryTopic = this.primaryTopic.trim().length > 0;
+    const hasPriceTier = this.priceTier.trim().length > 0;
+    const hasCourseImage = this.courseImagePreview !== null;
+    const hasPromoVideo = this.promoVideoPreview !== null;
+    const hasSections = this.sections.length > 0;
+    const hasLectures = this.sections.some((section) => section.lectures.length > 0);
 
-  // تحقق من أن جميع المحاضرات لها محتوى
-  const allLecturesHaveContent = this.sections.every(section =>
-    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0)
-  );
+    // تحقق من أن جميع المحاضرات لها محتوى
+    const allLecturesHaveContent = this.sections.every((section) =>
+      section.lectures.every((lecture) => lecture.contentType && lecture.contentType.length > 0)
+    );
 
-  // تحقق من أن جميع محاضرات الفيديو لها فيديو
-  const allVideoLecturesHaveVideo = this.sections.every(section =>
-    section.lectures.every(lecture => {
-      if (lecture.contentType !== 'Video') {
-        return true; // ليس فيديو، فهو صالح
-      }
-      // إذا كان فيديو، تحقق من وجود الفيديو (File جديد أو URL موجود)
-      return lecture.videoUrl !== null &&
-             (lecture.videoUrl instanceof File || typeof lecture.videoUrl === 'string');
-    })
-  );
+    // تحقق من أن جميع محاضرات الفيديو لها فيديو
+    const allVideoLecturesHaveVideo = this.sections.every((section) =>
+      section.lectures.every((lecture) => {
+        if (lecture.contentType !== 'Video') {
+          return true; // ليس فيديو، فهو صالح
+        }
+        // إذا كان فيديو، تحقق من وجود الفيديو (File جديد أو URL موجود)
+        return lecture.videoUrl !== null && (lecture.videoUrl instanceof File || typeof lecture.videoUrl === 'string');
+      })
+    );
 
-  return hasTitle && hasSubtitle && hasDescription && hasLevel &&
-         hasCategory && hasSubcategory && hasPrimaryTopic &&
-         hasPriceTier && hasSections && hasLectures &&
-         allLecturesHaveContent && allVideoLecturesHaveVideo;
+    return (
+      hasTitle &&
+      hasSubtitle &&
+      hasDescription &&
+      hasLevel &&
+      hasCategory &&
+      hasSubcategory &&
+      hasPriceTier &&
+      hasCourseImage &&
+      hasPromoVideo &&
+      hasSections &&
+      hasLectures &&
+      allLecturesHaveContent &&
+      allVideoLecturesHaveVideo
+    );
+  }
+
+
+
+
+onsubcat(catId:number){
+  this.topic.getTopicsBySubCategory(catId).subscribe(data=>{
+ this.categories=data
+ console.log(data)
+ this.cdr.detectChanges()
+
+  })
 }
-
-
-
-
-
 
 
 
@@ -685,7 +724,7 @@ debugFormData(formData: FormData): void {
   console.table(entries);
 }
 
- 
+
 
   getValidationMessages(): string[] {
     const messages: string[] = [];
@@ -694,7 +733,7 @@ debugFormData(formData: FormData): void {
     if (this.courseSubtitle.trim().length === 0) messages.push('Course subtitle is required');
     if ((this.courseDescription?.trim().length ?? 0) < 200 ) messages.push('Course description must be at least 200 characters');
     if (this.level.trim().length === 0) messages.push('Course level is required');
-    if (this.subcategory.trim().length === 0) messages.push('Course subcategory is required');
+    if (this.subcategory === 0) messages.push('Course subcategory is required');
     if (this.primaryTopic.trim().length === 0) messages.push('Primary topic is required');
     if (this.priceTier.trim().length === 0) messages.push('Price tier is required');
 
@@ -966,8 +1005,9 @@ this.selectedLecture.lecture.videoUrl = this.videoFile;
       courseTitle: this.courseTitle,
       courseDescription: this.courseDescription,
       courseSubtitle: this.courseSubtitle,
-      category: this.category,
-      subcategory: this.subcategory,
+      categoryId: this.category,
+      subcategoryId: this.subcategory,
+      topicId:this.topicId,
       language: this.language,
       level: this.level,
       primaryTopic: this.primaryTopic,
@@ -1099,11 +1139,13 @@ private checkSectionsChanges(): boolean {
     formData.append('Id', this.courseId.toString());
     formData.append('Title', this.courseTitle ?? '');
     formData.append('ShortTitle', this.courseSubtitle);
-    formData.append('Category', this.category ?? '');
-    formData.append('Subcategory', this.subcategory ?? '');
+    formData.append('TopicId',this.topicId.toString())
+    formData.append('CategoryId', this.category.toString());
+    formData.append('SubcategoryId', this.subcategory.toString());
     formData.append('Level', this.level);
     formData.append('Language', this.language);
     formData.append('Description', this.courseDescription ?? '');
+    formData.append('ApprovalStatus',this.approvalStatus)
 
     // Primary Topic
     if (this.primaryTopic) {

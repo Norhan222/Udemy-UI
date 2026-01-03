@@ -17,22 +17,7 @@ export class NotificatonService {
   }>({
     instructor: [],
     student: [
-      {
-        id: 4,
-        icon: '📚',
-        message: 'New lecture added to your enrolled course.',
-        messageTitle: 'New Lecture',
-        time: '2 days ago',
-        isRead: false
-      },
-      {
-        id: 5,
-        icon: '🎯',
-        message: 'You completed 50% of "Web Development Bootcamp".',
-        messageTitle: 'Course Progress',
-        time: '4 days ago',
-        isRead: true
-      }
+     
     ]
   });
 
@@ -67,7 +52,7 @@ export class NotificatonService {
   private formatNotifications(data: any): NotificationMessage[] {
     // Handle both array and object with data property
     const notificationsArray = Array.isArray(data) ? data : (data?.data || []);
-    
+
     if (!notificationsArray || notificationsArray.length === 0) {
       return [];
     }
@@ -76,9 +61,9 @@ export class NotificatonService {
       id: item.id || index + 1,
       message: item.rejectionReason || item.messageTitle || 'New notification',
       messageTitle: item.messageTitle || item.rejectionReason || 'Notification',
-      time:  item.time, 
+      time:  item.time,
       isRead: item.isRead || false,
-   
+
     }));
   }
 
@@ -132,7 +117,7 @@ export class NotificatonService {
   markAsRead(notificationId: number, type: 'instructor' | 'student') {
     const current = this.notificationsSubject.value;
     const notification = current[type].find(n => n.id === notificationId);
-    
+
     if (notification) {
       notification.isRead = true;
       this.notificationsSubject.next({ ...current });

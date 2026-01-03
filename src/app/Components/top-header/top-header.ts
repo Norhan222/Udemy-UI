@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Category } from '../../Models/category';
 import { CategoryService } from '../../Services/category-service';
 import { AuthService } from '../../Services/auth-service';
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-top-header',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './top-header.html',
   styleUrl: './top-header.css',
 })
@@ -21,7 +22,7 @@ export class TopHeader implements OnInit {
 
   private activeSub!: Subscription;
 
-  constructor(private categoryService: CategoryService, private auth: AuthService) {
+  constructor(private categoryService: CategoryService, private auth: AuthService, private translate: TranslateService) {
     this.isLoggedIn$ = auth.isLoggedIn$
     this.firstName$ = auth.firstName$
 
@@ -62,4 +63,8 @@ export class TopHeader implements OnInit {
     this.activeCategory = null;
   }
 
+  getName(item: any): string {
+    const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
+    return lang === 'ar' ? (item.nameAR || item.nameEN) : (item.nameEN || item.nameAR);
+  }
 }

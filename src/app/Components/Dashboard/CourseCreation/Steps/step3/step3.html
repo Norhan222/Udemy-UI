@@ -12,8 +12,8 @@
     </label>
     <select [(ngModel)]="category" (ngModelChange)="onCategoryChange($event)" class="form-select">
       <option value="">{{ 'COURSE_CREATION.STEPS.STEP3.CHOOSE_CATEGORY' | translate }}</option>
-      <option *ngFor="let cat of categories" [value]="cat.value">
-        {{ cat.label }}
+      <option *ngFor="let cat of categories" [value]="cat.id">
+        {{ cat.nameEN }}
       </option>
     </select>
   </div>

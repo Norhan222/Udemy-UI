@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Category } from '../Models/category';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,9 @@ export class StepperService {
   private formDataSubject = new BehaviorSubject<CourseFormData>({
     courseType: '',
     courseTitle: '',
-    category: '',
-    description: ''
+    category: 0,
+    description: '',
+
   });
   formData$ = this.formDataSubject.asObservable();
 
@@ -56,8 +58,8 @@ export class StepperService {
     this.formDataSubject.next({
       courseType: '',
       courseTitle: '',
-      category: '',
-      description: ''
+      category: 0,
+      description: '',
     });
   }
 
@@ -70,7 +72,7 @@ export class StepperService {
       case 2:
         return data.courseTitle?.trim() !== '';
       case 3:
-        return data.category !== '';
+        return data.category >0;
       case 4:
         return data.description?.trim() !== '';           //length >200
       default:
@@ -85,6 +87,6 @@ export class StepperService {
 export interface CourseFormData {
   courseType: string | null;
   courseTitle: string | null;
-  category: string | null;
+  category: number ;
   description: string   | null;
 }
