@@ -60,7 +60,7 @@ editSections:Section[]=[];
 
   // Course Landing Page Data
   courseSubtitle = '';
-  language = this.editCourse?.language;
+  language = '';
   level = '';
   topicId:number=0;
   subcategory:number =0;
@@ -220,15 +220,22 @@ populateCourseData(): void {
     this.courseTitle = this.editCourse.title || '';
     this.courseDescription = this.editCourse.description || '';
     this.courseSubtitle = this.editCourse.shortDescription || '';
-    this.subcategory =this.editCourse.subcategoryId;
-    this.topicId=this.editCourse.tpoicId;
+    this.topicId=this.editCourse.topicId;
     this.category=this.editCourse.categoryId;
-    this.language = this.editCourse.language || 'English (US)';
+    this.language = this.editCourse.language ||'';
     this.level = this.editCourse.level || '';
     this.primaryTopic = '';
     this.approvalStatus=this.editCourse.approvalStatus
+
     this.cat.getSubCategories(this.category).subscribe(data=>{
       this.subcategories=data
+          this.subcategory =this.editCourse.subCategoryId;
+         this.cdr.detectChanges()
+         this.topic.getTopicsBySubCategory(this.subcategory).subscribe(data=>{
+          this.categories=data
+          this.topicId=this.editCourse.topicId
+          this.cdr.detectChanges()
+         })
     })
 
     // ✅ Pricing
@@ -351,14 +358,17 @@ populateSections(): void {
   closeSuccessModal(): void {
     this.showSuccessModal = false;
   }
-  getTotalLecturesCount(): number {
-  if (!this.sections) return 0;
 
-  return this.sections.reduce(
-    (total, section) => total + (section.lectures?.length || 0),
-    0
-  );
+
+
+
+    getTotalLecturesCount(): boolean {
+  const sections = this.getEffectiveSections();
+
+  return sections.length > 0 &&
+    sections.some(section => section.lectures?.length > 0);
 }
+
 
 
 // ✅ Helper methods للـ requirements
@@ -368,12 +378,46 @@ getTotalVideoMinutes(): number {
   return 0;
 }
 
+// allLecturesHaveContent(): boolean {
+//   // 🆕 Create mode
+//   if (!this.courseId) {
+//     return this.sections.length > 0 &&
+//       this.sections.every(section =>
+//         section.lectures.length > 0 &&
+//         section.lectures.every(
+//           lecture => lecture.contentType && lecture.contentType.length > 0
+//         )
+//       );
+//   }
+
+//   // ✏️ Edit mode
+//   const sourceSections =
+//     this.sections && this.sections.length > 0
+//       ? this.sections
+//       : this.editCourse?.sections ?? [];
+
+//   return sourceSections.length > 0 &&
+//     sourceSections.every(section =>
+//       section.lectures.length > 0 &&
+//       section.lectures.every(
+//         lecture => lecture.contentType && lecture.contentType.length > 0
+//       )
+//     );
+// }
+
 allLecturesHaveContent(): boolean {
-  return this.sections.every(section =>
-    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0))||
-    this.editSections.every(section =>
-    section.lectures.every(lecture => lecture.contentType && lecture.contentType.length > 0));
+  const sections = this.getEffectiveSections();
+
+  if (sections.length === 0) return false;
+
+  return sections.every(section =>
+    section.lectures.length > 0 &&
+    section.lectures.every(
+      lecture => lecture.contentType && lecture.contentType.length > 0
+    )
+  );
 }
+
 
 closeRequirementsModal(): void {
   this.showRequirementsModal = false;
@@ -642,6 +686,7 @@ canSubmitForReview(): boolean {
 onsubcat(catId:number){
   this.topic.getTopicsBySubCategory(catId).subscribe(data=>{
  this.categories=data
+ this.topicId=this.editCourse.topicId
  console.log(data)
  this.cdr.detectChanges()
 
@@ -660,6 +705,11 @@ onsubcat(catId:number){
 
 
 
+getEffectiveSections() {
+  return this.courseId
+    ? this.editCourse?.sections ?? []
+    : this.sections;
+}
 
 
 
