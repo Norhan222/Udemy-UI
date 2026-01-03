@@ -6,7 +6,7 @@ import { TopHeader } from '../Components/top-header/top-header';
 
 @Component({
   selector: 'app-app-layout',
-  imports: [Navbar,Footer,RouterOutlet,TopHeader],
+  imports: [Navbar, Footer, RouterOutlet, TopHeader],
   templateUrl: './app-layout.html',
   styleUrl: './app-layout.css',
 })

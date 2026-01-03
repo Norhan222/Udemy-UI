@@ -1,6 +1,6 @@
 <div class="filter-sidebar" [class.visible]="isVisible">
     <div class="sidebar-header">
-        <h3>Filters</h3>
+        <h3>{{ 'SEARCH_RESULTS.FILTERS.FILTERS' | translate }}</h3>
         <button class="close-btn" (click)="closeSidebar()">
             <i class="fas fa-times"></i>
         </button>
@@ -9,7 +9,7 @@
     <div class="sidebar-content">
         <!-- Ratings Filter -->
         <div class="filter-section">
-            <h4>Ratings</h4>
+            <h4>{{ 'SEARCH_RESULTS.FILTERS.RATINGS' | translate }}</h4>
             <div class="filter-options">
                 <label *ngFor="let rating of ratings" class="radio-option">
                     <input type="radio" name="rating" [value]="getRatingValue(rating.name)"
@@ -20,7 +20,9 @@
                             [class]="star <= getRatingValue(rating.name) ? 'fas fa-star' : 'far fa-star'">
                         </i>
                     </span>
-                    <span class="rating-text">{{ rating.name }}</span>
+                    <span class="rating-text">
+                        {{ getRatingValue(rating.name) }} {{ 'SEARCH_RESULTS.FILTERS.UP' | translate }}
+                    </span>
                     <span class="count">({{ rating.count }})</span>
                 </label>
             </div>
@@ -28,12 +30,12 @@
 
         <!-- Language Filter -->
         <div class="filter-section" *ngIf="languages.length > 0">
-            <h4>Language</h4>
+            <h4>{{ 'SEARCH_RESULTS.FILTERS.LANGUAGE' | translate }}</h4>
             <div class="filter-options">
                 <label *ngFor="let lang of languages" class="checkbox-option">
                     <input type="checkbox" [checked]="selectedLanguages.includes(lang.name)"
                         (change)="onLanguageChange(lang.name, $event.target.checked)" />
-                    <span>{{ lang.name }}</span>
+                    <span>{{ getTranslationKey('SEARCH_RESULTS.FILTERS.OPTIONS', lang.name) | translate }}</span>
                     <span class="count">({{ lang.count }})</span>
                 </label>
             </div>
@@ -41,12 +43,12 @@
 
         <!-- Level Filter -->
         <div class="filter-section" *ngIf="levels.length > 0">
-            <h4>Level</h4>
+            <h4>{{ 'SEARCH_RESULTS.FILTERS.LEVEL' | translate }}</h4>
             <div class="filter-options">
                 <label *ngFor="let level of levels" class="checkbox-option">
                     <input type="checkbox" [checked]="selectedLevels.includes(level.name)"
                         (change)="onLevelChange(level.name, $event.target.checked)" />
-                    <span>{{ level.name }}</span>
+                    <span>{{ getTranslationKey('SEARCH_RESULTS.FILTERS.OPTIONS', level.name) | translate }}</span>
                     <span class="count">({{ level.count }})</span>
                 </label>
             </div>
@@ -54,12 +56,12 @@
 
         <!-- Price Filter -->
         <div class="filter-section" *ngIf="prices.length > 0">
-            <h4>Price</h4>
+            <h4>{{ 'SEARCH_RESULTS.FILTERS.PRICE' | translate }}</h4>
             <div class="filter-options">
                 <label *ngFor="let price of prices" class="checkbox-option">
                     <input type="checkbox" [checked]="selectedPrice === price.name"
                         (change)="onPriceChange(price.name)" />
-                    <span>{{ price.name }}</span>
+                    <span>{{ getTranslationKey('SEARCH_RESULTS.FILTERS.OPTIONS', price.name) | translate }}</span>
                     <span class="count">({{ price.count }})</span>
                 </label>
             </div>
@@ -67,7 +69,7 @@
 
         <!-- Clear Filters Button -->
         <div class="filter-actions">
-            <button class="clear-btn" (click)="clearFilters()">Clear All Filters</button>
+            <button class="clear-btn" (click)="clearFilters()">{{ 'SEARCH_RESULTS.FILTERS.CLEAR' | translate }}</button>
         </div>
     </div>
 </div>
