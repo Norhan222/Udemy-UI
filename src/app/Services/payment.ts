@@ -9,7 +9,7 @@ import { CreatePaymentResponse } from '../Models/create-payment-response';
 })
 export class Payment {
 
-  private baseUrl = 'http://udemyfinalproject.runasp.net/api/Payment';
+  private baseUrl = 'https://udemyfpiti.runasp.net/api/Payment';
 
   constructor(private http: HttpClient) {}
 
