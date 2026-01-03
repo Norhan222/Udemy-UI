@@ -8,7 +8,7 @@ import { SearchRequestDto, SearchApiResponse, SearchResponseDto } from '../Model
     providedIn: 'root'
 })
 export class SearchService {
-    private apiUrl = 'https://localhost:7009/api/Search/courses';
+    private apiUrl = 'https://udemyfpiti.runasp.net/api/Search/courses';
     private cache = new Map<string, Observable<SearchResponseDto>>();
 
     constructor(private http: HttpClient) { }
