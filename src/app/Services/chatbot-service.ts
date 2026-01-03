@@ -45,7 +45,7 @@ private apiUrl = environment.apiUrl;
   private conversationId: string | null = null;
   private user!:any
   private userId:string
-  
+
   constructor(private http: HttpClient,private auth :AuthService) {
     this.initializeWelcomeMessage();
       this.user=auth.user$

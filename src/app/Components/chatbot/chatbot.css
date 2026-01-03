@@ -429,6 +429,20 @@
 .chat-messages::-webkit-scrollbar-track {
   background: #f7f9fa;
 }
+.notification-icon {
+  flex-shrink: 0;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  object-fit: contain;
+}
 
 .chat-messages::-webkit-scrollbar-thumb {
   background: #a435f0;
@@ -477,6 +491,7 @@
     width: 40px;
     height: 40px;
     font-size: 20px;
+
   }
 
   .header-text h3 {

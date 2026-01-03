@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ChatbotService } from '../../Services/chatbot-service';
@@ -32,7 +32,7 @@ export class Chatbot implements OnInit, OnDestroy {
   ];
   user$;
 
-  constructor(private chatbotService: ChatbotService,private auth:AuthService) {
+  constructor(private chatbotService: ChatbotService,private auth:AuthService,private cdr:ChangeDetectorRef) {
         this.user$ = auth.user$
 
   }
