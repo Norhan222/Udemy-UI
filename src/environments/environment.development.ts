@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: 'https://udemyfinalproject.runasp.net/api',
+  apiUrl: 'http://udemyfinalproject.runasp.net/',
 
   production: false
 };
