@@ -227,7 +227,6 @@ populateCourseData(): void {
     this.level = this.editCourse.level || '';
     this.primaryTopic = '';
     this.approvalStatus=this.editCourse.approvalStatus
-
     this.cat.getSubCategories(this.category).subscribe(data=>{
       this.subcategories=data
     })
