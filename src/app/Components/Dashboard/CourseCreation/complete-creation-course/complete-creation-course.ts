@@ -491,9 +491,10 @@ private submitExistingCourseForReview(): void {
     }
   });
 }
-
+submitdisabel:boolean=false
 // ✅ دالة لإنشاء كورس جديد
 private submitNewCourseForReview(): void {
+  this.submitdisabel=true
   const formData = this.prepareFormData();
 
   this.courseService.createCourse(formData).subscribe({
@@ -502,6 +503,7 @@ private submitNewCourseForReview(): void {
       this.isSubmitting = false;
       this.showSuccessModal = true;
       alert('Course created successfully!');
+
       this.router.navigateByUrl('dashboard/courses');
     },
     error: (error) => {
