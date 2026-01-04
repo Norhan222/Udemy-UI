@@ -45,7 +45,7 @@
           <span class="item-name">{{ item.name | translate }}</span>
         </div>
       </div>
-      <button class="submit-btn" (click)="onSubmitForReview()">
+      <button class="submit-btn" [class.disabled]="submitdisabel" (click)="onSubmitForReview()">
         Submit for Review
       </button>
 
