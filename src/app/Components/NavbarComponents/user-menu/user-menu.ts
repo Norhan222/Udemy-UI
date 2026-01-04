@@ -30,6 +30,9 @@ export class UserMenu implements OnInit {
   isOpen = false;
   userData$;
   private router = inject(Router);
+  
+  // Add timeout for smooth hover experience
+  private closeTimeout: any;
 
   isRtl = false;
 
@@ -52,11 +55,42 @@ export class UserMenu implements OnInit {
   }
 
   openMenu() {
+    // Clear any pending close timeout
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
+    
     this.checkDirection();
     this.isOpen = true;
   }
 
   closeMenu() {
+    // Add delay before closing to allow mouse to move to dropdown
+    this.closeTimeout = setTimeout(() => {
+      this.isOpen = false;
+    }, 150); // 150ms delay - adjust if needed
+  }
+
+  // Call this when mouse enters dropdown
+  onDropdownEnter() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
+  }
+
+  // Call this when mouse leaves dropdown
+  onDropdownLeave() {
+    this.closeMenu();
+  }
+
+  // Close immediately (for clicking links)
+  closeMenuImmediately() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
     this.isOpen = false;
   }
 
@@ -65,16 +99,25 @@ export class UserMenu implements OnInit {
       ? '/Instructor/Profile/Edit'
       : '/Profile/Edit';
     this.router.navigateByUrl('/Profile/Edit');
-    this.isOpen = false;
+    this.closeMenuImmediately(); // استخدم الـ method الجديدة
   }
 
   navigateToInstructorDashboard() {
     this.router.navigate(['/dashboard/courses']);
-    this.isOpen = false;
+    this.closeMenuImmediately(); // استخدم الـ method الجديدة
   }
 
   logout() {
     this.auth.logout();
     this.router.navigateByUrl('/HomeBeforSignIn');
+    this.closeMenuImmediately(); // استخدم الـ method الجديدة
   }
+
+  // Cleanup on component destroy
+  ngOnDestroy() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+    }
+  }
+  
 }

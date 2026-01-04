@@ -44,3 +44,43 @@
 .mega-content span:hover {
   color: rgb(162, 75, 209);
 }
+.welcome-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1c1d1f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.welcome-text span {
+  font-size: 0.85rem;
+  color: #6e6f73;
+}
+
+.welcome-text strong {
+  display: block;
+  font-size: 1rem;
+  color: #1c1d1f;
+  margin-bottom: 6px;
+}
+
+.welcome-btn {
+  background: #ede6ff;
+  color: #5624d0;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

@@ -68,3 +68,18 @@
   border-right: 8px solid transparent;
   border-bottom: 8px solid #1c1d1f;
 }
+/* على الموبايل - يختفي أو يبقى hamburger menu */
+@media (max-width: 768px) {
+  .navbar {
+    display: none; /* أو نخليه في الـ hamburger menu */
+  }
+}
+/* على الموبايل - Navigation buttons واضحة */
+@media (max-width: 768px) {
+  :host ::ng-deep .p-carousel-prev,
+  :host ::ng-deep .p-carousel-next {
+    background-color: #fff;
+    color: #1c1d1f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
