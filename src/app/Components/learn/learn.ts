@@ -24,20 +24,15 @@ export class Learn implements OnInit {
   reviewForm!: FormGroup;
   @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
-<<<<<<< HEAD
   private courseService=inject(CourseService);
   private route=inject(ActivatedRoute);
   private cd=inject(ChangeDetectorRef);
 
 
-=======
   constructor(
-    private courseService: CourseService,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private reviewService: ReviewService,
   ) {}
->>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
 
   ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('id'));
@@ -47,9 +42,7 @@ export class Learn implements OnInit {
       comment: ['', Validators.required]
     });
   }
-<<<<<<< HEAD
   
-=======
 
   submitReview() {
     if (this.reviewForm.valid && this.course) {
@@ -68,7 +61,7 @@ export class Learn implements OnInit {
           if(err.error)
           {
             alert(err.error.message)
-            console.log(err.error)
+            console.log(err.error.message)
           }else
           {
             alert("UnException Eror")
@@ -80,9 +73,8 @@ export class Learn implements OnInit {
   }
 
 
->>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
   loadCourse() {
-    this.courseService.getCourseContent(116).subscribe({
+    this.courseService.getCourseContent(this.courseId).subscribe({
       next: (data) => {
         this.course = data;
         this.loading = false;
@@ -97,12 +89,9 @@ export class Learn implements OnInit {
             this.selectLecture(data.sections[0].lectures[0]);
           }
         }
-<<<<<<< HEAD
         
-=======
 
         this.loading = false;
->>>>>>> 072074b5dc9c90dc565f6b6f7576e81ad6ed3137
       },
       error: (err) => {
         console.error(err);
