@@ -7,9 +7,10 @@ import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-start-your-courses',
-    imports: [Carousel, ButtonModule, TranslateModule, CommonModule],
+    imports: [Carousel, ButtonModule, TranslateModule, CommonModule,RouterLink],
     templateUrl: './start-your-courses.html',
     styleUrl: './start-your-courses.css',
 })

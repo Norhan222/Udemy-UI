@@ -7,47 +7,51 @@
 </div>
 @if(courses == null)
 {
-<div class="text-center text-primary">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div class=" courses-list container" style="gap: 16px;">
+  <div *ngFor="let item of [1,2,3]" class="card skeleton-card" style="width:350px; height:100px">
+      <!---hhhhhhh--->
+    <div class="row">
+      <div class="col-md-4" >
+        <div class="skeleton-image" style="height:100px"></div>
+      </div>
+      <div class=" skeleton-details col-md-8">
+       <div class="card-body">
+        <h5 class="card-title skeleton-line title"></h5>
+        <p class="card-text skeleton-line subtitle"></p>
+       </div>
+     </div>
+    </div>
+    <!--hhhhhhhhh-->
   </div>
 </div>
 
+   
 }@else{
-<p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+<p-carousel [value]="courses" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
   <ng-template let-product pTemplate="item">
-    <div class="h-100 p-2">
-      <div class="course-card">
-        <!-- Image -->
-        <div class="course-image-container">
-          <img [src]="product.thumbnailUrl" class="course-image" [alt]="product.title">
-          <div class="play-overlay">
-            <i class="bi bi-play-circle-fill"></i>
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div class="course-details">
-          <h3 class="course-title" [title]="product.title">{{product.title}}</h3>
-          <p class="course-instructor">{{product.instructorName}}</p>
-
-          <!-- Rating -->
-          <div class="rating">
-            <span class="rating-value">{{product.rating | number:'1.1-1'}}</span>
-            <div class="stars">
-              <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]; let i = index"
-                [class.text-warning]="i < product.rating"></i>
-            </div>
-            <span class="review-count">({{product.reviewCount || 0}})</span>
-          </div>
-
-          <!-- Footer / Action -->
-          <div class="course-footer mt-auto">
-            <button class="start-learning-btn">Start Learning</button>
-          </div>
-        </div>
+    <!---hhhhhhh--->
+<div class="card mb-3" style="max-width: 550px; height:150px">
+  <div class="row g-0" style="height:150px">
+    <div class="col-md-4" >
+      <button class="" [routerLink]="['/learn', product.id]" style="height:100%; width:100%; border-style:none" >
+          <div style=" height:150px;">
+               <div style="height:100%; width:100%; background-color:black; opacity:0.3; align-items:center; justify-content:center; display:flex; color:white; font-size:30px;">
+                  <i class="bi bi-play-circle" style="font-size:50px;"></i>
+              </div>
+         </div>
+    </button>
+      <!--background-image: url('{{product.thumbnailUrl}}');-->
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{product.title}}</h5>
+        <p class="card-text">{{product.shortDescription}}</p>
       </div>
     </div>
+  </div>
+</div>
+    <!--hhhhhhhhh-->
+    
   </ng-template>
 </p-carousel>
 }

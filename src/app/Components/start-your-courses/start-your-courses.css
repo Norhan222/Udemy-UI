@@ -413,26 +413,18 @@
 
 /* Skeleton Loader */
 .skeleton-card {
-  display: flex;
-  flex-direction: column;
   border: 1px solid #d1d7dc;
-  border-radius: 8px;
   overflow: hidden;
-  height: 350px;
 }
 
 .skeleton-image {
   width: 100%;
-  aspect-ratio: 16/9;
   background: #e0e0e0;
   animation: pulse 1.5s infinite;
 }
 
 .skeleton-details {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  
 }
 
 .skeleton-line {
