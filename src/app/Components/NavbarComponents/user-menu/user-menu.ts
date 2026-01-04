@@ -30,9 +30,6 @@ export class UserMenu implements OnInit {
   isOpen = false;
   userData$;
   private router = inject(Router);
-  
-  // Add timeout for smooth hover experience
-  private closeTimeout: any;
 
   isRtl = false;
 
@@ -54,44 +51,74 @@ export class UserMenu implements OnInit {
     this.isRtl = document.documentElement.dir === 'rtl';
   }
 
-  openMenu() {
-    // Clear any pending close timeout
-    if (this.closeTimeout) {
-      clearTimeout(this.closeTimeout);
-      this.closeTimeout = null;
-    }
-    
+  timeoutId: any;
+  clickListener: any;
+
+  // IMPORTANT: Toggle menu on click
+  toggleMenu(event: Event) {
+    event.stopPropagation(); // Prevent this click from triggering the document listener immediately
     this.checkDirection();
-    this.isOpen = true;
+
+    // Toggle state
+    this.isOpen = !this.isOpen;
+
+    // If opening, ensure (or re-ensure) the document listener is attached
+    if (this.isOpen) {
+      this.attachDocumentListener();
+    } else {
+      this.removeDocumentListener();
+    }
   }
 
+  // Handle closing strictly
   closeMenu() {
-    // Add delay before closing to allow mouse to move to dropdown
-    this.closeTimeout = setTimeout(() => {
-      this.isOpen = false;
-    }, 150); // 150ms delay - adjust if needed
-  }
-
-  // Call this when mouse enters dropdown
-  onDropdownEnter() {
-    if (this.closeTimeout) {
-      clearTimeout(this.closeTimeout);
-      this.closeTimeout = null;
-    }
-  }
-
-  // Call this when mouse leaves dropdown
-  onDropdownLeave() {
-    this.closeMenu();
-  }
-
-  // Close immediately (for clicking links)
-  closeMenuImmediately() {
-    if (this.closeTimeout) {
-      clearTimeout(this.closeTimeout);
-      this.closeTimeout = null;
-    }
     this.isOpen = false;
+    this.removeDocumentListener();
+  }
+
+  // Open logic not strictly needed for toggle, but good helper if needed
+  openMenu() {
+    // Legacy support if needed, or remove
+    this.isOpen = true;
+    this.attachDocumentListener();
+  }
+
+  // Attach a listener to the document to close menu if clicked outside
+  attachDocumentListener() {
+    if (!this.clickListener) {
+      this.clickListener = this.onDocumentClick.bind(this);
+      document.addEventListener('click', this.clickListener);
+    }
+  }
+
+  removeDocumentListener() {
+    if (this.clickListener) {
+      document.removeEventListener('click', this.clickListener);
+      this.clickListener = null;
+    }
+  }
+
+  onDocumentClick(event: MouseEvent) {
+    // If we click anywhere outside, close menu
+    // (Note: The toggle click stops propagation, so it won't trigger this for the opening click)
+    // We also need to make sure we don't close if clicking INSIDE the dropdown? 
+    // Usually clicking items in the dropdown MIGHT close it (navigating), or might not.
+    // The user requirement is "click again to disappear".
+    // Standard UI behavior: Click outside closes it.
+
+    const target = event.target as HTMLElement;
+    const profileWrapper = document.querySelector('.profile-wrapper');
+    const dropdown = document.querySelector('.dropdown');
+
+    // If click is NOT inside profile wrapper
+    if (profileWrapper && !profileWrapper.contains(target)) {
+      this.isOpen = false;
+      this.removeDocumentListener();
+    }
+  }
+
+  ngOnDestroy() {
+    this.removeDocumentListener();
   }
 
   navigateToProfile() {
@@ -99,25 +126,16 @@ export class UserMenu implements OnInit {
       ? '/Instructor/Profile/Edit'
       : '/Profile/Edit';
     this.router.navigateByUrl('/Profile/Edit');
-    this.closeMenuImmediately(); // استخدم الـ method الجديدة
+    this.isOpen = false;
   }
 
   navigateToInstructorDashboard() {
     this.router.navigate(['/dashboard/courses']);
-    this.closeMenuImmediately(); // استخدم الـ method الجديدة
+    this.isOpen = false;
   }
 
   logout() {
     this.auth.logout();
     this.router.navigateByUrl('/HomeBeforSignIn');
-    this.closeMenuImmediately(); // استخدم الـ method الجديدة
   }
-
-  // Cleanup on component destroy
-  ngOnDestroy() {
-    if (this.closeTimeout) {
-      clearTimeout(this.closeTimeout);
-    }
-  }
-  
 }

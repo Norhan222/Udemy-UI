@@ -24,6 +24,8 @@ export class Navbar implements OnInit {
   isLoggdIn$;
   searchQuery: string = '';
    user: User = new User();
+ mobileMenuOpen = false;
+
   constructor(private auth: AuthService, private router: Router) {
     this.isLoggdIn$ = auth.isLoggedIn$
   }
@@ -56,5 +58,25 @@ export class Navbar implements OnInit {
       });
     }
   }
+  openCategory: any = {
+  development: false,
+  business: false,
+  it: false,
+  office: false,
+  personal: false,
+  design: false,
+  marketing: false,
+  photo: false,
+  lifestyle: false
+};
+
+
+toggleMobileMenu() {
+  this.mobileMenuOpen = !this.mobileMenuOpen;
+}
+
+toggleCategory(key: string) {
+  this.openCategory[key] = !this.openCategory[key];
+}
 
 }

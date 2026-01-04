@@ -40,21 +40,21 @@ export class TopicsCarousel implements OnInit, OnDestroy {
     this.responsiveOptions = [
       {
         breakpoint: '1400px',
-        numVisible: 2,
+        numVisible: 4,
         numScroll: 1,
       },
       {
-        breakpoint: '1199px',
+        breakpoint: '1200px',
         numVisible: 3,
         numScroll: 1,
       },
       {
-        breakpoint: '767px',
+        breakpoint: '992px',
         numVisible: 2,
         numScroll: 1,
       },
       {
-        breakpoint: '575px',
+        breakpoint: '600px',
         numVisible: 1,
         numScroll: 1,
       }

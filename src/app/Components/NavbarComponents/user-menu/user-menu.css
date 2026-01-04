@@ -1,7 +1,5 @@
 .profile-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .avatar {
@@ -15,13 +13,7 @@
   justify-content: center;
   cursor: pointer;
   font-weight: 600;
-  font-size: 14px;
   transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.avatar:hover {
-  opacity: 0.85;
 }
 
 .profileImage {
@@ -32,569 +24,157 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  object-fit: cover;
+  object-fit: contain;
   transition: all 0.2s;
-  border: 2px solid transparent;
-  flex-shrink: 0;
-}
-
-.profileImage:hover {
-  border-color: #5624d0;
 }
 
 .avatar.big {
-  width: 64px;
-  height: 64px;
+  width: 65px;
+  height: 65px;
   font-size: 1.5rem;
-  flex-shrink: 0;
 }
 
 .avatarProfile {
-  width: 64px;
-  height: 64px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  object-fit: cover;
+  object-fit: contain;
   transition: all 0.2s;
-  flex-shrink: 0;
 }
 
-/* Dropdown */
 .dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  top: 100%;
   right: 0;
-  width: 320px;
+  width: 300px;
+  margin-top: 8px;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 8px 0;
-  z-index: 9999;
-  animation: fadeInDown 0.15s ease-out;
+  z-index: 1000;
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Bridge gap - مهم جداً! */
 .dropdown::before {
   content: '';
   position: absolute;
-  top: -8px;
+  top: -20px;
+  /* Increased to cover the gap + overlap */
   left: 0;
   right: 0;
-  height: 8px;
+  height: 20px;
+  /* Height of the gap layer */
   background: transparent;
-  pointer-events: auto;
+  /* Invisible bridge */
 }
 
-/* User Info Section */
 .user-info {
   display: flex;
-  gap: 12px;
-  padding: 16px;
-  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+}
+
+.user-info small {
+  color: #666;
+  font-size: 12px;
 }
 
 .us {
-  flex: 1;
-  min-width: 0;
-}
-
-.us h5 {
-  margin: 0 0 4px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #1c1d1f;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.us p {
-  margin: 0 0 8px 0;
-  font-size: 13px;
-  color: #6a6f73;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.us .btn {
-  width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 0;
-  border: none;
+  padding: 0;
+  margin: 0;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.us .btn-danger {
-  background-color: #a435f0;
-  color: #fff;
-}
-
-.us .btn-danger:hover {
-  background-color: #8710d8;
-}
-
-/* Dropdown Links */
 .dropdown a {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
+  padding: 10px 16px;
   text-decoration: none;
-  color: #1c1d1f;
-  font-size: 14px;
+  color: #333;
   cursor: pointer;
-  transition: background-color 0.15s;
 }
 
 .dropdown a:hover {
-  background-color: #f7f9fa;
+  background-color: oklch(95.1% 0.02567 293.074);
 }
 
-.dropdown a.active {
-  background-color: #f7f9fa;
-  color: #5624d0;
-  font-weight: 500;
-}
-
-/* Separator */
 hr {
-  margin: 8px 0;
+  margin: 6px 0;
   border: none;
-  border-top: 1px solid #d1d7dc;
+  border-top: 1px solid #251212;
 }
 
-/* Badge */
 .badge {
   background: #a435f0;
   color: #fff;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: 600;
+  font-size: 16px;
+  padding: 6px 8px;
+  border-radius: 50%;
 }
 
-/* Logout Link */
 .logout {
   color: #b00020;
   font-weight: 500;
 }
 
-.logout:hover {
-  background-color: #fff5f5;
-}
 
-/* Notification Badge */
+
+
 .notification-badge {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: -1px;
   background-color: #a435f0;
   color: white;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: bold;
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 2px #fff;
-  border: 1px solid #fff;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  display: flex;
 }
 
-/* RTL Support */
-.dropdown.rtl-dropdown {
-  right: auto !important;
-  left: 0 !important;
-}
+/* ... existing styles ... */
 
-[dir="rtl"] .dropdown {
-  right: auto;
-  left: 0;
-}
-
-[dir="rtl"] .user-info {
-  flex-direction: row-reverse;
-}
-
-/* ===============================
-   RESPONSIVE - UDEMY STYLE
-================================ */
-
-/* Desktop - Default (Above 992px) */
-@media (min-width: 992px) {
-  .dropdown {
-    width: 320px;
-  }
-}
-
-/* Tablet Large (768px - 991px) */
-@media (max-width: 991px) {
-  .dropdown {
-    width: 300px;
-  }
-
-  .user-info {
-    padding: 14px;
-  }
-
-  .us h5 {
-    font-size: 15px;
-  }
-
-  .us p {
-    font-size: 12px;
-  }
-
-  .dropdown a {
-    font-size: 13px;
-    padding: 11px 14px;
-  }
-}
-
-/* Tablet (600px - 767px) */
-@media (max-width: 767px) {
-  .avatar {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
-  }
-
-  .profileImage {
-    width: 36px;
-    height: 36px;
-  }
-
-  .dropdown {
-    width: 280px;
-    border-radius: 6px;
-  }
-
-  .avatar.big {
-    width: 56px;
-    height: 56px;
-    font-size: 1.3rem;
-  }
-
-  .avatarProfile {
-    width: 56px;
-    height: 56px;
-  }
-
-  .user-info {
-    padding: 12px;
-    gap: 10px;
-  }
-
-  .us h5 {
-    font-size: 14px;
-  }
-
-  .us p {
-    font-size: 11px;
-  }
-
-  .us .btn {
-    padding: 7px 10px;
-    font-size: 13px;
-  }
-
-  .dropdown a {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-
-  hr {
-    margin: 6px 0;
-  }
-}
-
-/* Mobile Large (480px - 599px) */
-@media (max-width: 599px) {
-  .dropdown {
-    width: 260px;
-    right: -10px;
-  }
-
-  [dir="rtl"] .dropdown {
-    right: auto;
-    left: -10px;
-  }
-
-  .avatar {
-    width: 34px;
-    height: 34px;
-    font-size: 12px;
-  }
-
-  .profileImage {
-    width: 34px;
-    height: 34px;
-  }
-
-  .avatar.big {
-    width: 52px;
-    height: 52px;
-    font-size: 1.2rem;
-  }
-
-  .avatarProfile {
-    width: 52px;
-    height: 52px;
-  }
-
-  .user-info {
-    padding: 12px;
-  }
-
-  .us h5 {
-    font-size: 13px;
-  }
-
-  .us p {
-    font-size: 11px;
-  }
-
-  .us .btn {
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-
-  .dropdown a {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-
-  .badge {
-    font-size: 11px;
-    padding: 1px 6px;
-  }
-}
-
-/* Mobile (360px - 479px) */
-@media (max-width: 479px) {
-  /* Full width dropdown on mobile */
+@media (max-width: 768px) {
   .dropdown {
     position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    max-height: 85vh;
+    /* Fixed on mobile to ensure visibility */
+    top: 60px;
+    /* Below navbar */
+    right: 10px;
+    left: 10px;
+    width: auto;
+    margin-top: 0;
+    max-height: 80vh;
     overflow-y: auto;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.15);
-    animation: slideUpMobile 0.25s ease-out;
+    border: 1px solid #d1d7dc;
   }
 
-  @keyframes slideUpMobile {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  .dropdown::before {
-    display: none;
-  }
-
-  /* Add handle bar on mobile */
-  .dropdown::after {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px;
-    height: 4px;
-    background: #d1d7dc;
-    border-radius: 2px;
-  }
-
-  .avatar {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
-
-  .profileImage {
-    width: 32px;
-    height: 32px;
-  }
-
-  .avatar.big {
-    width: 48px;
-    height: 48px;
-    font-size: 1.1rem;
-  }
-
-  .avatarProfile {
-    width: 48px;
-    height: 48px;
+  .dropdown.rtl-dropdown {
+    right: 10px !important;
+    left: 10px !important;
   }
 
   .user-info {
-    padding: 20px 16px 12px 16px;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .us {
+    text-align: center;
+    width: 100%;
   }
 
   .us h5 {
-    font-size: 14px;
-  }
-
-  .us p {
-    font-size: 12px;
-  }
-
-  .us .btn {
-    padding: 8px 12px;
-    font-size: 13px;
-    margin-top: 4px;
-  }
-
-  .dropdown a {
-    font-size: 14px;
-    padding: 14px 16px;
-    min-height: 48px;
-  }
-
-  .dropdown a:active {
-    background-color: #e8f5e9;
-  }
-
-  hr {
-    margin: 8px 0;
-  }
-
-  /* Better touch targets */
-  .logout {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  /* RTL on mobile */
-  [dir="rtl"] .dropdown {
-    left: 0;
-    right: 0;
-  }
-}
-
-/* Mobile Small (< 360px) */
-@media (max-width: 359px) {
-  .avatar {
-    width: 30px;
-    height: 30px;
-    font-size: 11px;
-  }
-
-  .profileImage {
-    width: 30px;
-    height: 30px;
-  }
-
-  .avatar.big {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-
-  .avatarProfile {
-    width: 44px;
-    height: 44px;
-  }
-
-  .user-info {
-    padding: 18px 14px 10px 14px;
-  }
-
-  .us h5 {
-    font-size: 13px;
-  }
-
-  .us p {
-    font-size: 11px;
-  }
-
-  .us .btn {
-    padding: 7px 10px;
-    font-size: 12px;
-  }
-
-  .dropdown a {
-    font-size: 13px;
-    padding: 12px 14px;
-  }
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .dropdown a {
-    min-height: 48px;
-    padding: 14px 16px;
-  }
-
-  .avatar,
-  .profileImage {
-    min-width: 44px;
-    min-height: 44px;
-  }
-}
-
-/* Smooth scrolling for mobile dropdown */
-@media (max-width: 479px) {
-  .dropdown {
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-}
-
-/* Hide dropdown smoothly */
-.dropdown {
-  pointer-events: auto;
-}
-
-/* Prevent body scroll when dropdown is open on mobile */
-@media (max-width: 479px) {
-  body.dropdown-open {
-    overflow: hidden;
-  }
-}
-
-/* Notification badge responsive */
-@media (max-width: 767px) {
-  .notification-badge {
-    width: 10px;
-    height: 10px;
-    font-size: 8px;
-    top: -1px;
-    right: -1px;
-  }
-}
-
-@media (max-width: 479px) {
-  .notification-badge {
-    width: 8px;
-    height: 8px;
-    font-size: 7px;
+    margin-bottom: 4px;
   }
 }

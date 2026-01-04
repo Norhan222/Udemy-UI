@@ -1,9 +1,10 @@
 .filter-sidebar {
     position: fixed;
     top: 0;
-    left: -400px;
-    width: 90%;
-    max-width: 400px;
+    left: -100%;
+    /* Use percentage for better support */
+    width: 280px;
+    /* narrowed width */
     height: 100vh;
     background: #fff;
     box-shadow: 2px 0 16px rgba(0, 0, 0, 0.2);
@@ -14,6 +15,34 @@
 
 .filter-sidebar.visible {
     left: 0;
+}
+
+/* Desktop: Static Sidebar */
+@media (min-width: 992px) {
+    .filter-sidebar {
+        position: static;
+        left: auto;
+        top: auto;
+        width: 100%;
+        /* Takes full width of its column */
+        height: auto;
+        box-shadow: none;
+        z-index: 1;
+        overflow-y: visible;
+        transform: none;
+        border-right: 1px solid #d1d7dc;
+        padding-right: 24px;
+        background: transparent;
+    }
+
+    /* Hide Header/Close btn on Desktop since it's always there */
+    .sidebar-header {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
 }
 
 .sidebar-overlay {
