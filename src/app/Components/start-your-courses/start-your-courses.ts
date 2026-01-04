@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ILecture } from '../../Models/ilecture';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
@@ -8,7 +9,7 @@ import { CourseService } from '../../Services/course-service';
 import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'app-start-your-courses',
-    imports: [Carousel, ButtonModule, TranslateModule],
+    imports: [Carousel, ButtonModule, TranslateModule, CommonModule],
     templateUrl: './start-your-courses.html',
     styleUrl: './start-your-courses.css',
 })

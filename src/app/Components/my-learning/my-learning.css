@@ -1,604 +1,1041 @@
+/* Header */
+.main-header {
+    background-color: #1c1d1f;
+    color: white;
+    padding: 30px 0;
+}
 
+.main-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
 
-        /* Header */
-        .main-header {
-            background-color: #1c1d1f;
-            color: white;
-            padding: 30px 0;
-        }
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 1px solid #d1d7dc;
+    background-color: #1c1d1f;
+    padding: 0 15px;
+    /* Responsive Scroll for Mobile */
+    display: flex;
+    flex-wrap: wrap;
+}
 
-        .main-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0;
-        }
+.nav-tabs .nav-link {
+    color: #cec0fc;
+    border: none;
+    padding: 15px 20px;
+    font-weight: 600;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
 
-        /* Navigation Tabs */
-        .nav-tabs {
-            border-bottom: 1px solid #d1d7dc;
-            background-color: #1c1d1f;
-            padding: 0 15px;
-        }
+.nav-tabs .nav-link:hover {
+    color: white;
+    border: none;
+}
 
-        .nav-tabs .nav-link {
-            color: #cec0fc;
-            border: none;
-            padding: 15px 20px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
+.nav-tabs .nav-link.active {
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid white;
+}
 
-        .nav-tabs .nav-link:hover {
-            color: white;
-            border: none;
-        }
+/* Course Grid */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
 
-        .nav-tabs .nav-link.active {
-            color: white;
-            background-color: transparent;
-            border: none;
-            border-bottom: 3px solid white;
-        }
+.course-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 
-        /* Streak Card */
-        .streak-card {
-            background: white;
-            border: 1px solid #d1d7dc;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.course-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
 
-        .streak-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+.course-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    position: relative;
+}
 
-        .streak-card p {
-            color: #6a6f73;
-            margin: 0;
-        }
+.course-menu {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
-        .streak-info {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
+.course-content {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-        .streak-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #a3ffaf 0%, #4caf50 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+.course-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
-        .streak-icon::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-        }
+.course-author {
+    color: #6a6f73;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
 
-        .streak-details {
-            text-align: center;
-        }
+.course-action {
+    margin-top: auto;
+    /* Push to bottom */
+}
 
-        .streak-details .weeks {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1c1d1f;
-        }
+.btn-start {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #5624d0;
+    border: 2px solid #5624d0;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
 
-        .streak-details .label {
-            color: #6a6f73;
-            font-size: 0.9rem;
-        }
+.btn-start:hover {
+    background: #5624d0;
+    color: white;
+}
 
-        .goal-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+.btn-remove {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #e41631;
+    border: 2px solid #e41631;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
 
-        .goal-details {
-            text-align: right;
-        }
+.btn-remove:hover {
+    background: #eb1248;
+    color: white;
+}
 
-        .goal-details .minutes {
-            font-size: 0.9rem;
-            color: #1c1d1f;
-        }
+/* Streak Card */
+.streak-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
 
-        .goal-details .visits {
-            font-size: 0.9rem;
-            color: #1c1d1f;
-        }
+.streak-left h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 6px;
+}
 
-        .goal-details .date-range {
-            color: #6a6f73;
-            font-size: 0.85rem;
-        }
+.streak-left p {
+    font-size: 14px;
+    color: #6a6f73;
+    margin: 0;
+}
 
-        /* Schedule Card */
-        .schedule-card {
-            background: white;
-            border: 1px solid #d1d7dc;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
+.streak-center {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .schedule-icon {
-            font-size: 2rem;
-            color: #6a6f73;
-        }
+.fire-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #d1d7dc;
+}
 
-        .schedule-content h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+.streak-info {
+    text-align: left;
+}
 
-        .schedule-content p {
-            color: #6a6f73;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
+.streak-info .weeks {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 2px;
+}
 
-        .schedule-buttons {
-            display: flex;
-            gap: 10px;
-        }
+.streak-info .label {
+    font-size: 14px;
+    color: #6a6f73;
+}
 
-        .btn-get-started {
-            background: transparent;
-            color: #5624d0;
-            border: 2px solid #5624d0;
-            padding: 8px 20px;
-            font-weight: 700;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
+.streak-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .btn-get-started:hover {
-            background: #5624d0;
-            color: white;
-        }
+.progress-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #e8e9eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
 
-        .btn-dismiss {
-            background: transparent;
-            color: #1c1d1f;
-            border: 2px solid #1c1d1f;
-            padding: 8px 20px;
-            font-weight: 700;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(#19c37d 0deg, #e8e9eb 0deg);
+}
 
-        .btn-dismiss:hover {
-            background: #1c1d1f;
-            color: white;
-        }
+.progress-inner {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
 
-        /* Course Cards */
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
+.goal-info {
+    text-align: left;
+}
 
-        .course-card {
-            background: white;
-            border: 1px solid #d1d7dc;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s;
-            position: relative;
-        }
+.goal-info .item {
+    font-size: 14px;
+    color: #1c1d1f;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-        .course-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
+.goal-info .item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffa726;
+}
 
-        .course-image {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            position: relative;
-        }
+.goal-info .date {
+    font-size: 12px;
+    color: #6a6f73;
+    margin-top: 4px;
+}
 
-        .course-menu {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
+.info-icon {
+    color: #6a6f73;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-        .course-content {
-            padding: 15px;
-        }
+/* Schedule Card */
+.schedule-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+}
 
-        .course-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #1c1d1f;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
+.clock-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #1c1d1f;
+}
 
-        .course-author {
-            color: #6a6f73;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
+.schedule-content {
+    flex: 1;
+}
 
-        .course-progress {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
+.schedule-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 12px;
+}
 
-        .progress-bar-custom {
-            width: 100%;
-            height: 8px;
-            background-color: #d1d7dc;
-            border-radius: 4px;
-            overflow: hidden;
-        }
+.schedule-content p {
+    font-size: 14px;
+    color: #1c1d1f;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
 
-        .progress-fill {
-            height: 100%;
-            background-color: #5624d0;
-            transition: width 0.3s;
-        }
+.schedule-buttons {
+    display: flex;
+    gap: 12px;
+}
 
-        .progress-text {
-            color: #6a6f73;
-            font-size: 0.85rem;
-            margin-top: 5px;
-        }
+.btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        .course-action {
-            margin-top: 15px;
-        }
+.btn-primary {
+    background: transparent;
+    color: #5624d0;
+    border-color: #5624d0;
+}
 
-        .btn-start {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            color: #5624d0;
-            border: 2px solid #5624d0;
-            font-weight: 700;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
+.btn-primary:hover {
+    background: #5624d0;
+    color: white;
+}
 
-        .btn-start:hover {
-            background: #5624d0;
-            color: white;
-        }
-         .btn-remove {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            color: #e41631;
-            border: 2px solid #e41631;
-            font-weight: 700;
-            border-radius: 4px;
-            transition: all 0.3s;
-        }
+.btn-secondary {
+    background: transparent;
+    color: #1c1d1f;
+    border-color: #1c1d1f;
+}
 
-        .btn-remove:hover {
-            background: #eb1248;
-            color: white;
-        }
+.btn-secondary:hover {
+    background: #f7f9fa;
+}
 
-        .rating {
-            color: #e59819;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
+/* Loading Container */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 400px;
+}
 
-        .rating i {
-            margin-left: 2px;
-        }
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+}
 
-        .rating-text {
-            color: #6a6f73;
-            margin-right: 5px;
-        }
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .course-grid {
-                grid-template-columns: 1fr;
-            }
+.empty-state i {
+    opacity: 0.5;
+}
 
-            .streak-card {
-                flex-direction: column;
-                gap: 20px;
-            }
+.empty-state h3 {
+    color: #1c1d1f;
+    margin-bottom: 10px;
+}
 
-            .streak-info {
-                width: 100%;
-                justify-content: center;
-            }
+.empty-state p {
+    color: #6a6f73;
+    font-size: 16px;
+}
 
-            .goal-info {
-                width: 100%;
-                justify-content: center;
-            }
-        }
+/* Responsive */
+@media (max-width: 900px) {
+    .streak-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .streak-center,
+    .streak-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .schedule-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0;
+        /* Hide scrollbar if feasible or style it */
+    }
+
+    .course-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+        /* Full width on small mobile */
+    }
+
+    .schedule-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 cols on tablet */
+    }
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 1px solid #d1d7dc;
+    background-color: #1c1d1f;
+    padding: 0 15px;
+}
+
+.nav-tabs .nav-link {
+    color: #cec0fc;
+    border: none;
+    padding: 15px 20px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.nav-tabs .nav-link:hover {
+    color: white;
+    border: none;
+}
+
+.nav-tabs .nav-link.active {
+    color: white;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid white;
+}
+
+/* Streak Card */
+.streak-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.streak-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.streak-card p {
+    color: #6a6f73;
+    margin: 0;
+}
+
+.streak-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.streak-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #a3ffaf 0%, #4caf50 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.streak-icon::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+}
+
+.streak-details {
+    text-align: center;
+}
+
+.streak-details .weeks {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1c1d1f;
+}
+
+.streak-details .label {
+    color: #6a6f73;
+    font-size: 0.9rem;
+}
+
+.goal-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.goal-details {
+    text-align: right;
+}
+
+.goal-details .minutes {
+    font-size: 0.9rem;
+    color: #1c1d1f;
+}
+
+.goal-details .visits {
+    font-size: 0.9rem;
+    color: #1c1d1f;
+}
+
+.goal-details .date-range {
+    color: #6a6f73;
+    font-size: 0.85rem;
+}
+
+/* Schedule Card */
+.schedule-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.schedule-icon {
+    font-size: 2rem;
+    color: #6a6f73;
+}
+
+.schedule-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.schedule-content p {
+    color: #6a6f73;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.schedule-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-get-started {
+    background: transparent;
+    color: #5624d0;
+    border: 2px solid #5624d0;
+    padding: 8px 20px;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-get-started:hover {
+    background: #5624d0;
+    color: white;
+}
+
+.btn-dismiss {
+    background: transparent;
+    color: #1c1d1f;
+    border: 2px solid #1c1d1f;
+    padding: 8px 20px;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-dismiss:hover {
+    background: #1c1d1f;
+    color: white;
+}
+
+/* Course Cards */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.course-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.course-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.course-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    position: relative;
+}
+
+.course-menu {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.course-content {
+    padding: 15px;
+}
+
+.course-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.course-author {
+    color: #6a6f73;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.course-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.progress-bar-custom {
+    width: 100%;
+    height: 8px;
+    background-color: #d1d7dc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #5624d0;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    color: #6a6f73;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.course-action {
+    margin-top: 15px;
+}
+
+.btn-start {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #5624d0;
+    border: 2px solid #5624d0;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-start:hover {
+    background: #5624d0;
+    color: white;
+}
+
+.btn-remove {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #e41631;
+    border: 2px solid #e41631;
+    font-weight: 700;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.btn-remove:hover {
+    background: #eb1248;
+    color: white;
+}
+
+.rating {
+    color: #e59819;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.rating i {
+    margin-left: 2px;
+}
+
+.rating-text {
+    color: #6a6f73;
+    margin-right: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .streak-card {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .streak-info {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .goal-info {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* -----------------------------------/////////////////////////////////////////////////////////////////////////// */
 
 
 
-        /* Streak Card */
-        .streak-card {
-            background: white;
-            border: 1px solid #d1d7dc;
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+/* Streak Card */
+.streak-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
 
-        .streak-left h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1c1d1f;
-            margin-bottom: 6px;
-        }
+.streak-left h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 6px;
+}
 
-        .streak-left p {
-            font-size: 14px;
-            color: #6a6f73;
-            margin: 0;
-        }
+.streak-left p {
+    font-size: 14px;
+    color: #6a6f73;
+    margin: 0;
+}
 
-        .streak-center {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+.streak-center {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .fire-icon {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #d1d7dc;
-        }
+.fire-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #d1d7dc;
+}
 
-        .streak-info {
-            text-align: left;
-        }
+.streak-info {
+    text-align: left;
+}
 
-        .streak-info .weeks {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1c1d1f;
-            margin-bottom: 2px;
-        }
+.streak-info .weeks {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 2px;
+}
 
-        .streak-info .label {
-            font-size: 14px;
-            color: #6a6f73;
-        }
+.streak-info .label {
+    font-size: 14px;
+    color: #6a6f73;
+}
 
-        .streak-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+.streak-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .progress-circle {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 4px solid #e8e9eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+.progress-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #e8e9eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
 
-        .progress-circle::before {
-            content: '';
-            position: absolute;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: conic-gradient(#19c37d 0deg, #e8e9eb 0deg);
-        }
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(#19c37d 0deg, #e8e9eb 0deg);
+}
 
-        .progress-inner {
-            width: 48px;
-            height: 48px;
-            background: white;
-            border-radius: 50%;
-            position: relative;
-            z-index: 1;
-        }
+.progress-inner {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
 
-        .goal-info {
-            text-align: left;
-        }
+.goal-info {
+    text-align: left;
+}
 
-        .goal-info .item {
-            font-size: 14px;
-            color: #1c1d1f;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+.goal-info .item {
+    font-size: 14px;
+    color: #1c1d1f;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
-        .goal-info .item .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #ffa726;
-        }
+.goal-info .item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffa726;
+}
 
-        .goal-info .date {
-            font-size: 12px;
-            color: #6a6f73;
-            margin-top: 4px;
-        }
+.goal-info .date {
+    font-size: 12px;
+    color: #6a6f73;
+    margin-top: 4px;
+}
 
-        .info-icon {
-            color: #6a6f73;
-            font-size: 16px;
-            cursor: pointer;
-        }
+.info-icon {
+    color: #6a6f73;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-        /* Schedule Card */
-        .schedule-card {
-            background: white;
-            border: 1px solid #d1d7dc;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            display: flex;
-            gap: 24px;
-        }
+/* Schedule Card */
+.schedule-card {
+    background: white;
+    border: 1px solid #d1d7dc;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 24px;
+}
 
-        .clock-icon {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #1c1d1f;
-        }
+.clock-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #1c1d1f;
+}
 
-        .schedule-content {
-            flex: 1;
-        }
+.schedule-content {
+    flex: 1;
+}
 
-        .schedule-content h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1c1d1f;
-            margin-bottom: 12px;
-        }
+.schedule-content h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 12px;
+}
 
-        .schedule-content p {
-            font-size: 14px;
-            color: #1c1d1f;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+.schedule-content p {
+    font-size: 14px;
+    color: #1c1d1f;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
 
-        .schedule-buttons {
-            display: flex;
-            gap: 12px;
-        }
+.schedule-buttons {
+    display: flex;
+    gap: 12px;
+}
 
-        .btn {
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 700;
-            border: 2px solid;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        .btn-primary {
-            background: transparent;
-            color: #5624d0;
-            border-color: #5624d0;
-        }
+.btn-primary {
+    background: transparent;
+    color: #5624d0;
+    border-color: #5624d0;
+}
 
-        .btn-primary:hover {
-            background: #5624d0;
-            color: white;
-        }
+.btn-primary:hover {
+    background: #5624d0;
+    color: white;
+}
 
-        .btn-secondary {
-            background: transparent;
-            color: #1c1d1f;
-            border-color: #1c1d1f;
-        }
+.btn-secondary {
+    background: transparent;
+    color: #1c1d1f;
+    border-color: #1c1d1f;
+}
 
-        .btn-secondary:hover {
-            background: #f7f9fa;
-        }
+.btn-secondary:hover {
+    background: #f7f9fa;
+}
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .streak-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
+/* Responsive */
+@media (max-width: 768px) {
+    .streak-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 
-            .streak-center,
-            .streak-right {
-                width: 100%;
-                justify-content: space-between;
-            }
+    .streak-center,
+    .streak-right {
+        width: 100%;
+        justify-content: space-between;
+    }
 
-            .schedule-card {
-                flex-direction: column;
-            }
+    .schedule-card {
+        flex-direction: column;
+    }
 
-            .schedule-buttons {
-                flex-direction: column;
-            }
+    .schedule-buttons {
+        flex-direction: column;
+    }
 
-            .btn {
-                width: 100%;
-            }
-        }
+    .btn {
+        width: 100%;
+    }
+}
 
-        @media (max-width: 480px) {
-            .streak-card {
-                padding: 20px;
-            }
+@media (max-width: 480px) {
+    .streak-card {
+        padding: 20px;
+    }
 
-            .schedule-card {
-                padding: 20px;
-            }
+    .schedule-card {
+        padding: 20px;
+    }
 
-            .streak-right {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
+    .streak-right {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 /* Loading Container */
 .loading-container {
     display: flex;

@@ -7,7 +7,7 @@
 </div>
 @if(courses == null)
 {
-  <div class="text-center text-primary">
+<div class="text-center text-primary">
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
@@ -16,19 +16,34 @@
 }@else{
 <p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
   <ng-template let-product pTemplate="item">
-    <div class="learning-carousel-wrapper">
-      <div class="learning-card">
-        <div class="learning-card-row">
-          <div class="learning-card-image" [style.background-image]="'url(' + product.thumbnailUrl + ')'">
-            <div class="learning-card-overlay">
-              <i class="bi bi-play-circle-fill"></i>
-            </div>
+    <div class="h-100 p-2">
+      <div class="course-card">
+        <!-- Image -->
+        <div class="course-image-container">
+          <img [src]="product.thumbnailUrl" class="course-image" [alt]="product.title">
+          <div class="play-overlay">
+            <i class="bi bi-play-circle-fill"></i>
           </div>
-          <div class="learning-card-content">
-            <div class="learning-card-body">
-              <p class="learning-card-description">{{product.description}}</p>
-              <h5 class="learning-card-title">{{product.title}}</h5>
+        </div>
+
+        <!-- Content -->
+        <div class="course-details">
+          <h3 class="course-title" [title]="product.title">{{product.title}}</h3>
+          <p class="course-instructor">{{product.instructorName}}</p>
+
+          <!-- Rating -->
+          <div class="rating">
+            <span class="rating-value">{{product.rating | number:'1.1-1'}}</span>
+            <div class="stars">
+              <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]; let i = index"
+                [class.text-warning]="i < product.rating"></i>
             </div>
+            <span class="review-count">({{product.reviewCount || 0}})</span>
+          </div>
+
+          <!-- Footer / Action -->
+          <div class="course-footer mt-auto">
+            <button class="start-learning-btn">Start Learning</button>
           </div>
         </div>
       </div>

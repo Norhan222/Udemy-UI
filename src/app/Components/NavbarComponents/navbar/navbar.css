@@ -267,7 +267,7 @@ body {
   .navbar-content {
     padding: 0 24px;
   }
-  
+
   .search-container {
     max-width: 750px;
   }
@@ -436,13 +436,16 @@ body {
   }
 
   /* Hide login button on small mobile */
+  /* User requested to show Login button on navbar */
   .btn-login {
-    display: none;
+    display: block;
+    /* or flex/inline-block */
+    padding: 6px 10px;
+    font-size: 12px;
   }
 
   .btn-signup {
-    font-size: 12px;
-    padding: 6px 10px;
+    display: none;
   }
 
   /* Hide language icon on small mobile */
@@ -555,6 +558,7 @@ body {
 
 /* Touch Device Optimizations */
 @media (hover: none) and (pointer: coarse) {
+
   .cart-icon,
   .hamburger-menu {
     min-width: 44px;
@@ -590,11 +594,12 @@ body {
   [dir="rtl"] .search-icon {
     padding: 0 0 0 12px;
   }
-  
+
   [dir="rtl"] .search-input {
     padding: 0 0 0 12px;
   }
 }
+
 /* ===============================
    MOBILE DRAWER (UDEMY STYLE)
 ================================ */
@@ -613,6 +618,51 @@ body {
 
 .mobile-drawer.open {
   left: 0;
+}
+
+.mobile-auth-buttons {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid #e8e9eb;
+}
+
+.mobile-auth-link {
+  text-align: center;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mobile-auth-link.login {
+  color: #5624d0;
+  /* Udemy purple for link style, or use #1c1d1f if button style wanted */
+  /* Let's match the desktop login button style but full width? 
+     Actually user said "like udemy". Udemy mobile drawer has primary purple links.
+     But "buttons" suggests boxy. Let's do links that look like buttons.
+  */
+  color: #1c1d1f;
+  background-color: #fff;
+  /* Explicit white */
+  border: 1px solid #1c1d1f;
+  /* Desktop style login button */
+}
+
+.mobile-auth-link.login:hover {
+  background-color: #f7f9fa;
+}
+
+.mobile-auth-link.signup {
+  background-color: #1c1d1f;
+  color: #fff;
+  border: 1px solid #1c1d1f;
+}
+
+.mobile-auth-link.signup:hover {
+  background-color: #3e4143;
 }
 
 .mobile-header {

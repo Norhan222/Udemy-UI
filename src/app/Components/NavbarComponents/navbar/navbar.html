@@ -33,12 +33,12 @@
         <a href="#" class="nav-link-text">{{ 'NAV.TEACH_ON_UDEMY' | translate }}</a>
         }
         @if((isLoggdIn$ |async)){
-          @if(user.role==='Instructor'){
-            <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
-          }
-          @if(user.role==='Student'){
-            <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
-          }
+        @if(user.role==='Instructor'){
+        <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
+        }
+        @if(user.role==='Student'){
+        <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
+        }
         }
       </div>
 
@@ -91,129 +91,134 @@
 
 
     <!-- Mobile Menu -->
-   <!-- Mobile Hamburger Dropdown -->
+    <!-- Mobile Hamburger Dropdown -->
     <div class="mobile-drawer" [class.open]="mobileMenuOpen">
 
       <div class="mobile-header">
         <span>Browse</span>
         <button class="close-btn" (click)="toggleMobileMenu()">✕</button>
       </div>
+
+      @if(!(isLoggdIn$ |async)){
+      <div class="mobile-auth-buttons">
+        <a routerLink="/Login" class="mobile-auth-link login" (click)="toggleMobileMenu()">{{ 'HOME.LOG_IN' | translate
+          }}</a>
+        <a routerLink="/Register" class="mobile-auth-link signup" (click)="toggleMobileMenu()">{{ 'HOME.SIGN_UP' |
+          translate }}</a>
+      </div>
+      }
       <div class="mobile-section">
 
-  <!-- Development -->
-  <button class="mobile-category" (click)="toggleCategory('development')">
-    Development
-    <i class="bi" [class.bi-chevron-down]="!openCategory.development"
-       [class.bi-chevron-up]="openCategory.development"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.development">
-    <a routerLink="/category/web-development">Web Development</a>
-    <a routerLink="/category/mobile-development">Mobile Development</a>
-    <a routerLink="/category/game-development">Game Development</a>
-    <a routerLink="/category/programming-languages">Programming Languages</a>
-  </div>
+        <!-- Development -->
+        <button class="mobile-category" (click)="toggleCategory('development')">
+          Development
+          <i class="bi" [class.bi-chevron-down]="!openCategory.development"
+            [class.bi-chevron-up]="openCategory.development"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.development">
+          <a routerLink="/category/web-development">Web Development</a>
+          <a routerLink="/category/mobile-development">Mobile Development</a>
+          <a routerLink="/category/game-development">Game Development</a>
+          <a routerLink="/category/programming-languages">Programming Languages</a>
+        </div>
 
-  <!-- Business -->
-  <button class="mobile-category" (click)="toggleCategory('business')">
-    Business
-    <i class="bi" [class.bi-chevron-down]="!openCategory.business"
-       [class.bi-chevron-up]="openCategory.business"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.business">
-    <a routerLink="/category/entrepreneurship">Entrepreneurship</a>
-    <a routerLink="/category/management">Management</a>
-    <a routerLink="/category/finance">Finance</a>
-  </div>
+        <!-- Business -->
+        <button class="mobile-category" (click)="toggleCategory('business')">
+          Business
+          <i class="bi" [class.bi-chevron-down]="!openCategory.business"
+            [class.bi-chevron-up]="openCategory.business"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.business">
+          <a routerLink="/category/entrepreneurship">Entrepreneurship</a>
+          <a routerLink="/category/management">Management</a>
+          <a routerLink="/category/finance">Finance</a>
+        </div>
 
-  <!-- IT & Software -->
-  <button class="mobile-category" (click)="toggleCategory('it')">
-    IT & Software
-    <i class="bi" [class.bi-chevron-down]="!openCategory.it"
-       [class.bi-chevron-up]="openCategory.it"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.it">
-    <a routerLink="/category/it-certification">IT Certification</a>
-    <a routerLink="/category/network-security">Network & Security</a>
-    <a routerLink="/category/cloud-computing">Cloud Computing</a>
-  </div>
+        <!-- IT & Software -->
+        <button class="mobile-category" (click)="toggleCategory('it')">
+          IT & Software
+          <i class="bi" [class.bi-chevron-down]="!openCategory.it" [class.bi-chevron-up]="openCategory.it"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.it">
+          <a routerLink="/category/it-certification">IT Certification</a>
+          <a routerLink="/category/network-security">Network & Security</a>
+          <a routerLink="/category/cloud-computing">Cloud Computing</a>
+        </div>
 
-  <!-- Office Productivity -->
-  <button class="mobile-category" (click)="toggleCategory('office')">
-    Office Productivity
-    <i class="bi" [class.bi-chevron-down]="!openCategory.office"
-       [class.bi-chevron-up]="openCategory.office"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.office">
-    <a routerLink="/category/excel">Microsoft Excel</a>
-    <a routerLink="/category/google-tools">Google Workspace</a>
-    <a routerLink="/category/project-management">Project Management</a>
-  </div>
+        <!-- Office Productivity -->
+        <button class="mobile-category" (click)="toggleCategory('office')">
+          Office Productivity
+          <i class="bi" [class.bi-chevron-down]="!openCategory.office" [class.bi-chevron-up]="openCategory.office"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.office">
+          <a routerLink="/category/excel">Microsoft Excel</a>
+          <a routerLink="/category/google-tools">Google Workspace</a>
+          <a routerLink="/category/project-management">Project Management</a>
+        </div>
 
-  <!-- Personal Development -->
-  <button class="mobile-category" (click)="toggleCategory('personal')">
-    Personal Development
-    <i class="bi" [class.bi-chevron-down]="!openCategory.personal"
-       [class.bi-chevron-up]="openCategory.personal"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.personal">
-    <a routerLink="/category/leadership">Leadership</a>
-    <a routerLink="/category/time-management">Time Management</a>
-    <a routerLink="/category/communication">Communication Skills</a>
-  </div>
+        <!-- Personal Development -->
+        <button class="mobile-category" (click)="toggleCategory('personal')">
+          Personal Development
+          <i class="bi" [class.bi-chevron-down]="!openCategory.personal"
+            [class.bi-chevron-up]="openCategory.personal"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.personal">
+          <a routerLink="/category/leadership">Leadership</a>
+          <a routerLink="/category/time-management">Time Management</a>
+          <a routerLink="/category/communication">Communication Skills</a>
+        </div>
 
-  <!-- Design -->
-  <button class="mobile-category" (click)="toggleCategory('design')">
-    Design
-    <i class="bi" [class.bi-chevron-down]="!openCategory.design"
-       [class.bi-chevron-up]="openCategory.design"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.design">
-    <a routerLink="/category/graphic-design">Graphic Design</a>
-    <a routerLink="/category/ui-ux">UI / UX Design</a>
-    <a routerLink="/category/3d-design">3D & Animation</a>
-  </div>
+        <!-- Design -->
+        <button class="mobile-category" (click)="toggleCategory('design')">
+          Design
+          <i class="bi" [class.bi-chevron-down]="!openCategory.design" [class.bi-chevron-up]="openCategory.design"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.design">
+          <a routerLink="/category/graphic-design">Graphic Design</a>
+          <a routerLink="/category/ui-ux">UI / UX Design</a>
+          <a routerLink="/category/3d-design">3D & Animation</a>
+        </div>
 
-  <!-- Marketing -->
-  <button class="mobile-category" (click)="toggleCategory('marketing')">
-    Marketing
-    <i class="bi" [class.bi-chevron-down]="!openCategory.marketing"
-       [class.bi-chevron-up]="openCategory.marketing"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.marketing">
-    <a routerLink="/category/digital-marketing">Digital Marketing</a>
-    <a routerLink="/category/seo">SEO</a>
-    <a routerLink="/category/social-media">Social Media Marketing</a>
-  </div>
+        <!-- Marketing -->
+        <button class="mobile-category" (click)="toggleCategory('marketing')">
+          Marketing
+          <i class="bi" [class.bi-chevron-down]="!openCategory.marketing"
+            [class.bi-chevron-up]="openCategory.marketing"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.marketing">
+          <a routerLink="/category/digital-marketing">Digital Marketing</a>
+          <a routerLink="/category/seo">SEO</a>
+          <a routerLink="/category/social-media">Social Media Marketing</a>
+        </div>
 
-  <!-- Photography & Video -->
-  <button class="mobile-category" (click)="toggleCategory('photo')">
-    Photography & Video
-    <i class="bi" [class.bi-chevron-down]="!openCategory.photo"
-       [class.bi-chevron-up]="openCategory.photo"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.photo">
-    <a routerLink="/category/photography">Photography</a>
-    <a routerLink="/category/video-editing">Video Editing</a>
-    <a routerLink="/category/filmmaking">Filmmaking</a>
-  </div>
+        <!-- Photography & Video -->
+        <button class="mobile-category" (click)="toggleCategory('photo')">
+          Photography & Video
+          <i class="bi" [class.bi-chevron-down]="!openCategory.photo" [class.bi-chevron-up]="openCategory.photo"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.photo">
+          <a routerLink="/category/photography">Photography</a>
+          <a routerLink="/category/video-editing">Video Editing</a>
+          <a routerLink="/category/filmmaking">Filmmaking</a>
+        </div>
 
-  <!-- Lifestyle -->
-  <button class="mobile-category" (click)="toggleCategory('lifestyle')">
-    Lifestyle
-    <i class="bi" [class.bi-chevron-down]="!openCategory.lifestyle"
-       [class.bi-chevron-up]="openCategory.lifestyle"></i>
-  </button>
-  <div class="mobile-submenu" *ngIf="openCategory.lifestyle">
-    <a routerLink="/category/fitness">Fitness</a>
-    <a routerLink="/category/music">Music</a>
-    <a routerLink="/category/travel">Travel</a>
-  </div>
+        <!-- Lifestyle -->
+        <button class="mobile-category" (click)="toggleCategory('lifestyle')">
+          Lifestyle
+          <i class="bi" [class.bi-chevron-down]="!openCategory.lifestyle"
+            [class.bi-chevron-up]="openCategory.lifestyle"></i>
+        </button>
+        <div class="mobile-submenu" *ngIf="openCategory.lifestyle">
+          <a routerLink="/category/fitness">Fitness</a>
+          <a routerLink="/category/music">Music</a>
+          <a routerLink="/category/travel">Travel</a>
+        </div>
 
-</div>
+      </div>
 
 
-  
-</div>
+
+    </div>
 
   </div>
 </nav>
