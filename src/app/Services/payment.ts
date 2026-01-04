@@ -9,11 +9,10 @@ import { CreatePaymentResponse } from '../Models/create-payment-response';
 })
 export class Payment {
 
-  private baseUrl = 'http://udemyfinalproject.runasp.net/api/Payment';
+  private baseUrl = 'https://udemyfpiti.runasp.net/api/Payment';
 
   constructor(private http: HttpClient) {}
 
-  // 🔹 Create Payment
 createPayment(data: any) {
   return this.http.post<CreatePaymentResponse>(
     `${this.baseUrl}/create-payment`,
@@ -22,7 +21,6 @@ createPayment(data: any) {
 }
 
 
-  // 🔹 Get Payment Status
   getPaymentStatus(transactionId: string): Observable<any> {
     return this.http.get(
       `${this.baseUrl}/status/${transactionId}`

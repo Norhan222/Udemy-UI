@@ -9,7 +9,7 @@ import { Rating } from 'primeng/rating';
 @Component({
   selector: 'app-learn',
   standalone: true,
-  imports: [CommonModule,Rating,ReactiveFormsModule],
+  imports: [CommonModule, Rating, ReactiveFormsModule],
   templateUrl: './learn.html',
   styleUrls: ['./learn.css']
 })
@@ -24,25 +24,24 @@ export class Learn implements OnInit {
   reviewForm!: FormGroup;
   @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
 
-  private courseService=inject(CourseService);
-  private route=inject(ActivatedRoute);
-  private cd=inject(ChangeDetectorRef);
 
+  private courseService = inject(CourseService);
+  private route = inject(ActivatedRoute);
+  private cd = inject(ChangeDetectorRef);
+  private fb = inject(FormBuilder);
+  private reviewService = inject(ReviewService);
 
-  constructor(
-    private fb: FormBuilder,
-    private reviewService: ReviewService,
-  ) {}
+  private lastSavedProgress = 0;
+
 
   ngOnInit(): void {
     this.courseId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadCourse();
     this.reviewForm = this.fb.group({
-      rating: [null,[Validators.required, Validators.min(1), Validators.max(5)]],
+      rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required]
     });
   }
-  
 
   submitReview() {
     if (this.reviewForm.valid && this.course) {
@@ -69,7 +68,7 @@ export class Learn implements OnInit {
         }
       });
     }
-
+  
   }
 
 
@@ -89,14 +88,17 @@ export class Learn implements OnInit {
             this.selectLecture(data.sections[0].lectures[0]);
           }
         }
-        
 
-        this.loading = false;
+
+
+   
+
+
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
-        this.cd.detectChanges();
+        // this.cd.detectChanges();
       }
     });
   }
@@ -157,26 +159,23 @@ export class Learn implements OnInit {
     }
   }
 
- private lastSavedProgress = 0;
+  onTimeUpdate(event: Event) {
+    const video = event.target as HTMLVideoElement;
+    if (!video.duration || !this.selectedLecture) return;
 
-onTimeUpdate(event: Event) {
-  const video = event.target as HTMLVideoElement;
-  if (!video.duration || !this.selectedLecture) return;
+    const progressInSeconds = Math.floor(video.currentTime);
 
-  const progressInSeconds = Math.floor(video.currentTime);
+    // ابعت كل 5 ثواني أو لما يكون فرق عن آخر حفظ
+    if (progressInSeconds - this.lastSavedProgress >= 5) {
+      this.saveVideoProgress(progressInSeconds);
+      this.lastSavedProgress = progressInSeconds;
+    }
 
-  // ابعت كل 5 ثواني أو لما يكون فرق عن آخر حفظ
-  if (progressInSeconds - this.lastSavedProgress >= 5) {
-    this.saveVideoProgress(progressInSeconds);
-    this.lastSavedProgress = progressInSeconds;
+    // Auto-mark as complete عند 90%
+    if (!this.selectedLecture.isCompleted && video.currentTime / video.duration >= 0.9) {
+      this.markLectureAsComplete();
+    }
   }
-
-  // Auto-mark as complete عند 90%
-  if (!this.selectedLecture.isCompleted && video.currentTime / video.duration >= 0.9) {
-    this.markLectureAsComplete();
-  }
-}
-
 
   private saveVideoProgress(progress: number) {
     if (!this.selectedLecture || !this.course) return;

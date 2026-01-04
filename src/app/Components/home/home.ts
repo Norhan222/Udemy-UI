@@ -12,11 +12,10 @@ import { Subscription } from 'rxjs';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { Chatbot } from '../chatbot/chatbot';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, StartYourCourses, RecommenedCourses, TrendingCourses, FeaturedCourses, TopicsRecommended, WelcomeSection, TranslateModule, RouterModule,Chatbot],
+  imports: [Header, StartYourCourses, RecommenedCourses, TrendingCourses, FeaturedCourses, TopicsRecommended, WelcomeSection, TranslateModule, RouterModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
