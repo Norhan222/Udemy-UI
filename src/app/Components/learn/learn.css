@@ -44,6 +44,22 @@
   align-items: center;
 }
 
+.open-sidebar-btn {
+  background-color: #a435f0;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 16px;
+}
+
+.open-sidebar-btn:hover {
+  background-color: #9124d8;
+}
+
 .search-icon {
   width: 20px;
   height: 20px;
@@ -120,6 +136,10 @@
   position: sticky;
   top: 0;
   right: 0;
+}
+
+.sidebar.sidebar-visible {
+  display: flex;
 }
 
 /* Sidebar Header */
@@ -351,6 +371,11 @@
     width: 100%;
     max-height: 50vh;
     position: relative;
+    display: none;
+  }
+
+  .sidebar.sidebar-visible {
+    display: flex;
   }
 
   .video-container {
@@ -378,8 +403,13 @@
     max-height: 60vh;
   }
 
+  .sidebar.sidebar-visible {
+    max-height: 60vh;
+  }
+
   .tabs-navigation {
     gap: 12px;
+    padding: 12px 16px;
   }
 
   .tab-item {
@@ -392,6 +422,11 @@
 
   .lecture-name {
     font-size: 13px;
+  }
+
+  .open-sidebar-btn {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }
 

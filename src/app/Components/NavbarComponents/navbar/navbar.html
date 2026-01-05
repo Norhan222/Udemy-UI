@@ -38,32 +38,18 @@
         }
         @if(user.role==='Student'){
         <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
-        }
-        }
-      </div>
-
+         <!-- Cart Icon -->
       <div class="nav-icons">
-        <!-- @if((isLoggdIn$)){
-                <a href="#" class="cart-icon">
-                <i class="bi bi-heart"></i>
-                </a>
-              }
-                <a routerLink="/Cart" class="cart-icon">
-                  <i class="bi bi-cart3"></i>
-                </a>
-
-                @if((isLoggdIn$)){
-                <a href="#" class="cart-icon">
-                <i class="bi bi-bell"></i>
-                </a>
-              } -->
         <a class="cart-icon" (click)="goToCart()">
           <i class="bi bi-cart3"></i>
         </a>
-
+      </div>
+        }
+        }
       </div>
 
-      <!-- Cart Icon -->
+     
+
 
       @if(!(isLoggdIn$ |async)){
       <!-- Login Button -->
