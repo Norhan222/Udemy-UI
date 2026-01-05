@@ -158,3 +158,53 @@ h1 {
     color: #6f2dbd;
     cursor: pointer;
 }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .content {
+        flex-direction: column-reverse;
+        /* Summary on top usually? Or bottom. Udemy puts summary at top or sticky bottom. 
+                                         Standard e-commerce is Summary at bottom or top. 
+                                         Let's put Summary at top or just normal flow. 
+                                         Actually, commonly Summary is at bottom on mobile or strictly top.
+                                         Let's try column. */
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .cart-items,
+    .summary {
+        width: 100%;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+        /* Allow wrapping if needed */
+    }
+}
+
+@media (max-width: 600px) {
+    .cart-item {
+        /* On mobile, maybe standard stacking? */
+        /* Udemy mobile cart: Image left, content right.
+           Or Image top.
+           Let's keep row but ensure it fits. */
+        align-items: flex-start;
+    }
+
+    .course-img {
+        width: 80px;
+        height: 60px;
+    }
+
+    .price {
+        /* Price might need to move? */
+        text-align: left;
+        margin-top: 8px;
+    }
+
+    .course-actions {
+        flex-direction: row;
+        margin-top: 8px;
+    }
+}

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CapitalizePipe } from '../../Pipes/capitalize-pipe';
 import { LoginResponse } from '../../Models/login-response';
 import { TranslateModule } from '@ngx-translate/core';
+import { IntiialsPipe } from "../../Pipes/intiials-pipe";
 
 @Component({
   selector: 'app-welcome-section',

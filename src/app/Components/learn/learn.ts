@@ -60,7 +60,7 @@ export class Learn implements OnInit {
           if(err.error)
           {
             alert(err.error.message)
-            console.log(err.error)
+            console.log(err.error.message)
           }else
           {
             alert("UnException Eror")

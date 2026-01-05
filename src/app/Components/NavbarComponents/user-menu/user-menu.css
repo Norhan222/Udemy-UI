@@ -62,10 +62,14 @@
 .dropdown::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -20px;
+  /* Increased to cover the gap + overlap */
   left: 0;
   right: 0;
-  height: 10px;
+  height: 20px;
+  /* Height of the gap layer */
+  background: transparent;
+  /* Invisible bridge */
 }
 
 .user-info {
@@ -137,7 +141,40 @@ hr {
   display: flex;
 }
 
-.dropdown.rtl-dropdown {
-  right: auto !important;
-  left: 0 !important;
+/* ... existing styles ... */
+
+@media (max-width: 768px) {
+  .dropdown {
+    position: fixed;
+    /* Fixed on mobile to ensure visibility */
+    top: 60px;
+    /* Below navbar */
+    right: 10px;
+    left: 10px;
+    width: auto;
+    margin-top: 0;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid #d1d7dc;
+  }
+
+  .dropdown.rtl-dropdown {
+    right: 10px !important;
+    left: 10px !important;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .us {
+    text-align: center;
+    width: 100%;
+  }
+
+  .us h5 {
+    margin-bottom: 4px;
+  }
 }

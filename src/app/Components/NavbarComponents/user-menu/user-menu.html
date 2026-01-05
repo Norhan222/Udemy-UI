@@ -1,4 +1,4 @@
-<div class="profile-wrapper" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
+<div class="profile-wrapper" (click)="toggleMenu($event)">
 
   <!-- Avatar -->
   <!-- <div class="avatar">
@@ -59,9 +59,9 @@
 
     <hr />
     <!-- Links -->
-      @if(user.role==='Student'){
+    @if(user.role==='Student'){
     <a routerLink="/my-learning" routerLinkActive="active">{{ 'USER_MENU.MY_LEARNING' | translate }}</a>
-      }
+    }
     <a routerLink="/Cart" routerLinkActive="active">{{ 'USER_MENU.MY_CART' | translate }}</a>
     <a>{{ 'USER_MENU.WISHLIST' | translate }}</a>
     @if(user.role==='Instructor'){

@@ -409,7 +409,33 @@ a {
     grid-template-columns: 1fr;
   }
 
+  /* Reorder header: Thumbnail/Video on top */
+  .header-content .header-thumbnail {
+    order: -1;
+    margin-bottom: 20px;
+  }
+  
+  /* Make sidebar appear before main content (so they can buy easily), 
+     or you might prefer it at bottom. 
+     Usually Udemy puts a Sticky Bottom Bar on mobile, but simply putting it at top 
+     or bottom is the "responsive" way without extra JS.
+     Let's keep it at bottom but ensure it's styled well, 
+     OR put it at top so it's seen. 
+     Let's put it at the bottom but maybe we can suggest a fixed bottom bar later. 
+     For now, standard stacking. 
+  */
+
   .learning-grid {
     grid-template-columns: 1fr;
   }
+  
+  .course-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+    .course-header {
+        padding: 24px 0;
+    }
 }
