@@ -70,95 +70,94 @@
 /* Responsive */
 @media (max-width: 992px) {
   .car-cont {
-    height: 350px;
+    height: 320px;
     padding-left: 40px;
   }
 
   .ca_p {
-    width: 350px;
+    width: 380px;
+    padding: 20px;
   }
 
   .ca_p h3 {
-    font-size: 24px;
+    font-size: 26px;
+  }
+
+  .ca_p p {
+    font-size: 15px;
   }
 }
 
 @media (max-width: 768px) {
-  /* Mobile: Image at top, Content below or overlay? 
-     Standard Udemy mobile puts image specifically. 
-     Since we use background-image, let's keep it overlay but make it full width if needed, or stacking.
-  */
-
-  .carousel-item {
-    display: flex;
-    flex-direction: column;
-  }
-
   .car-cont {
-    height: 200px;
-    /* Just the image part if we separate, but here it's background */
-    align-items: flex-start;
-    /* Alignment */
-    padding: 0;
-    /* On mobile, maybe we want the text to actually be below the image? 
-       But html structure wraps text inside .car-cont. 
-       Let's stick to overlay but centered or full width.
-    */
-  }
-
-  .ca_p {
-    width: 100%;
-    margin-top: 50px;
-    /* Push it down? */
-    margin: 0;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    width: auto;
-    /* Or just center it */
-    transform: none;
-  }
-
-  /* Better Mobile Approach for this HTML structure:
-     1. Make .car-cont purely the image container height.
-     2. But .ca_p is INSIDE it.
-     Let's style it so on mobile .ca_p covers the bottom part or is just there.
-  */
-
-  .car-cont {
-    height: 300px;
-    display: flex;
+    height: 280px;
+    padding: 0 20px;
     align-items: center;
     justify-content: center;
-    padding: 0 16px;
   }
 
   .ca_p {
-    position: relative;
     width: 100%;
-    margin: 0;
-    bottom: auto;
-    left: auto;
-    right: auto;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .ca_p h3 {
+    font-size: 22px;
+  }
+
+  .ca_p p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .cta-button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .control {
+    width: 8%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 15px;
   }
 }
 
 @media (max-width: 576px) {
-
-  /* Smaller mobile */
   .car-cont {
-    height: auto;
+    height: 250px;
     min-height: 250px;
-    padding: 20px;
-    /* If we want the image to be visible, we need to ensure the card doesn't cover it all.
-       Usually on mobile, background images are tricky with text overlay.
-       Let's add a semi-transparent background to the text box? 
-       Or just simple layout.
-    */
+    padding: 16px;
+  }
+
+  .ca_p {
+    padding: 16px;
   }
 
   .ca_p h3 {
-    font-size: 20px;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .ca_p p {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .cta-button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .control {
+    width: 10%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 12px;
   }
 }
