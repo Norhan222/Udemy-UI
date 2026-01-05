@@ -2,16 +2,19 @@
   <!-- ======= Left Side: Video + Content ======= -->
   <div class="video-section">
     <!-- Video Player -->
-    <div class="video-container">
-      <video 
-        #videoPlayer 
-        controls 
-        [src]="selectedLecture?.videoUrl" 
-        class="video-player"
-        (ended)="onVideoEnded()"
-        (timeupdate)="onTimeUpdate($event)">
-      </video>
-    </div>
+ <div class="video-container">
+  <video
+    #videoPlayer
+    controls
+    controlsList="nodownload"
+    disablePictureInPicture
+    [src]="selectedLecture?.videoUrl"
+    class="video-player"
+    (ended)="onVideoEnded()"
+    (timeupdate)="onTimeUpdate($event)">
+  </video>
+</div>
+
 
     <!-- Tabs Navigation -->
     <div class="tabs-navigation">
