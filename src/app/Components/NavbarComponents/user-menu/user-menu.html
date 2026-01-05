@@ -51,19 +51,18 @@
       <div class="us">
         <h5>{{ (userr.firstName + ' ' + userr.lastName) | capitalize }}</h5>
         <p>{{ userr.email }}</p>
-        <a class="btn btn-danger btn-sm fw-semibold" (click)="logout()">
-          {{ 'USER_MENU.LOGOUT' | translate }}
-        </a>
       </div>
     </div>
+    <hr />
 
+    <a class="logout" (click)="logout()">{{ 'USER_MENU.LOGOUT' | translate }}</a>
     <hr />
     <!-- Links -->
     @if(user.role==='Student'){
     <a routerLink="/my-learning" routerLinkActive="active">{{ 'USER_MENU.MY_LEARNING' | translate }}</a>
-    }
     <a routerLink="/Cart" routerLinkActive="active">{{ 'USER_MENU.MY_CART' | translate }}</a>
-    <a>{{ 'USER_MENU.WISHLIST' | translate }}</a>
+    }
+    <!-- <a>{{ 'USER_MENU.WISHLIST' | translate }}</a> -->
     @if(user.role==='Instructor'){
     <a (click)="navigateToInstructorDashboard()">{{ 'USER_MENU.INSTRUCTOR_DASHBOARD' | translate }}</a>
     }
@@ -81,9 +80,7 @@
     <a>{{ 'USER_MENU.SUBSCRIPTIONS' | translate }}</a>
     <a>{{ 'USER_MENU.PURCHASE_HISTORY' | translate }}</a>
 
-    <hr />
 
-    <a class="logout" (click)="logout()">{{ 'USER_MENU.LOGOUT' | translate }}</a>
   </div>
 
   }
