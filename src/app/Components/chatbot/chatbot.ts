@@ -43,7 +43,6 @@ export class Chatbot implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(messages => {
         this.messages = messages;
-        this.cdr.detectChanges(); // Force UI update
         setTimeout(() => this.scrollToBottom(), 100);
       });
 
