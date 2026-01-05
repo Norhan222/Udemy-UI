@@ -30,7 +30,7 @@ export interface ChatAPIResponse {
 })
 export class ChatbotService {
 
-private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
   private apiKey = 'YOUR_API_KEY'; // إذا كان يحتاج API Key
 
   private messagesSubject = new BehaviorSubject<Message[]>([]);
@@ -43,14 +43,14 @@ private apiUrl = environment.apiUrl;
   public isTyping$: Observable<boolean> = this.isTypingSubject.asObservable();
 
   private conversationId: string | null = null;
-  private user!:any
-  private userId:string
+  private user!: any
+  private userId: string
 
-  constructor(private http: HttpClient,private auth :AuthService) {
+  constructor(private http: HttpClient, private auth: AuthService) {
     this.initializeWelcomeMessage();
-      this.user=auth.user$
-      this.userId=this.user.Id
-      console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk",this.userId)
+    this.user = auth.user$
+    this.userId = this.user.Id
+    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk", this.userId)
   }
 
   private generateUserId(): string {
@@ -84,7 +84,7 @@ private apiUrl = environment.apiUrl;
     });
     const id = Date.now().toString();
 
-    const messages = this.messagesSubject.value;
+    const messages = [...this.messagesSubject.value]; // Create a copy
     messages.push({ text, sender, avatar, time, id });
     this.messagesSubject.next(messages);
   }
@@ -101,7 +101,7 @@ private apiUrl = environment.apiUrl;
       const requestBody: ChatAPIRequest = {
         message: message,
         userId: this.userId,
-        conversationId:this.conversationId || undefined
+        conversationId: this.conversationId || undefined
       };
 
       const headers = new HttpHeaders({
@@ -223,4 +223,4 @@ private apiUrl = environment.apiUrl;
         })
       );
   }
-  }
+}
