@@ -1,7 +1,8 @@
 @if((isLoggedIn$ | async)){
 <nav class="navbar" (mouseleave)="clearActive()">
   @for(cat of categories; track cat.id){
-  <span class="nav-item" (mouseenter)="setActive(cat, $event)">
+  <span class="nav-item" (mouseenter)="setActive(cat, $event)" (click)="onCategoryClick(getName(cat))"
+    style="cursor: pointer;">
     {{ getName(cat) }}
   </span>
   }
@@ -12,7 +13,7 @@
     <div class="mega-content">
       @for(sub of activeCategory; track sub.id)
       {
-      <span>
+      <span (click)="onCategoryClick(getName(sub))" style="cursor: pointer;">
         {{ getName(sub) }}
       </span>
       }
