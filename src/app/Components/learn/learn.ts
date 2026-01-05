@@ -41,6 +41,8 @@ export class Learn implements OnInit {
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ['', Validators.required]
     });
+    // Set sidebar visibility based on screen size
+    this.sidebarVisible = window.innerWidth >= 768;
   }
 
   submitReview() {
