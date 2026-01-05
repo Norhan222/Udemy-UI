@@ -84,7 +84,8 @@ export class ChatbotService {
     });
     const id = Date.now().toString();
 
-    const messages = this.messagesSubject.value;
+    // const messages = this.messagesSubject.value;
+    const messages = [...this.messagesSubject.value];
     messages.push({ text, sender, avatar, time, id });
     this.messagesSubject.next(messages);
   }
