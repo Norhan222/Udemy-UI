@@ -145,6 +145,44 @@ export class CartComponent implements OnInit, OnDestroy {
   //     }
   //   });
   // }
+// payNow() {
+//   if (!this.cartItems.length) {
+//     alert('Cart is empty');
+//     return;
+//   }
+
+//   const courseIds = this.cartItems
+//     .map(item => item.courseId)
+//     .filter(id => id && id > 0);
+
+//   if (!courseIds.length) {
+//     alert('No valid courses to pay for');
+//     return;
+//   }
+
+//   const data = {
+//     courseIds,
+//     paymentMethod: 'card'
+//   };
+
+//   this.loading = true;
+//   this.cd.detectChanges();
+
+//   this.createPymentSub = this.paymentService.createPayment(data).subscribe({
+//     next: (res) => {
+//       console.log('Payment Response:', res);
+//       // window.location.href = res.redirectUrl;
+//       window.open(res.redirectUrl, '_blank');
+
+//     },
+//     error: (err) => {
+//       console.error('Payment Error:', err);
+//       this.loading = false;
+//       this.cd.detectChanges();
+//       alert('Error creating payment');
+//     }
+//   });
+// }
 payNow() {
   if (!this.cartItems.length) {
     alert('Cart is empty');
@@ -160,9 +198,13 @@ payNow() {
     return;
   }
 
+  // لو فيه كوبون مطبق استخدم total بعد الخصم
+  const totalToPay = this.discountAmount > 0 ? this.total : this.subTotal;
+
   const data = {
     courseIds,
-    paymentMethod: 'card'
+    paymentMethod: 'card',
+    totalAmount: totalToPay // نرسل القيمة النهائية بعد الخصم
   };
 
   this.loading = true;
@@ -171,9 +213,7 @@ payNow() {
   this.createPymentSub = this.paymentService.createPayment(data).subscribe({
     next: (res) => {
       console.log('Payment Response:', res);
-      // window.location.href = res.redirectUrl;
       window.open(res.redirectUrl, '_blank');
-
     },
     error: (err) => {
       console.error('Payment Error:', err);
@@ -182,6 +222,49 @@ payNow() {
       alert('Error creating payment');
     }
   });
+}
+
+couponCode: string = '';
+couponLoading: boolean = false;
+couponError: string = '';
+discountAmount: number = 0;
+
+applyCoupon() {
+    if (!this.couponCode) {
+        this.couponError = 'Please enter a coupon code';
+        return;
+    }
+
+    this.couponLoading = true;
+    this.couponError = '';
+
+    // نفترض إنك هتعمل API جديد على السيرفر: /api/cart/apply-coupon
+    this.cartService.applyCoupon(this.couponCode).subscribe({
+        next: (res: any) => {
+          console.log("coupon",res);
+          
+if (res.appliedCouponCode) {
+    this.discountAmount = res.discountAmount;
+    this.total = res.totalAfterDiscount;
+    this.couponError = '';
+} else {
+    this.couponError = res.message || 'Invalid coupon';
+    this.discountAmount = 0;
+    this.total = this.subTotal;
+}
+
+            this.couponLoading = false;
+            this.cd.detectChanges();
+        },
+        error: (err) => {
+            console.error("coupon error", err);
+            this.couponError = 'Error applying coupon';
+            this.couponLoading = false;
+            this.discountAmount = 0;
+            this.total = this.subTotal;
+            this.cd.detectChanges();
+        }
+    });
 }
 
 
