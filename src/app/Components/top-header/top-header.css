@@ -1,20 +1,42 @@
-.navbar {
+.category-navbar {
   position: relative;
   display: flex;
-  gap: 5px;
-  padding: 10px 80px;
+  justify-content: center;
   background: #ffffff;
-  border-bottom: 1px solid #c8c9ca;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
-    z-index: 1;
+  border-bottom: 1px solid #d1d7dc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* Softer shadow */
+  z-index: 900;
+  /* Below main navbar */
 }
 
-.nav-item {
-  font-size: 14px;
-  font-weight: 350;
+.category-container {
+  display: flex;
+  gap: 24px;
+  padding: 8px 24px;
+  max-width: 1400px;
+  width: 100%;
+  justify-content: center;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Hide scrollbar for category container */
+.category-container::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  font-size: 13px;
+  font-weight: 400;
+  color: #6a6f73;
   cursor: pointer;
-  padding-bottom: 4px;
-  padding-top: 4px;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.category-item:hover {
+  color: #5624d0;
 }
 
 .mega-menu {
@@ -23,7 +45,8 @@
   left: 0;
   width: 100%;
   background: #1c1d1f;
-  padding: 18px 0;
+  padding: 16px 0;
+  z-index: 1001;
 }
 
 .mega-content {
@@ -32,55 +55,35 @@
   align-items: center;
   gap: 32px;
   flex-wrap: wrap;
-  /* max-width: 1000px; */
+  padding: 0 24px;
 }
 
-.mega-content span {
+.mega-item {
   color: #fff;
   cursor: pointer;
   white-space: nowrap;
-
+  font-size: 14px;
 }
 
-.mega-content span:hover {
+.mega-item:hover {
   color: rgb(162, 75, 209);
 }
-
-
-
-
-
-
-
-
 
 /* ===== Tooltip Arrow ===== */
 .tooltip-arrow {
   position: absolute;
   top: -7px;
-  /* يطلع فوق الـ menu */
-  left: 50%;
-  transform: translateX(-50%);
-
   width: 0;
   height: 0;
-
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid #1c1d1f;
 }
-/* على الموبايل - يختفي أو يبقى hamburger menu */
-@media (max-width: 768px) {
-  .navbar {
-    display: none; /* أو نخليه في الـ hamburger menu */
-  }
-}
-/* على الموبايل - Navigation buttons واضحة */
-@media (max-width: 768px) {
-  :host ::ng-deep .p-carousel-prev,
-  :host ::ng-deep .p-carousel-next {
-    background-color: #fff;
-    color: #1c1d1f;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+/* Responsive */
+@media (max-width: 900px) {
+  .category-navbar {
+    display: none;
+    /* Persistent category bar is desktop only, moves to mobile drawer */
   }
 }

@@ -17,14 +17,13 @@
     left: 0;
 }
 
-/* Desktop: Static Sidebar */
-@media (min-width: 992px) {
+/* Desktop: Static Sidebar - REMOVED to make it popup */
+/* @media (min-width: 992px) {
     .filter-sidebar {
         position: static;
         left: auto;
         top: auto;
         width: 100%;
-        /* Takes full width of its column */
         height: auto;
         box-shadow: none;
         z-index: 1;
@@ -35,7 +34,6 @@
         background: transparent;
     }
 
-    /* Hide Header/Close btn on Desktop since it's always there */
     .sidebar-header {
         display: none;
     }
@@ -43,7 +41,7 @@
     .sidebar-overlay {
         display: none !important;
     }
-}
+} */
 
 .sidebar-overlay {
     position: fixed;

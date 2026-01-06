@@ -1,26 +1,27 @@
 <div class="explore-wrapper" style="position: relative;" (pointerenter)="openMenu()" (pointerleave)="closeMenu()">
-  <a href="#" class="nav-link-explore" id="exploreLink">{{ 'EXPLORE.EXPLORE' | translate }}</a>
+  <a href="javascript:void(0)" class="nav-link-explore" id="exploreLink">{{ 'EXPLORE.EXPLORE' | translate }}</a>
   <div class="explore-dropdown" id="exploreDropdown" *ngIf="isOpen" [ngStyle]="getDropdownStyle()">
     <!-- Column 1: Explore by Goal -->
     <div class="explore-column">
       <div class="explore-column-header">{{ 'EXPLORE.EXPLORE_BY_GOAL' | translate }}</div>
-      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('ai')" [class.active]="activeMenuStatic === 'ai'">
+      <a href="javascript:void(0)" class="explore-item" (mouseenter)="setActiveStatic('ai')"
+        [class.active]="activeMenuStatic === 'ai'">
         {{ 'EXPLORE.LEARN_AI' | translate }} <i [class]="getArrowIcon()"></i>
       </a>
-      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('career')"
+      <a href="javascript:void(0)" class="explore-item" (mouseenter)="setActiveStatic('career')"
         [class.active]="activeMenuStatic === 'career'">
         {{ 'EXPLORE.LAUNCH_CAREER' | translate }} <i [class]="getArrowIcon()"></i>
       </a>
-      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('certificate')"
+      <a href="javascript:void(0)" class="explore-item" (mouseenter)="setActiveStatic('certificate')"
         [class.active]="activeMenuStatic === 'certificate'">
         {{ 'EXPLORE.PREPARE_CERTIFICATION' | translate }} <i [class]="getArrowIcon()"></i>
       </a>
-      <a href="#" class="explore-item" (mouseenter)="setActiveStatic('null')">
+      <a href="javascript:void(0)" class="explore-item" (mouseenter)="setActiveStatic('null')">
         {{ 'EXPLORE.PRACTICE_ROLE_PLAY' | translate }}
       </a>
       <hr>
       @for(item of categories; track item.id){
-      <a href="#" class="explore-item" (mouseenter)="onCategoryHover(item.id)">
+      <a href="javascript:void(0)" class="explore-item" (mouseenter)="onCategoryHover(item.id)">
         {{ getName(item) }} <i [class]="getArrowIcon()"></i>
       </a>
       }

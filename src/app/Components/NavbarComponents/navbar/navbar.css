@@ -28,9 +28,11 @@ body {
   display: flex;
   align-items: center;
   height: 72px;
-  gap: 16px;
+  gap: 8px;
+  /* Reduced gap for more elements */
   padding: 0 24px;
   flex-wrap: nowrap;
+  width: 100%;
 }
 
 /* Logo */
@@ -67,6 +69,8 @@ body {
   overflow: hidden;
   height: 48px;
   transition: all 0.2s;
+  background-color: #f7f9fa;
+  /* Light gray background like Udemy */
 }
 
 .search-form:focus-within {
@@ -97,12 +101,19 @@ body {
   color: #6a6f73;
 }
 
+/* Navigation Right Section Wrapper */
+.nav-right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 /* Navigation Links */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 4px;
-  flex-shrink: 0;
 }
 
 .nav-link-text {
@@ -112,7 +123,6 @@ body {
   font-weight: 400;
   white-space: nowrap;
   padding: 8px 12px;
-  border-radius: 0;
   transition: color 0.2s;
 }
 
@@ -120,29 +130,42 @@ body {
   color: #5624d0;
 }
 
-/* Cart & Icons */
-.nav-icons {
+/* Icons Group */
+.nav-icons-group {
   display: flex;
   align-items: center;
   gap: 4px;
-  flex-shrink: 0;
 }
 
-.cart-icon {
+.nav-icon-link {
   color: #1c1d1f;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-decoration: none;
-  padding: 8px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
   cursor: pointer;
+  position: relative;
 }
 
-.cart-icon:hover {
+.nav-icon-link:hover {
   background-color: #f7f9fa;
+  color: #5624d0;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background-color: #5624d0;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
 }
 
 /* Buttons */
@@ -300,7 +323,7 @@ body {
 @media (max-width: 991px) {
   .navbar-content {
     height: 64px;
-    gap: 10px;
+    gap: 8px;
     padding: 0 16px;
   }
 
@@ -308,22 +331,17 @@ body {
     height: 30px;
   }
 
-  /* Hide some nav links on tablet */
-  .nav-links .nav-link-text:nth-child(2),
-  .nav-links .nav-link-text:nth-child(3) {
+  /* Hide secondary text links on tablet */
+  .nav-links .nav-link-text:nth-child(n+2) {
     display: none;
   }
 
   .search-container {
-    max-width: 500px;
+    max-width: 450px;
   }
 
   .search-form {
     height: 44px;
-  }
-
-  .search-input {
-    font-size: 0.95rem;
   }
 
   .btn-login,
@@ -331,30 +349,27 @@ body {
     font-size: 13px;
     padding: 8px 12px;
   }
-
-  .cart-icon {
-    font-size: 1.4rem;
-  }
 }
 
-/* Tablet (768px - 899px) */
+/* Tablet / Mobile Switch (Below 900px) */
 @media (max-width: 899px) {
-  .navbar-content {
-    height: 60px;
-    gap: 8px;
-  }
-
   .hamburger-menu {
     display: block;
   }
 
-  /* Hide all nav-links on tablet */
+  app-explore-menu {
+    display: none;
+  }
+
+  /* Hide all text links in the right section */
   .nav-links {
     display: none;
   }
 
-  /* Hide explore menu on tablet */
-  app-explore-menu {
+  /* Hide some icons to save space */
+  .wishlist-icon,
+  .bell-icon,
+  .lang-icon {
     display: none;
   }
 
@@ -363,68 +378,18 @@ body {
     max-width: none;
   }
 
-  .navbar-brand img {
-    height: 28px;
+  .navbar-content {
+    height: 60px;
+    gap: 8px;
   }
 
-  .lang-icon {
-    width: 36px;
-    height: 36px;
+  .navbar-brand img {
+    height: 28px;
   }
 }
 
 /* Mobile Large (576px - 767px) */
 @media (max-width: 767px) {
-  .navbar-content {
-    height: 56px;
-    padding: 0 12px;
-    gap: 8px;
-  }
-
-  .navbar-brand img {
-    height: 26px;
-  }
-
-  .search-form {
-    height: 40px;
-    border-radius: 20px;
-  }
-
-  .search-icon {
-    padding: 0 12px;
-    font-size: 1rem;
-  }
-
-  .search-input {
-    font-size: 14px;
-    padding-right: 12px;
-  }
-
-  .cart-icon {
-    font-size: 1.3rem;
-    padding: 6px;
-  }
-
-  .btn-login,
-  .btn-signup {
-    font-size: 12px;
-    padding: 7px 10px;
-  }
-
-  .lang-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
-  }
-
-  .mobile-menu-item {
-    padding: 14px 20px;
-    font-size: 15px;
-  }
-}
-
-/* Mobile (480px - 575px) */
-@media (max-width: 575px) {
   .navbar-content {
     height: 56px;
     padding: 0 12px;
@@ -435,85 +400,64 @@ body {
     height: 24px;
   }
 
-  /* Hide login button on small mobile */
-  /* User requested to show Login button on navbar */
-  .btn-login {
-    display: block;
-    /* or flex/inline-block */
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .btn-signup {
-    display: none;
-  }
-
-  /* Hide language icon on small mobile */
-  .lang-icon {
-    display: none;
-  }
-
   .search-form {
-    height: 38px;
+    height: 40px;
+    border-radius: 20px;
   }
 
   .search-icon {
     padding: 0 10px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .search-input {
     font-size: 13px;
   }
 
-  .cart-icon {
+  .nav-icon-link {
+    width: 36px;
+    height: 36px;
     font-size: 1.2rem;
+  }
+
+  .btn-login,
+  .btn-signup {
+    display: none;
+    /* Hide buttons on small mobile to fit search bar */
   }
 }
 
-/* Mobile Small (360px - 479px) */
-@media (max-width: 479px) {
+/* Small Mobile (< 500px) */
+@media (max-width: 500px) {
   .navbar-content {
-    padding: 0 10px;
-    gap: 6px;
+    padding: 0 8px;
+    gap: 4px;
   }
 
-  .hamburger-menu {
-    font-size: 1.6rem;
-    padding: 2px;
+  .navbar-brand {
+    margin-right: 4px;
   }
 
   .navbar-brand img {
-    height: 22px;
+    height: 20px;
+  }
+
+  .search-container {
+    margin: 0 4px;
   }
 
   .search-form {
     height: 36px;
   }
 
-  .search-icon {
-    padding: 0 8px;
-    font-size: 0.9rem;
-  }
-
-  .search-input {
-    font-size: 12px;
-    padding-right: 8px;
-  }
-
-  .cart-icon {
-    font-size: 1.1rem;
-    padding: 4px;
-  }
-
-  .btn-signup {
+  .search-input::placeholder {
     font-size: 11px;
-    padding: 6px 8px;
   }
 
-  .mobile-menu-item {
-    padding: 12px 16px;
-    font-size: 14px;
+  .nav-icon-link {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
   }
 }
 

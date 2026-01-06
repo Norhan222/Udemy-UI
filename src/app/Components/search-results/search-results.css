@@ -109,22 +109,12 @@
 
 @media (min-width: 992px) {
     app-filter-sidebar {
-        flex: 0 0 260px;
-        /* Fixed width sidebar on desktop */
+        /* flex: 0 0 260px; */
+        /* Removed to prevent taking space */
         display: block;
-        transition: flex 0.3s ease, width 0.3s ease, opacity 0.3s;
-        overflow: hidden;
     }
 
-    /* When hidden/collapsed */
-    .content-wrapper.filters-hidden app-filter-sidebar {
-        flex: 0 0 0;
-        width: 0;
-        opacity: 0;
-        padding: 0 !important;
-        /* Prevent padding from taking space */
-        border: none !important;
-    }
+    /* results-main will take full width naturally if app-filter-sidebar is fixed */
 }
 
 .results-main {
@@ -224,6 +214,7 @@
     /* Multiline truncation */
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
