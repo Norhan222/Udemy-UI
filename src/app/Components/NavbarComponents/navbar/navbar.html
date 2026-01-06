@@ -2,7 +2,7 @@
   <div class="navbar-container">
     <div class="navbar-content">
       <!-- Hamburger Menu -->
-      <button class="hamburger-menu" (click)="toggleMobileMenu()">
+      <button type="button" class="hamburger-menu" (click)="toggleMobileMenu()">
         <i class="bi bi-list"></i>
       </button>
 
@@ -13,9 +13,7 @@
       </a>
 
       <!-- Explore Link -->
-      <!-- <a href="#" class="nav-link-explore">Explore</a> -->
       <app-explore-menu></app-explore-menu>
-
 
       <!-- Search Bar -->
       <div class="search-container">
@@ -25,52 +23,57 @@
             [(ngModel)]="searchQuery">
         </form>
       </div>
-      <!-- Navigation Links -->
-      <div class="nav-links">
-        <a href="#" class="nav-link-text">{{ 'NAV.PLANS_PRICING' | translate }}</a>
-        <a href="#" class="nav-link-text">{{ 'NAV.UDEMY_BUSINESS' | translate }}</a>
-        @if(!(isLoggdIn$ |async)){
-        <a href="#" class="nav-link-text">{{ 'NAV.TEACH_ON_UDEMY' | translate }}</a>
-        }
-        @if((isLoggdIn$ |async)){
-        @if(user.role==='Instructor'){
-        <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
-        }
-        @if(user.role==='Student'){
-        <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
-         <!-- Cart Icon -->
-      <div class="nav-icons">
-        <a class="cart-icon" (click)="goToCart()">
-          <i class="bi bi-cart3"></i>
-        </a>
+
+      <!-- Navigation Links & Icons -->
+      <div class="nav-right-section">
+        <!-- Text Links -->
+        <div class="nav-links">
+          <a href="javascript:void(0)" class="nav-link-text">{{ 'NAV.PLANS_PRICING' | translate }}</a>
+          <a href="javascript:void(0)" class="nav-link-text">{{ 'NAV.UDEMY_BUSINESS' | translate }}</a>
+
+          @if(!(isLoggdIn$ | async)){
+          <a href="javascript:void(0)" class="nav-link-text">{{ 'NAV.TEACH_ON_UDEMY' | translate }}</a>
+          } @else {
+          @if(user.role==='Instructor'){
+          <a routerLink="/dashboard/courses" class="nav-link-text">{{ 'NAV.INSTRUCTOR' | translate }}</a>
+          }
+          @if(user.role==='Student'){
+          <a routerLink="/my-learning" class="nav-link-text">{{ 'NAV.MY_LEARNING' | translate }}</a>
+          }
+          }
+        </div>
+
+        <!-- Icons Section -->
+        <div class="nav-icons-group">
+          @if((isLoggdIn$ | async)){
+          <a class="nav-icon-link wishlist-icon" title="Wishlist">
+            <i class="bi bi-heart"></i>
+          </a>
+          }
+
+          <a class="nav-icon-link cart-icon" (click)="goToCart()" title="Cart">
+            <i class="bi bi-cart3"></i>
+            <span class="notification-dot" *ngIf="false"></span> <!-- Placeholder for cart count -->
+          </a>
+
+          @if((isLoggdIn$ | async)){
+          <a class="nav-icon-link bell-icon" title="Notifications">
+            <i class="bi bi-bell"></i>
+            <span class="notification-dot"></span>
+          </a>
+
+          <app-user-menu></app-user-menu>
+          }
+
+          @if(!(isLoggdIn$ | async)){
+          <a class="btn-login" routerLink="Login">{{ 'HOME.LOG_IN' | translate }}</a>
+          <a class="btn-signup" routerLink="Register">{{ 'HOME.SIGN_UP' | translate }}</a>
+          <a href="javascript:void(0)" class="lang-icon">
+            <i class="fas fa-globe"></i>
+          </a>
+          }
+        </div>
       </div>
-        }
-        }
-      </div>
-
-     
-
-
-      @if(!(isLoggdIn$ |async)){
-      <!-- Login Button -->
-      <a class="btn-login" routerLink="Login">{{ 'HOME.LOG_IN' | translate }}</a>
-
-      <!-- Sign up Button -->
-      <a class="btn-signup" routerLink="Register">{{ 'HOME.SIGN_UP' | translate }}</a>
-
-      <!-- Language Icon -->
-      <a href="#" class="lang-icon">
-        <i class="fas fa-globe"></i>
-      </a>
-      }
-      @if((isLoggdIn$ |async)){
-      <!-- <div class="profile">
-                <span class="avatar">NA</span>
-
-              </div> -->
-      <app-user-menu></app-user-menu>
-      }
-      <!-- Avatar -->
 
 
     </div>
@@ -82,7 +85,7 @@
 
       <div class="mobile-header">
         <span>Browse</span>
-        <button class="close-btn" (click)="toggleMobileMenu()">✕</button>
+        <button type="button" class="close-btn" (click)="toggleMobileMenu()">✕</button>
       </div>
 
       @if(!(isLoggdIn$ |async)){

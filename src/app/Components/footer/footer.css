@@ -1,4 +1,6 @@
-/* Reset */
+/* =======================
+   Reset
+======================= */
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +18,9 @@ body {
     padding: 0 24px;
 }
 
-/* Top Banner Section */
+/* =======================
+   Top Banner
+======================= */
 .top-banner {
     background-color: #3e4143;
     padding: 24px 0;
@@ -56,41 +60,9 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Business Banner */
-.business-banner {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.business-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.business-content p {
-    font-size: 14px;
-    color: #1c1d1f;
-}
-
-.business-content strong {
-    font-weight: 700;
-}
-
-.company-logos {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-}
-
-.company-logos img {
-    height: 30px;
-    opacity: 0.8;
-    filter: grayscale(100%);
-}
-
-/* Main Footer */
+/* =======================
+   Main Footer
+======================= */
 .main-footer {
     background-color: #2d2f31;
     color: #fff;
@@ -106,6 +78,9 @@ body {
     font-weight: 700;
 }
 
+/* =======================
+   Footer Links
+======================= */
 .footer-links {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -119,7 +94,6 @@ body {
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 12px;
-    color: #fff;
 }
 
 .footer-column ul {
@@ -134,25 +108,28 @@ body {
     color: #d1d7dc;
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.2s;
 }
 
 .footer-column ul li a:hover {
     color: #fff;
 }
 
-/* Bottom Footer */
-.footer-bottom {
-    margin-bottom: 24px;
-}
-
+/* =======================
+   Bottom Footer
+======================= */
 .footer-bottom-links {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 
-/* Copyright Bar */
+.footer-bottom {
+    margin-bottom: 24px;
+}
+
+/* =======================
+   Copyright
+======================= */
 .copyright-bar {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding-top: 24px;
@@ -170,11 +147,6 @@ body {
     gap: 16px;
 }
 
-.udemy-logo {
-    width: 91px;
-    height: 34px;
-}
-
 .logo-copyright span {
     font-size: 12px;
     color: #d1d7dc;
@@ -183,7 +155,6 @@ body {
 .settings-language {
     display: flex;
     gap: 16px;
-    align-items: center;
 }
 
 .language-btn,
@@ -193,59 +164,56 @@ body {
     color: #fff;
     padding: 8px 12px;
     border-radius: 4px;
-    cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.2s;
+    cursor: pointer;
 }
 
-.language-btn:hover,
-.cookie-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.language-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-/* Responsive Design */
+/* =======================
+   Tablet (≤1024px)
+======================= */
 @media (max-width: 1024px) {
+
+    /* Hide ONLY middle footer section */
+    .main-footer .footer-links:nth-of-type(2) {
+        display: none;
+    }
+
     .footer-links,
     .footer-bottom-links {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .main-footer {
+        padding: 32px 0 20px;
+    }
 }
 
+/* =======================
+   Mobile (≤768px)
+======================= */
 @media (max-width: 768px) {
-    .banner-content,
-    .business-content {
+
+    .banner-content {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
         text-align: center;
     }
 
-    .company-logos {
-        flex-wrap: wrap;
-        justify-content: center;
+    .main-footer {
+        padding: 24px 0 16px;
     }
 
     .footer-links,
     .footer-bottom-links {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .copyright-content {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
         text-align: center;
-    }
-
-    .logo-copyright {
-        flex-direction: column;
     }
 
     .settings-language {
@@ -256,6 +224,5 @@ body {
     .language-btn,
     .cookie-btn {
         width: 100%;
-        justify-content: center;
     }
 }

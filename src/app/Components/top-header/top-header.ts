@@ -6,6 +6,7 @@ import { AuthService } from '../../Services/auth-service';
 import { SubCategory } from '../../Models/sub-category';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,12 @@ export class TopHeader implements OnInit {
 
   private activeSub!: Subscription;
 
-  constructor(private categoryService: CategoryService, private auth: AuthService, private translate: TranslateService) {
+  constructor(
+    private categoryService: CategoryService,
+    private auth: AuthService,
+    private translate: TranslateService,
+    private router: Router
+  ) {
     this.isLoggedIn$ = auth.isLoggedIn$
     this.firstName$ = auth.firstName$
 
@@ -66,5 +72,10 @@ export class TopHeader implements OnInit {
   getName(item: any): string {
     const lang = this.translate.currentLang || this.translate.defaultLang || 'en';
     return lang === 'ar' ? (item.nameAR || item.nameEN) : (item.nameEN || item.nameAR);
+  }
+
+  onCategoryClick(categoryName: string) {
+    this.router.navigate(['/search'], { queryParams: { search: categoryName } });
+    this.clearActive(); // Close the menu after clicking
   }
 }

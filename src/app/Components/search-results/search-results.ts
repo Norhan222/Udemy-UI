@@ -20,7 +20,7 @@ export class SearchResults implements OnInit {
   facets: SearchFacetsDto | null = null;
   totalCount: number = 0;
   isLoading: boolean = false;
-  showFilterSidebar: boolean = true; // Start open on desktop (standard behavior)
+  showFilterSidebar: boolean = false; // Start closed for popup behavior
   currentPage: number = 1;
   pageSize: number = 10;
   searchQuery: string = '';
@@ -68,11 +68,8 @@ export class SearchResults implements OnInit {
 
   checkScreenSize() {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 992) {
-        this.showFilterSidebar = false;
-      } else {
-        this.showFilterSidebar = true;
-      }
+      // Always start closed for popup behavior as requested
+      this.showFilterSidebar = false;
     }
   }
 
