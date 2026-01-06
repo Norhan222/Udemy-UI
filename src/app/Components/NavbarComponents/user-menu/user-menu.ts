@@ -51,74 +51,14 @@ export class UserMenu implements OnInit {
     this.isRtl = document.documentElement.dir === 'rtl';
   }
 
-  timeoutId: any;
-  clickListener: any;
-
-  // IMPORTANT: Toggle menu on click
-  toggleMenu(event: Event) {
-    event.stopPropagation(); // Prevent this click from triggering the document listener immediately
+  // Hover states
+  openMenu() {
     this.checkDirection();
-
-    // Toggle state
-    this.isOpen = !this.isOpen;
-
-    // If opening, ensure (or re-ensure) the document listener is attached
-    if (this.isOpen) {
-      this.attachDocumentListener();
-    } else {
-      this.removeDocumentListener();
-    }
+    this.isOpen = true;
   }
 
-  // Handle closing strictly
   closeMenu() {
     this.isOpen = false;
-    this.removeDocumentListener();
-  }
-
-  // Open logic not strictly needed for toggle, but good helper if needed
-  openMenu() {
-    // Legacy support if needed, or remove
-    this.isOpen = true;
-    this.attachDocumentListener();
-  }
-
-  // Attach a listener to the document to close menu if clicked outside
-  attachDocumentListener() {
-    if (!this.clickListener) {
-      this.clickListener = this.onDocumentClick.bind(this);
-      document.addEventListener('click', this.clickListener);
-    }
-  }
-
-  removeDocumentListener() {
-    if (this.clickListener) {
-      document.removeEventListener('click', this.clickListener);
-      this.clickListener = null;
-    }
-  }
-
-  onDocumentClick(event: MouseEvent) {
-    // If we click anywhere outside, close menu
-    // (Note: The toggle click stops propagation, so it won't trigger this for the opening click)
-    // We also need to make sure we don't close if clicking INSIDE the dropdown? 
-    // Usually clicking items in the dropdown MIGHT close it (navigating), or might not.
-    // The user requirement is "click again to disappear".
-    // Standard UI behavior: Click outside closes it.
-
-    const target = event.target as HTMLElement;
-    const profileWrapper = document.querySelector('.profile-wrapper');
-    const dropdown = document.querySelector('.dropdown');
-
-    // If click is NOT inside profile wrapper
-    if (profileWrapper && !profileWrapper.contains(target)) {
-      this.isOpen = false;
-      this.removeDocumentListener();
-    }
-  }
-
-  ngOnDestroy() {
-    this.removeDocumentListener();
   }
 
   navigateToProfile() {
@@ -136,6 +76,7 @@ export class UserMenu implements OnInit {
 
   logout() {
     this.auth.logout();
+    this.isOpen = false;
     this.router.navigateByUrl('/HomeBeforSignIn');
   }
 }

@@ -1,52 +1,33 @@
-<div class="profile-wrapper" (click)="toggleMenu($event)">
-
-  <!-- Avatar -->
-  <!-- <div class="avatar">
-    <img *ngIf="user.profileImageUrl; else initials"
-         [src]="user.profileImageUrl"
-         alt="avatar" />
-    <ng-template #initials>
-      {{ (user.firstName + ' ' + user.lastName) | intiials }}
-    </ng-template>
-  </div> -->
-  @if(userData$ |async; as userr){
-  @if(userr.profileImageUrl){
-  <img class="profileImage" [src]="userr.profileImageUrl" />
-  }
-
-  @else{
-  <div class="avatar">
-    {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+<div class="profile-wrapper" (mouseenter)="openMenu()" (mouseleave)="closeMenu()">
+  <!-- Avatar Trigger -->
+  <div class="avatar-trigger">
+    @if(userData$ | async; as userr) {
+    @if(userr.profileImageUrl) {
+    <img class="profileImage" [src]="userr.profileImageUrl" />
+    }
+    @else {
+    <div class="avatar">
+      {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
+    </div>
+    }
+    }
   </div>
-  }
-
-
-  <!-- <span class="notification-badge"></span> -->
 
   <!-- Dropdown -->
+  @if(userData$ | async; as userr) {
   <div class="dropdown" *ngIf="isOpen" [class.rtl-dropdown]="isRtl">
-
     <!-- User Info -->
     <div class="user-info">
-      @if((userr.profileImageUrl)){
-      <img class="avatarProfile" [src]="(userr.profileImageUrl)" />
+      @if(userr.profileImageUrl) {
+      <img class="avatarProfile" [src]="userr.profileImageUrl" />
       }
-
-      @else{
+      @else {
       <div class="avatar big">
-
         <div class="avatar">
           {{ (userr.firstName + ' ' + userr.lastName) | intiials }}
         </div>
       </div>
-
       }
-
-      <!-- <img  *ngIf="user.profileImageUrl; else initialsBig"
-             [src]="user.profileImageUrl" />
-        <ng-template #initialsBig>
-          {{ (user.firstName + ' ' + user.lastName) | intiials }}
-        </ng-template> -->
 
       <div class="us">
         <h5>{{ (userr.firstName + ' ' + userr.lastName) | capitalize }}</h5>
@@ -57,21 +38,19 @@
 
     <a class="logout" (click)="logout()">{{ 'USER_MENU.LOGOUT' | translate }}</a>
     <hr />
-    <!-- Links -->
-    @if(user.role==='Student'){
+
+    @if(user.role==='Student') {
     <a routerLink="/my-learning" routerLinkActive="active">{{ 'USER_MENU.MY_LEARNING' | translate }}</a>
     <a routerLink="/Cart" routerLinkActive="active">{{ 'USER_MENU.MY_CART' | translate }}</a>
     }
-    <!-- <a>{{ 'USER_MENU.WISHLIST' | translate }}</a> -->
-    @if(user.role==='Instructor'){
+
+    @if(user.role==='Instructor') {
     <a (click)="navigateToInstructorDashboard()">{{ 'USER_MENU.INSTRUCTOR_DASHBOARD' | translate }}</a>
     }
     <hr />
+
     <a>{{ 'USER_MENU.NOTIFICATIONS' | translate }}</a>
-    <a>
-      {{ 'USER_MENU.MESSAGES' | translate }}
-      <!-- <span class="badge">2</span> -->
-    </a>
+    <a>{{ 'USER_MENU.MESSAGES' | translate }}</a>
 
     <hr />
 
@@ -79,8 +58,6 @@
     <a>{{ 'USER_MENU.PAYMENT_METHODS' | translate }}</a>
     <a>{{ 'USER_MENU.SUBSCRIPTIONS' | translate }}</a>
     <a>{{ 'USER_MENU.PURCHASE_HISTORY' | translate }}</a>
-
-
   </div>
-
   }
+</div>

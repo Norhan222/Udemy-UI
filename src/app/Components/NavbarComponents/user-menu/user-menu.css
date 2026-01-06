@@ -2,6 +2,12 @@
   position: relative;
 }
 
+.avatar-trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 .avatar {
   width: 40px;
   height: 40px;

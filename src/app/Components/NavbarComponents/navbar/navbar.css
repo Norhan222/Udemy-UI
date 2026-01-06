@@ -588,17 +588,17 @@ body {
 }
 
 .mobile-auth-link.login:hover {
-  background-color: #f7f9fa;
+  background-color: rgba(86, 36, 208, 0.04);
 }
 
 .mobile-auth-link.signup {
-  background-color: #1c1d1f;
+  background-color: #5624d0;
   color: #fff;
-  border: 1px solid #1c1d1f;
+  border: 1px solid #5624d0;
 }
 
 .mobile-auth-link.signup:hover {
-  background-color: #3e4143;
+  background-color: #3e1a96;
 }
 
 .mobile-header {
