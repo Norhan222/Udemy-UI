@@ -153,13 +153,13 @@ input::placeholder {
 }
 
 .signup-link {
-    color: #1c1d1f;
+    color: #5624d0;
     text-decoration: none;
     font-weight: 700;
     transition: all 0.2s ease;
     margin-left: 8px;
     /* More space */
-    border: 1px solid #1c1d1f;
+    border: 1px solid #5624d0;
     padding: 8px 16px;
     border-radius: 4px;
     /* Optional rounded */

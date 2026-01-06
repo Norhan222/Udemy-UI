@@ -171,8 +171,8 @@ body {
 /* Buttons */
 .btn-login {
   background-color: #fff;
-  border: 1px solid #1c1d1f;
-  color: #1c1d1f;
+  border: 1px solid #5624d0;
+  color: #5624d0;
   padding: 10px 16px;
   font-weight: 700;
   font-size: 14px;
@@ -184,12 +184,12 @@ body {
 }
 
 .btn-login:hover {
-  background-color: #f7f9fa;
+  background-color: rgba(86, 36, 208, 0.04);
 }
 
 .btn-signup {
-  background-color: #1c1d1f;
-  border: 1px solid #1c1d1f;
+  background-color: #5624d0;
+  border: 1px solid #5624d0;
   color: #fff;
   padding: 10px 16px;
   font-weight: 700;
@@ -202,8 +202,8 @@ body {
 }
 
 .btn-signup:hover {
-  background-color: #3e4143;
-  border-color: #3e4143;
+  background-color: #3e1a96;
+  border-color: #3e1a96;
 }
 
 /* Language Icon */
@@ -583,16 +583,8 @@ body {
 
 .mobile-auth-link.login {
   color: #5624d0;
-  /* Udemy purple for link style, or use #1c1d1f if button style wanted */
-  /* Let's match the desktop login button style but full width? 
-     Actually user said "like udemy". Udemy mobile drawer has primary purple links.
-     But "buttons" suggests boxy. Let's do links that look like buttons.
-  */
-  color: #1c1d1f;
   background-color: #fff;
-  /* Explicit white */
-  border: 1px solid #1c1d1f;
-  /* Desktop style login button */
+  border: 1px solid #5624d0;
 }
 
 .mobile-auth-link.login:hover {

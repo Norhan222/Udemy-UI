@@ -57,9 +57,9 @@ export class TopHeader implements OnInit {
 
     const target = event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
-    const navRect = target.parentElement!.getBoundingClientRect();
+    const navRect = target.closest('.category-navbar')!.getBoundingClientRect();
 
-    this.arrowLeft = rect.left - navRect.left + rect.width / 2 + 'px';
+    this.arrowLeft = rect.left - navRect.left + rect.width / 2 - 8 + 'px';
   }
 
   clearActive() {
