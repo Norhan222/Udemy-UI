@@ -159,7 +159,7 @@ export class CartComponent implements OnInit, OnDestroy {
         if (res.appliedCouponCode) {
           this.discountAmount = res.discountAmount;
           this.total = res.totalAfterDiscount;
-          this.couponId = res.couponId; // Store the coupon ID
+          this.couponId = res.appliedCouponId; // Store the coupon ID
           this.couponError = '';
         } else {
           this.couponError = res.message || 'Invalid coupon';
