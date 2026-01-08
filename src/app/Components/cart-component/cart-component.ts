@@ -108,6 +108,8 @@ export class CartComponent implements OnInit, OnDestroy {
       couponId: this.couponId // Send couponId if available
     };
 
+    console.log('Sending Payment Data:', data);
+
     this.loading = true;
     this.cd.detectChanges();
 
