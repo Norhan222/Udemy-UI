@@ -1,26 +1,20 @@
-@if((isLoggedIn$ | async)){
-<nav class="navbar" (mouseleave)="clearActive()">
-  @for(cat of categories; track cat.id){
-  <span class="nav-item" (mouseenter)="setActive(cat, $event)">
-    {{ getName(cat) }}
-  </span>
-  }
+<nav class="category-navbar" (mouseleave)="clearActive()">
+  <div class="category-container">
+    @for(cat of categories; track cat.id){
+    <span class="category-item" (mouseenter)="setActive(cat, $event)" (click)="onCategoryClick(getName(cat))">
+      {{ getName(cat) }}
+    </span>
+    }
+  </div>
 
   <div class="mega-menu" *ngIf="activeCategory">
     <div class="tooltip-arrow" [style.left]="arrowLeft"></div>
-
     <div class="mega-content">
-      @for(sub of activeCategory; track sub.id)
-      {
-      <span>
+      @for(sub of activeCategory; track sub.id) {
+      <span (click)="onCategoryClick(getName(sub))" class="mega-item">
         {{ getName(sub) }}
       </span>
       }
     </div>
   </div>
-
 </nav>
-
-
-
-}

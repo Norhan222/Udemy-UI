@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper" [class.filters-hidden]="!showFilterSidebar">
         <!-- Filter Sidebar -->
         <app-filter-sidebar [facets]="facets" [isVisible]="showFilterSidebar" (filterChange)="onFilterChange($event)"
             (close)="toggleFilterSidebar()"></app-filter-sidebar>
@@ -77,14 +77,14 @@
             <!-- Pagination -->
             <div *ngIf="!isLoading && courses.length > 0 && totalPages > 1" class="pagination">
                 <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
-                    {{ 'SEARCH_RESULTS.PAGINATION.PREVIOUS' | translate }}
+                    <i class="fas fa-chevron-left"></i>
                 </button>
 
                 <span class="page-info">{{ 'SEARCH_RESULTS.PAGINATION.PAGE' | translate }} {{ currentPage }} {{
                     'SEARCH_RESULTS.PAGINATION.OF' | translate }} {{ totalPages }}</span>
 
                 <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
-                    {{ 'SEARCH_RESULTS.PAGINATION.NEXT' | translate }}
+                    <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ILecture } from '../../Models/ilecture';
 import { Carousel } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
@@ -6,9 +7,10 @@ import { ICourse } from '../../Models/icourse';
 import { Subscription } from 'rxjs';
 import { CourseService } from '../../Services/course-service';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-start-your-courses',
-    imports: [Carousel, ButtonModule, TranslateModule],
+    imports: [Carousel, ButtonModule, TranslateModule, CommonModule,RouterLink],
     templateUrl: './start-your-courses.html',
     styleUrl: './start-your-courses.css',
 })
@@ -37,49 +39,28 @@ export class StartYourCourses {
         this.responsiveOptions = [
             {
                 breakpoint: '1400px',
-                numVisible: 2,
-                numScroll: 1,
+                numVisible: 4,
+                numScroll: 1
             },
             {
-                breakpoint: '1199px',
+                breakpoint: '1200px',
                 numVisible: 3,
-                numScroll: 1,
+                numScroll: 1
             },
             {
-                breakpoint: '767px',
+                breakpoint: '992px',
                 numVisible: 2,
-                numScroll: 1,
+                numScroll: 1
             },
             {
-                breakpoint: '575px',
+                breakpoint: '600px',
                 numVisible: 1,
-                numScroll: 1,
+                numScroll: 1
             }
         ];
 
 
-        this.responsiveOptions = [
-            {
-                breakpoint: '1400px',
-                numVisible: 2,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '1199px',
-                numVisible: 3,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '767px',
-                numVisible: 2,
-                numScroll: 1,
-            },
-            {
-                breakpoint: '575px',
-                numVisible: 1,
-                numScroll: 1,
-            },
-        ];
+
     }
 
     ngOnDestroy(): void {

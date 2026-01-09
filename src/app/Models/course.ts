@@ -2,7 +2,7 @@ import { Section } from "./section";
 
 export class Course {
   title!: string;
-  shortTitle!: string;
+  shortDescription!: string;
   categoryId!: number;
   subCategoryId!: number;
   topicId!:number;

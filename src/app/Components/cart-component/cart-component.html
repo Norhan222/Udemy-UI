@@ -69,7 +69,46 @@
             <h2>E£{{ total }}</h2>
             <p class="old-total">E£{{ subTotal}}</p>
             <p class="discount">0% {{ 'CART.OFF' | translate }}</p>
+            <!--  -->
+            <div class="payment-method mt-3">
+  <label class="fw-bold mb-2 d-block">
+    {{ 'CART.PAYMENT_METHOD' | translate }}
+  </label>
 
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="paymentMethod"
+      id="card"
+      value="card"
+      [(ngModel)]="paymentMethod"
+    />
+    <label class="form-check-label" for="card">
+      💳 Card
+    </label>
+  </div>
+
+  <div class="form-check mt-1">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="paymentMethod"
+      id="wallet"
+      value="wallet"
+      [(ngModel)]="paymentMethod"
+    />
+    <label class="form-check-label" for="wallet">
+      👛 Wallet
+    </label>
+  </div>
+
+  <p class="text-danger mt-1" *ngIf="paymentMethodError">
+    {{ paymentMethodError }}
+  </p>
+</div>
+
+            <!--  -->
             <!-- <button class="checkout">Proceed to Checkout →</button> -->
             <button class="btn btn-success w-100 mt-3" (click)="payNow()">
                 {{ 'CART.PAY_NOW' | translate }}
@@ -82,7 +121,19 @@
 
             <p class="note">{{ 'CART.NOTE' | translate }}</p>
 
-            <button class="coupon">{{ 'CART.APPLY_COUPON' | translate }}</button>
+            <!-- <button class="coupon">{{ 'CART.APPLY_COUPON' | translate }}</button> -->
+            <div class="coupon-section mt-3">
+    <input type="text" [(ngModel)]="couponCode" placeholder="Enter coupon code" class="form-control mb-2" />
+    <button class="btn btn-primary w-100" (click)="applyCoupon()">
+       {{ 'CART.APPLY_COUPON' | translate }}
+        <span *ngIf="couponLoading" class="spinner-border spinner-border-sm ms-1"></span>
+    </button>
+    <p class="text-danger mt-1" *ngIf="couponError">{{ couponError }}</p>
+    <p class="text-success mt-1" *ngIf="discountAmount > 0">
+        Discount Applied: E£{{ discountAmount }}
+    </p>
+</div>
+
         </div>
     </div>
 </div>

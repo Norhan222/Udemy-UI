@@ -72,117 +72,117 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  // payNow() {
-  //   if (!this.cartItems.length) {
-  //     alert('Cart is empty');
-  //     return;
-  //   }
 
-  //   const courseIds = this.cartItems.map(item => item.courseId).filter(id => id && id > 0);
-  //   if (!courseIds.length) {
-  //     alert('No valid courses to pay for');
-  //     return;
-  //   }
+  paymentMethod: 'card' | 'wallet' | '' = '';
+  paymentMethodError: string = '';
 
-  //   const data = { courseIds, paymentMethod: 'card' };
-  //   console.log('Payment Request:', data);
 
-  //   this.paymentService.createPayment(data).subscribe({
-  //     next: (res) => {
-  //       console.log('Payment Response:', res);
-
-  //       // فتح Popup
-  //       const popupWidth = 600;
-  //       const popupHeight = 700;
-  //       const left = (window.screen.width / 2) - (popupWidth / 2);
-  //       const top = (window.screen.height / 2) - (popupHeight / 2);
-
-  //       window.open(
-  //         res.redirectUrl,
-  //         'PaymentPopup',
-  //         `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes,scrollbars=yes`
-  //       );
-
-  //       // تفعيل Spinner
-  //       this.loading = true;
-  //       this.cd.detectChanges();
-
-  //       // Polling لحالة الدفع كل ثانيتين
-  //       this.createPymentSub = interval(3000).pipe(
-  //         switchMap(() => this.paymentService.getPaymentStatus(res.transactionIds[0])),
-  //         takeWhile(statusRes => statusRes.status === 'Pending', true)
-  //       ).subscribe({
-  //         next: (statusRes) => {
-  //           console.log('Payment Status:', statusRes);
-
-  //           if (statusRes.status === 'Success') {
-  //             this.cartService.clearCart().subscribe(() => {
-  //               this.cartItems = [];
-  //               this.subTotal = 0;
-  //               this.total = 0;
-  //               this.loading = false;
-  //               this.cd.detectChanges();
-  //               alert("Payment successful! Cart cleared.");
-  //               this.createPymentSub.unsubscribe();
-  //             });
-  //           } else if (statusRes.status !== 'Pending') {
-  //             this.loading = false;
-  //             this.cd.detectChanges();
-  //             alert(`Payment status: ${statusRes.status}`);
-  //           }
-  //         },
-  //         error: (err) => {
-  //           this.loading = false;
-  //           this.cd.detectChanges();
-  //           alert('Error fetching payment status during polling');
-  //           console.error(err);
-  //         }
-  //       });
-  //     },
-  //     error: (err) => {
-  //       console.error('Payment Error:', err);
-  //       alert('Error creating payment');
-  //     }
-  //   });
-  // }
-payNow() {
-  if (!this.cartItems.length) {
-    alert('Cart is empty');
-    return;
-  }
-
-  const courseIds = this.cartItems
-    .map(item => item.courseId)
-    .filter(id => id && id > 0);
-
-  if (!courseIds.length) {
-    alert('No valid courses to pay for');
-    return;
-  }
-
-  const data = {
-    courseIds,
-    paymentMethod: 'card'
-  };
-
-  this.loading = true;
-  this.cd.detectChanges();
-
-  this.createPymentSub = this.paymentService.createPayment(data).subscribe({
-    next: (res) => {
-      console.log('Payment Response:', res);
-      // window.location.href = res.redirectUrl;
-      window.open(res.redirectUrl, '_blank');
-
-    },
-    error: (err) => {
-      console.error('Payment Error:', err);
-      this.loading = false;
-      this.cd.detectChanges();
-      alert('Error creating payment');
+  payNow() {
+    if (!this.cartItems.length) {
+      alert('Cart is empty');
+      return;
     }
-  });
-}
+
+    if (!this.paymentMethod) {
+      this.paymentMethodError = 'Please select a payment method';
+      return;
+    }
+
+    this.paymentMethodError = '';
+
+    const courseIds = this.cartItems
+      .map(item => item.courseId)
+      .filter(id => id && id > 0);
+
+    if (!courseIds.length) {
+      alert('No valid courses to pay for');
+      return;
+    }
+
+    const totalToPay = this.discountAmount > 0 ? this.total : this.subTotal;
+
+    const data = {
+      courseIds,
+      paymentMethod: this.paymentMethod, // 'card' أو 'wallet'
+      totalAmount: totalToPay,
+      couponId: this.couponId // Send couponId if available
+    };
+
+    console.log('Sending Payment Data:', data);
+
+    this.loading = true;
+    this.cd.detectChanges();
+
+    this.createPymentSub = this.paymentService.createPayment(data).subscribe({
+      next: (res) => {
+        console.log('Payment Response:', res);
+
+        // كل طرق الدفع → Redirect
+        if (res.redirectUrl) {
+          window.open(res.redirectUrl, '_blank');
+        } else {
+          alert('No redirect URL provided');
+        }
+
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error('Payment Error:', err);
+        this.loading = false;
+        this.cd.detectChanges();
+        alert('Error creating payment');
+      }
+    });
+  }
+
+
+
+  couponCode: string = '';
+  couponLoading: boolean = false;
+  couponError: string = '';
+  discountAmount: number = 0;
+  couponId: number | null = null;
+
+  applyCoupon() {
+    if (!this.couponCode) {
+      this.couponError = 'Please enter a coupon code';
+      return;
+    }
+
+    this.couponLoading = true;
+    this.couponError = '';
+
+    // نفترض إنك هتعمل API جديد على السيرفر: /api/cart/apply-coupon
+    this.cartService.applyCoupon(this.couponCode).subscribe({
+      next: (res: any) => {
+        console.log("coupon", res);
+
+        if (res.appliedCouponCode) {
+          this.discountAmount = res.discountAmount;
+          this.total = res.totalAfterDiscount;
+          this.couponId = res.appliedCouponId; // Store the coupon ID
+          this.couponError = '';
+        } else {
+          this.couponError = res.message || 'Invalid coupon';
+          this.discountAmount = 0;
+          this.total = this.subTotal;
+          this.couponId = null;
+        }
+
+        this.couponLoading = false;
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error("coupon error", err);
+        this.couponError = 'Error applying coupon';
+        this.couponLoading = false;
+        this.discountAmount = 0;
+        this.total = this.subTotal;
+        this.cd.detectChanges();
+      }
+    });
+  }
 
 
   ngOnDestroy(): void {

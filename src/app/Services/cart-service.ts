@@ -45,4 +45,8 @@ export class CartService {
       courseId: courseId
     });
 }
+applyCoupon(couponCode: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/apply-coupon`, { couponCode });
+}
+
 }

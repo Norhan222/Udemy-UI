@@ -1,43 +1,163 @@
-.car-cont {
-  color: aliceblue;
-  padding-top: 150px;
-  padding-left: 150px;
-  height: 700px;
+/* Header / Hero Carousel Styles */
+
+.carousel-inner {
+  position: relative;
   width: 100%;
-  position: absolute;
+}
+
+.car-cont {
+  height: 400px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 60px;
+  /* Space for the card */
 }
 
 .ca_p {
   background-color: white;
-  color: rgb(39, 35, 35);
-  width: 40%;
-  padding: 30px 20px 30px 20px;
-  position: relative;
-  /* transform: translate(10%,-150%); */
+  color: #1c1d1f;
+  width: 440px;
+  max-width: 100%;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Udemy style shadow */
 }
 
-.carousel-control-next {}
+.ca_p h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
 
-.carousel-control-prev {}
+.ca_p p {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
 
+.cta-button {
+  background-color: #1c1d1f;
+  color: white;
+  padding: 10px 16px;
+  font-weight: 700;
+  border: 1px solid #1c1d1f;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-@media (max-width: 768px) {
+.cta-button:hover {
+  background-color: #3e4143;
+}
+
+/* Controls */
+.control {
+  opacity: 1;
+  width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #1c1d1f;
+  padding: 20px;
+  border-radius: 50%;
+  background-size: 50%;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
   .car-cont {
-    padding-left: 20px;
-    height: 300px;
-    padding-top: 50px;
+    height: 320px;
+    padding-left: 40px;
   }
 
   .ca_p {
-    width: 80%;
-    padding: 20px 10px 20px 10px;
-    ;
-    margin-top: 300px;
-    /* transform: translate(1%,-160%); */
+    width: 380px;
+    padding: 20px;
   }
 
-  .active {
-    height: 600px;
+  .ca_p h3 {
+    font-size: 26px;
   }
 
+  .ca_p p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-cont {
+    height: 280px;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ca_p {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .ca_p h3 {
+    font-size: 22px;
+  }
+
+  .ca_p p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .cta-button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .control {
+    width: 8%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .car-cont {
+    height: 250px;
+    min-height: 250px;
+    padding: 16px;
+  }
+
+  .ca_p {
+    padding: 16px;
+  }
+
+  .ca_p h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .ca_p p {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .cta-button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .control {
+    width: 10%;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 12px;
+  }
 }

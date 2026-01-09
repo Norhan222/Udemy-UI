@@ -1,9 +1,10 @@
 .filter-sidebar {
     position: fixed;
     top: 0;
-    left: -400px;
-    width: 90%;
-    max-width: 400px;
+    left: -100%;
+    /* Use percentage for better support */
+    width: 280px;
+    /* narrowed width */
     height: 100vh;
     background: #fff;
     box-shadow: 2px 0 16px rgba(0, 0, 0, 0.2);
@@ -15,6 +16,32 @@
 .filter-sidebar.visible {
     left: 0;
 }
+
+/* Desktop: Static Sidebar - REMOVED to make it popup */
+/* @media (min-width: 992px) {
+    .filter-sidebar {
+        position: static;
+        left: auto;
+        top: auto;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        z-index: 1;
+        overflow-y: visible;
+        transform: none;
+        border-right: 1px solid #d1d7dc;
+        padding-right: 24px;
+        background: transparent;
+    }
+
+    .sidebar-header {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
+} */
 
 .sidebar-overlay {
     position: fixed;

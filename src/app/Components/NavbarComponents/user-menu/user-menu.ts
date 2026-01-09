@@ -51,6 +51,7 @@ export class UserMenu implements OnInit {
     this.isRtl = document.documentElement.dir === 'rtl';
   }
 
+  // Hover states
   openMenu() {
     this.checkDirection();
     this.isOpen = true;
@@ -75,6 +76,7 @@ export class UserMenu implements OnInit {
 
   logout() {
     this.auth.logout();
+    this.isOpen = false;
     this.router.navigateByUrl('/HomeBeforSignIn');
   }
 }

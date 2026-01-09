@@ -20,7 +20,7 @@ export class SearchResults implements OnInit {
   facets: SearchFacetsDto | null = null;
   totalCount: number = 0;
   isLoading: boolean = false;
-  showFilterSidebar: boolean = false;
+  showFilterSidebar: boolean = false; // Start closed for popup behavior
   currentPage: number = 1;
   pageSize: number = 10;
   searchQuery: string = '';
@@ -37,15 +37,22 @@ export class SearchResults implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Check screen size for initial filter state
+    // On mobile/tablet (< 992px), start closed. On desktop, start open.
+    this.checkScreenSize();
+
     // Load cart items first
     this.loadCart();
 
-    // Listen to query params changes
+    // ... existing subscription ... 
     this.route.queryParams.subscribe(params => {
+      // ...
       this.searchQuery = params['search'] || '';
       this.currentPage = params['page'] ? +params['page'] : 1;
+      // ...
 
       const request: SearchRequestDto = {
+        // ... match existing ...
         search: params['search'],
         language: params['language'],
         level: params['level'],
@@ -57,6 +64,13 @@ export class SearchResults implements OnInit {
 
       this.loadSearchResults(request);
     });
+  }
+
+  checkScreenSize() {
+    if (typeof window !== 'undefined') {
+      // Always start closed for popup behavior as requested
+      this.showFilterSidebar = false;
+    }
   }
 
   loadCart(): void {

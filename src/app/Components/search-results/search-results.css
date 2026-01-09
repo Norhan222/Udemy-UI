@@ -24,15 +24,17 @@
     margin: 0;
 }
 
+/* ================= FILTER BUTTON ================= */
 .filter-toggle-btn {
     display: flex;
+    /* Always visible initially, or handled by media queries */
     align-items: center;
     gap: 8px;
-    padding: 10px 16px;
+    padding: 14px 16px;
     background: #fff;
     border: 1px solid #1c1d1f;
-    border-radius: 4px;
-    font-size: 14px;
+    border-radius: 0;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.2s;
@@ -42,10 +44,77 @@
     background: #f7f9fa;
 }
 
+/* On desktop, we want the button to toggle the Static Sidebar */
+@media (min-width: 992px) {
+    .filter-toggle-btn {
+        display: flex;
+        /* Show it! User wants it back */
+    }
+}
+
+/* ================= PAGINATION ================= */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1c1d1f;
+    background: transparent;
+    border-radius: 50%;
+    /* Circle look like Udemy */
+    color: #1c1d1f;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: #d1d7dc;
+    color: #d1d7dc;
+}
+
+.page-info {
+    font-size: 14px;
+    color: #1c1d1f;
+    font-weight: 400;
+    margin: 0 12px;
+}
+
+/* ================= CONTENT ================= */
 .content-wrapper {
     display: flex;
     gap: 24px;
-    position: relative;
+    align-items: flex-start;
+}
+
+/* Filter Sidebar Wrapper (Component Host) */
+/* app-filter-sidebar rules handled in media query below */
+
+@media (min-width: 992px) {
+    app-filter-sidebar {
+        /* flex: 0 0 260px; */
+        /* Removed to prevent taking space */
+        display: block;
+    }
+
+    /* results-main will take full width naturally if app-filter-sidebar is fixed */
 }
 
 .results-main {
@@ -53,7 +122,7 @@
     min-width: 0;
 }
 
-/* Loading State */
+/* ================= LOADING ================= */
 .loading-container {
     display: flex;
     flex-direction: column;
@@ -78,23 +147,38 @@
     }
 }
 
-/* Course List - Grid 3 Columns */
+/* ================= COURSES GRID ================= */
 .courses-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    /* Default desktop grid */
     gap: 16px;
 }
 
+@media (max-width: 1200px) {
+    .courses-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================= COURSE CARD ================= */
 .course-card {
     display: flex;
     flex-direction: column;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    /* Vertical Card */
     border: 1px solid #d1d7dc;
     border-radius: 8px;
     overflow: hidden;
     background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
     height: 100%;
+    /* Full height of grid cell */
 }
 
 .course-card:hover {
@@ -104,93 +188,48 @@
 
 .course-image {
     width: 100%;
-    aspect-ratio: 16/9;
+    height: auto;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     border-bottom: 1px solid #f7f9fa;
+    border-right: none;
+    cursor: pointer;
 }
 
 .course-details {
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    padding: 16px;
     flex: 1;
+    justify-content: flex-start;
+    /* Reset justification */
 }
 
 .course-title {
     font-size: 16px;
     font-weight: 700;
-    color: #1c1d1f;
-    margin: 0 0 8px 0;
+    margin-bottom: 8px;
     line-height: 1.4;
+    cursor: pointer;
+    /* Multiline truncation */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 44px;
-    /* Ensure consistent height for titles */
 }
 
 .course-instructor {
     font-size: 12px;
     color: #6a6f73;
-    margin: 0 0 8px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.course-meta {
-    display: flex;
-    align-items: center;
-    gap: 4px;
     margin-bottom: 8px;
-    font-size: 14px;
 }
 
-.rating {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.rating-value {
-    font-weight: 700;
-    color: #b4690e;
-    font-size: 14px;
-}
-
-.stars {
-    display: flex;
-    gap: 2px;
-    color: #b4690e;
-    font-size: 12px;
-}
-
-.review-count {
-    color: #6a6f73;
-    font-size: 12px;
-    margin-left: 4px;
-}
-
-.course-info {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: #6a6f73;
-    margin-top: 4px;
-}
-
-.separator {
-    color: #d1d7dc;
-}
-
-/* Footer Section: Price and Button Side-by-Side */
+/* Footer normalization */
 .course-footer {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-top: auto;
     padding-top: 16px;
 }
@@ -198,232 +237,77 @@
 .course-price {
     font-size: 18px;
     font-weight: 700;
-    color: #1c1d1f;
-}
-
-.course-price .free {
-    color: #1c1d1f;
-}
-
-.course-price .paid {
-    color: #1c1d1f;
+    text-align: left;
 }
 
 .add-to-cart-btn {
-    background: #fff;
     border: 1px solid #5624d0;
-    /* Udemy Purple border */
-    color: #5624d0;
-    /* Udemy Purple text */
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 4px;
-    /* Slightly rounded corners */
-    transition: background-color 0.2s;
-    white-space: nowrap;
-}
-
-.add-to-cart-btn.added {
-    background-color: #5624d0;
-    color: #fff;
-    cursor: default;
-    border-color: #5624d0;
-}
-
-.add-to-cart-btn.added:hover {
-    background-color: #3e1a96;
-    border-color: #401b9c;
-}
-
-.add-to-cart-btn:not(.added):hover {
-    background-color: rgba(86, 36, 208, 0.04);
-}
-
-/* Skeleton Loader */
-.skeleton-card {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #d1d7dc;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 350px;
-}
-
-.skeleton-image {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #e0e0e0;
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-details {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.skeleton-line {
-    height: 16px;
-    background: #e0e0e0;
-    border-radius: 4px;
-    animation: pulse 1.5s infinite;
-}
-
-.skeleton-line.title {
-    width: 90%;
-    height: 20px;
-}
-
-.skeleton-line.subtitle {
-    width: 60%;
-}
-
-.skeleton-line.meta {
-    width: 40%;
-}
-
-.skeleton-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-}
-
-.skeleton-line.price {
-    width: 30%;
-    height: 24px;
-}
-
-.skeleton-line.button {
-    width: 30%;
-    height: 36px;
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0.6;
-    }
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-    /* Removed: .courses-list grid-template-columns: repeat(3, 1fr); as it's now default */
-}
-
-@media (max-width: 900px) {
-    .courses-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .courses-list {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .filter-toggle-btn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 100;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-}
-
-/* No Results */
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: #6a6f73;
-}
-
-.no-results i {
-    font-size: 48px;
-    color: #d1d7dc;
-    margin-bottom: 16px;
-}
-
-.no-results h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1c1d1f;
-    margin: 16px 0 8px;
-}
-
-/* Pagination */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    margin-top: 32px;
-    padding: 20px 0;
-}
-
-.page-btn {
-    padding: 10px 20px;
     background: #fff;
-    border: 1px solid #1c1d1f;
-    border-radius: 4px;
-    font-size: 14px;
+    color: #5624d0;
+    padding: 8px 16px;
     font-weight: 700;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.2s;
+    display: inline-block;
+    /* Make visible again */
 }
 
-.page-btn:hover:not(:disabled) {
-    background: #f7f9fa;
+.add-to-cart-btn:hover {
+    background-color: #f7f9fa;
 }
 
-.page-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* Make price absolute top right for desktop? No, standard flow is fine. */
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet & Mobile (Keep Horizontal if space allows, usually Tablet is Horizontal) */
+@media (max-width: 900px) {
+
+    /* Sidebar becomes drawer, so hide the static column */
+    app-filter-sidebar {
+        /* It is 0 width because content is fixed, but let's ensure it doesn't take space */
+        flex: 0 0 0;
+        display: block;
+        /* Content is fixed inside */
+    }
+
+    .filter-toggle-btn {
+        display: flex;
+        /* Show filter button */
+    }
 }
 
-.page-info {
-    font-size: 14px;
-    color: #1c1d1f;
-    font-weight: 500;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+/* Mobile: Switch to Vertical Card */
+@media (max-width: 600px) {
     .course-card {
         flex-direction: column;
     }
 
     .course-image {
         width: 100%;
-        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #f7f9fa;
     }
 
+    .course-title {
+        font-size: 16px;
+    }
+
+    /* Fixed Filter Button on Mobile Bottom */
     .filter-toggle-btn {
         position: fixed;
         bottom: 20px;
-        right: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 100;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+        background: #1c1d1f;
+        color: white;
+        border: none;
+    }
+
+    .filter-toggle-btn:hover {
+        background: #3e4143;
     }
 }

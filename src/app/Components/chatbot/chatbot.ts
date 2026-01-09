@@ -7,7 +7,7 @@ import { AuthService } from '../../Services/auth-service';
 
 @Component({
   selector: 'app-chatbot',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.css',
 })
@@ -32,8 +32,8 @@ export class Chatbot implements OnInit, OnDestroy {
   ];
   user$;
 
-  constructor(private chatbotService: ChatbotService,private auth:AuthService,private cdr:ChangeDetectorRef) {
-        this.user$ = auth.user$
+  constructor(private chatbotService: ChatbotService, private auth: AuthService, private cdr: ChangeDetectorRef) {
+    this.user$ = auth.user$
 
   }
 
@@ -43,6 +43,9 @@ export class Chatbot implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(messages => {
         this.messages = messages;
+
+        this.cdr.detectChanges();
+
         setTimeout(() => this.scrollToBottom(), 100);
       });
 

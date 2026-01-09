@@ -7,32 +7,51 @@
 </div>
 @if(courses == null)
 {
-  <div class="text-center text-primary">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div class=" courses-list container" style="gap: 16px;">
+  <div *ngFor="let item of [1,2,3]" class="card skeleton-card" style="width:350px; height:100px">
+      <!---hhhhhhh--->
+    <div class="row">
+      <div class="col-md-4" >
+        <div class="skeleton-image" style="height:100px"></div>
+      </div>
+      <div class=" skeleton-details col-md-8">
+       <div class="card-body">
+        <h5 class="card-title skeleton-line title"></h5>
+        <p class="card-text skeleton-line subtitle"></p>
+       </div>
+     </div>
+    </div>
+    <!--hhhhhhhhh-->
   </div>
 </div>
 
+   
 }@else{
-<p-carousel [value]="courses" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+<p-carousel [value]="courses" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
   <ng-template let-product pTemplate="item">
-    <div class="learning-carousel-wrapper">
-      <div class="learning-card">
-        <div class="learning-card-row">
-          <div class="learning-card-image" [style.background-image]="'url(' + product.thumbnailUrl + ')'">
-            <div class="learning-card-overlay">
-              <i class="bi bi-play-circle-fill"></i>
-            </div>
-          </div>
-          <div class="learning-card-content">
-            <div class="learning-card-body">
-              <p class="learning-card-description">{{product.description}}</p>
-              <h5 class="learning-card-title">{{product.title}}</h5>
-            </div>
-          </div>
-        </div>
+    <!---hhhhhhh--->
+<div class="card mb-3" style="max-width: 550px; height:150px">
+  <div class="row g-0" style="height:150px">
+    <div class="col-md-4" >
+      <button class="" [routerLink]="['/learn', product.id]" style="height:100%; width:100%; border-style:none" >
+          <div style=" height:150px;">
+               <div style="height:100%; width:100%; background-color:black; opacity:0.3; align-items:center; justify-content:center; display:flex; color:white; font-size:30px;">
+                  <i class="bi bi-play-circle" style="font-size:50px;"></i>
+              </div>
+         </div>
+    </button>
+      <!--background-image: url('{{product.thumbnailUrl}}');-->
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{product.title}}</h5>
+        <p class="card-text">{{product.shortDescription}}</p>
       </div>
     </div>
+  </div>
+</div>
+    <!--hhhhhhhhh-->
+    
   </ng-template>
 </p-carousel>
 }
