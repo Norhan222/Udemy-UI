@@ -3,6 +3,7 @@ import { UserMenu } from '../../NavbarComponents/user-menu/user-menu';
 import { NotificatonService } from '../../../Services/notificaton-service';
 import { InstructorNotification } from '../instructor-notification/instructor-notification';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -14,11 +15,11 @@ export class Navbar {
   role = 'Student';
   private hideTimeout: any;
 
-  constructor(public notificationsService: NotificatonService) {
+  constructor(public notificationsService: NotificatonService,private router:Router) {
 
   }
   navigateToHome() {
-    window.location.href = '/';
+    this.router.navigateByUrl('/Home')
   }
 
   onNotificationMouseEnter() {

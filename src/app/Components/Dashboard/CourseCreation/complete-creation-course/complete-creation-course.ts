@@ -15,6 +15,7 @@ import { CategoryService } from '../../../../Services/category-service';
 import { SubCategory } from '../../../../Models/sub-category';
 import { TopicService } from '../../../../Services/topic-service';
 import { Topic } from '../../../../Models/topic';
+import { CouponService } from '../../../../Services/coupon-service';
 
 @Component({
   selector: 'app-complete-creation-course',
@@ -36,6 +37,358 @@ isLoading:boolean=false;
 hasUnsavedChanges = false;
 approvalStatus:string=''
 showRequirementsModal = false;
+
+ // Promotions Page Data
+  referralLink = '';
+  coupons: any[] = [];
+  activeCoupons: any[] = [];
+  expiredCoupons: any[] = [];
+  showCouponModal = false;
+  newCoupon = {
+    code: '',
+    discountPercentage: 0,
+    expiryDate: '',
+    maxUsageCount: 0
+  };
+  searchCouponCode = '';
+
+
+constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,
+   private  router:Router,private cdr:ChangeDetectorRef
+  ,private  cat:CategoryService
+  ,private  topic:TopicService
+  ,private  couponService:CouponService
+){
+  this.course=new Course();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ============================================
+// PROMOTIONS METHODS - Connected to API
+// ============================================
+
+// Load coupons from API when course loads
+loadCoupons(courseId: Number): void {
+  this.couponService.getCourseCoupons(courseId).subscribe({
+    next: (coupons) => {
+      console.log('✅ Coupons loaded:', coupons);
+      this.coupons = coupons;
+      this.updateCouponLists();
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error('❌ Error loading coupons:', error);
+      this.coupons = [];
+      this.updateCouponLists();
+    }
+  });
+}
+
+// Generate referral link for the course
+generateReferralLink(): void {
+  if (this.courseId) {
+    this.referralLink = `https://www.udemy.com/course/draft/${this.courseId}/?referralCode=${this.generateRandomCode()}`;
+  } else {
+    this.referralLink = `https://www.udemy.com/course/draft/NEW/?referralCode=${this.generateRandomCode()}`;
+  }
+}
+
+// Generate random code for referral link
+generateRandomCode(): string {
+  return Math.random().toString(36).substring(2, 15).toUpperCase();
+}
+
+// Copy referral link to clipboard
+copyReferralLink(): void {
+  navigator.clipboard.writeText(this.referralLink).then(() => {
+    alert('Referral link copied to clipboard!');
+  }).catch(err => {
+    console.error('Failed to copy:', err);
+    alert('Failed to copy link. Please try again.');
+  });
+}
+
+// Open modal to create new coupon
+openCouponModal(): void {
+  this.newCoupon = {
+    code: '',
+    discountPercentage: 0,
+    expiryDate: '',
+    maxUsageCount: 0
+  };
+  this.showCouponModal = true;
+}
+
+// Close coupon modal
+closeCouponModal(): void {
+  this.showCouponModal = false;
+}
+
+// Save new coupon via API
+saveCoupon(): void {
+  // Validation
+  if (!this.newCoupon.code || !this.newCoupon.discountPercentage || !this.newCoupon.expiryDate) {
+    alert('Please fill all required fields (Code, Discount Percentage, and Expiry Date)');
+    return;
+  }
+
+  // Validate discount percentage range
+  if (this.newCoupon.discountPercentage < 1 || this.newCoupon.discountPercentage > 100) {
+    alert('Discount percentage must be between 1 and 100');
+    return;
+  }
+
+  // Check if course is saved
+  if (!this.courseId) {
+    alert('Please save the course first before creating coupons');
+    return;
+  }
+
+  // Prepare coupon data matching backend DTO
+  const couponData = {
+    code: this.newCoupon.code.toUpperCase(),
+    discountPercentage: this.newCoupon.discountPercentage,
+    expiryDate: this.newCoupon.expiryDate, // ISO format: 2024-12-31T23:59:59
+    maxUsageCount: this.newCoupon.maxUsageCount || 0 // 0 means unlimited
+  };
+
+  console.log('📤 Creating coupon:', couponData);
+
+  // Call API to create coupon
+  this.couponService.createCourseCoupon(this.courseId, couponData).subscribe({
+    next: (response) => {
+      console.log('✅ Coupon created successfully:', response);
+
+      // Add new coupon to local list
+      this.coupons.push(response);
+
+      // Update active/expired lists
+      this.updateCouponLists();
+
+      // Close modal
+      this.closeCouponModal();
+
+      // Show success message
+      alert(`Coupon "${response.code}" created successfully!`);
+
+      // Refresh UI
+      this.cdr.detectChanges();
+    },
+    error: (error) => {
+      console.error('❌ Error creating coupon:', error);
+
+      // Format error message
+      let errorMessage = 'Failed to create coupon.\n\n';
+
+      if (error.error?.message) {
+        errorMessage += error.error.message;
+      } else if (error.error?.errors) {
+        // Handle validation errors
+        const errors = error.error.errors;
+        errorMessage += Object.keys(errors)
+          .map(key => `${key}: ${errors[key].join(', ')}`)
+          .join('\n');
+      } else if (error.message) {
+        errorMessage += error.message;
+      } else {
+        errorMessage += 'Please check your input and try again.';
+      }
+
+      alert(errorMessage);
+    }
+  });
+}
+
+// Update active and expired coupon lists
+updateCouponLists(): void {
+  const now = new Date();
+
+  // Filter active coupons (not expired and isActive = true)
+  this.activeCoupons = this.coupons.filter(c => {
+    const expiryDate = new Date(c.expiryDate);
+    return c.isActive && expiryDate > now;
+  });
+
+  // Filter expired coupons (expired or isActive = false)
+  this.expiredCoupons = this.coupons.filter(c => {
+    const expiryDate = new Date(c.expiryDate);
+    return !c.isActive || expiryDate <= now;
+  });
+
+  console.log('📊 Coupons updated:', {
+    total: this.coupons.length,
+    active: this.activeCoupons.length,
+    expired: this.expiredCoupons.length
+  });
+}
+
+// Deactivate coupon via API
+deactivateCoupon(couponId: number): void {
+  if (!confirm('Are you sure you want to deactivate this coupon?')) {
+    return;
+  }
+
+  this.couponService.deactivateCourseCoupon(this.courseId, couponId).subscribe({
+    next: (response) => {
+      console.log('✅ Coupon deactivated:', response);
+
+      // Update local coupon state
+      const coupon = this.coupons.find(c => c.id === couponId);
+      if (coupon) {
+        coupon.isActive = false;
+      }
+
+      // Update lists
+      this.updateCouponLists();
+
+      // Refresh UI
+      this.cdr.detectChanges();
+
+      alert('Coupon deactivated successfully!');
+    },
+    error: (error) => {
+      console.error('❌ Error deactivating coupon:', error);
+      alert('Failed to deactivate coupon. Please try again.');
+    }
+  });
+}
+
+// Delete coupon via API
+deleteCoupon(couponId: number): void {
+  if (!confirm('Are you sure you want to delete this coupon? This action cannot be undone.')) {
+    return;
+  }
+
+  this.couponService.deleteCourseCoupon(couponId).subscribe({
+    next: (response) => {
+      console.log('✅ Coupon deleted:', response);
+
+      // Remove from local list
+      this.coupons = this.coupons.filter(c => c.id !== couponId);
+
+      // Update lists
+      this.updateCouponLists();
+
+      // Refresh UI
+      this.cdr.detectChanges();
+
+      alert('Coupon deleted successfully!');
+    },
+    error: (error) => {
+      console.error('❌ Error deleting coupon:', error);
+      alert('Failed to delete coupon. Please try again.');
+    }
+  });
+}
+
+// Search/Filter coupons locally
+searchCoupon(): void {
+  // If search is empty, reload all coupons
+  if (!this.searchCouponCode.trim()) {
+    this.loadCoupons(this.courseId);
+    return;
+  }
+
+  // Filter coupons by code (case-insensitive)
+  const searchTerm = this.searchCouponCode.toUpperCase();
+  const filteredCoupons = this.coupons.filter(c =>
+    c.code.toUpperCase().includes(searchTerm)
+  );
+
+  // Update lists with filtered results
+  const now = new Date();
+  this.activeCoupons = filteredCoupons.filter(c => {
+    const expiryDate = new Date(c.expiryDate);
+    return c.isActive && expiryDate > now;
+  });
+
+  this.expiredCoupons = filteredCoupons.filter(c => {
+    const expiryDate = new Date(c.expiryDate);
+    return !c.isActive || expiryDate <= now;
+  });
+
+  // Refresh UI
+  this.cdr.detectChanges();
+
+  console.log(`🔍 Search results for "${searchTerm}":`, {
+    active: this.activeCoupons.length,
+    expired: this.expiredCoupons.length
+  });
+}
+
+// Check if user can create coupons (only for paid courses)
+canCreateCoupons(): boolean {
+  return this.priceTier !== 'Free';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,14 +422,7 @@ editSections:Section[]=[];
   // Pricing Page Data
   currency = 'USD';
   priceTier = '';
-constructor(private courseService:CourseService ,private StepperService:StepperService,private route:ActivatedRoute,
-  private router:Router,private cdr:ChangeDetectorRef
-  ,private cat:CategoryService
-  ,private  topic:TopicService
-){
-  this.course=new Course();
 
-}
   ngOnInit(): void {
 
 
@@ -94,6 +440,8 @@ constructor(private courseService:CourseService ,private StepperService:StepperS
       }
 
     });
+      this.loadCoupons(this.courseId)
+
 
   }
   // Curriculum Data
@@ -507,6 +855,8 @@ private submitNewCourseForReview(): void {
       this.router.navigateByUrl('dashboard/courses');
     },
     error: (error) => {
+        this.submitdisabel=false
+
       console.error('❌ Error creating course:', error);
       this.isSubmitting = false;
       this.handleSubmitError(error);

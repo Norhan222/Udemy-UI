@@ -296,7 +296,7 @@
         </div>
 
         <!-- Placeholder for Other Pages -->
-        <div *ngIf="activePage !== 'course-landing' && activePage !== 'pricing' && activePage !== 'curriculum'"
+        <div *ngIf="activePage !== 'course-landing' && activePage !== 'pricing' && activePage !== 'curriculum' && activePage !== 'promotions'"
           class="page-content">
           <h1 class="page-title">{{ activePage | titlecase }}</h1>
           <div class="placeholder-content">
@@ -552,62 +552,178 @@
           </div>
         </div>
 
-        <!-- Placeholder for Other Pages -->
-        <div *ngIf="activePage !== 'course-landing' && activePage !== 'pricing' && activePage !== 'curriculum'"
-          class="page-content">
-          <h1 class="page-title">{{ activePage | titlecase }}</h1>
-          <div class="placeholder-content">
-            <p>This page is under construction.</p>
-            <p class="placeholder-subtitle">Content for "{{ activePage }}" will be added soon.</p>
-          </div>
-        </div>
+     
 
- <!-- Success Modal -->
-  <div *ngIf="showSuccessModal" class="modal-overlay success-overlay" (click)="closeSuccessModal()">
-    <div class="modal-content success-modal" (click)="$event.stopPropagation()">
-      <div class="success-icon-container">
-        <div class="success-checkmark">
-          <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-          </svg>
-        </div>
+  <!-- Promotions Page -->
+  <div *ngIf="activePage === 'promotions'" class="page-content">
+    <h1 class="page-title">Promotions</h1>
+  
+    <!-- Info Banner -->
+    <div class="info-banner">
+      <div class="info-icon">ⓘ</div>
+      <div class="info-text">
+        <p>
+          We have updated the coupon system, and there is more to come. Announcing new free coupon limits and
+          bulk coupon creation. <a href="#" class="link">Learn more</a>
+        </p>
       </div>
-      <div class="success-content">
-        <h2 class="success-title">Course Submitted Successfully! 🎉</h2>
-        <p class="success-message">
-          Your course "{{ courseTitle }}" has been submitted for review.
-          Our team will review it within 2-3 business days and notify you via email.
-        </p>
-        <div class="success-details">
-          <div class="detail-item">
-            <span class="detail-icon">📚</span>
-            <span class="detail-text">{{ sections.length }} Section(s)</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-icon">🎬</span>
-            <span class="detail-text">{{ getTotalLecturesCount() }} Lecture(s)</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-icon">💰</span>
-            <span class="detail-text">Price: {{ priceTier }}</span>
-          </div>
+    </div>
+  
+    <!-- Refer Students Section -->
+    <div class="promotions-section">
+      <h2 class="section-heading">Refer students</h2>
+      <p class="section-description">
+        Any time a student uses this <span class="highlight-text">link</span>, we will credit you with the sale.
+        <a href="#" class="link">Learn more</a>
+      </p>
+  
+      <div class="referral-input-group">
+        <input type="text" [value]="referralLink" class="referral-input" readonly />
+        <button class="copy-btn" (click)="copyReferralLink()">Copy</button>
+      </div>
+    </div>
+  
+    <!-- Coupons Section -->
+    <div class="promotions-section">
+      <h2 class="section-heading">Coupons</h2>
+  
+      <!-- Free Course Notice -->
+      <div class="coupon-notice" *ngIf="!canCreateCoupons()">
+        <p class="notice-text">You cannot create coupons for a free course</p>
+      </div>
+  
+      <!-- Paid Course Notice -->
+      <div class="coupon-notice" *ngIf="canCreateCoupons()">
+        <h3 class="notice-title">January coupons</h3>
+        <p class="notice-text">You can create coupons for your paid course</p>
+      </div>
+    </div>
+  
+    <!-- Active/Scheduled Coupons -->
+    <div class="coupons-container">
+      <div class="coupons-header">
+        <h3 class="coupons-title">Active/Scheduled coupons</h3>
+        <button class="create-coupon-btn" [disabled]="!canCreateCoupons()" (click)="openCouponModal()"
+          *ngIf="canCreateCoupons()">
+          Create multiple coupons
+        </button>
+      </div>
+  
+      <div class="coupons-list">
+        <!-- No Coupons Message -->
+        <div *ngIf="activeCoupons.length === 0" class="no-coupon">
+          <p>No coupon found</p>
         </div>
-        <p class="success-note">
-          <strong>What's next?</strong><br>
-          • Review team will check your content quality<br>
-          • You'll receive feedback if any changes are needed<br>
-          • Once approved, your course will go live!
-        </p>
-        <button class="success-btn" (click)="closeSuccessModal()">
-          Got it, Thanks!
-                </button>
-              </div>
-            </div>
+  
+        <!-- Active Coupons List -->
+        <div *ngFor="let coupon of activeCoupons" class="coupon-card">
+          <div class="coupon-info">
+            <h4 class="coupon-code">{{ coupon.code }}</h4>
+            <p class="coupon-details">
+              {{ coupon.discountPercentage }}% off
+              | Expires: {{ coupon.expiryDate | date:'short' }}
+              <span *ngIf="coupon.maxUsageCount > 0">
+                | Limit: {{ coupon.currentUsageCount || 0 }}/{{ coupon.maxUsageCount }}
+              </span>
+              <span *ngIf="coupon.maxUsageCount === 0"> | Unlimited</span>
+            </p>
+          </div>
+          <div class="coupon-actions">
+            <button class="coupon-action-btn" (click)="deactivateCoupon(coupon.id)">
+              Deactivate
+            </button>
+            <button class="coupon-action-btn delete" (click)="deleteCoupon(coupon.id)">
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
+  
+    <!-- Expired Coupons -->
+    <div class="coupons-container">
+      <div class="coupons-header">
+        <h3 class="coupons-title">Expired coupons</h3>
+        <div class="search-box">
+          <input type="text" [(ngModel)]="searchCouponCode" placeholder="Search coupon code" class="search-input"
+            (keyup.enter)="searchCoupon()" />
+          <button class="search-btn" (click)="searchCoupon()">🔍</button>
+        </div>
+      </div>
+  
+      <div class="coupons-list">
+        <!-- No Expired Coupons Message -->
+        <div *ngIf="expiredCoupons.length === 0" class="no-coupon">
+          <p>No coupon found</p>
+        </div>
+  
+        <!-- Expired Coupons List -->
+        <div *ngFor="let coupon of expiredCoupons" class="coupon-card expired">
+          <div class="coupon-info">
+            <h4 class="coupon-code">{{ coupon.code }}</h4>
+            <p class="coupon-details">
+              {{ coupon.discountPercentage }}% off
+              | Expired: {{ coupon.expiryDate | date:'short' }}
+            </p>
+          </div>
+          <div class="coupon-actions">
+            <button class="coupon-action-btn delete" (click)="deleteCoupon(coupon.id)">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Coupon Creation Modal -->
+  <div *ngIf="showCouponModal" class="modal-overlay" (click)="closeCouponModal()">
+    <div class="modal-content coupon-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Create New Coupon</h3>
+        <button class="close-modal-btn" (click)="closeCouponModal()">×</button>
+      </div>
+  
+      <div class="modal-body">
+        <!-- Coupon Code -->
+        <div class="form-group">
+          <label class="form-label">Coupon Code *</label>
+          <input type="text" [(ngModel)]="newCoupon.code" class="form-input" placeholder="e.g. SUMMER2024" maxlength="20"
+            style="text-transform: uppercase;" />
+          <span class="helper-text">Code will be automatically converted to uppercase</span>
+        </div>
+  
+        <!-- Discount Percentage -->
+        <div class="form-group">
+          <label class="form-label">Discount Percentage (%) *</label>
+          <input type="number" [(ngModel)]="newCoupon.discountPercentage" class="form-input"
+            placeholder="e.g. 50 for 50% off" min="1" max="100" />
+          <span class="helper-text">Enter a value between 1 and 100</span>
+        </div>
+  
+        <!-- Expiry Date -->
+        <div class="form-group">
+          <label class="form-label">Expiry Date *</label>
+          <input type="datetime-local" [(ngModel)]="newCoupon.expiryDate" class="form-input" />
+          <span class="helper-text">Select when this coupon should expire</span>
+        </div>
+  
+        <!-- Max Usage Count -->
+        <div class="form-group">
+          <label class="form-label">Max Usage Count</label>
+          <input type="number" [(ngModel)]="newCoupon.maxUsageCount" class="form-input" placeholder="0 for unlimited"
+            min="0" />
+          <span class="helper-text">0 or empty means unlimited usage</span>
+        </div>
+      </div>
+  
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeCouponModal()">Cancel</button>
+        <button class="save-section-btn" (click)="saveCoupon()">Create Coupon</button>
+      </div>
+    </div>
+  </div>
+
 
 
 
