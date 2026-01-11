@@ -10,7 +10,7 @@
 
             @for( item of cartItems ; track item.courseId ) {
             <div class="cart-item">
-                <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" class="course-img"
+                <img [src]="item.courseThumbnailUrl" class="course-img"
                     alt="{{ item.courseTitle }}">
 
                 <div class="course-info">

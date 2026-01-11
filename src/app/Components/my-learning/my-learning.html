@@ -193,7 +193,7 @@
                 @for(item of wishlistItems; track item.courseId) {
                 <div class="course-card">
                     <div style="position: relative;">
-                        <img [src]="'https://localhost:7009/' + item.courseThumbnailUrl" [alt]="item.courseTitle"
+                        <img [src]="item.courseThumbnailUrl" [alt]="item.courseTitle"
                             class="course-image" loading="lazy">
                         <div class="course-menu">
                             <i class="fas fa-ellipsis-v"></i>
